@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <iostream>
-using namespace std;
 
 #define IP_ADDR "127.0.0.1"
 #define PORT 8000
