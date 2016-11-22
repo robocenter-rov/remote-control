@@ -16,14 +16,15 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-   // void SendMessage();
+    void SendMessage();
+public slots:
+    void ReadyRead();
 private slots:
     void on_sendButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     QUdpSocket *socket;
-    qint32 port;
 };
 
 #endif // MAINWINDOW_H
