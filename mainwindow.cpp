@@ -1,42 +1,47 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include <iostream>
 
 #define IP_ADDR "192.168.1.177"
 #define PORT 8888
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow){
-    ui->setupUi(this);
-    socket = new QUdpSocket(this);
-    socket->bind(QHostAddress(IP_ADDR), PORT);
-    connect(socket, SIGNAL(readyRead()), this, SLOT(ReadyRead()));
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent),
+      _ui(new Ui::MainWindow)
+{
+    _ui->setupUi(this);
+    _socket = new QUdpSocket(this);
+    _socket->bind(QHostAddress(IP_ADDR), PORT);
+    connect(_socket, SIGNAL(readyRead()), this, SLOT(readMessage()));
+    connect(_ui->sendButton, SIGNAL(clicked(bool)), this, SLOT(onSendButtonClicked()));
 }
 
-MainWindow::~MainWindow() {
-    delete ui;
+MainWindow::~MainWindow()
+{
+    delete _ui;
 }
 
-void MainWindow::SendMessage() {
-    QByteArray Data;
-    Data.append("Hello, robot!");
-    socket->writeDatagram(Data, QHostAddress(IP_ADDR), PORT);
+void MainWindow::sendMessage()
+{
+    QByteArray data;
+    data.append("Hello, robot!");
+    _socket->writeDatagram(data, QHostAddress(IP_ADDR), PORT);
 }
 
-void MainWindow::ReadyRead(){
+void MainWindow::readMessage()
+{
     QByteArray buffer;
-    buffer.resize(socket->pendingDatagramSize());
+    buffer.resize(_socket->pendingDatagramSize());
 
     QHostAddress sender;
     quint16 senderPort;
 
-    socket->readDatagram(buffer.data(), buffer.size(), &sender, &senderPort);
+    _socket->readDatagram(buffer.data(), buffer.size(), &sender, &senderPort);
     qDebug() << "Message from: " << sender.toString();
     qDebug() << "Message port: " << senderPort;
     qDebug() << "Message: " << buffer;
 }
 
-void MainWindow::on_sendButton_clicked() {
-    SendMessage();
+void MainWindow::onSendButtonClicked()
+{
+    sendMessage();
 }
