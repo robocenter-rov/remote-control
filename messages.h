@@ -1,20 +1,22 @@
 #ifndef MESSAGES_H
 #define MESSAGES_H
 
-enum coordinate_system_t { GLOBAL, LOCAL };
-enum axis_t { AXIS_X, AXIS_Y, AXIS_Z };
+enum CoordinateSystem { Global, Local };
+enum Axis { AxisX, AxisY, AxisZ };
 
 // TO DO: Add constructions, and send methods
 namespace Cmd {
     /* Low-level commands */
     /**********************/
-    struct SetDigitalValue {
+    struct SetDigitalValue
+    {
         int id;
         int pin;
         bool value;
     };
 
-    struct SetAnalogValue {
+    struct SetAnalogValue
+    {
         int id;
         int pin;
         int value;
@@ -22,7 +24,8 @@ namespace Cmd {
 
     /* Mid-level commands */
     /**********************/
-    struct SetMotorsSpeed {
+    struct SetMotorsSpeed
+    {
         float motor1speed;
         float motor2speed;
         float motor3speed;
@@ -33,31 +36,35 @@ namespace Cmd {
 
     /* High-level commands */
     /***********************/
-    struct SetDepth {
-        coordinate_system_t coord_system;
+    struct SetDepth
+    {
+        CoordinateSystem coordSystem;
         float value;
     };
 
-    struct SetAngleSpeed {
-        coordinate_system_t coord_system;
-        axis_t axis;
+    struct SetAngleSpeed
+    {
+        CoordinateSystem coord_system;
+        Axis axis;
         float value;
     };
 
-    struct SetPosition {
-        coordinate_system_t coord_system;
+    struct SetPosition
+    {
+        CoordinateSystem coordSystem;
         float x, y, z;
     };
 
-    struct Rotate {
-        coordinate_system_t coord_system;
-        axis_t axis;
+    struct Rotate
+    {
+        CoordinateSystem coordSystem;
+        Axis axis;
         float angle;    // NOT SOLVED! value in degrees or radians?
     };
-}
+} // Cmd namespace
 
 namespace Msg {
     // TO DO
-}
+} // Msg namespace
 
 #endif // MESSAGES_H
