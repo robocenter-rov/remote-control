@@ -5,6 +5,9 @@
 #include "ui_mainwindow.h"
 #include <QtNetwork/QUdpSocket>
 
+#define IP_ADDR "192.168.1.177"
+#define PORT 8888
+
 namespace Ui {
     class MainWindow;
 }
