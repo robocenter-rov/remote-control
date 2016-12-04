@@ -4,6 +4,11 @@
 #include <QMainWindow>
 #include "ui_mainwindow.h"
 #include <QtNetwork/QUdpSocket>
+#include <SDL2/SDL.h>
+#include <QTimer>
+#include "messages.h"
+#include <QByteArray>
+#include <QDataStream>
 
 #define IP_ADDR "192.168.1.177"
 #define PORT 8888
@@ -18,19 +23,32 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
-    void sendMessage();
+    ~MainWindow();    
 
 public slots:
     void readMessage();
 
 private slots:
     void onSendButtonClicked();
+    void readAndSendJoySensors();
 
 private:
+    void joyInit();
+
+    template<typename T>
+    void sendMessage(T msg)
+    {
+        QByteArray buff;
+        QDataStream ds(&buff, QIODevice::WriteOnly);
+        ds.setByteOrder(QDataStream::LittleEndian);
+        ds << msg;
+        _socket->writeDatagram(buff, QHostAddress(IP_ADDR), PORT);
+    }
+
     Ui::MainWindow *_ui;
     QUdpSocket *_socket;
+    SDL_Joystick *_joy;
+    QTimer *_joyTimer;
 };
 
 #endif // MAINWINDOW_H

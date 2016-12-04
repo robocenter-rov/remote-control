@@ -11,6 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = rov-control
 TEMPLATE = app
 
+LIBS += -lSDL2
 
 SOURCES += main.cpp\
         mainwindow.cpp \

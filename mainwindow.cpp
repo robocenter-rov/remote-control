@@ -1,28 +1,34 @@
 #include "mainwindow.h"
 #include <iostream>
 
+QDataStream& operator<<(QDataStream &ds, const Cmd::AxesValue &msg)
+{
+    ds << msg.axis0 << msg.axis1 << msg.axis2 << msg.axis3 << msg.axis4;
+    return ds;
+}
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
-      _ui(new Ui::MainWindow)
+      _ui(new Ui::MainWindow),
+      _joy(0),
+      _joyTimer(new QTimer(this))
 {
     _ui->setupUi(this);
     _socket = new QUdpSocket(this);
     _socket->bind(QHostAddress(IP_ADDR), PORT);
+
     connect(_socket, SIGNAL(readyRead()), this, SLOT(readMessage()));
     connect(_ui->sendButton, SIGNAL(clicked(bool)), this, SLOT(onSendButtonClicked()));
+
+    joyInit();
+    connect(_joyTimer, SIGNAL(timeout()), this, SLOT(readAndSendJoySensors()));
+    _joyTimer->start(100);
 }
 
 MainWindow::~MainWindow()
 {
     delete _ui;
-}
-
-void MainWindow::sendMessage()
-{
-    QByteArray data;
-    data.append("Hello, robot!");
-    _socket->writeDatagram(data, QHostAddress(IP_ADDR), PORT);
+    SDL_JoystickClose(_joy);
 }
 
 void MainWindow::readMessage()
@@ -41,5 +47,40 @@ void MainWindow::readMessage()
 
 void MainWindow::onSendButtonClicked()
 {
-    sendMessage();
+    sendMessage("Hello, robot!");
+}
+
+
+void MainWindow::joyInit()
+{
+    if (SDL_Init(SDL_INIT_JOYSTICK) == 0) {
+        qDebug() << "SDL_INIT_JOYSTICK initialization was successful";
+    } else {
+        qDebug() << "SDL_INIT_JOYSTICK initialization failed";
+        qDebug() << "Error: " << SDL_GetError();
+    }
+
+    qDebug() << "NumJoysticks = " << SDL_NumJoysticks();
+    if (SDL_NumJoysticks() > 0) {
+        _joy = SDL_JoystickOpen(0);
+    }
+
+    if(_joy) {
+        qDebug() << "Opened Joystick 0";
+        qDebug() << "Name: " <<  SDL_JoystickName(0);
+        qDebug() << "Number of Axes: " << SDL_JoystickNumAxes(_joy);
+        qDebug() << "Number of Buttons: " << SDL_JoystickNumButtons(_joy);
+        qDebug() << "Number of Balls: " << SDL_JoystickNumBalls(_joy);
+    } else {
+        qDebug() << "Couldn't open Joystick 0\n";
+    }
+}
+
+void MainWindow::readAndSendJoySensors()
+{
+    SDL_JoystickUpdate();
+    Cmd::AxesValue axesValue(SDL_JoystickGetAxis(_joy, 0), SDL_JoystickGetAxis(_joy, 1),
+                             SDL_JoystickGetAxis(_joy, 2), SDL_JoystickGetAxis(_joy, 3),
+                             SDL_JoystickGetAxis(_joy, 4));
+    sendMessage(axesValue);
 }
