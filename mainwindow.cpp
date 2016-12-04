@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include <iostream>
 
-#define IP_ADDR "192.168.1.177"
-#define PORT 8888
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
