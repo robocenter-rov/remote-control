@@ -4,7 +4,8 @@
 #include <QMainWindow>
 #include "ui_mainwindow.h"
 #include <QtNetwork/QUdpSocket>
-#include <SDL2/SDL.h>
+#include <SDL.h>
+#undef main
 #include <QTimer>
 #include "messages.h"
 #include <QByteArray>

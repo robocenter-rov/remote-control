@@ -10,8 +10,14 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = rov-control
 TEMPLATE = app
-
-LIBS += -lSDL2
+win32{
+    INCLUDEPATH = C:/SDL-VC/SDL-1.2.15/include/
+    LIBS += -LC:/SDL-VC/SDL-1.2.15/lib/x64 -lSDL
+    CONFIG += console
+}
+unix {
+    LIBS += -lSDL2
+}
 
 SOURCES += main.cpp\
         mainwindow.cpp \
