@@ -18,11 +18,13 @@ MainWindow::MainWindow(QWidget *parent)
     _socket->bind(QHostAddress(IP_ADDR), PORT);
 
     connect(_socket, SIGNAL(readyRead()), this, SLOT(readMessage()));
-    connect(_ui->sendButton, SIGNAL(clicked(bool)), this, SLOT(onSendButtonClicked()));
+   // connect(_ui->sendButton, SIGNAL(clicked(bool)), this, SLOT(onSendButtonClicked()));
 
     joyInit();
     connect(_joyTimer, SIGNAL(timeout()), this, SLOT(readAndSendJoySensors()));
     _joyTimer->start(100);
+
+    cameraInit();
 }
 
 MainWindow::~MainWindow()
@@ -83,4 +85,19 @@ void MainWindow::readAndSendJoySensors()
                              SDL_JoystickGetAxis(_joy, 2), SDL_JoystickGetAxis(_joy, 3),
                              SDL_JoystickGetAxis(_joy, 4));
     sendMessage(axesValue);
+}
+
+void MainWindow::cameraInit()
+{
+    _scene = new QGraphicsScene();
+    _widget = new QVideoWidget();
+    _ui->graphicsView->setScene(_scene);
+    _scene->addWidget(_widget);
+    _ui->graphicsView->show();
+
+    if (QCamera::availableDevices().count() > 0){
+        _camera = new QCamera();
+        _camera->setViewfinder(_widget);
+        _camera->start();
+    }
 }

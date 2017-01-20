@@ -6,7 +6,9 @@
 
 QT       += core gui network
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets \
+    multimedia \
+    multimediawidgets
 
 TARGET = rov-control
 TEMPLATE = app
@@ -20,10 +22,10 @@ unix {
 }
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-        messages.cpp
+    mainwindow.cpp \
+    messages.cpp
 
 HEADERS  += mainwindow.h \
-        messages.h
+    messages.h
 
 FORMS    += mainwindow.ui
