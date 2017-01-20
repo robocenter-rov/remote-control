@@ -3,14 +3,18 @@
 
 #include <QMainWindow>
 #include "ui_mainwindow.h"
-#include <QtNetwork/QUdpSocket>
+#include <QUdpSocket>
 #include <SDL.h>
 #undef main
 #include <QTimer>
 #include "messages.h"
 #include <QByteArray>
 #include <QDataStream>
-
+#include <QCamera>
+#include <QCameraInfo>
+#include <QWidget>
+#include <QtMultimediaWidgets>
+#include <QtGui/QtGui>
 #define IP_ADDR "192.168.1.177"
 #define PORT 8888
 
@@ -35,7 +39,7 @@ private slots:
 
 private:
     void joyInit();
-
+    void cameraInit();
     template<typename T>
     void sendMessage(T msg)
     {
@@ -50,6 +54,10 @@ private:
     QUdpSocket *_socket;
     SDL_Joystick *_joy;
     QTimer *_joyTimer;
+
+    QCamera *_camera;
+    QGraphicsScene *_scene;
+    QVideoWidget *_widget;
 };
 
 #endif // MAINWINDOW_H
