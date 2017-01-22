@@ -92,12 +92,23 @@ void MainWindow::cameraInit()
     _scene = new QGraphicsScene();
     _widget = new QVideoWidget();
     _ui->graphicsView->setScene(_scene);
+    _ui->graphicsView->viewport()->installEventFilter(this);
     _scene->addWidget(_widget);
     _ui->graphicsView->show();
 
     if (QCamera::availableDevices().count() > 0){
         _camera = new QCamera();
+        _camera->setCaptureMode(QCamera::CaptureVideo);
         _camera->setViewfinder(_widget);
         _camera->start();
     }
+}
+
+bool MainWindow::eventFilter(QObject *, QEvent *event)
+{
+    if(event->type() == QEvent::Resize ) {
+        _ui->graphicsView->fitInView(_scene->sceneRect(), Qt::KeepAspectRatio);
+        return true;
+    }
+    return false;
 }

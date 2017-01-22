@@ -49,6 +49,7 @@ private slots:
 private:
     void joyInit();
     void cameraInit();
+    bool eventFilter(QObject *, QEvent *event);
     template<typename T>
     void sendMessage(T msg)
     {
