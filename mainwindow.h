@@ -4,7 +4,15 @@
 #include <QMainWindow>
 #include "ui_mainwindow.h"
 #include <QUdpSocket>
-#include <SDL.h>
+#ifdef __WIN32__
+    #include <SDL.h>
+#endif
+#ifdef __WIN64__
+    #include <SDL.h>
+#endif
+#ifdef Q_OS_LINUX
+    #include <SDL2/SDL.h>
+#endif
 #undef main
 #include <QTimer>
 #include "messages.h"
