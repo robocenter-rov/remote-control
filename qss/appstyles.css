@@ -4,6 +4,7 @@ QMainWindow{
 
 QGraphicsView#mainView{
     border: none;
+    background-color: #CCC;
 }
 
 QMenuBar{
@@ -13,6 +14,7 @@ QMenuBar{
 QGroupBox{
     background-color: #FFF;
     color:#649129;
+    border:none;
 }
 
 QStatusBar{

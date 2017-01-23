@@ -9,13 +9,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>942</width>
+    <width>960</width>
     <height>541</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>0</width>
+    <width>960</width>
     <height>0</height>
    </size>
   </property>
@@ -38,22 +38,7 @@
     <string notr="true"/>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <property name="leftMargin">
-     <number>0</number>
-    </property>
-    <property name="topMargin">
-     <number>0</number>
-    </property>
-    <property name="rightMargin">
-     <number>0</number>
-    </property>
-    <property name="bottomMargin">
-     <number>0</number>
-    </property>
-    <property name="verticalSpacing">
-     <number>6</number>
-    </property>
-    <item row="0" column="0">
+    <item row="0" column="1">
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -83,15 +68,21 @@
       </widget>
       <widget class="QGroupBox" name="groupBox">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize">
         <size>
-         <width>200</width>
+         <width>270</width>
          <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>270</width>
+         <height>16777215</height>
         </size>
        </property>
        <property name="font">
@@ -112,10 +103,22 @@
         <item>
          <widget class="QGraphicsView" name="extraView">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>246</width>
+            <height>192</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>246</width>
+            <height>192</height>
+           </size>
           </property>
           <property name="layoutDirection">
            <enum>Qt::LeftToRight</enum>
@@ -165,6 +168,13 @@
       </widget>
      </widget>
     </item>
+    <item row="0" column="0">
+     <widget class="QSlider" name="verticalSlider">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -172,7 +182,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>942</width>
+     <width>960</width>
      <height>21</height>
     </rect>
    </property>
