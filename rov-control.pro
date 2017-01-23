@@ -25,9 +25,12 @@ unix {
 
 SOURCES += main.cpp\
     mainwindow.cpp \
-    messages.cpp
+    messages.cpp \
+    startwindow.cpp
 
 HEADERS  += mainwindow.h \
-    messages.h
+    messages.h \
+    startwindow.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    startwindow.ui
