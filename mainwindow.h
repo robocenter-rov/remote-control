@@ -49,6 +49,7 @@ private slots:
 private:
     void joyInit();
     void cameraInit();
+    void udpSocketInit();
     bool eventFilter(QObject *, QEvent *event);
     void loadQSS();
     template<typename T>

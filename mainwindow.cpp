@@ -16,19 +16,23 @@ void MainWindow::loadQSS()
     this->setStyleSheet(styleF.readAll());
 }
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent),
-      _ui(new Ui::MainWindow),
-      _joy(0),
-      _joyTimer(new QTimer(this))
+void MainWindow::udpSocketInit()
 {
     _ui->setupUi(this);
     _socket = new QUdpSocket(this);
     _socket->bind(QHostAddress(IP_ADDR), PORT);
 
     connect(_socket, SIGNAL(readyRead()), this, SLOT(readMessage()));
-   // connect(_ui->sendButton, SIGNAL(clicked(bool)), this, SLOT(onSendButtonClicked()));
+}
 
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent),
+      _ui(new Ui::MainWindow),
+      _joy(0),
+      _joyTimer(new QTimer(this))
+{
+    // connect(_ui->sendButton, SIGNAL(clicked(bool)), this, SLOT(onSendButtonClicked()));
+    udpSocketInit();
     joyInit();
     cameraInit();
     loadQSS();
