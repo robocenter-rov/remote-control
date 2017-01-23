@@ -10,6 +10,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets \
     multimedia \
     multimediawidgets
 
+RC_ICONS = robocenter.ico
+
 TARGET = rov-control
 TEMPLATE = app
 win32{
