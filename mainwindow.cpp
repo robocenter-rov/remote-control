@@ -89,25 +89,25 @@ void MainWindow::readAndSendJoySensors()
 
 void MainWindow::cameraInit()
 {
-    _scene = new QGraphicsScene();
-    _widget = new QVideoWidget();
-    _ui->graphicsView->setScene(_scene);
-    _ui->graphicsView->viewport()->installEventFilter(this);
-    _scene->addWidget(_widget);
-    _ui->graphicsView->show();
+    _mainScene = new QGraphicsScene();
+    _mainVideoWidget = new QVideoWidget();
+    _ui->mainView->setScene(_mainScene);
+    _ui->mainView->viewport()->installEventFilter(this);
+    _mainScene->addWidget(_mainVideoWidget);
+    _ui->mainView->show();
 
     if (QCamera::availableDevices().count() > 0){
-        _camera = new QCamera();
-        _camera->setCaptureMode(QCamera::CaptureVideo);
-        _camera->setViewfinder(_widget);
-        _camera->start();
+        _mainCamera = new QCamera();
+        _mainCamera->setCaptureMode(QCamera::CaptureVideo);
+        _mainCamera->setViewfinder(_mainVideoWidget);
+        _mainCamera->start();
     }
 }
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)
 {
     if(event->type() == QEvent::Resize ) {
-        _ui->graphicsView->fitInView(_scene->sceneRect(), Qt::KeepAspectRatio);
+        _ui->mainView->fitInView(_mainScene->sceneRect(), Qt::KeepAspectRatio);
         return true;
     }
     return false;

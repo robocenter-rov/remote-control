@@ -65,9 +65,9 @@ private:
     SDL_Joystick *_joy;
     QTimer *_joyTimer;
 
-    QCamera *_camera;
-    QGraphicsScene *_scene;
-    QVideoWidget *_widget;
+    QCamera *_mainCamera;
+    QGraphicsScene *_mainScene;
+    QVideoWidget *_mainVideoWidget;
 };
 
 #endif // MAINWINDOW_H
