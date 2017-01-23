@@ -30,9 +30,6 @@ MainWindow::MainWindow(QWidget *parent)
    // connect(_ui->sendButton, SIGNAL(clicked(bool)), this, SLOT(onSendButtonClicked()));
 
     joyInit();
-    connect(_joyTimer, SIGNAL(timeout()), this, SLOT(readAndSendJoySensors()));
-    _joyTimer->start(100);
-
     cameraInit();
     loadQSS();
 }
@@ -86,6 +83,9 @@ void MainWindow::joyInit()
     } else {
         qDebug() << "Couldn't open Joystick 0\n";
     }
+
+    connect(_joyTimer, SIGNAL(timeout()), this, SLOT(readAndSendJoySensors()));
+    _joyTimer->start(100);
 }
 
 void MainWindow::readAndSendJoySensors()
