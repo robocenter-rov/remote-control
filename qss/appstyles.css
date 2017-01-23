@@ -1,0 +1,20 @@
+QMainWindow{
+    background-color: #CCC;
+}
+
+QGraphicsView#mainView{
+    border: none;
+}
+
+QMenuBar{
+    background-color: #6699FF;
+}
+
+QGroupBox{
+    background-color: #FFF;
+    color:#649129;
+}
+
+QStatusBar{
+    background-color: #000033;
+}

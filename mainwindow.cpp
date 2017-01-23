@@ -7,6 +7,15 @@ QDataStream& operator<<(QDataStream &ds, const Cmd::AxesValue &msg)
     return ds;
 }
 
+void MainWindow::loadQSS()
+{
+    QFile styleF("../remote-control/qss/appstyles.css");
+    if (!styleF.open(QIODevice::ReadOnly | QIODevice::Text)){
+        qDebug() << "Warning: application styles not found";
+    }
+    this->setStyleSheet(styleF.readAll());
+}
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       _ui(new Ui::MainWindow),
@@ -25,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     _joyTimer->start(100);
 
     cameraInit();
+    loadQSS();
 }
 
 MainWindow::~MainWindow()

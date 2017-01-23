@@ -50,6 +50,7 @@ private:
     void joyInit();
     void cameraInit();
     bool eventFilter(QObject *, QEvent *event);
+    void loadQSS();
     template<typename T>
     void sendMessage(T msg)
     {
