@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "mainwindow.h"
+#include "calcwindow.h"
 namespace Ui {
 class StartWindow;
 }
@@ -17,11 +18,13 @@ public:
 
 private slots:
     void onMainPilotButtonClicked();
+    void onCalcButtonClicked();
 private:
     void loadQSS();
 
     Ui::StartWindow *ui;
     MainWindow *_mainWindow;
+    CalcWindow *_calcWindow;
 };
 
 #endif // STARTWINDOW_H

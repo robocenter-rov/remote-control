@@ -7,8 +7,12 @@ StartWindow::StartWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->mainPilotButton, SIGNAL(clicked(bool)), this, SLOT(onMainPilotButtonClicked()));
+    connect(ui->calcButton, SIGNAL(clicked(bool)), this, SLOT(onCalcButtonClicked()));
     ui->mainPilotButton->setIcon(QIcon(QPixmap::fromImage(QImage("../remote-control/img/main_pilot.png"))));
     ui->mainPilotButton->setIconSize(QSize(60, 60));
+
+    ui->calcButton->setIcon(QIcon(QPixmap::fromImage(QImage("../remote-control/img/math_pilot.png"))));
+    ui->calcButton->setIconSize(QSize(60, 60));
     loadQSS();
 }
 
@@ -30,5 +34,12 @@ void StartWindow::onMainPilotButtonClicked()
 {
     _mainWindow = new MainWindow();
     _mainWindow->show();
+    this->close();
+}
+
+void StartWindow::onCalcButtonClicked()
+{
+    _calcWindow = new CalcWindow();
+    _calcWindow->show();
     this->close();
 }
