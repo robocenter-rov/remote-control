@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "mainwindow.h"
 #include "calcwindow.h"
+
 namespace Ui {
 class StartWindow;
 }
