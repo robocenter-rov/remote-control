@@ -17,6 +17,7 @@ public:
     ~CalcWindow();
 
 private:
+    void loadQSS();
     bool eventFilter(QObject *, QEvent *event);
 
     Ui::CalcWindow *_ui;
