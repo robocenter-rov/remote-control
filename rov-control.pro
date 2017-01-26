@@ -26,13 +26,16 @@ unix {
 SOURCES += main.cpp\
     mainwindow.cpp \
     messages.cpp \
-    startwindow.cpp
-    robocamera.cpp
+    startwindow.cpp \
+    robocamera.cpp \
+    calcwindow.cpp
 
 HEADERS  += mainwindow.h \
     messages.h \
-    startwindow.h
-    robocamera.h
+    startwindow.h \
+    robocamera.h \
+    calcwindow.h \
 
 FORMS    += mainwindow.ui \
-    startwindow.ui
+    startwindow.ui \
+    calcwindow.ui
