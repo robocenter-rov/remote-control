@@ -8,6 +8,7 @@ CalcWindow::CalcWindow(QWidget *parent) :
 {
     _ui->setupUi(this);
     _mainCamera = new RoboCamera(_ui->videoView, this, "mainCamera");
+    connect(_ui->makeScreenButton, SIGNAL(clicked(bool)), this, SLOT(onMakeScreenButtonClicked()));
     loadQSS();
 }
 
@@ -32,4 +33,9 @@ bool CalcWindow::eventFilter(QObject *, QEvent *event)
         return true;
     }
     return false;
+}
+
+void CalcWindow::onMakeScreenButtonClicked()
+{
+    _mainCamera->imageCapture();
 }

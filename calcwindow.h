@@ -16,6 +16,9 @@ public:
     explicit CalcWindow(QWidget *parent = 0);
     ~CalcWindow();
 
+private slots:
+    void onMakeScreenButtonClicked();
+
 private:
     void loadQSS();
     bool eventFilter(QObject *, QEvent *event);
