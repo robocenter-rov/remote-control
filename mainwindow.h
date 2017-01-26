@@ -52,9 +52,9 @@ private:
     void joyInit();
     void cameraInit();
     void udpSocketInit();
-    bool eventFilter(QObject *, QEvent *event);
     void loadQSS();
 
+    bool eventFilter(QObject *, QEvent *event);
     template<typename T>
     void sendMessage(T msg)
     {
