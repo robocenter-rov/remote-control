@@ -3,7 +3,7 @@
 
 QDataStream& operator<<(QDataStream &ds, const Cmd::AxesValue &msg)
 {
-    ds << msg.axis0 << msg.axis1 << msg.axis2 << msg.axis3 << msg.axis4;
+    ds << msg.axis0 << " " << msg.axis1 << " " << msg.axis2 << " " << msg.axis3 << " " << msg.axis4;
     return ds;
 }
 
