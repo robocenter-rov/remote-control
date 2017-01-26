@@ -24,6 +24,8 @@
 #include <QWidget>
 #include <QtMultimediaWidgets>
 #include <QtGui/QtGui>
+#include <robocamera.h>
+
 #define IP_ADDR "192.168.1.177"
 #define PORT 8888
 
@@ -52,6 +54,7 @@ private:
     void udpSocketInit();
     bool eventFilter(QObject *, QEvent *event);
     void loadQSS();
+
     template<typename T>
     void sendMessage(T msg)
     {
@@ -67,9 +70,7 @@ private:
     SDL_Joystick *_joy;
     QTimer *_joyTimer;
 
-    QCamera *_mainCamera;
-    QGraphicsScene *_mainScene;
-    QVideoWidget *_mainVideoWidget;
+    RoboCamera *_mainCamera;
 };
 
 #endif // MAINWINDOW_H

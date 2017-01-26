@@ -103,25 +103,13 @@ void MainWindow::readAndSendJoySensors()
 
 void MainWindow::cameraInit()
 {
-    _mainScene = new QGraphicsScene();
-    _mainVideoWidget = new QVideoWidget();
-    _ui->mainView->setScene(_mainScene);
-    _ui->mainView->viewport()->installEventFilter(this);
-    _mainScene->addWidget(_mainVideoWidget);
-    _ui->mainView->show();
-
-    if (QCamera::availableDevices().count() > 0){
-        _mainCamera = new QCamera();
-        _mainCamera->setCaptureMode(QCamera::CaptureVideo);
-        _mainCamera->setViewfinder(_mainVideoWidget);
-        _mainCamera->start();
-    }
+    _mainCamera = new RoboCamera(_ui->mainView, this, "mainCamera");
 }
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)
 {
     if(event->type() == QEvent::Resize ) {
-        _ui->mainView->fitInView(_mainScene->sceneRect(), Qt::KeepAspectRatio);
+        _ui->mainView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
         return true;
     }
     return false;
