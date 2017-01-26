@@ -1,4 +1,5 @@
 #include "robocamera.h"
+#include <string>
 
 RoboCamera::RoboCamera()
 {
@@ -12,7 +13,9 @@ RoboCamera::RoboCamera(QGraphicsView *gv, QObject *gv_parent, const QByteArray &
     sceneInit();
 
     _camera = new QCamera();
-    _camera->setCaptureMode(QCamera::CaptureVideo);
+    _imageCapture = new QCameraImageCapture(_camera);
+    _imageCapture->setCaptureDestination(QCameraImageCapture::CaptureToFile);
+    _camera->setCaptureMode(QCamera::CaptureStillImage);
     _camera->setViewfinder(_videoWidget);
     _camera->start();
 
@@ -26,9 +29,11 @@ RoboCamera::~RoboCamera()
     delete _scene;
     delete _videoWidget;
     delete _camera;
+    delete _imageCapture;
     _scene = nullptr;
     _videoWidget = nullptr;
     _camera = nullptr;
+    _imageCapture = nullptr;
 }
 
 QGraphicsScene *RoboCamera::getScene() const
@@ -41,4 +46,14 @@ void RoboCamera::sceneInit()
     _scene = new QGraphicsScene();
     _videoWidget = new QVideoWidget();
     _scene->addWidget(_videoWidget);
+}
+
+void RoboCamera::imageCapture()
+{
+    _camera->searchAndLock();
+    char buf[10];
+    itoa(_imgId++, (char *)buf, 10);
+    QString path(QCoreApplication::applicationDirPath());
+    _imageCapture->capture(path);
+    _camera->unlock();
 }

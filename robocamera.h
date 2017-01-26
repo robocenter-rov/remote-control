@@ -5,6 +5,8 @@
 #include <QVideoWidget>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QCameraImageCapture>
+#include <QCoreApplication>
 
 class RoboCamera
 {
@@ -13,11 +15,14 @@ public:
     RoboCamera(QGraphicsView *gv, QObject *gv_parent, const QByteArray &deviceName);
     ~RoboCamera();
     QGraphicsScene *getScene() const;
+    void imageCapture();
 private:
     void sceneInit();
     QCamera *_camera = nullptr;
     QGraphicsScene *_scene = nullptr;
     QVideoWidget *_videoWidget = nullptr;
+    QCameraImageCapture *_imageCapture = nullptr;
+    int _imgId = 0;
 };
 
 #endif // ROBOCAMERA_H
