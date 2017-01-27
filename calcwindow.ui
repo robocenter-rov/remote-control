@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="screensTab">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="videoTab">
        <attribute name="title">
@@ -37,10 +37,15 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="screensTab_2">
+      <widget class="QWidget" name="screensTab">
        <attribute name="title">
         <string>Screens</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <widget class="QGraphicsView" name="screensView"/>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="mapTab">
        <attribute name="title">

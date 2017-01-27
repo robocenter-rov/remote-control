@@ -8,6 +8,11 @@ CalcWindow::CalcWindow(QWidget *parent) :
 {
     _ui->setupUi(this);
     _mainCamera = new RoboCamera(_ui->videoView, this, "mainCamera");
+    _screenScene = new QGraphicsScene();
+    _screenScene->addItem(&_screen);
+    _ui->screensView->setScene(_screenScene);
+    _ui->screensView->viewport()->installEventFilter(this);
+    _ui->screensView->show();
     connect(_ui->makeScreenButton, SIGNAL(clicked(bool)), this, SLOT(onMakeScreenButtonClicked()));
     loadQSS();
 }
@@ -30,6 +35,7 @@ bool CalcWindow::eventFilter(QObject *, QEvent *event)
 {
     if(event->type() == QEvent::Resize ) {
         _ui->videoView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
+        _ui->screensView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
         return true;
     }
     return false;
@@ -38,4 +44,9 @@ bool CalcWindow::eventFilter(QObject *, QEvent *event)
 void CalcWindow::onMakeScreenButtonClicked()
 {
     _mainCamera->imageCapture();
+    if (!_mainCamera->getLastSavedImage().isNull()) {
+        _screen.setPixmap(QPixmap::fromImage(_mainCamera->getLastSavedImage()));
+    } else {
+        qDebug() << "Screen not found\n";
+    }
 }

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "robocamera.h"
+#include <QGraphicsPixmapItem>
 
 namespace Ui {
 class CalcWindow;
@@ -25,6 +26,8 @@ private:
 
     Ui::CalcWindow *_ui;
     RoboCamera *_mainCamera;
+    QGraphicsScene *_screenScene;
+    QGraphicsPixmapItem _screen;
 };
 
 #endif // CALCWINDOW_H
