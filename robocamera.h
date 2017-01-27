@@ -15,6 +15,7 @@ public:
     RoboCamera(QGraphicsView *gv, QObject *gv_parent, const QByteArray &deviceName);
     ~RoboCamera();
     QGraphicsScene *getScene() const;
+    QImage getLastSavedImage();
     void imageCapture();
 private:
     void sceneInit();
@@ -22,6 +23,7 @@ private:
     QGraphicsScene *_scene = nullptr;
     QVideoWidget *_videoWidget = nullptr;
     QCameraImageCapture *_imageCapture = nullptr;
+    QImage _lastSavedImg;
     int _imgId = 0;
 };
 

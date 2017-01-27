@@ -1,5 +1,4 @@
 #include "robocamera.h"
-#include <string>
 
 RoboCamera::RoboCamera()
 {
@@ -55,5 +54,11 @@ void RoboCamera::imageCapture()
     itoa(_imgId++, (char *)buf, 10);
     QString path(QCoreApplication::applicationDirPath());
     _imageCapture->capture(path);
+    _lastSavedImg = _videoWidget->grab().toImage();
     _camera->unlock();
+}
+
+QImage RoboCamera::getLastSavedImage()
+{
+    return _lastSavedImg;
 }
