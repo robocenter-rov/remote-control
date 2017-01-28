@@ -31,7 +31,6 @@ public:
     LineTool(QWidget *parent = nullptr);
     ~LineTool() {}
     void draw();
-    //void draw(Point p1, Point p2);
 private:
     Point _startPos;
 };
