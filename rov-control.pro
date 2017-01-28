@@ -28,13 +28,15 @@ SOURCES += main.cpp\
     messages.cpp \
     startwindow.cpp \
     robocamera.cpp \
-    calcwindow.cpp
+    calcwindow.cpp \
+    basetool.cpp
 
 HEADERS  += mainwindow.h \
     messages.h \
     startwindow.h \
     robocamera.h \
     calcwindow.h \
+    basetool.h
 
 FORMS    += mainwindow.ui \
     startwindow.ui \

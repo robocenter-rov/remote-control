@@ -15,6 +15,7 @@ CalcWindow::CalcWindow(QWidget *parent) :
     _ui->screensView->show();
     connect(_ui->makeScreenButton, SIGNAL(clicked(bool)), this, SLOT(onMakeScreenButtonClicked()));
     loadQSS();
+    generateTools();
 }
 
 CalcWindow::~CalcWindow()
@@ -49,4 +50,9 @@ void CalcWindow::onMakeScreenButtonClicked()
     } else {
         qDebug() << "Screen not found\n";
     }
+}
+
+void CalcWindow::generateTools()
+{
+    _tools.append(new LineTool(_ui->toolsWidget));
 }

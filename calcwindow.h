@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "robocamera.h"
+#include "basetool.h"
 #include <QGraphicsPixmapItem>
 
 namespace Ui {
@@ -22,12 +23,14 @@ private slots:
 
 private:
     void loadQSS();
+    void generateTools();
     bool eventFilter(QObject *, QEvent *event);
 
     Ui::CalcWindow *_ui;
     RoboCamera *_mainCamera;
     QGraphicsScene *_screenScene;
     QGraphicsPixmapItem _screen;
+    QList <BaseTool *> _tools;
 };
 
 #endif // CALCWINDOW_H
