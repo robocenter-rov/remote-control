@@ -1,5 +1,5 @@
 #include "graphicsscene.h"
-#include "basetools.h"
+#include "basetool.h"
 
 QList <BaseTool *> tools;
 BaseTool *currentTool;
