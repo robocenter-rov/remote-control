@@ -2,13 +2,16 @@
 #include "ui_calcwindow.h"
 #include <QFile>
 
+#include "graphicsscene.h"
+#include "basetools.h"
+
 CalcWindow::CalcWindow(QWidget *parent) :
     QMainWindow(parent),
     _ui(new Ui::CalcWindow)
 {
     _ui->setupUi(this);
     _mainCamera = new RoboCamera(_ui->videoView, this, "mainCamera");
-    _screenScene = new QGraphicsScene();
+    _screenScene = new GraphicsScene();
     _screenScene->addItem(&_screen);
     _ui->screensView->setScene(_screenScene);
     _ui->screensView->viewport()->installEventFilter(this);
@@ -54,5 +57,6 @@ void CalcWindow::onMakeScreenButtonClicked()
 
 void CalcWindow::generateTools()
 {
-    _tools.append(new LineTool(_ui->toolsWidget));
+    currentTool = new LineTool(_ui->toolsWidget);
+    tools.append(currentTool);
 }

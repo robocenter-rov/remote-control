@@ -2,13 +2,17 @@
 #define CALCWINDOW_H
 
 #include <QMainWindow>
-#include "robocamera.h"
-#include "basetool.h"
 #include <QGraphicsPixmapItem>
+#include <QGraphicsScene>
+#include <QGraphicsSceneEvent>
+#include "robocamera.h"
 
 namespace Ui {
 class CalcWindow;
 }
+
+class GraphicsScene;
+class BaseTool;
 
 class CalcWindow : public QMainWindow
 {
@@ -20,17 +24,16 @@ public:
 
 private slots:
     void onMakeScreenButtonClicked();
-
 private:
     void loadQSS();
     void generateTools();
     bool eventFilter(QObject *, QEvent *event);
+    void onScreenViewMousePressEvent(QMouseEvent *event);
 
     Ui::CalcWindow *_ui;
     RoboCamera *_mainCamera;
-    QGraphicsScene *_screenScene;
+    GraphicsScene *_screenScene;
     QGraphicsPixmapItem _screen;
-    QList <BaseTool *> _tools;
 };
 
 #endif // CALCWINDOW_H
