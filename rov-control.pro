@@ -29,6 +29,7 @@ SOURCES += main.cpp\
     startwindow.cpp \
     robocamera.cpp \
     calcwindow.cpp \
+    graphicsscene.cpp \
     basetool.cpp
 
 HEADERS  += mainwindow.h \
@@ -36,6 +37,7 @@ HEADERS  += mainwindow.h \
     startwindow.h \
     robocamera.h \
     calcwindow.h \
+    graphicsscene.h \
     basetool.h
 
 FORMS    += mainwindow.ui \
