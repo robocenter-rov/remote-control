@@ -1,23 +1,22 @@
-#ifndef BASETOOL_H
-#define BASETOOL_H
+#ifndef BASETOOLS_H
+#define BASETOOLS_H
 
 #include <QObject>
-#include <QWidget>
 #include <QPushButton>
-#include <QCoreApplication>
+#include <QtCore>
 
-struct Point
-{
-    double x, y;
-};
+class GraphicsScene;
 
 class BaseTool : public QObject
-{    
+{
     Q_OBJECT
 public:
     BaseTool(QWidget *parent = nullptr);
-    ~BaseTool();
-    void virtual draw() = 0;
+    virtual ~BaseTool();
+    void virtual drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point) { }
+    void virtual drawOnMousePress(GraphicsScene *scene, QPointF point) {}
+    void virtual drawOnMouseMove(GraphicsScene *scene, QPointF point) {}
+    void virtual drawOnMouseRelease(GraphicsScene *scene, QPointF point) {}
 protected:
     QPushButton *_button;
     QString _iconsPath;
@@ -29,10 +28,16 @@ class LineTool: public BaseTool
 {
 public:
     LineTool(QWidget *parent = nullptr);
-    ~LineTool() {}
-    void draw();
-private:
-    Point _startPos;
+    ~LineTool();
+    void drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point) override;
+    void drawOnMousePress(GraphicsScene *scene, QPointF point) override;
+    void drawOnMouseMove(GraphicsScene *scene, QPointF point) override;
+    void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
+protected:
+    QPointF _startPos;
+    bool _isDraw = false;
 };
 
-#endif // BASETOOL_H
+extern QList <BaseTool *> tools;
+extern BaseTool *currentTool;
+#endif // BASETOOLS_H
