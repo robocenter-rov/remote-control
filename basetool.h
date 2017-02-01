@@ -45,7 +45,7 @@ protected:
     LineFigure *_line;
 };
 
-class OptionTool: public LineTool
+class OptionTool : public LineTool
 {
 public:
     OptionTool(QWidget *parent = nullptr);
