@@ -9,7 +9,7 @@ BaseTool *currentTool;
 GraphicsScene::GraphicsScene() :
     QGraphicsScene()
 {
-
+    _text = nullptr;
 }
 
 void GraphicsScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
@@ -42,6 +42,8 @@ void GraphicsScene::updateScene()
     addItem(_screen);
     for (auto it = _figures.begin(); it != _figures.end(); it++)
         (dynamic_cast<Figure *>(*it))->draw(this);
+    if (_text != nullptr)
+        addText(_text);
 }
 
 void GraphicsScene::addFigure(LineFigure *line)
@@ -53,4 +55,10 @@ void GraphicsScene::addScreen(QGraphicsPixmapItem *item)
 {
     addItem(item);
     _screen = item;
+}
+
+void GraphicsScene::addTextFigure(QString text)
+{
+    //addText(text);
+    _text = text;
 }
