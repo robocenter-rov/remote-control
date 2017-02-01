@@ -20,6 +20,7 @@ public:
     void virtual drawOnMouseMove(GraphicsScene *scene, QPointF point) {}
     void virtual drawOnMouseRelease(GraphicsScene *scene, QPointF point) {}
     void virtual createToolProperties() {}
+    void virtual deleteToolProperties() {}
     void setLevel(int level);
 protected:
     QPushButton *_button;
@@ -50,6 +51,7 @@ public:
     OptionTool(QWidget *parent = nullptr);
     ~OptionTool();
     void createToolProperties();
+    void deleteToolProperties();
 protected:
     QDoubleSpinBox *_spinBox;
 };

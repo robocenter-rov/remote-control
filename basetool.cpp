@@ -51,6 +51,7 @@ BaseTool::~BaseTool()
 void BaseTool::onToolButtonClick(bool checked)
 {
     qDebug() << typeid(*this).name();
+    currentTool->deleteToolProperties();
     currentTool = this;
     createToolProperties();
 }
@@ -121,3 +122,7 @@ void OptionTool::createToolProperties()
     _spinBox->show();
 }
 
+void OptionTool::deleteToolProperties()
+{
+    delete _spinBox;
+}
