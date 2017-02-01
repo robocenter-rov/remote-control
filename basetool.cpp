@@ -169,7 +169,10 @@ void RectTool::drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point)
 
 void RectTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
 {
+    QRectF t(_p1, point);
     scene->addRect(QRectF(_p1, point), QPen(QColor(0, 0, 255, 127)));
+    qDebug() << scaleCoef;
+    qDebug() << "width : " << abs(t.width()/scaleCoef) << " height : " << abs(t.height()/scaleCoef);
 }
 
 void RectTool::drawOnMousePress(GraphicsScene *scene, QPointF point)
