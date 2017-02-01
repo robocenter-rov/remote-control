@@ -57,6 +57,19 @@ protected:
     QDoubleSpinBox *_spinBox;
 };
 
+class RectTool : public BaseTool
+{
+public:
+    RectTool(QWidget *parent = nullptr);
+    ~RectTool();
+    void drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point) override;
+    void drawOnMousePress(GraphicsScene *scene, QPointF point) override;
+    void drawOnMouseMove(GraphicsScene *scene, QPointF point) override;
+    void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
+protected:
+    QPointF _p1;
+    QPointF _p2;
+};
 extern QList <BaseTool *> tools;
 extern BaseTool *currentTool;
 extern double scaleCoef;

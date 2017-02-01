@@ -148,3 +148,38 @@ void OptionTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
         qDebug() << scaleCoef;
     }
 }
+
+RectTool::RectTool(QWidget *parent) :
+    BaseTool(parent)
+{
+    _button->setText("Rect");
+    _button->setIconSize(QSize(30, 30));
+    connect(_button, SIGNAL(clicked(bool)), this, SLOT(onToolButtonClick(bool)));
+}
+
+RectTool::~RectTool()
+{
+
+}
+
+void RectTool::drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point)
+{
+    _p1 = point;
+}
+
+void RectTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
+{
+    scene->addRect(QRectF(_p1, point), QPen(QColor(0, 0, 255, 127)));
+}
+
+void RectTool::drawOnMousePress(GraphicsScene *scene, QPointF point)
+{
+    _p1 = point;
+}
+
+void RectTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
+{
+    _p2 = point;
+    if (_p1 == _p2) return;
+    scene->addFigure(new RectFigure(_p1, _p2));
+}
