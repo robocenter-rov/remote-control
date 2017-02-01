@@ -12,7 +12,7 @@ CalcWindow::CalcWindow(QWidget *parent) :
     _ui->setupUi(this);
     _mainCamera = new RoboCamera(_ui->videoView, this, "mainCamera");
     _screenScene = new GraphicsScene();
-    _screenScene->addItem(&_screen);
+    _screenScene->addScreen(&_screen);
     _ui->screensView->setScene(_screenScene);
     _ui->screensView->viewport()->installEventFilter(this);
     _ui->screensView->show();

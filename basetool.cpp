@@ -2,6 +2,8 @@
 #include "graphicsscene.h"
 #include <QCoreApplication>
 
+#include "figure.h"
+
 BaseTool::BaseTool(QWidget *parent)
 {
     _iconsPath = (QCoreApplication::applicationDirPath() + "../remote-control/icons");
@@ -34,7 +36,6 @@ LineTool::~LineTool()
 
 void LineTool::drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point)
 {
-    _isDraw = true;
     _startPos = point;
 }
 
@@ -45,12 +46,13 @@ void LineTool::drawOnMousePress(GraphicsScene *scene, QPointF point)
 
 void LineTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
 {
-    if (_isDraw) {
-        scene->addLine(_startPos.x(), _startPos.y(), point.x(), point.y(), QPen(QColor(255, 0, 0, 127)));
-    }
+    scene->addLine(_startPos.x(), _startPos.y(), point.x(), point.y(), QPen(QColor(255, 0, 0, 127)));
 }
 
 void LineTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
 {
-    _isDraw = false;
+    _endPos = point;
+    if (_endPos != _startPos){
+        scene->addFigure(new LineFigure(_startPos, _endPos));
+    }
 }

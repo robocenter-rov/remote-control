@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QPushButton>
 #include <QtCore>
+#include "figure.h"
 
 class GraphicsScene;
 
@@ -35,7 +36,8 @@ public:
     void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
 protected:
     QPointF _startPos;
-    bool _isDraw = false;
+    QPointF _endPos;
+    LineFigure *_line;
 };
 
 extern QList <BaseTool *> tools;
