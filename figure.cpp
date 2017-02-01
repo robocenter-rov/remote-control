@@ -9,7 +9,7 @@ LineFigure::LineFigure(QPointF p1, QPointF p2)
 {
     _p1 = p1;
     _p2 = p2;
-    _pen = QPen(QColor(255, 0, 0, 127));
+    _pen = QPen(QColor(0, 0, 127, 127));
 }
 
 void LineFigure::draw(GraphicsScene *scene)

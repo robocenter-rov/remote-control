@@ -89,7 +89,7 @@ void LineTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
 {
     _endPos = point;
     intersection(_startPos, _endPos);
-    scene->addLine(_startPos.x(), _startPos.y(), _endPos.x(), _endPos.y(), QPen(QColor(255, 0, 0, 127)));
+    scene->addLine(_startPos.x(), _startPos.y(), _endPos.x(), _endPos.y(), QPen(QColor(0, 0, 255, 127)));
 }
 
 void LineTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
@@ -129,10 +129,22 @@ void OptionTool::deleteToolProperties()
     delete _spinBox;
 }
 
+#include <string>
+
 void OptionTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
 {
     _endPos = point;
-    double dist = sqrt(pow(_startPos.x() - _endPos.x(), 2) + pow(_startPos.y() - _endPos.y(), 2));
-    scaleCoef = dist / _spinBox->value();
-    qDebug() << scaleCoef;
+    intersection(_startPos, _endPos);
+    if (_endPos != _startPos){
+        //scene->addFigure(new LineFigure(_startPos, _endPos));
+
+        double dist = sqrt(pow(_startPos.x() - _endPos.x(), 2) + pow(_startPos.y() - _endPos.y(), 2));
+        scaleCoef = dist / _spinBox->value();
+
+        std::string str(std::to_string(_spinBox->value()) + "cm in " + std::to_string(dist) + " scene coordinates");
+        //scene->addTextFigure(QString(str.c_str()));
+
+        qDebug() << _spinBox->value() << "cm";
+        qDebug() << scaleCoef;
+    }
 }
