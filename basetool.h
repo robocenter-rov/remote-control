@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QPushButton>
 #include <QtCore>
+#include <QDoubleSpinBox>
 #include "figure.h"
 
 class GraphicsScene;
@@ -18,9 +19,12 @@ public:
     void virtual drawOnMousePress(GraphicsScene *scene, QPointF point) {}
     void virtual drawOnMouseMove(GraphicsScene *scene, QPointF point) {}
     void virtual drawOnMouseRelease(GraphicsScene *scene, QPointF point) {}
+    void virtual createToolProperties() {}
+    void setLevel(int level);
 protected:
     QPushButton *_button;
     QString _iconsPath;
+    QWidget *_parent;
 private slots:
     void onToolButtonClick(bool checked = false);
 };
@@ -40,6 +44,17 @@ protected:
     LineFigure *_line;
 };
 
+class OptionTool: public LineTool
+{
+public:
+    OptionTool(QWidget *parent = nullptr);
+    ~OptionTool();
+    void createToolProperties();
+protected:
+    QDoubleSpinBox *_spinBox;
+};
+
 extern QList <BaseTool *> tools;
 extern BaseTool *currentTool;
+
 #endif // BASETOOLS_H

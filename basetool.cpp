@@ -3,6 +3,7 @@
 #include <QCoreApplication>
 
 #include "figure.h"
+
 #define SCENE_WIDTH 640
 #define SCENE_HEIGHT 480
 
@@ -39,6 +40,7 @@ BaseTool::BaseTool(QWidget *parent)
 {
     _iconsPath = (QCoreApplication::applicationDirPath() + "../remote-control/icons");
     _button = new QPushButton(parent);
+    _parent = parent;
 }
 
 BaseTool::~BaseTool()
@@ -50,6 +52,12 @@ void BaseTool::onToolButtonClick(bool checked)
 {
     qDebug() << typeid(*this).name();
     currentTool = this;
+    createToolProperties();
+}
+
+void BaseTool::setLevel(int level)
+{
+    _button->setGeometry(_button->x(), _button->y() + level*34, _button->width(), _button->height());
 }
 
 LineTool::LineTool(QWidget *parent):
@@ -90,3 +98,26 @@ void LineTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
         scene->addFigure(new LineFigure(_startPos, _endPos));
     }
 }
+
+OptionTool::OptionTool(QWidget *parent) : LineTool(parent)
+{
+    _spinBox = nullptr;
+    _button->setText("Scale option");
+    _button->setIconSize(QSize(30, 30));
+    connect(_button, SIGNAL(clicked(bool)), this, SLOT(onToolButtonClick(bool)));
+}
+
+OptionTool::~OptionTool()
+{
+    if (_spinBox != nullptr) {
+        delete _spinBox;
+    }
+}
+
+void OptionTool::createToolProperties()
+{
+    _spinBox = new QDoubleSpinBox(_parent);
+    _spinBox->setGeometry(_spinBox->x(), _spinBox->y() + tools.size()*34, _spinBox->width(), _spinBox->height());
+    _spinBox->show();
+}
+
