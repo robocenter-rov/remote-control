@@ -14,7 +14,7 @@ class GraphicsScene : public QGraphicsScene
     Q_OBJECT
 public:
     GraphicsScene();
-    void addFigure(LineFigure *line);
+    void addFigure(Figure *figure);
     void addTextFigure(QString text);
     void addScreen(QGraphicsPixmapItem *item);
 protected:

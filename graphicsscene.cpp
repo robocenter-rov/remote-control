@@ -46,9 +46,9 @@ void GraphicsScene::updateScene()
         addText(_text);
 }
 
-void GraphicsScene::addFigure(LineFigure *line)
+void GraphicsScene::addFigure(Figure *figure)
 {
-    _figures.append(line);
+    _figures.append(figure);
 }
 
 void GraphicsScene::addScreen(QGraphicsPixmapItem *item)
