@@ -50,9 +50,9 @@ class OptionTool: public LineTool
 public:
     OptionTool(QWidget *parent = nullptr);
     ~OptionTool();
-    void createToolProperties();
-    void deleteToolProperties();
-    void drawOnMouseRelease(GraphicsScene *scene, QPointF point);
+    void createToolProperties() override;
+    void deleteToolProperties() override;
+    void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
 protected:
     QDoubleSpinBox *_spinBox;
 };
