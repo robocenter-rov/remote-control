@@ -52,11 +52,13 @@ public:
     ~OptionTool();
     void createToolProperties();
     void deleteToolProperties();
+    void drawOnMouseRelease(GraphicsScene *scene, QPointF point);
 protected:
     QDoubleSpinBox *_spinBox;
 };
 
 extern QList <BaseTool *> tools;
 extern BaseTool *currentTool;
+extern double scaleCoef;
 
 #endif // BASETOOLS_H

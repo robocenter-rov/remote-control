@@ -1,11 +1,12 @@
 #include "basetool.h"
 #include "graphicsscene.h"
 #include <QCoreApplication>
-
+#include <math.h>
 #include "figure.h"
 
 #define SCENE_WIDTH 640
 #define SCENE_HEIGHT 480
+double scaleCoef;
 
 static bool inRect(QPointF p)
 {
@@ -119,10 +120,19 @@ void OptionTool::createToolProperties()
 {
     _spinBox = new QDoubleSpinBox(_parent);
     _spinBox->setGeometry(_spinBox->x(), _spinBox->y() + tools.size()*34, _spinBox->width(), _spinBox->height());
+    _spinBox->setMinimum(0.1);
     _spinBox->show();
 }
 
 void OptionTool::deleteToolProperties()
 {
     delete _spinBox;
+}
+
+void OptionTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
+{
+    _endPos = point;
+    double dist = sqrt(pow(_startPos.x() - _endPos.x(), 2) + pow(_startPos.y() - _endPos.y(), 2));
+    scaleCoef = dist / _spinBox->value();
+    qDebug() << scaleCoef;
 }
