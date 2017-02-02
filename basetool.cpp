@@ -143,9 +143,6 @@ void OptionTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
 
         std::string str(std::to_string(_spinBox->value()) + "cm in " + std::to_string(dist) + " scene coordinates");
         //scene->addTextFigure(QString(str.c_str()));
-
-        qDebug() << _spinBox->value() << "cm";
-        qDebug() << scaleCoef;
     }
 }
 
