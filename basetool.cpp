@@ -99,6 +99,8 @@ void LineTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
     if (_endPos != _startPos){
         scene->addFigure(new LineFigure(_startPos, _endPos));
     }
+    double t = sqrt(pow(_startPos.x() - _endPos.x(), 2) + pow(_startPos.y() - _endPos.y(), 2));
+    qDebug() << t/scaleCoef;
 }
 
 OptionTool::OptionTool(QWidget *parent) : LineTool(parent)
