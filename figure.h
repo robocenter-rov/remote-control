@@ -12,6 +12,7 @@ public:
     bool virtual inArea(QPointF p) { return true; }
 protected:
     QPen _pen;
+    const double _offset = 3;
 };
 
 class LineFigure : public Figure
@@ -27,7 +28,6 @@ private:
     QPointF _p1;
     QPointF _p2;
     QPolygonF _area;
-    const double _offset = 3;
     double _angle;
 
 };
