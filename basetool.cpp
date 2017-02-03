@@ -196,22 +196,29 @@ SelectTool::SelectTool(QWidget *parent) :
 
 void SelectTool::drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point)
 {
-
+    _startPoint = point;
 }
 
 void SelectTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
 {
-    // Replace
+    for (auto it = _selectedFigures.begin(); it != _selectedFigures.end(); it++) {
+        QPointF deltaP(point.x()-_startPoint.x(), point.y() -_startPoint.y());
+        (*it)->resetPoints(deltaP);
+    }
+    _startPoint = point;
 }
 
 void SelectTool::drawOnMousePress(GraphicsScene *scene, QPointF point)
 {
+    _startPoint = point;
     for (auto it = scene->_figures.rbegin(); it != scene->_figures.rend(); it++) {
         if ((*it)->inArea(point)){
             (*it)->draw(scene);
-            break;
+            _selectedFigures.append(*it);
+            return;
         }
     }
+    _selectedFigures.clear();
 }
 
 void SelectTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)

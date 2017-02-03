@@ -83,6 +83,9 @@ public:
     void drawOnMousePress(GraphicsScene *scene, QPointF point) override;
     void drawOnMouseMove(GraphicsScene *scene, QPointF point) override;
     void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
+private:
+    QPointF _startPoint;
+    QList <Figure *> _selectedFigures;
 };
 
 #endif // BASETOOLS_H
