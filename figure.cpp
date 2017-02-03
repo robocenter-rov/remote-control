@@ -70,6 +70,15 @@ void LineFigure::calcArea()
     _area = QPolygonF(points);
 }
 
+void LineFigure::resetPoints(QPointF deltaPoint)
+{
+    _p1.setX(_p1.x() + deltaPoint.x());
+    _p1.setY(_p1.y() + deltaPoint.y());
+    _p2.setX(_p2.x() + deltaPoint.x());
+    _p2.setY(_p2.y() + deltaPoint.y());
+    calcArea();
+}
+
 RectFigure::RectFigure(QPointF p1, QPointF p2) :
     Figure()
 {
@@ -95,6 +104,16 @@ bool RectFigure::inArea(QPointF p)
         return true;
     return false;
 }
+
+void RectFigure::resetPoints(QPointF deltaPoint)
+{
+    _p1.setX(_p1.x() + deltaPoint.x());
+    _p1.setY(_p1.y() + deltaPoint.y());
+    _p2.setX(_p2.x() + deltaPoint.x());
+    _p2.setY(_p2.y() + deltaPoint.y());
+    calcArea();
+}
+
 void RectFigure::calcArea()
 {
     _area = QRectF(QPointF(min(_p1.x(), _p2.x()) - _offset, min(_p1.y(), _p1.y()) - _offset),

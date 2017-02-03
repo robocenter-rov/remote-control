@@ -10,6 +10,7 @@ public:
     ~Figure(){}
     void virtual draw(GraphicsScene *scene){}
     bool virtual inArea(QPointF p) { return true; }
+    void virtual resetPoints(QPointF deltaPoint) {}
     void virtual calcArea() {}
 protected:
     QPen _pen;
@@ -23,6 +24,7 @@ public:
     ~LineFigure(){}
     void draw(GraphicsScene *scene) override;
     bool inArea(QPointF p) override;
+    void resetPoints(QPointF deltaPoint) override;
     void calcArea() override;
     QPointF rotatedEndPoint2();
 private:
@@ -40,6 +42,7 @@ public:
     ~RectFigure(){}
     void draw(GraphicsScene *scene) override;
     bool inArea(QPointF p) override;
+    void resetPoints(QPointF deltaPoint) override;
     void calcArea() override;
 private:
     QPointF _p1;
