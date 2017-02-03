@@ -87,12 +87,16 @@ void RectFigure::draw(GraphicsScene *scene)
 
 bool RectFigure::inArea(QPointF p)
 {
-    _area = QRectF(QPointF(min(_p1.x(), _p2.x()) - _offset, min(_p1.y(), _p1.y()) - _offset),
-                   QPointF(max(_p1.x(), _p2.x()) + _offset, max(_p1.y(), _p2.y()) + _offset));
+    calcArea();
     if ((p.x() > min(_p1.x(), _p2.x()) - _offset) &&
         (p.x() < max(_p1.x(), _p2.x()) + _offset) &&
         (p.y() > min(_p1.y(), _p1.y()) - _offset) &&
         (p.y() < max(_p1.y(), _p2.y()) + _offset))
         return true;
     return false;
+}
+void RectFigure::calcArea()
+{
+    _area = QRectF(QPointF(min(_p1.x(), _p2.x()) - _offset, min(_p1.y(), _p1.y()) - _offset),
+                   QPointF(max(_p1.x(), _p2.x()) + _offset, max(_p1.y(), _p2.y()) + _offset));
 }

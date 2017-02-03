@@ -10,6 +10,7 @@ public:
     ~Figure(){}
     void virtual draw(GraphicsScene *scene){}
     bool virtual inArea(QPointF p) { return true; }
+    void virtual calcArea() {}
 protected:
     QPen _pen;
     const double _offset = 3;
@@ -22,7 +23,7 @@ public:
     ~LineFigure(){}
     void draw(GraphicsScene *scene) override;
     bool inArea(QPointF p) override;
-    void calcArea();
+    void calcArea() override;
     QPointF rotatedEndPoint2();
 private:
     QPointF _p1;
@@ -39,6 +40,7 @@ public:
     ~RectFigure(){}
     void draw(GraphicsScene *scene) override;
     bool inArea(QPointF p) override;
+    void calcArea() override;
 private:
     QPointF _p1;
     QPointF _p2;
