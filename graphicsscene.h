@@ -8,10 +8,12 @@
 
 class Figure;
 class LineFigure;
+class SelectTool;
 
 class GraphicsScene : public QGraphicsScene
 {
     Q_OBJECT
+    friend class SelectTool;
 public:
     GraphicsScene();
     void addFigure(Figure *figure);

@@ -74,4 +74,15 @@ extern QList <BaseTool *> tools;
 extern BaseTool *currentTool;
 extern double scaleCoef;
 
+class SelectTool : public BaseTool
+{
+public:
+    SelectTool(QWidget *parent = nullptr);
+    ~SelectTool(){}
+    void drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point) override;
+    void drawOnMousePress(GraphicsScene *scene, QPointF point) override;
+    void drawOnMouseMove(GraphicsScene *scene, QPointF point) override;
+    void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
+};
+
 #endif // BASETOOLS_H

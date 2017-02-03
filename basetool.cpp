@@ -185,3 +185,36 @@ void RectTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
     if (_p1 == _p2) return;
     scene->addFigure(new RectFigure(_p1, _p2));
 }
+
+SelectTool::SelectTool(QWidget *parent) :
+    BaseTool(parent)
+{
+    _button->setText("Select");
+    _button->setIconSize(QSize(30, 30));
+    connect(_button, SIGNAL(clicked(bool)), this, SLOT(onToolButtonClick(bool)));
+}
+
+void SelectTool::drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point)
+{
+
+}
+
+void SelectTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
+{
+    // Replace
+}
+
+void SelectTool::drawOnMousePress(GraphicsScene *scene, QPointF point)
+{
+    for (auto it = scene->_figures.rbegin(); it != scene->_figures.rend(); it++) {
+        if ((*it)->inArea(point)){
+            (*it)->draw(scene);
+            break;
+        }
+    }
+}
+
+void SelectTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
+{
+
+}
