@@ -42,6 +42,7 @@ public:
 private:
     QPointF _p1;
     QPointF _p2;
+    QRectF _area;
 };
 
 extern void calcPoints(QPointF &p1, QPointF &p2);

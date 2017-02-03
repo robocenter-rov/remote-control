@@ -1,6 +1,9 @@
 #include "figure.h"
 #include <QtCore>
 
+#define min(x, y) (((x) < (y)) ? (x) : (y))
+#define max(x, y) (((x) > (y)) ? (x) : (y))
+
 Figure::Figure()
 {
     _pen = QPen(QColor(0, 0, 127, 127));
@@ -77,9 +80,19 @@ RectFigure::RectFigure(QPointF p1, QPointF p2) :
 void RectFigure::draw(GraphicsScene *scene)
 {
     scene->addRect(QRectF(_p1, _p2), _pen);
+    if (!_area.isEmpty()) {
+        scene->addRect(_area);
+    }
 }
 
 bool RectFigure::inArea(QPointF p)
 {
-    return true; // temp
+    _area = QRectF(QPointF(min(_p1.x(), _p2.x()) - _offset, min(_p1.y(), _p1.y()) - _offset),
+                   QPointF(max(_p1.x(), _p2.x()) + _offset, max(_p1.y(), _p2.y()) + _offset));
+    if ((p.x() > min(_p1.x(), _p2.x()) - _offset) &&
+        (p.x() < max(_p1.x(), _p2.x()) + _offset) &&
+        (p.y() > min(_p1.y(), _p1.y()) - _offset) &&
+        (p.y() < max(_p1.y(), _p2.y()) + _offset))
+        return true;
+    return false;
 }
