@@ -8,7 +8,7 @@ class Figure
 public:
     Figure();
     ~Figure(){}
-    void virtual draw(GraphicsScene *scene){}
+    void virtual draw(GraphicsScene *scene) {}
     bool virtual inArea(QPointF p) { return true; }
     void virtual resetPoints(QPointF deltaPoint) {}
     void virtual calcArea() {}
