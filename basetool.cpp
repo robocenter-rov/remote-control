@@ -206,22 +206,27 @@ void SelectTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
         (*it)->resetPoints(deltaP);
     }
     _startPoint = point;
+    scene->updateScene();
 }
 
 void SelectTool::drawOnMousePress(GraphicsScene *scene, QPointF point)
 {
     _startPoint = point;
+    _selectedFigures.clear();
+    scene->updateScene();
     for (auto it = scene->_figures.rbegin(); it != scene->_figures.rend(); it++) {
         if ((*it)->inArea(point)){
-            (*it)->draw(scene);
+            (*it)->drawWithArea(scene);
             _selectedFigures.append(*it);
             return;
         }
     }
-    _selectedFigures.clear();
 }
 
 void SelectTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
 {
-
+    for (auto it = _selectedFigures.begin(); it != _selectedFigures.end(); it++) {
+        (*it)->drawArea(scene);
+    }
+    scene->update();
 }
