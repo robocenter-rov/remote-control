@@ -99,7 +99,7 @@ bool RectFigure::inArea(QPointF p)
     calcArea();
     if ((p.x() > min(_p1.x(), _p2.x()) - _offset) &&
         (p.x() < max(_p1.x(), _p2.x()) + _offset) &&
-        (p.y() > min(_p1.y(), _p1.y()) - _offset) &&
+        (p.y() > min(_p1.y(), _p2.y()) - _offset) &&
         (p.y() < max(_p1.y(), _p2.y()) + _offset))
         return true;
     return false;
