@@ -116,6 +116,6 @@ void RectFigure::resetPoints(QPointF deltaPoint)
 
 void RectFigure::calcArea()
 {
-    _area = QRectF(QPointF(min(_p1.x(), _p2.x()) - _offset, min(_p1.y(), _p1.y()) - _offset),
+    _area = QRectF(QPointF(min(_p1.x(), _p2.x()) - _offset, min(_p1.y(), _p2.y()) - _offset),
                    QPointF(max(_p1.x(), _p2.x()) + _offset, max(_p1.y(), _p2.y()) + _offset));
 }
