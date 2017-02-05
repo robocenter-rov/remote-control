@@ -84,6 +84,7 @@ RectFigure::RectFigure(QPointF p1, QPointF p2) :
 {
     _p1 = p1;
     _p2 = p2;
+    calcArea();
 }
 
 void RectFigure::draw(GraphicsScene *scene)
