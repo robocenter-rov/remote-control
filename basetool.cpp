@@ -202,7 +202,7 @@ void SelectTool::drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point)
 void SelectTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
 {
     for (auto it = _selectedFigures.begin(); it != _selectedFigures.end(); it++) {
-        QPointF deltaP(point.x()-_startPoint.x(), point.y() -_startPoint.y());
+        QPointF deltaP(point.x() - _startPoint.x(), point.y() - _startPoint.y());
         (*it)->resetPoints(deltaP);
     }
     _startPoint = point;
