@@ -9,6 +9,12 @@ Figure::Figure()
     _pen = QPen(QColor(0, 0, 127, 127));
 }
 
+void Figure::drawWithArea(GraphicsScene *scene)
+{
+    draw(scene);
+    drawArea(scene);
+}
+
 LineFigure::LineFigure(QPointF p1, QPointF p2) :
     Figure()
 {
@@ -23,10 +29,15 @@ LineFigure::LineFigure(QPointF p1, QPointF p2) :
 void LineFigure::draw(GraphicsScene *scene)
 {
     scene->addLine(_p1.x(), _p1.y(), _p2.x(), _p2.y(), _pen);
+}
+
+void LineFigure::drawArea(GraphicsScene *scene)
+{
     if (!_area.isEmpty()) {
         scene->addPolygon(_area, QPen(QColor(127, 0, 127, 127)));
     }
 }
+
 #include <math.h>
 static QPointF rotate(QPointF p, double angle)
 {
@@ -90,9 +101,6 @@ RectFigure::RectFigure(QPointF p1, QPointF p2) :
 void RectFigure::draw(GraphicsScene *scene)
 {
     scene->addRect(QRectF(_p1, _p2), _pen);
-    if (!_area.isEmpty()) {
-        scene->addRect(_area);
-    }
 }
 
 bool RectFigure::inArea(QPointF p)
@@ -119,4 +127,11 @@ void RectFigure::calcArea()
 {
     _area = QRectF(QPointF(min(_p1.x(), _p2.x()) - _offset, min(_p1.y(), _p2.y()) - _offset),
                    QPointF(max(_p1.x(), _p2.x()) + _offset, max(_p1.y(), _p2.y()) + _offset));
+}
+
+void RectFigure::drawArea(GraphicsScene *scene)
+{
+    if (!_area.isEmpty()) {
+        scene->addRect(_area, QPen(QColor(127, 0, 127, 127)));
+    }
 }
