@@ -1,5 +1,6 @@
 #include "figure.h"
 #include <QtCore>
+#include <string>
 
 #define min(x, y) (((x) < (y)) ? (x) : (y))
 #define max(x, y) (((x) > (y)) ? (x) : (y))
@@ -90,6 +91,18 @@ void LineFigure::resetPoints(QPointF deltaPoint)
     calcArea();
 }
 
+int LineFigure::length()
+{
+    return sqrt(pow(_p2.x() - _p1.x(), 2) + pow(_p2.y() - _p1.y(), 2));
+}
+
+string LineFigure::getInfo()
+{
+    string s("LineFigure: \t");
+    s += "length = "; s += length();
+    return s;
+}
+
 RectFigure::RectFigure(QPointF p1, QPointF p2) :
     Figure()
 {
@@ -162,4 +175,21 @@ void RectFigure::drawArea(GraphicsScene *scene)
     if (!_area.isEmpty()) {
         scene->addPolygon(_area, QPen(QColor(127, 0, 127, 127)));
     }
+}
+
+string RectFigure::getInfo()
+{
+    string s("RectFigure:\t");
+    s += width(); s += "x"; s += height();
+    return s;
+}
+
+int RectFigure::width()
+{
+    return sqrt(pow(_points[0].x() - _points[1].x(), 2) + pow(_points[0].y() - _points[1].y(), 2));
+}
+
+int RectFigure::height()
+{
+    return sqrt(pow(_points[3].x() - _points[3].x(), 2) + pow(_points[3].y() - _points[3].y(), 2));
 }

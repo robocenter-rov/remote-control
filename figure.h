@@ -2,6 +2,9 @@
 #define FIGURE_H
 
 #include "graphicsscene.h"
+#include <string>
+
+using namespace std;
 
 class Figure
 {
@@ -14,6 +17,7 @@ public:
     bool virtual inArea(QPointF p) { return true; }
     void virtual resetPoints(QPointF deltaPoint) {}
     void virtual calcArea() {}
+    string virtual getInfo() { return ""; }
 protected:
     QPen _pen;
     const double _offset = 3;
@@ -29,6 +33,8 @@ public:
     bool inArea(QPointF p) override;
     void resetPoints(QPointF deltaPoint) override;
     void calcArea() override;
+    string getInfo() override;
+    int length();
     QPointF rotatedEndPoint2();
 private:
     QPointF _p1;
@@ -47,7 +53,10 @@ public:
     bool inArea(QPointF p) override;
     void resetPoints(QPointF deltaPoint) override;
     void calcArea() override;
+    string getInfo() override;
     QVector <QPointF> rotatedPoints();
+    int width();
+    int height();
 private:
     QVector <QPointF> _points;
     QPointF _pCenter;
