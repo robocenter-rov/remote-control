@@ -93,45 +93,73 @@ void LineFigure::resetPoints(QPointF deltaPoint)
 RectFigure::RectFigure(QPointF p1, QPointF p2) :
     Figure()
 {
-    _p1 = p1;
-    _p2 = p2;
+    _points << QPointF(min(p1.x(), p2.x()), min(p1.y(), p2.y()))
+            << QPointF(max(p1.x(), p2.x()), min(p1.y(), p2.y()))
+            << QPointF(max(p1.x(), p2.x()), max(p1.y(), p2.y()))
+            << QPointF(min(p1.x(), p2.x()), max(p1.y(), p2.y()));
+    _pCenter = QPointF((p1.x() + p2.x())/2, (p1.y() + p2.y())/2);
+    double deltay = _points[0].y() - _points[1].y();
+    double deltax = _points[0].x() - _points[1].x();
+    _angle = atan(deltay/deltax);
     calcArea();
 }
 
 void RectFigure::draw(GraphicsScene *scene)
 {
-    scene->addRect(QRectF(_p1, _p2), _pen);
+    scene->addPolygon(QPolygonF(_points), _pen);
 }
 
 bool RectFigure::inArea(QPointF p)
 {
     calcArea();
-    if ((p.x() > min(_p1.x(), _p2.x()) - _offset) &&
-        (p.x() < max(_p1.x(), _p2.x()) + _offset) &&
-        (p.y() > min(_p1.y(), _p2.y()) - _offset) &&
-        (p.y() < max(_p1.y(), _p2.y()) + _offset))
+    QPointF t = rotate(QPointF(p.x() - _pCenter.x(), p.y() - _pCenter.y()), -_angle);
+    QVector <QPointF> points = rotatedPoints();
+    if ((t.x() > points[0].x() - _offset) &&
+        (t.x() < points[1].x() + _offset) &&
+        (t.y() > points[0].y() - _offset) &&
+        (t.y() < points[3].y() + _offset))
         return true;
     return false;
 }
 
 void RectFigure::resetPoints(QPointF deltaPoint)
 {
-    _p1.setX(_p1.x() + deltaPoint.x());
-    _p1.setY(_p1.y() + deltaPoint.y());
-    _p2.setX(_p2.x() + deltaPoint.x());
-    _p2.setY(_p2.y() + deltaPoint.y());
+    for (auto it = _points.begin(); it != _points.end(); it++) {
+        it->setX(it->x() + deltaPoint.x());
+        it->setY(it->y() + deltaPoint.y());
+    }
+    _pCenter.setX(_pCenter.x() + deltaPoint.x());
+    _pCenter.setY(_pCenter.y() + deltaPoint.y());
     calcArea();
+}
+
+QVector <QPointF> RectFigure::rotatedPoints()
+{
+    QVector <QPointF> points;
+    for (auto it = _points.begin(); it != _points.end(); it++) {
+        points.append(rotate(QPointF(it->x() - _pCenter.x(), it->y() - _pCenter.y()), -_angle));
+    }
+    return points;
 }
 
 void RectFigure::calcArea()
 {
-    _area = QRectF(QPointF(min(_p1.x(), _p2.x()) - _offset, min(_p1.y(), _p2.y()) - _offset),
-                   QPointF(max(_p1.x(), _p2.x()) + _offset, max(_p1.y(), _p2.y()) + _offset));
+    QVector <QPointF> points = rotatedPoints();
+
+    QVector <QPointF> r;
+    int i = 0, j = 0;
+    for (auto it = points.begin(); it != points.end(); it++) {
+        int signX = (i++ % 3) ? 1 : -1;
+        int signY = (j++ > 1) ? 1 : -1;
+        QPointF t = rotate(QPointF(it->x() + signX * _offset, it->y() + signY * _offset), _angle);
+        r.append(QPointF(_pCenter.x() + t.x(), _pCenter.y() + t.y()));
+    }
+    _area = QPolygonF(r);
 }
 
 void RectFigure::drawArea(GraphicsScene *scene)
 {
     if (!_area.isEmpty()) {
-        scene->addRect(_area, QPen(QColor(127, 0, 127, 127)));
+        scene->addPolygon(_area, QPen(QColor(127, 0, 127, 127)));
     }
 }

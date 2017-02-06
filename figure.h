@@ -47,10 +47,12 @@ public:
     bool inArea(QPointF p) override;
     void resetPoints(QPointF deltaPoint) override;
     void calcArea() override;
+    QVector <QPointF> rotatedPoints();
 private:
-    QPointF _p1;
-    QPointF _p2;
-    QRectF _area;
+    QVector <QPointF> _points;
+    QPointF _pCenter;
+    QPolygonF _area;
+    double _angle;
 };
 
 extern void calcPoints(QPointF &p1, QPointF &p2);
