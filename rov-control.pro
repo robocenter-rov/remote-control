@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     calcwindow.cpp \
     graphicsscene.cpp \
     basetool.cpp \
-    figure.cpp
+    figure.cpp \
+    communicator.cpp
 
 HEADERS  += mainwindow.h \
     messages.h \
@@ -40,7 +41,8 @@ HEADERS  += mainwindow.h \
     calcwindow.h \
     graphicsscene.h \
     basetool.h \
-    figure.h
+    figure.h \
+    communicator.h
 
 FORMS    += mainwindow.ui \
     startwindow.ui \

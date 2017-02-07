@@ -16,23 +16,14 @@ void MainWindow::loadQSS()
     this->setStyleSheet(styleF.readAll());
 }
 
-void MainWindow::udpSocketInit()
-{
-    _socket = new QUdpSocket(this);
-    _socket->bind(QHostAddress(IP_ADDR), PORT);
-
-    connect(_socket, SIGNAL(readyRead()), this, SLOT(readMessage()));
-}
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       _ui(new Ui::MainWindow),
       _joy(0),
-      _joyTimer(new QTimer(this))
+      _joyTimer(new QTimer(this)),
+      _communicator(new Communicator())
 {
     _ui->setupUi(this);
-    // connect(_ui->sendButton, SIGNAL(clicked(bool)), this, SLOT(onSendButtonClicked()));
-    udpSocketInit();
     joyInit();
     cameraInit();
     loadQSS();
@@ -43,26 +34,6 @@ MainWindow::~MainWindow()
     delete _ui;
     SDL_JoystickClose(_joy);
 }
-
-void MainWindow::readMessage()
-{
-    QByteArray buffer;
-    buffer.resize(_socket->pendingDatagramSize());
-
-    QHostAddress sender;
-    quint16 senderPort;
-
-    _socket->readDatagram(buffer.data(), buffer.size(), &sender, &senderPort);
-    qDebug() << "Message from: " << sender.toString();
-    qDebug() << "Message port: " << senderPort;
-    qDebug() << "Message: " << buffer;
-}
-
-void MainWindow::onSendButtonClicked()
-{
-    sendMessage("Hello, robot!");
-}
-
 
 void MainWindow::joyInit()
 {
