@@ -24,7 +24,7 @@
 #include <QWidget>
 #include <QtMultimediaWidgets>
 #include <QtGui/QtGui>
-#include <robocamera.h>
+#include "robocamera.h"
 
 #define IP_ADDR "192.168.1.177"
 #define PORT 8888
