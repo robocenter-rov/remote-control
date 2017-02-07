@@ -18,7 +18,6 @@ void MainWindow::loadQSS()
 
 void MainWindow::udpSocketInit()
 {
-    _ui->setupUi(this);
     _socket = new QUdpSocket(this);
     _socket->bind(QHostAddress(IP_ADDR), PORT);
 
@@ -31,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
       _joy(0),
       _joyTimer(new QTimer(this))
 {
+    _ui->setupUi(this);
     // connect(_ui->sendButton, SIGNAL(clicked(bool)), this, SLOT(onSendButtonClicked()));
     udpSocketInit();
     joyInit();
