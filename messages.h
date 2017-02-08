@@ -64,14 +64,6 @@ namespace Cmd {
         float angle;    // NOT SOLVED! value in degrees or radians?
     };
 
-    struct AxesValue {
-        AxesValue(int16_t a1, int16_t a2, int16_t a3, int16_t a4 = 0, int16_t a5 = 0);
-        int16_t axis0;
-        int16_t axis1;
-        int16_t axis2;
-        int16_t axis3;
-        int16_t axis4;
-    };
 } // Cmd namespace
 
 namespace Msg {
