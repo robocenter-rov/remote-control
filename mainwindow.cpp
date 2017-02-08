@@ -1,12 +1,6 @@
 #include "mainwindow.h"
 #include <iostream>
 
-QDataStream& operator<<(QDataStream &ds, const Cmd::AxesValue &msg)
-{
-    ds << msg.axis0 << " " << msg.axis1 << " " << msg.axis2 << " " << msg.axis3 << " " << msg.axis4;
-    return ds;
-}
-
 void MainWindow::loadQSS()
 {
     QFile styleF("../remote-control/qss/appstyles.css");
