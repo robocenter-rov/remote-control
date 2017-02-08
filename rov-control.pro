@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     graphicsscene.cpp \
     basetool.cpp \
     figure.cpp \
-    communicator.cpp
+    communicator.cpp \
+    joystick.cpp
 
 HEADERS  += mainwindow.h \
     messages.h \
@@ -42,7 +43,8 @@ HEADERS  += mainwindow.h \
     graphicsscene.h \
     basetool.h \
     figure.h \
-    communicator.h
+    communicator.h \
+    joystick.h
 
 FORMS    += mainwindow.ui \
     startwindow.ui \
