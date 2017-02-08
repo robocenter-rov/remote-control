@@ -64,8 +64,4 @@ namespace Cmd {
 
 } // Cmd namespace
 
-namespace Msg {
-    // TO DO
-} // Msg namespace
-
 #endif // MESSAGES_H
