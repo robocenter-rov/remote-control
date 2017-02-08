@@ -3,8 +3,6 @@
 
 #include <cstdint>
 
-enum CoordinateSystem { Global, Local };
-enum Axis { AxisX, AxisY, AxisZ };
 
 // TO DO: Add constructions, and send methods
 namespace Cmd {
