@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete _ui;
+    delete _communicator;
     SDL_JoystickClose(_joy);
 }
 

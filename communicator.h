@@ -12,8 +12,9 @@ class Communicator : public QObject
     Q_OBJECT
 public:
     Communicator();
-    template<typename T>
-    void sendMessage(T msg)
+    ~Communicator();
+    template <typename T>
+    void Communicator::sendMessage(T msg)
     {
         QByteArray buff;
         QDataStream ds(&buff, QIODevice::WriteOnly);

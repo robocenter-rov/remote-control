@@ -5,6 +5,11 @@ Communicator::Communicator()
     udpSocketInit();
 }
 
+Communicator::~Communicator()
+{
+    delete _socket;
+}
+
 void Communicator::udpSocketInit()
 {
     _socket = new QUdpSocket(this);
