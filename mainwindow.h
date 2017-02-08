@@ -3,9 +3,6 @@
 
 #include <QMainWindow>
 #include "ui_mainwindow.h"
-#include "messages.h"
-#include <QByteArray>
-#include <QDataStream>
 #include <QCamera>
 #include <QCameraInfo>
 #include <QWidget>
