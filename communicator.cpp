@@ -1,12 +1,18 @@
 #include "communicator.h"
 
-Communicator::Communicator()
+Communicator::Communicator() :
+    _joy(new Joystick()),
+    _joyTimer(new QTimer(this))
 {
+    connect(_joyTimer, SIGNAL(timeout()), this, SLOT(readAndSendJoySensors()));
+    _joyTimer->start(100);
     udpSocketInit();
 }
 
 Communicator::~Communicator()
 {
+    delete _joy;
+    delete _joyTimer;
     delete _socket;
 }
 
@@ -31,3 +37,7 @@ void Communicator::readMessage()
     qDebug() << "Message: " << buffer;
 }
 
+void Communicator::readAndSendJoySensors()
+{
+    sendMessage(_joy->getMotorsThrust());
+}

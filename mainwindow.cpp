@@ -19,12 +19,9 @@ void MainWindow::loadQSS()
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       _ui(new Ui::MainWindow),
-      _joy(0),
-      _joyTimer(new QTimer(this)),
       _communicator(new Communicator())
 {
     _ui->setupUi(this);
-    joyInit();
     cameraInit();
     loadQSS();
 }
@@ -33,44 +30,6 @@ MainWindow::~MainWindow()
 {
     delete _ui;
     delete _communicator;
-    SDL_JoystickClose(_joy);
-}
-
-void MainWindow::joyInit()
-{
-    if (SDL_Init(SDL_INIT_JOYSTICK) == 0) {
-        qDebug() << "SDL_INIT_JOYSTICK initialization was successful";
-    } else {
-        qDebug() << "SDL_INIT_JOYSTICK initialization failed";
-        qDebug() << "Error: " << SDL_GetError();
-    }
-
-    qDebug() << "NumJoysticks = " << SDL_NumJoysticks();
-    if (SDL_NumJoysticks() > 0) {
-        _joy = SDL_JoystickOpen(0);
-    }
-
-    if(_joy) {
-        qDebug() << "Opened Joystick 0";
-        qDebug() << "Name: " <<  SDL_JoystickName(0);
-        qDebug() << "Number of Axes: " << SDL_JoystickNumAxes(_joy);
-        qDebug() << "Number of Buttons: " << SDL_JoystickNumButtons(_joy);
-        qDebug() << "Number of Balls: " << SDL_JoystickNumBalls(_joy);
-    } else {
-        qDebug() << "Couldn't open Joystick 0\n";
-    }
-
-    connect(_joyTimer, SIGNAL(timeout()), this, SLOT(readAndSendJoySensors()));
-    _joyTimer->start(100);
-}
-
-void MainWindow::readAndSendJoySensors()
-{
-    SDL_JoystickUpdate();
-    Cmd::AxesValue axesValue(SDL_JoystickGetAxis(_joy, 0), SDL_JoystickGetAxis(_joy, 1),
-                             SDL_JoystickGetAxis(_joy, 2), SDL_JoystickGetAxis(_joy, 3),
-                             SDL_JoystickGetAxis(_joy, 4));
-    sendMessage(axesValue);
 }
 
 void MainWindow::cameraInit()

@@ -3,18 +3,6 @@
 
 #include <QMainWindow>
 #include "ui_mainwindow.h"
-#ifdef Q_OS_WIN32
-    #include <SDL.h>
-#endif
-#ifdef Q_OS_WIN64
-    #include <SDL.h>
-#endif
-#ifdef Q_OS_LINUX
-    #include <SDL2/SDL.h>
-#endif
-
-#undef main
-#include <QTimer>
 #include "messages.h"
 #include <QByteArray>
 #include <QDataStream>
@@ -36,17 +24,12 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();    
-private slots:
-    void readAndSendJoySensors();
-private:
-    void joyInit();
+private:   
     void cameraInit();
     void loadQSS();
     bool eventFilter(QObject *, QEvent *event);
 
     Ui::MainWindow *_ui;
-    SDL_Joystick *_joy;
-    QTimer *_joyTimer;
     RoboCamera *_mainCamera;
     Communicator *_communicator;
 };
