@@ -50,12 +50,11 @@ void Joystick::update()
 MotorsThrustMsg Joystick::getMotorsThrust()
 {
     SDL_JoystickUpdate();
-    double k = -4095.0/32767.0;
+
     return MotorsThrustMsg(
-        SDL_JoystickGetAxis(_joy, 0)*k,
-        SDL_JoystickGetAxis(_joy, 1)*k,
-        SDL_JoystickGetAxis(_joy, 2)*k,
-        SDL_JoystickGetAxis(_joy, 3)*k,
-        SDL_JoystickGetAxis(_joy, 4)*k,
-        SDL_JoystickGetAxis(_joy, 5)*k);
+        SDL_JoystickGetAxis(_joy, 0),
+        SDL_JoystickGetAxis(_joy, 1),
+        SDL_JoystickGetAxis(_joy, 2),
+        SDL_JoystickGetAxis(_joy, 3),
+        SDL_JoystickGetAxis(_joy, 4));
 }
