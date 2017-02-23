@@ -4,6 +4,10 @@
 #include <cstdint>
 #include <QDataStream>
 
+struct ThrustVector{
+    int16_t x, y, z, ty, tz;
+};
+
 class BaseMsg
 {
 public:
@@ -15,19 +19,12 @@ public:
 class MotorsThrustMsg : public BaseMsg
 {
 public:
-    MotorsThrustMsg() { _id = 1; }
+    MotorsThrustMsg() : BaseMsg(1) {}
     MotorsThrustMsg(const MotorsThrustMsg& other);
-    MotorsThrustMsg(
-        int16_t motor1Thrust, int16_t motor2Thrust, int16_t motor3Thrust,
-        int16_t motor4Thrust, int16_t motor5Thrust, int16_t motor6Thrust);
+    MotorsThrustMsg(int16_t axes0, int16_t axes1, int16_t axes2, int16_t axes3, int16_t axes4);
     friend QDataStream &operator <<(QDataStream &ds, const MotorsThrustMsg &msg);
 private:
-    int16_t _motor1Thrust;
-    int16_t _motor2Thrust;
-    int16_t _motor3Thrust;
-    int16_t _motor4Thrust;
-    int16_t _motor5Thrust;
-    int16_t _motor6Thrust;
+    ThrustVector _pos;
 };
 
 struct SetFlashLightState

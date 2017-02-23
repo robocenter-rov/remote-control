@@ -4,42 +4,44 @@
 QDataStream &operator <<(QDataStream &ds, const MotorsThrustMsg &msg)
 {
     ds << msg._id
-       << msg._motor1Thrust
-       << msg._motor2Thrust
-       << msg._motor3Thrust
-       << msg._motor4Thrust
-       << msg._motor5Thrust
-       << msg._motor6Thrust;
-    qDebug() << "id: " << msg._id
-             << "\nmotor1Thrust" << msg._motor1Thrust
-             << "\nmotor2Thrust" << msg._motor2Thrust
-             << "\nmotor3Thrust" << msg._motor3Thrust
-             << "\nmotor4Thrust" << msg._motor4Thrust
-             << "\nmotor5Thrust" << msg._motor5Thrust
-             << "\nmotor6Thrust" << msg._motor6Thrust;
+       << msg._pos.x
+       << msg._pos.y
+       << msg._pos.z
+       << msg._pos.ty
+       << msg._pos.tz;
+    qDebug() << "id  : " << msg._id
+             << "\nx  : " << msg._pos.x
+             << "\ny  : " << msg._pos.y
+             << "\nz  : " << msg._pos.z
+             << "\nty : " << msg._pos.ty
+             << "\ntz : " << msg._pos.tz;
     return ds;
 }
 
 MotorsThrustMsg::MotorsThrustMsg(const MotorsThrustMsg& other)
 {
-    this->_id = other._id;
-    this->_motor1Thrust = other._motor1Thrust;
-    this->_motor2Thrust = other._motor2Thrust;
-    this->_motor3Thrust = other._motor3Thrust;
-    this->_motor4Thrust = other._motor4Thrust;
-    this->_motor5Thrust = other._motor5Thrust;
-    this->_motor6Thrust = other._motor6Thrust;
+    _id = other._id;
+    _pos.x = other._pos.x;
+    _pos.y = other._pos.y;
+    _pos.z = other._pos.z;
+    _pos.ty = other._pos.ty;
+    _pos.tz = other._pos.tz;
 }
 
-MotorsThrustMsg::MotorsThrustMsg(
-    int16_t motor1Thrust, int16_t motor2Thrust, int16_t motor3Thrust,
-    int16_t motor4Thrust, int16_t motor5Thrust, int16_t motor6Thrust) :
-    BaseMsg(1)
+MotorsThrustMsg::MotorsThrustMsg(int16_t axes0, int16_t axes1, int16_t axes2, int16_t axes3, int16_t axes4) :
+    BaseMsg(12)
 {
-    _motor1Thrust = motor1Thrust;
-    _motor2Thrust = motor2Thrust;
-    _motor3Thrust = motor3Thrust;
-    _motor4Thrust = motor4Thrust;
-    _motor5Thrust = motor5Thrust;
-    _motor6Thrust = motor6Thrust;
+    double dist = sqrt(pow(axes1, 2) + pow(axes0, 2) + pow(axes4, 2));
+    if (dist > 1) {
+        _pos.x = axes1/dist * INT16_MAX;
+        _pos.y = axes0/dist * INT16_MAX;
+        _pos.z = axes4/dist * INT16_MAX;
+    } else {
+        _pos.x = axes1;
+        _pos.y = axes0;
+        _pos.z = axes4;
+    }
+
+    _pos.ty = 0; // pitch
+    _pos.tz = axes3; // heading
 }
