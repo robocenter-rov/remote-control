@@ -34,7 +34,6 @@ static void intersection(QPointF &p1, QPointF &p2)
              if (inRect(p2) && !inRect(p1)) { p1.setX(t.x()); p1.setY((t.y())); }
          }
     }
-    qDebug() << p2.x() << " " << p2.y();
 }
 
 BaseTool::BaseTool(QWidget *parent)
