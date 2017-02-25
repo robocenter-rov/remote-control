@@ -93,6 +93,8 @@ void LineTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
     _endPos = point;
     intersection(_startPos, _endPos);
     scene->addLine(_startPos.x(), _startPos.y(), _endPos.x(), _endPos.y(), QPen(QColor(0, 0, 255, 127)));
+    LineFigure line(_startPos, _endPos);
+    scene->addText(line.getInfo());
 }
 
 void LineTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
@@ -177,6 +179,8 @@ void RectTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
     if (!_isDraw) return;
     QRectF t(_p1, point);
     scene->addRect(QRectF(_p1, point), QPen(QColor(0, 0, 255, 127)));
+    RectFigure rect(_p1, point);
+    scene->addText(rect.getInfo());
     qDebug() << scaleCoef;
     qDebug() << "width : " << abs(t.width()/scaleCoef) << " height : " << abs(t.height()/scaleCoef);
 }
