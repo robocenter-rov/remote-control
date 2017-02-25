@@ -10,12 +10,6 @@ Figure::Figure()
     _pen = QPen(QColor(0, 0, 127, 127));
 }
 
-void Figure::drawWithArea(GraphicsScene *scene)
-{
-    draw(scene);
-    drawArea(scene);
-}
-
 LineFigure::LineFigure(QPointF p1, QPointF p2) :
     Figure()
 {

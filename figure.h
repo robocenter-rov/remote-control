@@ -13,7 +13,6 @@ public:
     ~Figure(){}
     void virtual draw(GraphicsScene *scene) {}
     void virtual drawArea(GraphicsScene *scene) {}
-    void drawWithArea(GraphicsScene *scene);
     bool virtual inArea(QPointF p) { return true; }
     void virtual resetPoints(QPointF deltaPoint) {}
     void virtual calcArea() {}
