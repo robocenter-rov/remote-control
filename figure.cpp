@@ -191,5 +191,5 @@ int RectFigure::width()
 
 int RectFigure::height()
 {
-    return sqrt(pow(_points[3].x() - _points[3].x(), 2) + pow(_points[3].y() - _points[3].y(), 2));
+    return sqrt(pow(_points[0].x() - _points[3].x(), 2) + pow(_points[0].y() - _points[3].y(), 2));
 }
