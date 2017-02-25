@@ -90,10 +90,11 @@ int LineFigure::length()
     return sqrt(pow(_p2.x() - _p1.x(), 2) + pow(_p2.y() - _p1.y(), 2));
 }
 
-string LineFigure::getInfo()
+QString LineFigure::getInfo()
 {
-    string s("LineFigure: \t");
-    s += "length = "; s += length();
+    QString s("LineFigure: \tlength = "), len;
+    len.setNum(length());
+    s.append(len);
     return s;
 }
 
@@ -171,10 +172,11 @@ void RectFigure::drawArea(GraphicsScene *scene)
     }
 }
 
-string RectFigure::getInfo()
+QString RectFigure::getInfo()
 {
-    string s("RectFigure:\t");
-    s += width(); s += "x"; s += height();
+    QString s("RectFigure:\t"), w, h;
+    w.setNum(width()); h.setNum(height());
+    s.append(w + "x" + h);
     return s;
 }
 

@@ -16,7 +16,7 @@ public:
     bool virtual inArea(QPointF p) { return true; }
     void virtual resetPoints(QPointF deltaPoint) {}
     void virtual calcArea() {}
-    string virtual getInfo() { return ""; }
+    QString virtual getInfo() { return ""; }
 protected:
     QPen _pen;
     const double _offset = 3;
@@ -32,7 +32,7 @@ public:
     bool inArea(QPointF p) override;
     void resetPoints(QPointF deltaPoint) override;
     void calcArea() override;
-    string getInfo() override;
+    QString getInfo() override;
     int length();
     QPointF rotatedEndPoint2();
 private:
@@ -52,7 +52,7 @@ public:
     bool inArea(QPointF p) override;
     void resetPoints(QPointF deltaPoint) override;
     void calcArea() override;
-    string getInfo() override;
+    QString getInfo() override;
     QVector <QPointF> rotatedPoints();
     int width();
     int height();
