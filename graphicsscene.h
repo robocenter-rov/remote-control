@@ -17,7 +17,6 @@ class GraphicsScene : public QGraphicsScene
 public:
     GraphicsScene();
     void addFigure(Figure *figure);
-    void addTextFigure(QString text);
     void addScreen(QGraphicsPixmapItem *item);
 protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
@@ -30,7 +29,6 @@ private:
     QTimer *_timer;
     QList <Figure *> _figures;
     QGraphicsPixmapItem *_screen;
-    QString _text;
 };
 
 #endif // GRAPHICSVIEW_H
