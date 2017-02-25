@@ -41,6 +41,7 @@ BaseTool::BaseTool(QWidget *parent)
     _iconsPath = (QCoreApplication::applicationDirPath() + "../remote-control/icons");
     _button = new QPushButton(parent);
     _parent = parent;
+    _isDraw = false;
 }
 
 BaseTool::~BaseTool()
@@ -77,15 +78,18 @@ LineTool::~LineTool()
 void LineTool::drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point)
 {
     _startPos = point;
+    _isDraw = true;
 }
 
 void LineTool::drawOnMousePress(GraphicsScene *scene, QPointF point)
 {
     _startPos = point;
+    _isDraw = true;
 }
 
 void LineTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
 {
+    if (!_isDraw) return;
     _endPos = point;
     intersection(_startPos, _endPos);
     scene->addLine(_startPos.x(), _startPos.y(), _endPos.x(), _endPos.y(), QPen(QColor(0, 0, 255, 127)));
@@ -98,6 +102,7 @@ void LineTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
     if (_endPos != _startPos){
         scene->addFigure(new LineFigure(_startPos, _endPos));
     }
+    _isDraw = false;
     double t = sqrt(pow(_startPos.x() - _endPos.x(), 2) + pow(_startPos.y() - _endPos.y(), 2));
     qDebug() << t/scaleCoef;
 }
@@ -145,6 +150,7 @@ void OptionTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
         std::string str(std::to_string(_spinBox->value()) + "cm in " + std::to_string(dist) + " scene coordinates");
         //scene->addTextFigure(QString(str.c_str()));
     }
+    _isDraw = false;
 }
 
 RectTool::RectTool(QWidget *parent) :
@@ -163,10 +169,12 @@ RectTool::~RectTool()
 void RectTool::drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point)
 {
     _p1 = point;
+    _isDraw = true;
 }
 
 void RectTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
 {
+    if (!_isDraw) return;
     QRectF t(_p1, point);
     scene->addRect(QRectF(_p1, point), QPen(QColor(0, 0, 255, 127)));
     qDebug() << scaleCoef;
@@ -176,10 +184,12 @@ void RectTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
 void RectTool::drawOnMousePress(GraphicsScene *scene, QPointF point)
 {
     _p1 = point;
+    _isDraw = true;
 }
 
 void RectTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
 {
+    _isDraw = false;
     _p2 = point;
     if (_p1 == _p2) return;
     scene->addFigure(new RectFigure(_p1, _p2));
@@ -191,6 +201,7 @@ SelectTool::SelectTool(QWidget *parent) :
     _button->setText("Select");
     _button->setIconSize(QSize(30, 30));
     connect(_button, SIGNAL(clicked(bool)), this, SLOT(onToolButtonClick(bool)));
+    _isDraw = false;
 }
 
 void SelectTool::drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point)
@@ -202,10 +213,13 @@ void SelectTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
 {
     for (auto it = _selectedFigures.begin(); it != _selectedFigures.end(); it++) {
         QPointF deltaP(point.x() - _startPoint.x(), point.y() - _startPoint.y());
-        (*it)->resetPoints(deltaP);
+        if (_isDraw) (*it)->resetPoints(deltaP);
+    }
+    scene->updateScene();
+    for (auto it = _selectedFigures.begin(); it != _selectedFigures.end(); it++) {
+        (*it)->drawArea(scene);
     }
     _startPoint = point;
-    scene->updateScene();
 }
 
 void SelectTool::drawOnMousePress(GraphicsScene *scene, QPointF point)
@@ -215,17 +229,16 @@ void SelectTool::drawOnMousePress(GraphicsScene *scene, QPointF point)
     scene->updateScene();
     for (auto it = scene->_figures.rbegin(); it != scene->_figures.rend(); it++) {
         if ((*it)->inArea(point)){
-            (*it)->drawWithArea(scene);
+            _isDraw = true;
+            (*it)->drawArea(scene);
             _selectedFigures.append(*it);
             return;
         }
     }
+    _isDraw = false;
 }
 
 void SelectTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
 {
-    for (auto it = _selectedFigures.begin(); it != _selectedFigures.end(); it++) {
-        (*it)->drawArea(scene);
-    }
-    scene->update();
+    _isDraw = false;
 }

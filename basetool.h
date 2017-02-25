@@ -26,6 +26,7 @@ protected:
     QPushButton *_button;
     QString _iconsPath;
     QWidget *_parent;
+    bool _isDraw;
 private slots:
     void onToolButtonClick(bool checked = false);
 };
