@@ -30,6 +30,7 @@ void LineFigure::drawArea(GraphicsScene *scene)
 {
     if (!_area.isEmpty()) {
         scene->addPolygon(_area, QPen(QColor(127, 0, 127, 127)));
+        scene->addText(getInfo());
     }
 }
 
@@ -169,6 +170,7 @@ void RectFigure::drawArea(GraphicsScene *scene)
 {
     if (!_area.isEmpty()) {
         scene->addPolygon(_area, QPen(QColor(127, 0, 127, 127)));
+        scene->addText(getInfo());
     }
 }
 
