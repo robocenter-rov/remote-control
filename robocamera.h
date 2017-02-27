@@ -17,6 +17,7 @@ public:
     QGraphicsScene *getScene() const;
     QImage getLastSavedImage();
     void imageCapture();
+    void addVideoWidget();
 private:
     void sceneInit();
     QCamera *_camera = nullptr;

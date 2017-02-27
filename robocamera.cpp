@@ -43,8 +43,7 @@ QGraphicsScene *RoboCamera::getScene() const
 void RoboCamera::sceneInit()
 {
     _scene = new QGraphicsScene();
-    _videoWidget = new QVideoWidget();
-    _scene->addWidget(_videoWidget);
+    addVideoWidget();
 }
 
 void RoboCamera::imageCapture()
@@ -61,4 +60,10 @@ void RoboCamera::imageCapture()
 QImage RoboCamera::getLastSavedImage()
 {
     return _lastSavedImg;
+}
+
+void RoboCamera::addVideoWidget()
+{
+    if (_videoWidget == nullptr) _videoWidget = new QVideoWidget();
+    _scene->addWidget(_videoWidget);
 }
