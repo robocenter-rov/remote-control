@@ -71,6 +71,7 @@ protected:
     QPointF _p1;
     QPointF _p2;
 };
+
 extern QList <BaseTool *> tools;
 extern BaseTool *currentTool;
 extern double scaleCoef;
