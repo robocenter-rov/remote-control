@@ -27,6 +27,7 @@ private:
     void loadQSS();
     void clearScene();
     bool eventFilter(QObject *, QEvent *event);
+    void showMessage(QString msg, QColor msgColor = QColor(0, 204, 102));
 
     Ui::MainWindow *_ui;
     RoboCamera *_mainCamera;

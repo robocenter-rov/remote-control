@@ -88,3 +88,14 @@ void MainWindow::clearScene()
         _ui->mainView->scene()->removeItem(dynamic_cast<QGraphicsItem *>(*it));
     }
 }
+
+void MainWindow::showMessage(QString msg, QColor msgColor)
+{
+    updateDepth();
+    QGraphicsScene *scene = _ui->mainView->scene();
+    scene->addRect(0, 0, scene->width(), 24, QPen(msgColor), QBrush(msgColor));
+
+    QGraphicsTextItem *text = scene->addText(msg, QFont("Times", 10));
+    text->setPos(QPointF(scene->width()/2 - 24, 0));
+    text->setDefaultTextColor(QColor(255, 255, 255));
+}
