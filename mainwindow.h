@@ -25,6 +25,7 @@ public:
 private:   
     void cameraInit();
     void loadQSS();
+    void clearScene();
     bool eventFilter(QObject *, QEvent *event);
 
     Ui::MainWindow *_ui;
