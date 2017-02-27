@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     _ui->setupUi(this);
     cameraInit();
     loadQSS();
+    updateDepth();
 }
 
 MainWindow::~MainWindow()
@@ -38,4 +39,30 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         return true;
     }
     return false;
+}
+
+void MainWindow::updateDepth()
+{
+    QList<QGraphicsItem *> t = _ui->mainView->scene()->items();
+    for (auto it = t.begin(); it != t.end(); it++) {
+        if (it == t.begin()) continue;
+        _ui->mainView->scene()->removeItem(dynamic_cast<QGraphicsItem *>(*it));
+    }
+    qreal h = _ui->mainView->scene()->height()/15;
+    qreal middle_y = _ui->mainView->scene()->height()/2;
+
+    QString s;
+    qreal height = _ui->mainView->scene()->height();
+
+    for (qreal i = middle_y; i < height; i += h){
+        _ui->mainView->scene()->addLine(0, i, 10, i);
+        s.clear(); s.setNum(i);
+        _ui->mainView->scene()->addText(s)->setPos(QPointF(15.0, i - 12));
+    }
+
+    for (qreal i = middle_y - h; i > 0; i -= h){
+        _ui->mainView->scene()->addLine(0, i, 10, i);
+        s.clear(); s.setNum(i);
+        _ui->mainView->scene()->addText(s)->setPos(QPointF(15.0, i - 12));
+    }
 }
