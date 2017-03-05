@@ -31,6 +31,11 @@ MotorsThrustMsg::MotorsThrustMsg(const MotorsThrustMsg& other)
 MotorsThrustMsg::MotorsThrustMsg(int16_t axes0, int16_t axes1, int16_t axes2, int16_t axes3, int16_t axes4) :
     BaseMsg(12)
 {
+    int eps = 4000;
+    axes1 = (abs(axes1) < eps) ? 0 : axes1;
+    axes0 = (abs(axes0) < eps) ? 0 : axes0;
+    axes4 = (abs(axes4) < eps) ? 0 : axes4;
+
     double dist = sqrt(pow(axes1, 2) + pow(axes0, 2) + pow(axes4, 2));
 
     if (dist > INT16_MAX) {
