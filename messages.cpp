@@ -14,7 +14,8 @@ QDataStream &operator <<(QDataStream &ds, const MotorsThrustMsg &msg)
              << "\ny  : " << msg._pos.y
              << "\nz  : " << msg._pos.z
              << "\nty : " << msg._pos.ty
-             << "\ntz : " << msg._pos.tz;
+             << "\ntz : " << msg._pos.tz
+             << "\n";
     return ds;
 }
 
