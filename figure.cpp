@@ -1,6 +1,7 @@
 #include "figure.h"
 #include <QtCore>
 #include <string>
+#include "basetool.h"
 
 #define min(x, y) (((x) < (y)) ? (x) : (y))
 #define max(x, y) (((x) > (y)) ? (x) : (y))
@@ -94,7 +95,7 @@ int LineFigure::length()
 QString LineFigure::getInfo()
 {
     QString s("LineFigure: \tlength = "), len;
-    len.setNum(length());
+    len.setNum(length()/scaleCoef);
     s.append(len);
     return s;
 }
@@ -177,7 +178,7 @@ void RectFigure::drawArea(GraphicsScene *scene)
 QString RectFigure::getInfo()
 {
     QString s("RectFigure:\t"), w, h;
-    w.setNum(width()); h.setNum(height());
+    w.setNum(width()/scaleCoef); h.setNum(height()/scaleCoef);
     s.append(w + "x" + h);
     return s;
 }
