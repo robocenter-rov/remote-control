@@ -32,7 +32,8 @@ MotorsThrustMsg::MotorsThrustMsg(int16_t axes0, int16_t axes1, int16_t axes2, in
     BaseMsg(12)
 {
     double dist = sqrt(pow(axes1, 2) + pow(axes0, 2) + pow(axes4, 2));
-    if (dist > 1) {
+
+    if (dist > INT16_MAX) {
         _pos.x = axes1/dist * INT16_MAX;
         _pos.y = axes0/dist * INT16_MAX;
         _pos.z = axes4/dist * INT16_MAX;
