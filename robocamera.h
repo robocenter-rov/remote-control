@@ -11,15 +11,15 @@
 class RoboCamera
 {
 public:
-    RoboCamera();
-    RoboCamera(QGraphicsView *gv, QObject *gv_parent, const QByteArray &deviceName);
+    RoboCamera(QGraphicsScene *scene = nullptr);
+    RoboCamera(QGraphicsView *gv, QObject *gv_parent, const QByteArray &deviceName, QGraphicsScene *scene = nullptr);
     ~RoboCamera();
     QGraphicsScene *getScene() const;
     QImage getLastSavedImage();
     void imageCapture();
     void addVideoWidget();
 private:
-    void sceneInit();
+    void sceneInit(QGraphicsScene *scene = nullptr);
     QCamera *_camera = nullptr;
     QGraphicsScene *_scene = nullptr;
     QVideoWidget *_videoWidget = nullptr;

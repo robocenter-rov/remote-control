@@ -1,15 +1,14 @@
 #include "robocamera.h"
 
-RoboCamera::RoboCamera()
+RoboCamera::RoboCamera(QGraphicsScene *scene)
 {
-    sceneInit();
+    sceneInit(scene);
 }
 
-RoboCamera::RoboCamera(QGraphicsView *gv, QObject *gv_parent, const QByteArray &deviceName = "")
+RoboCamera::RoboCamera(QGraphicsView *gv, QObject *gv_parent, const QByteArray &deviceName = "", QGraphicsScene *scene)
 {
     /* DO : use deviceName */
-
-    sceneInit();
+    sceneInit(scene);
 
     _camera = new QCamera();
     _imageCapture = new QCameraImageCapture(_camera);
@@ -40,9 +39,10 @@ QGraphicsScene *RoboCamera::getScene() const
     return this->_scene;
 }
 
-void RoboCamera::sceneInit()
+void RoboCamera::sceneInit(QGraphicsScene *scene)
 {
-    _scene = new QGraphicsScene();
+    if (scene == nullptr) _scene = new QGraphicsScene();
+    else _scene = scene;
     addVideoWidget();
 }
 
