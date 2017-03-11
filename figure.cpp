@@ -22,12 +22,12 @@ LineFigure::LineFigure(QPointF p1, QPointF p2) :
     calcArea();
 }
 
-void LineFigure::draw(GraphicsScene *scene)
+void LineFigure::draw(QGraphicsScene *scene)
 {
     scene->addLine(_p1.x(), _p1.y(), _p2.x(), _p2.y(), _pen);
 }
 
-void LineFigure::drawArea(GraphicsScene *scene)
+void LineFigure::drawArea(QGraphicsScene *scene)
 {
     if (!_area.isEmpty()) {
         scene->addPolygon(_area, QPen(QColor(127, 0, 127, 127)));
@@ -120,7 +120,7 @@ RectFigure::RectFigure(QPointF p1, QPointF p2) :
     calcArea();
 }
 
-void RectFigure::draw(GraphicsScene *scene)
+void RectFigure::draw(QGraphicsScene *scene)
 {
     scene->addPolygon(QPolygonF(_points), _pen);
 }
@@ -173,7 +173,7 @@ void RectFigure::calcArea()
     _area = QPolygonF(r);
 }
 
-void RectFigure::drawArea(GraphicsScene *scene)
+void RectFigure::drawArea(QGraphicsScene *scene)
 {
     if (!_area.isEmpty()) {
         scene->addPolygon(_area, QPen(QColor(127, 0, 127, 127)));

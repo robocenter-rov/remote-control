@@ -11,8 +11,8 @@ class Figure
 public:
     Figure();
     ~Figure(){}
-    void virtual draw(GraphicsScene *scene) {}
-    void virtual drawArea(GraphicsScene *scene) {}
+    void virtual draw(QGraphicsScene *scene) {}
+    void virtual drawArea(QGraphicsScene *scene) {}
     bool virtual inArea(QPointF p) { return true; }
     void virtual resetPoints(QPointF deltaPoint) {}
     void virtual calcArea() {}
@@ -27,8 +27,8 @@ class LineFigure : public Figure
 public:
     LineFigure(QPointF p1, QPointF p2);
     ~LineFigure(){}
-    void draw(GraphicsScene *scene) override;
-    void drawArea(GraphicsScene *scene) override;
+    void draw(QGraphicsScene *scene) override;
+    void drawArea(QGraphicsScene *scene) override;
     bool inArea(QPointF p) override;
     void resetPoints(QPointF deltaPoint) override;
     void calcArea() override;
@@ -47,8 +47,8 @@ class RectFigure : public Figure
 public:
     RectFigure(QPointF p1, QPointF p2);
     ~RectFigure(){}
-    void draw(GraphicsScene *scene) override;
-    void drawArea(GraphicsScene *scene) override;
+    void draw(QGraphicsScene *scene) override;
+    void drawArea(QGraphicsScene *scene) override;
     bool inArea(QPointF p) override;
     void resetPoints(QPointF deltaPoint) override;
     void calcArea() override;
