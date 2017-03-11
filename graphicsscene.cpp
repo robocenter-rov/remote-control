@@ -58,7 +58,8 @@ void GraphicsScene::addScreen(QGraphicsPixmapItem *item)
 
 VideoGraphicsScene::VideoGraphicsScene() : QGraphicsScene()
 {
-
+    _timer = nullptr;
+    _screenItem = nullptr;
 }
 
 void VideoGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
