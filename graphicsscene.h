@@ -42,9 +42,18 @@ public:
     void setCamera(RoboCamera *camera);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
+private slots:
+    void updateAnimationMakeScreen();
 private:
+    void clearTimer();
+    void clearScreenItem();
+    void startNewAnimation();
     RoboCamera *_mainCamera;
     QGraphicsPixmapItem *_screen;
+    QTimer *_timer;
+    QPixmap _pic;
+    double _picOpacity;
+    QGraphicsPixmapItem *_screenItem;
 };
 
 #endif // GRAPHICSVIEW_H

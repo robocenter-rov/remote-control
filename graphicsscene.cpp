@@ -70,7 +70,10 @@ void VideoGraphicsScene::makeScreen()
 {
     _mainCamera->imageCapture();
     if (!_mainCamera->getLastSavedImage().isNull()) {
-        _screen->setPixmap(QPixmap::fromImage(_mainCamera->getLastSavedImage()));
+        _picOpacity = 1.0;
+        _pic = QPixmap::fromImage(_mainCamera->getLastSavedImage());
+        _screen->setPixmap(_pic);
+        startNewAnimation();
     } else {
         qDebug() << "Screen not found\n";
     }
@@ -84,4 +87,44 @@ void VideoGraphicsScene::setCamera(RoboCamera *camera)
 void VideoGraphicsScene::addScreen(QGraphicsPixmapItem *item)
 {
     _screen = item;
+}
+
+void VideoGraphicsScene::startNewAnimation()
+{
+    clearTimer();
+    _timer = new QTimer();
+    _timer->setInterval(100);
+    connect(_timer, SIGNAL(timeout()), this, SLOT(updateAnimationMakeScreen()));
+    _timer->start();
+}
+
+void VideoGraphicsScene::updateAnimationMakeScreen()
+{
+    clearScreenItem();
+    if (_picOpacity < 0.1) {
+        clearTimer();
+        return;
+    }
+    _picOpacity -= 0.1;
+    QImage img(_pic.width(), _pic.height(), QImage::Format_ARGB32_Premultiplied);
+    img.fill(QColor(255, 255, 255, _picOpacity*255));
+    _screenItem = new QGraphicsPixmapItem(QPixmap::fromImage(img));
+    addItem(_screenItem);
+}
+
+void VideoGraphicsScene::clearTimer()
+{
+    if (_timer != nullptr) {
+        _timer->stop();
+        delete _timer;
+        _timer = nullptr;
+    }
+}
+
+void VideoGraphicsScene::clearScreenItem()
+{
+    if (_screenItem != nullptr) {
+        delete _screenItem;
+        _screenItem = nullptr;
+    }
 }
