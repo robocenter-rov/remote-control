@@ -19,6 +19,7 @@ public:
     void virtual drawOnMousePress(GraphicsScene *scene, QPointF point) {}
     void virtual drawOnMouseMove(GraphicsScene *scene, QPointF point) {}
     void virtual drawOnMouseRelease(GraphicsScene *scene, QPointF point) {}
+    void virtual destroyProperties() {}
 protected:
     QString _iconsPath;
     QWidget *_parent;
@@ -35,6 +36,7 @@ public:
     void drawOnMousePress(GraphicsScene *scene, QPointF point) override;
     void drawOnMouseMove(GraphicsScene *scene, QPointF point) override;
     void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
+    void destroyProperties() override;
 private slots:
     void calcScaleCoef();
 protected:

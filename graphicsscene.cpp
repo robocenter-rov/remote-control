@@ -85,6 +85,7 @@ void VideoGraphicsScene::makeScreen()
     if (!_mainCamera->getLastSavedImage().isNull()) {
         _picOpacity = 1.0;
         scaleCoef = 0;
+        currentTool->destroyProperties();
         if (_screenScene != nullptr) {
             _screenScene->clearScene();
             _screenScene->addScreen(_screen);

@@ -103,6 +103,15 @@ void LineTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
     }
 }
 
+void LineTool::destroyProperties()
+{
+    if (_spinBox != nullptr) {
+        _spinBox->~QDoubleSpinBox();
+        _spinBox = nullptr;
+        scaleCoef = 0.0;
+    }
+}
+
 void LineTool::calcScaleCoef()
 {
     double dist = sqrt(pow(_startPos.x() - _endPos.x(), 2) + pow(_startPos.y() - _endPos.y(), 2));
