@@ -5,8 +5,8 @@
 #include "messages.h"
 #include "joystick.h"
 
-#define IP_ADDR "127.0.0.1" //"192.168.1.177"
-#define PORT 8000 //8888
+#define IP_ADDR "192.168.0.50"
+#define PORT 3000
 
 class Communicator : public QObject
 {
