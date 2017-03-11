@@ -58,11 +58,4 @@ bool CalcWindow::eventFilter(QObject *, QEvent *event)
 void CalcWindow::generateTools()
 {
     currentTool = new LineTool(_ui->toolsWidget);
-    tools.append(new OptionTool(_ui->toolsWidget));
-    tools.append(currentTool);
-    tools.append(new RectTool(_ui->toolsWidget));
-    tools.append(new SelectTool(_ui->toolsWidget));
-    int i = 0;
-    for (auto it = tools.begin(); it != tools.end(); it++)
-        (*it)->setLevel(i++);
 }
