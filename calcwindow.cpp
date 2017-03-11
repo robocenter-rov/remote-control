@@ -36,6 +36,8 @@ CalcWindow::CalcWindow(QWidget *parent) :
     loadQSS();
     generateTools();
     connect(_ui->screensTab, SIGNAL(currentChanged(int)), this, SLOT(changedTabIndex()));
+    _clearButton = new QPushButton(_ui->toolsWidget);
+    initClearButton();
 }
 
 CalcWindow::~CalcWindow()
@@ -75,4 +77,15 @@ void CalcWindow::changedTabIndex()
         _mapScene->setSceneRect(_ui->videoView->sceneRect());
         _mapScene->updateScene();
     }
+}
+
+void CalcWindow::initClearButton() {
+    _clearButton->setText("Clear");
+    _clearButton->setIconSize(QSize(30, 30));
+    connect(_clearButton, SIGNAL(clicked(bool)), this, SLOT(clearScreenView()));
+}
+
+void CalcWindow::clearScreenView()
+{
+    _mapScene->clearScene();
 }

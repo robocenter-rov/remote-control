@@ -94,6 +94,7 @@ void LineTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
     if (scaleCoef == 0) {
         if (_spinBox == nullptr) {
             _spinBox = new QDoubleSpinBox(_parent);
+            _spinBox->setGeometry(_spinBox->x(), _spinBox->y() + 34, _spinBox->width(), _spinBox->height());
             _spinBox->setMinimum(0.1);
             _spinBox->setMaximum(1000);
             _spinBox->show();

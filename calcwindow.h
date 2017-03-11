@@ -6,6 +6,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsSceneEvent>
 #include "robocamera.h"
+#include <QPushButton>
 
 namespace Ui {
 class CalcWindow;
@@ -19,15 +20,16 @@ class BaseTool;
 class CalcWindow : public QMainWindow
 {
     Q_OBJECT
-
 public:
     explicit CalcWindow(QWidget *parent = 0);
     ~CalcWindow();
 private slots:
     void changedTabIndex();
+    void clearScreenView();
 private:
     void loadQSS();
     void generateTools();
+    void initClearButton();
     bool eventFilter(QObject *, QEvent *event);
     void onScreenViewMousePressEvent(QMouseEvent *event);
 
@@ -37,6 +39,7 @@ private:
     VideoGraphicsScene *_videoScene;
     MapGraphicsScene *_mapScene;
     QGraphicsPixmapItem _screen;
+    QPushButton *_clearButton;
 };
 
 #endif // CALCWINDOW_H
