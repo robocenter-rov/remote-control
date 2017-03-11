@@ -27,6 +27,7 @@ protected:
 
 class LineTool: public BaseTool
 {
+    Q_OBJECT
 public:
     LineTool(QWidget *parent = nullptr);
     ~LineTool();
@@ -34,6 +35,8 @@ public:
     void drawOnMousePress(GraphicsScene *scene, QPointF point) override;
     void drawOnMouseMove(GraphicsScene *scene, QPointF point) override;
     void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
+private slots:
+    void calcScaleCoef();
 protected:
     QPointF _startPos;
     QPointF _endPos;

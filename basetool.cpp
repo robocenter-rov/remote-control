@@ -51,6 +51,7 @@ BaseTool::~BaseTool()
 LineTool::LineTool(QWidget *parent):
     BaseTool(parent)
 {
+    _spinBox = nullptr;
 }
 
 LineTool::~LineTool()
@@ -88,10 +89,21 @@ void LineTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
         scene->addFigure(new LineFigure(_startPos, _endPos));
     }
     _isDraw = false;
+    if (scaleCoef == 0) {
+        if (_spinBox == nullptr) {
+            _spinBox = new QDoubleSpinBox(_parent);
+            _spinBox->setMinimum(0.1);
+            _spinBox->setMaximum(1000);
+            _spinBox->show();
+            connect(_spinBox, SIGNAL(valueChanged(double)), this, SLOT(calcScaleCoef()));
+        }
     }
 }
 
+void LineTool::calcScaleCoef()
 {
+    double dist = sqrt(pow(_startPos.x() - _endPos.x(), 2) + pow(_startPos.y() - _endPos.y(), 2));
+    scaleCoef = dist/_spinBox->value();
 }
 
 #include <string>
