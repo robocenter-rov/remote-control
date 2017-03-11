@@ -61,4 +61,13 @@ private:
     GraphicsScene *_screenScene;
 };
 
+class MapGraphicsScene : public QGraphicsScene
+{
+    Q_OBJECT
+public:
+    MapGraphicsScene();
+    void updateScene();
+    void clearScene();
+};
+
 #endif // GRAPHICSVIEW_H

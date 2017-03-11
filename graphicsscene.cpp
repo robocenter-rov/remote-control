@@ -150,3 +150,25 @@ void VideoGraphicsScene::addScreenView(GraphicsScene *screenScene)
 {
     _screenScene = screenScene;
 }
+
+MapGraphicsScene::MapGraphicsScene() : QGraphicsScene()
+{
+
+}
+
+void MapGraphicsScene::updateScene()
+{
+    for (auto it = figures.begin(); it != figures.end(); it++)
+        (dynamic_cast<Figure *>(*it))->draw(this);
+}
+
+void MapGraphicsScene::clearScene()
+{
+    QList<QGraphicsItem *> t = items();
+    for (auto it = t.begin(); it != t.end(); it++) {
+        QGraphicsScene::removeItem(dynamic_cast<QGraphicsItem *>(*it));
+    }
+    for (auto it = figures.begin(); it != figures.end(); it++)
+        (dynamic_cast<Figure *>(*it))->~Figure();
+}
+
