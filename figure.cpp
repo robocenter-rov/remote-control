@@ -94,7 +94,7 @@ int LineFigure::length()
 
 QString LineFigure::getInfo()
 {
-    QString s("LineFigure: \tlength = "), len;
+    QString s, len;
     len.setNum(length());
     s.append(len);
     s.append(" spt");
