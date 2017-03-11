@@ -95,8 +95,14 @@ int LineFigure::length()
 QString LineFigure::getInfo()
 {
     QString s("LineFigure: \tlength = "), len;
-    len.setNum(length()/scaleCoef);
+    len.setNum(length());
     s.append(len);
+    s.append(" spt");
+    if (scaleCoef) {
+        s.append("\n");
+        s.append(len.setNum(length()/scaleCoef));
+        s.append(" cm");
+    }
     return s;
 }
 
