@@ -46,7 +46,7 @@ void CalcWindow::loadQSS()
 
 bool CalcWindow::eventFilter(QObject *, QEvent *event)
 {
-    if(event->type() == QEvent::Resize ) {
+    if(event->type() == QEvent::Resize) {
         _ui->videoView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
         _ui->screensView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
         return true;
