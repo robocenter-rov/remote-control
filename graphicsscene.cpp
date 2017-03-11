@@ -2,6 +2,7 @@
 #include "basetool.h"
 #include "figure.h"
 #include <QGraphicsItem>
+#include "robocamera.h"
 
 QList <BaseTool *> tools;
 BaseTool *currentTool;
@@ -52,5 +53,35 @@ void GraphicsScene::addFigure(Figure *figure)
 void GraphicsScene::addScreen(QGraphicsPixmapItem *item)
 {
     addItem(item);
+    _screen = item;
+}
+
+VideoGraphicsScene::VideoGraphicsScene() : QGraphicsScene()
+{
+
+}
+
+void VideoGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    makeScreen();
+}
+
+void VideoGraphicsScene::makeScreen()
+{
+    _mainCamera->imageCapture();
+    if (!_mainCamera->getLastSavedImage().isNull()) {
+        _screen->setPixmap(QPixmap::fromImage(_mainCamera->getLastSavedImage()));
+    } else {
+        qDebug() << "Screen not found\n";
+    }
+}
+
+void VideoGraphicsScene::setCamera(RoboCamera *camera)
+{
+    _mainCamera = camera;
+}
+
+void VideoGraphicsScene::addScreen(QGraphicsPixmapItem *item)
+{
     _screen = item;
 }

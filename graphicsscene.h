@@ -9,6 +9,7 @@
 class Figure;
 class LineFigure;
 class SelectTool;
+class RoboCamera;
 
 class GraphicsScene : public QGraphicsScene
 {
@@ -28,6 +29,21 @@ private slots:
 private:
     QTimer *_timer;
     QList <Figure *> _figures;
+    QGraphicsPixmapItem *_screen;
+};
+
+class VideoGraphicsScene : public QGraphicsScene
+{
+    Q_OBJECT
+public:
+    VideoGraphicsScene();
+    void addScreen(QGraphicsPixmapItem *item);
+    void makeScreen();
+    void setCamera(RoboCamera *camera);
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+private:
+    RoboCamera *_mainCamera;
     QGraphicsPixmapItem *_screen;
 };
 
