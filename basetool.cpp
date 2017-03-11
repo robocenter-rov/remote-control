@@ -105,99 +105,13 @@ void LineTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
         scene->addFigure(new LineFigure(_startPos, _endPos));
     }
     _isDraw = false;
-    double t = sqrt(pow(_startPos.x() - _endPos.x(), 2) + pow(_startPos.y() - _endPos.y(), 2));
-    qDebug() << t/scaleCoef;
-}
-
-OptionTool::OptionTool(QWidget *parent) : LineTool(parent)
-{
-    _spinBox = nullptr;
-    _button->setText("Scale option");
-    _button->setIconSize(QSize(30, 30));
-    connect(_button, SIGNAL(clicked(bool)), this, SLOT(onToolButtonClick(bool)));
-}
-
-OptionTool::~OptionTool()
-{
-    if (_spinBox != nullptr) {
-        delete _spinBox;
     }
 }
 
-void OptionTool::createToolProperties()
 {
-    _spinBox = new QDoubleSpinBox(_parent);
-    _spinBox->setGeometry(_spinBox->x(), _spinBox->y() + tools.size()*34, _spinBox->width(), _spinBox->height());
-    _spinBox->setMinimum(0.1);
-    _spinBox->show();
-}
-
-void OptionTool::deleteToolProperties()
-{
-    delete _spinBox;
 }
 
 #include <string>
-
-void OptionTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
-{
-    _endPos = point;
-    intersection(_startPos, _endPos);
-    if (_endPos != _startPos){
-        //scene->addFigure(new LineFigure(_startPos, _endPos));
-
-        double dist = sqrt(pow(_startPos.x() - _endPos.x(), 2) + pow(_startPos.y() - _endPos.y(), 2));
-        scaleCoef = dist / _spinBox->value();
-
-        std::string str(std::to_string(_spinBox->value()) + "cm in " + std::to_string(dist) + " scene coordinates");
-        //scene->addTextFigure(QString(str.c_str()));
-    }
-    _isDraw = false;
-}
-
-RectTool::RectTool(QWidget *parent) :
-    BaseTool(parent)
-{
-    _button->setText("Rect");
-    _button->setIconSize(QSize(30, 30));
-    connect(_button, SIGNAL(clicked(bool)), this, SLOT(onToolButtonClick(bool)));
-}
-
-RectTool::~RectTool()
-{
-
-}
-
-void RectTool::drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point)
-{
-    _p1 = point;
-    _isDraw = true;
-}
-
-void RectTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
-{
-    if (!_isDraw) return;
-    QRectF t(_p1, point);
-    scene->addRect(QRectF(_p1, point), QPen(QColor(0, 0, 255, 127)));
-    RectFigure rect(_p1, point);
-    scene->addText(rect.getInfo());
-    qDebug() << scaleCoef;
-    qDebug() << "width : " << abs(t.width()/scaleCoef) << " height : " << abs(t.height()/scaleCoef);
-}
-
-void RectTool::drawOnMousePress(GraphicsScene *scene, QPointF point)
-{
-    _p1 = point;
-    _isDraw = true;
-}
-
-void RectTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
-{
-    _isDraw = false;
-    _p2 = point;
-    if (_p1 == _p2) return;
-    scene->addFigure(new RectFigure(_p1, _p2));
-}
 
 SelectTool::SelectTool(QWidget *parent) :
     BaseTool(parent)

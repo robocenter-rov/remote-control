@@ -44,32 +44,7 @@ protected:
     QPointF _startPos;
     QPointF _endPos;
     LineFigure *_line;
-};
-
-class OptionTool : public LineTool
-{
-public:
-    OptionTool(QWidget *parent = nullptr);
-    ~OptionTool();
-    void createToolProperties() override;
-    void deleteToolProperties() override;
-    void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
-protected:
     QDoubleSpinBox *_spinBox;
-};
-
-class RectTool : public BaseTool
-{
-public:
-    RectTool(QWidget *parent = nullptr);
-    ~RectTool();
-    void drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point) override;
-    void drawOnMousePress(GraphicsScene *scene, QPointF point) override;
-    void drawOnMouseMove(GraphicsScene *scene, QPointF point) override;
-    void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
-protected:
-    QPointF _p1;
-    QPointF _p2;
 };
 
 extern QList <BaseTool *> tools;
