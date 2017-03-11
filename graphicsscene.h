@@ -11,6 +11,8 @@ class LineFigure;
 class SelectTool;
 class RoboCamera;
 
+extern QList <Figure *> figures;
+
 class GraphicsScene : public QGraphicsScene
 {
     Q_OBJECT
@@ -29,7 +31,6 @@ private slots:
     void updateScene();
 private:
     QTimer *_timer;
-    QList <Figure *> _figures;
     QGraphicsPixmapItem *_screen;
 };
 

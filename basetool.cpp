@@ -6,7 +6,9 @@
 
 #define SCENE_WIDTH 640
 #define SCENE_HEIGHT 480
+
 double scaleCoef;
+QList <Figure *> figures;
 
 static bool inRect(QPointF p)
 {
@@ -137,7 +139,7 @@ void SelectTool::drawOnMousePress(GraphicsScene *scene, QPointF point)
     _startPoint = point;
     _selectedFigures.clear();
     scene->updateScene();
-    for (auto it = scene->_figures.rbegin(); it != scene->_figures.rend(); it++) {
+    for (auto it = figures.rbegin(); it != figures.rend(); it++) {
         if ((*it)->inArea(point)){
             _isDraw = true;
             (*it)->drawArea(scene);

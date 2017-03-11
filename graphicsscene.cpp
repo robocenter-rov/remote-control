@@ -41,7 +41,7 @@ void GraphicsScene::updateScene()
         QGraphicsScene::removeItem(dynamic_cast<QGraphicsItem *>(*it));
     }
     addItem(_screen);
-    for (auto it = _figures.begin(); it != _figures.end(); it++)
+    for (auto it = figures.begin(); it != figures.end(); it++)
         (dynamic_cast<Figure *>(*it))->draw(this);
 }
 
@@ -51,13 +51,13 @@ void GraphicsScene::clearScene()
     for (auto it = t.begin(); it != t.end(); it++) {
         QGraphicsScene::removeItem(dynamic_cast<QGraphicsItem *>(*it));
     }
-    for (auto it = _figures.begin(); it != _figures.end(); it++)
+    for (auto it = figures.begin(); it != figures.end(); it++)
         (dynamic_cast<Figure *>(*it))->~Figure();
 }
 
 void GraphicsScene::addFigure(Figure *figure)
 {
-    _figures.append(figure);
+    figures.append(figure);
 }
 
 void GraphicsScene::addScreen(QGraphicsPixmapItem *item)
