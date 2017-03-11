@@ -15,7 +15,7 @@ class BaseTool : public QObject
 public:
     BaseTool(QWidget *parent = nullptr);
     virtual ~BaseTool();
-    void virtual drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point) { }
+    void virtual drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point) {}
     void virtual drawOnMousePress(GraphicsScene *scene, QPointF point) {}
     void virtual drawOnMouseMove(GraphicsScene *scene, QPointF point) {}
     void virtual drawOnMouseRelease(GraphicsScene *scene, QPointF point) {}
