@@ -71,6 +71,7 @@ VideoGraphicsScene::VideoGraphicsScene() : QGraphicsScene()
     _timer = nullptr;
     _screenItem = nullptr;
     _screenScene = nullptr;
+    _mapScene = nullptr;
 }
 
 void VideoGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -87,6 +88,9 @@ void VideoGraphicsScene::makeScreen()
         if (_screenScene != nullptr) {
             _screenScene->clearScene();
             _screenScene->addScreen(_screen);
+        }
+        if (_mapScene != nullptr) {
+            _mapScene->clearScene();
         }
         _pic = QPixmap::fromImage(_mainCamera->getLastSavedImage());
         _screen->setPixmap(_pic);
@@ -149,6 +153,11 @@ void VideoGraphicsScene::clearScreenItem()
 void VideoGraphicsScene::addScreenView(GraphicsScene *screenScene)
 {
     _screenScene = screenScene;
+}
+
+void VideoGraphicsScene::addMapScene(MapGraphicsScene *mapScene)
+{
+    _mapScene = mapScene;
 }
 
 MapGraphicsScene::MapGraphicsScene() : QGraphicsScene()

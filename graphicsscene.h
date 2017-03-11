@@ -10,6 +10,7 @@ class Figure;
 class LineFigure;
 class SelectTool;
 class RoboCamera;
+class MapGraphicsScene;
 
 extern QList <Figure *> figures;
 
@@ -22,12 +23,13 @@ public:
     void addFigure(Figure *figure);
     void addScreen(QGraphicsPixmapItem *item);
     void clearScene();
+
 protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-private slots:
+public slots:
     void updateScene();
 private:
     QTimer *_timer;
@@ -43,6 +45,7 @@ public:
     void makeScreen();
     void setCamera(RoboCamera *camera);
     void addScreenView(GraphicsScene *screenScene);
+    void addMapScene(MapGraphicsScene *mapScene);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 private slots:
@@ -59,6 +62,7 @@ private:
     double _picOpacity;
     QGraphicsPixmapItem *_screenItem;
     GraphicsScene *_screenScene;
+    MapGraphicsScene *_mapScene;
 };
 
 class MapGraphicsScene : public QGraphicsScene

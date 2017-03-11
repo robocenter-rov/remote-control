@@ -33,6 +33,8 @@ CalcWindow::CalcWindow(QWidget *parent) :
     _ui->mapView->viewport()->installEventFilter(this);
     _ui->mapView->show();
 
+    _videoScene->addMapScene(_mapScene);
+
     loadQSS();
     generateTools();
     connect(_ui->screensTab, SIGNAL(currentChanged(int)), this, SLOT(changedTabIndex()));
