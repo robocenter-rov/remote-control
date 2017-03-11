@@ -27,8 +27,15 @@ CalcWindow::CalcWindow(QWidget *parent) :
     _ui->screensView->show();
 
     _videoScene->addScreenView(_screenScene);
+
+    _mapScene = new MapGraphicsScene();
+    _ui->mapView->setScene(_mapScene);
+    _ui->mapView->viewport()->installEventFilter(this);
+    _ui->mapView->show();
+
     loadQSS();
     generateTools();
+    connect(_ui->screensTab, SIGNAL(currentChanged(int)), this, SLOT(changedTabIndex()));
 }
 
 CalcWindow::~CalcWindow()
@@ -50,6 +57,7 @@ bool CalcWindow::eventFilter(QObject *, QEvent *event)
     if(event->type() == QEvent::Resize) {
         _ui->videoView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
         _ui->screensView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
+        _ui->mapView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
         return true;
     }
     return false;
@@ -58,4 +66,13 @@ bool CalcWindow::eventFilter(QObject *, QEvent *event)
 void CalcWindow::generateTools()
 {
     currentTool = new LineTool(_ui->toolsWidget);
+}
+
+void CalcWindow::changedTabIndex()
+{
+    int idx = _ui->screensTab->currentIndex();
+    if (idx == 2) {
+        _mapScene->setSceneRect(_ui->videoView->sceneRect());
+        _mapScene->updateScene();
+    }
 }

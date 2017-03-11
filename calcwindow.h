@@ -13,6 +13,7 @@ class CalcWindow;
 
 class GraphicsScene;
 class VideoGraphicsScene;
+class MapGraphicsScene;
 class BaseTool;
 
 class CalcWindow : public QMainWindow
@@ -22,6 +23,8 @@ class CalcWindow : public QMainWindow
 public:
     explicit CalcWindow(QWidget *parent = 0);
     ~CalcWindow();
+private slots:
+    void changedTabIndex();
 private:
     void loadQSS();
     void generateTools();
@@ -32,6 +35,7 @@ private:
     RoboCamera *_mainCamera;
     GraphicsScene *_screenScene;
     VideoGraphicsScene *_videoScene;
+    MapGraphicsScene *_mapScene;
     QGraphicsPixmapItem _screen;
 };
 
