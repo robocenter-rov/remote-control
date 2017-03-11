@@ -39,35 +39,18 @@ static void intersection(QPointF &p1, QPointF &p2)
 BaseTool::BaseTool(QWidget *parent)
 {
     _iconsPath = (QCoreApplication::applicationDirPath() + "../remote-control/icons");
-    _button = new QPushButton(parent);
-    _parent = parent;
     _isDraw = false;
+    _parent = parent;
 }
 
 BaseTool::~BaseTool()
 {
-    delete _button;
-}
 
-void BaseTool::onToolButtonClick(bool checked)
-{
-    qDebug() << typeid(*this).name();
-    currentTool->deleteToolProperties();
-    currentTool = this;
-    createToolProperties();
-}
-
-void BaseTool::setLevel(int level)
-{
-    _button->setGeometry(_button->x(), _button->y() + level*34, _button->width(), _button->height());
 }
 
 LineTool::LineTool(QWidget *parent):
     BaseTool(parent)
 {
-    _button->setText("Line");
-    _button->setIconSize(QSize(30, 30));
-    connect(_button, SIGNAL(clicked(bool)), this, SLOT(onToolButtonClick(bool)));
 }
 
 LineTool::~LineTool()
@@ -116,9 +99,6 @@ void LineTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
 SelectTool::SelectTool(QWidget *parent) :
     BaseTool(parent)
 {
-    _button->setText("Select");
-    _button->setIconSize(QSize(30, 30));
-    connect(_button, SIGNAL(clicked(bool)), this, SLOT(onToolButtonClick(bool)));
     _isDraw = false;
 }
 
