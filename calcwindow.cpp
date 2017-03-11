@@ -88,4 +88,5 @@ void CalcWindow::initClearButton() {
 void CalcWindow::clearScreenView()
 {
     _mapScene->clearScene();
+    _screenScene->updateScene();
 }
