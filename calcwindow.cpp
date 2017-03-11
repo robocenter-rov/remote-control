@@ -26,6 +26,7 @@ CalcWindow::CalcWindow(QWidget *parent) :
     _ui->screensView->viewport()->installEventFilter(this);
     _ui->screensView->show();
 
+    _videoScene->addScreenView(_screenScene);
     loadQSS();
     generateTools();
 }

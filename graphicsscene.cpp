@@ -45,6 +45,16 @@ void GraphicsScene::updateScene()
         (dynamic_cast<Figure *>(*it))->draw(this);
 }
 
+void GraphicsScene::clearScene()
+{
+    QList<QGraphicsItem *> t = items();
+    for (auto it = t.begin(); it != t.end(); it++) {
+        QGraphicsScene::removeItem(dynamic_cast<QGraphicsItem *>(*it));
+    }
+    for (auto it = _figures.begin(); it != _figures.end(); it++)
+        (dynamic_cast<Figure *>(*it))->~Figure();
+}
+
 void GraphicsScene::addFigure(Figure *figure)
 {
     _figures.append(figure);
@@ -60,6 +70,7 @@ VideoGraphicsScene::VideoGraphicsScene() : QGraphicsScene()
 {
     _timer = nullptr;
     _screenItem = nullptr;
+    _screenScene = nullptr;
 }
 
 void VideoGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -72,6 +83,10 @@ void VideoGraphicsScene::makeScreen()
     _mainCamera->imageCapture();
     if (!_mainCamera->getLastSavedImage().isNull()) {
         _picOpacity = 1.0;
+        if (_screenScene != nullptr) {
+            _screenScene->clearScene();
+            _screenScene->addScreen(_screen);
+        }
         _pic = QPixmap::fromImage(_mainCamera->getLastSavedImage());
         _screen->setPixmap(_pic);
         startNewAnimation();
@@ -128,4 +143,9 @@ void VideoGraphicsScene::clearScreenItem()
         delete _screenItem;
         _screenItem = nullptr;
     }
+}
+
+void VideoGraphicsScene::addScreenView(GraphicsScene *screenScene)
+{
+    _screenScene = screenScene;
 }

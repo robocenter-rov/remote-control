@@ -19,6 +19,7 @@ public:
     GraphicsScene();
     void addFigure(Figure *figure);
     void addScreen(QGraphicsPixmapItem *item);
+    void clearScene();
 protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -40,6 +41,7 @@ public:
     void addScreen(QGraphicsPixmapItem *item);
     void makeScreen();
     void setCamera(RoboCamera *camera);
+    void addScreenView(GraphicsScene *screenScene);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 private slots:
@@ -47,6 +49,7 @@ private slots:
 private:
     void clearTimer();
     void clearScreenItem();
+    void clearScreen();
     void startNewAnimation();
     RoboCamera *_mainCamera;
     QGraphicsPixmapItem *_screen;
@@ -54,6 +57,7 @@ private:
     QPixmap _pic;
     double _picOpacity;
     QGraphicsPixmapItem *_screenItem;
+    GraphicsScene *_screenScene;
 };
 
 #endif // GRAPHICSVIEW_H
