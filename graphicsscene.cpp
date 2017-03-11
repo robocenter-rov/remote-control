@@ -150,7 +150,7 @@ void VideoGraphicsScene::clearScreenItem()
     }
 }
 
-void VideoGraphicsScene::addScreenView(GraphicsScene *screenScene)
+void VideoGraphicsScene::addScreenScene(GraphicsScene *screenScene)
 {
     _screenScene = screenScene;
 }

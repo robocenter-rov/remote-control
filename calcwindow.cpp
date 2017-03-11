@@ -26,7 +26,7 @@ CalcWindow::CalcWindow(QWidget *parent) :
     _ui->screensView->viewport()->installEventFilter(this);
     _ui->screensView->show();
 
-    _videoScene->addScreenView(_screenScene);
+    _videoScene->addScreenScene(_screenScene);
 
     _mapScene = new MapGraphicsScene();
     _ui->mapView->setScene(_mapScene);

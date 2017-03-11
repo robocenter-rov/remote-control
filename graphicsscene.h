@@ -44,7 +44,7 @@ public:
     void addScreen(QGraphicsPixmapItem *item);
     void makeScreen();
     void setCamera(RoboCamera *camera);
-    void addScreenView(GraphicsScene *screenScene);
+    void addScreenScene(GraphicsScene *screenScene);
     void addMapScene(MapGraphicsScene *mapScene);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
