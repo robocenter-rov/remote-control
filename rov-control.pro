@@ -17,7 +17,6 @@ TEMPLATE = app
 win32{
     INCLUDEPATH = $$PWD/SDL-1.2.15/include/
     LIBS += -L$$PWD/SDL-1.2.15/lib/x64 -lSDL
-    CONFIG += console
 }
 unix {
     LIBS += -lSDL2
