@@ -29,7 +29,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::cameraInit()
 {
-    _mainCamera = new RoboCamera(_ui->mainView, this, "mainCamera");
+    _mainCamera = new RoboCamera(_ui->mainView, this);
 }
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)

@@ -1,16 +1,16 @@
 #include "robocamera.h"
+#include <QCameraInfo>
 
 RoboCamera::RoboCamera(QGraphicsScene *scene)
 {
     sceneInit(scene);
 }
 
-RoboCamera::RoboCamera(QGraphicsView *gv, QObject *gv_parent, const QByteArray &deviceName = "", QGraphicsScene *scene)
+RoboCamera::RoboCamera(QGraphicsView *gv, QObject *gv_parent, QGraphicsScene *scene)
 {
-    /* DO : use deviceName */
     sceneInit(scene);
 
-    _camera = new QCamera();
+    _camera = new QCamera(QCameraInfo::availableCameras().at(0));
     _imageCapture = new QCameraImageCapture(_camera);
     _imageCapture->setCaptureDestination(QCameraImageCapture::CaptureToFile);
     _camera->setCaptureMode(QCamera::CaptureStillImage);
