@@ -42,26 +42,4 @@ private:
     double _angle;
 };
 
-class RectFigure : public Figure
-{
-public:
-    RectFigure(QPointF p1, QPointF p2);
-    ~RectFigure(){}
-    void draw(QGraphicsScene *scene) override;
-    void drawArea(QGraphicsScene *scene) override;
-    bool inArea(QPointF p) override;
-    void resetPoints(QPointF deltaPoint) override;
-    void calcArea() override;
-    QString getInfo() override;
-    QVector <QPointF> rotatedPoints();
-    int width();
-    int height();
-private:
-    QVector <QPointF> _points;
-    QPointF _pCenter;
-    QPolygonF _area;
-    double _angle;
-};
-
-extern void calcPoints(QPointF &p1, QPointF &p2);
 #endif // FIGURE_H
