@@ -88,7 +88,7 @@ void MainWindow::updateDepth()
     points << QPointF(1, middle_y - 4) << QPointF(20, middle_y) << QPointF(1, middle_y + 4);
     QPolygonF pointer(points);
     scene->addPolygon(pointer, QPen(), QBrush(QColor(127, 0, 0)));
-    s.clear(); s.setNum(currentDepth); s += " cm";
+    s.clear(); s.setNum(_currentDepth); s += (_currentDepth - int(_currentDepth)) ? "" : ".0"; s += " cm";
     scene->addText(s, QFont("Times", 10, QFont::Bold))->setPos(QPointF(36.0, middle_y - 12));
     _currentDepth -= 0.1; // Temp code. For demonstration
 }
@@ -97,7 +97,6 @@ void MainWindow::clearScene()
 {
     QList<QGraphicsItem *> t = _ui->mainView->scene()->items();
     for (auto it = t.begin(); it != t.end(); it++) {
-        if (it == t.begin()) continue;
         _ui->mainView->scene()->removeItem(dynamic_cast<QGraphicsItem *>(*it));
     }
 }
