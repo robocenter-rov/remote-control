@@ -13,12 +13,23 @@ void MainWindow::loadQSS()
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       _ui(new Ui::MainWindow),
-      _communicator(new Communicator())
+      _communicator(new Communicator()),
+      _depthTimer(new QTimer(this)) // Temp timer. Look header
 {
     _ui->setupUi(this);
     cameraInit();
     loadQSS();
-    updateDepth();
+
+    // Temp code begin
+    _currentDepth = 50.1;
+    _sceneHeight = _ui->mainView->scene()->height();
+    _sceneWidth = _ui->mainView->scene()->width();
+    // Temp code end
+
+    connect(_depthTimer, SIGNAL(timeout()), this, SLOT(updateDepth()));
+    _depthTimer->setInterval(100);
+    _depthTimer->start();
+
 }
 
 MainWindow::~MainWindow()
@@ -46,14 +57,15 @@ void MainWindow::updateDepth()
     clearScene();
     QGraphicsScene *scene = _ui->mainView->scene();
     qreal h = scene->height()/15;
-    qreal middle_y = scene->height()/2;
-    qreal height = scene->height();
+    qreal middle_y = _sceneHeight/2;
+    qreal height = _sceneHeight;
+    qDebug() << _sceneHeight;
 
-    qreal currentDepth = 63.0;
+    //qreal currentDepth = 63.0; // Temp code. Temp value
 
-    qreal nearestUp = int(currentDepth) - (int(currentDepth) == currentDepth),
-          nearestDown = int(currentDepth) + 1;
-    qreal p = currentDepth - int(currentDepth), q = 1 - p;
+    qreal nearestUp = int(_currentDepth) - (int(_currentDepth) == _currentDepth),
+          nearestDown = int(_currentDepth) + 1;
+    qreal p = _currentDepth - int(_currentDepth), q = 1 - p;
 
     if (p == 0) p = 1;
     QString s;
@@ -78,6 +90,7 @@ void MainWindow::updateDepth()
     scene->addPolygon(pointer, QPen(), QBrush(QColor(127, 0, 0)));
     s.clear(); s.setNum(currentDepth); s += " cm";
     scene->addText(s, QFont("Times", 10, QFont::Bold))->setPos(QPointF(36.0, middle_y - 12));
+    _currentDepth -= 0.1; // Temp code. For demonstration
 }
 
 void MainWindow::clearScene()

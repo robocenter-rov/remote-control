@@ -21,7 +21,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();    
-    void updateDepth();
+private slots:
+    void updateDepth();    
 private:   
     void cameraInit();
     void loadQSS();
@@ -32,6 +33,9 @@ private:
     Ui::MainWindow *_ui;
     RoboCamera *_mainCamera;
     Communicator *_communicator;
+    QTimer *_depthTimer;
+    double _currentDepth; // Temp var. DO: why _ui->mainView->scene->height() return different values after redrawing depth
+    double _sceneHeight, _sceneWidth; // Temp vars too
 };
 
 #endif // MAINWINDOW_H
