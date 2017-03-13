@@ -86,7 +86,7 @@ void MainWindow::updateDepth()
     QVector<QPointF> points;
     points << QPointF(1, middle_y - 4) << QPointF(20, middle_y) << QPointF(1, middle_y + 4);
     QPolygonF pointer(points);
-    scene->addPolygon(pointer, QPen(), QBrush(QColor(127, 0, 0)));
+    scene->addPolygon(pointer, QPen(QColor(0, 0, 127)), QBrush(QColor(97, 143, 255)));
     s.clear(); s.setNum(_currentDepth); s += (_currentDepth - int(_currentDepth)) ? "" : ".0"; s += " cm";
     scene->addText(s, QFont("Times", 10, QFont::Bold))->setPos(QPointF(36.0, middle_y - 12));
     _currentDepth -= 0.1; // Temp code. For demonstration
