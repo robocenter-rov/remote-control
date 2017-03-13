@@ -59,7 +59,6 @@ void MainWindow::updateDepth()
     qreal h = scene->height()/15;
     qreal middle_y = _sceneHeight/2;
     qreal height = _sceneHeight;
-    qDebug() << _sceneHeight;
 
     //qreal currentDepth = 63.0; // Temp code. Temp value
 
