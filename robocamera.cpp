@@ -6,11 +6,15 @@ RoboCamera::RoboCamera(QGraphicsScene *scene)
     sceneInit(scene);
 }
 
-RoboCamera::RoboCamera(QGraphicsView *gv, QObject *gv_parent, QGraphicsScene *scene)
+RoboCamera::RoboCamera(QGraphicsView *gv, QObject *gv_parent, QGraphicsScene *scene, unsigned int idx)
 {
     sceneInit(scene);
 
-    _camera = new QCamera(QCameraInfo::availableCameras().at(0));
+    if (QCamera::availableDevices().count() < idx + 1) {
+        qDebug() << "Unavaible video device\n";
+        return;
+    }
+    _camera = new QCamera(QCameraInfo::availableCameras().at(idx));
     _imageCapture = new QCameraImageCapture(_camera);
     _imageCapture->setCaptureDestination(QCameraImageCapture::CaptureToFile);
     _camera->setCaptureMode(QCamera::CaptureStillImage);
@@ -66,4 +70,9 @@ void RoboCamera::addVideoWidget()
 {
     if (_videoWidget == nullptr) _videoWidget = new QVideoWidget();
     _scene->addWidget(_videoWidget);
+}
+
+QVideoWidget *RoboCamera::getVideoWidget() const
+{
+    return _videoWidget;
 }

@@ -32,6 +32,7 @@ private:
 
     Ui::MainWindow *_ui;
     RoboCamera *_mainCamera;
+    RoboCamera *_extraCamera;
     Communicator *_communicator;
     QTimer *_depthTimer;
     double _currentDepth; // Temp var. DO: why _ui->mainView->scene->height() return different values after redrawing depth

@@ -41,12 +41,14 @@ MainWindow::~MainWindow()
 void MainWindow::cameraInit()
 {
     _mainCamera = new RoboCamera(_ui->mainView, this);
+    _extraCamera = new RoboCamera(_ui->extraView, this, nullptr, 1);
 }
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)
 {
     if(event->type() == QEvent::Resize ) {
         _ui->mainView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
+        _ui->extraView->fitInView(_extraCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
         return true;
     }
     return false;

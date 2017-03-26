@@ -12,7 +12,7 @@ class RoboCamera
 {
 public:
     RoboCamera(QGraphicsScene *scene = nullptr);
-    RoboCamera(QGraphicsView *gv, QObject *gv_parent, QGraphicsScene *scene = nullptr);
+    RoboCamera(QGraphicsView *gv, QObject *gv_parent, QGraphicsScene *scene = nullptr, unsigned int idx = 0);
     ~RoboCamera();
     QGraphicsScene *getScene() const;
     QImage getLastSavedImage();
