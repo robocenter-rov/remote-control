@@ -74,14 +74,14 @@ void MainWindow::updateDepth()
     if (p == 0) p = 1;
     QString s;
 
-    for (qreal i = middle_y + q*h; i < height; i += h){
+    for (qreal i = middle_y + q*h; i < height + h/2; i += h){
         scene->addLine(1, i, 8, i);
         scene->addLine(1, i - h/2, 4, i - h/2);
         s.clear(); s.setNum(nearestDown++);
         scene->addText(s)->setPos(QPointF(20.0, i - 12));
     }
 
-    for (qreal i = middle_y - p*h; i > 10; i -= h){
+    for (qreal i = middle_y - p*h; i > 0; i -= h){
         scene->addLine(1, i, 8, i);
         scene->addLine(1, i + h/2, 4, i + h/2);
         s.clear(); s.setNum(nearestUp--);
