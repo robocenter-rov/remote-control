@@ -47,8 +47,8 @@ void MainWindow::cameraInit()
 bool MainWindow::eventFilter(QObject *, QEvent *event)
 {
     if(event->type() == QEvent::Resize ) {
-        _ui->mainView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
-        _ui->extraView->fitInView(_extraCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
+        _ui->mainView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::KeepAspectRatioByExpanding);
+        _ui->extraView->fitInView(_extraCamera->getScene()->sceneRect(), Qt::KeepAspectRatioByExpanding);
         return true;
     }
     return false;
