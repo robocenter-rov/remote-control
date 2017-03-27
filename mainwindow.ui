@@ -142,26 +142,6 @@
           <property name="topMargin">
            <number>0</number>
           </property>
-          <item row="1" column="0">
-           <widget class="QLabel" name="autoHeadingLabel">
-            <property name="text">
-             <string>Auto heading</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QCheckBox" name="autoHeadingCheckBox"/>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="autoDepthLabel">
-            <property name="text">
-             <string>Auto depth</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QCheckBox" name="autoDepthCheckBox"/>
-          </item>
          </layout>
         </item>
        </layout>
