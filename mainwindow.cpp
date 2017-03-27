@@ -59,50 +59,8 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
 void MainWindow::updateDepth()
 {
-    clearScene();
-    QGraphicsScene *scene = _ui->mainView->scene();
-    qreal h = scene->height()/15;
-    qreal middle_y = _sceneHeight/2;
-    qreal height = _sceneHeight;
-
-    //qreal currentDepth = 63.0; // Temp code. Temp value
-
-    qreal nearestUp = int(_currentDepth) - (int(_currentDepth) == _currentDepth),
-          nearestDown = int(_currentDepth) + 1;
-    qreal p = _currentDepth - int(_currentDepth), q = 1 - p;
-
-    if (p == 0) p = 1;
-    QString s;
-
-    for (qreal i = middle_y + q*h; i < height + h/2; i += h){
-        scene->addLine(1, i, 8, i);
-        scene->addLine(1, i - h/2, 4, i - h/2);
-        s.clear(); s.setNum(nearestDown++);
-        scene->addText(s)->setPos(QPointF(20.0, i - 12));
-    }
-
-    for (qreal i = middle_y - p*h; i > 0; i -= h){
-        scene->addLine(1, i, 8, i);
-        scene->addLine(1, i + h/2, 4, i + h/2);
-        s.clear(); s.setNum(nearestUp--);
-        scene->addText(s)->setPos(QPointF(20.0, i - 12));
-    }
-
-    QVector<QPointF> points;
-    points << QPointF(1, middle_y - 4) << QPointF(20, middle_y) << QPointF(1, middle_y + 4);
-    QPolygonF pointer(points);
-    scene->addPolygon(pointer, QPen(QColor(0, 0, 127)), QBrush(QColor(97, 143, 255)));
-    s.clear(); s.setNum(_currentDepth); s += (_currentDepth - int(_currentDepth)) ? "" : ".0"; s += " cm";
-    scene->addText(s, QFont("Times", 10, QFont::Bold))->setPos(QPointF(36.0, middle_y - 12));
-    _currentDepth -= 0.1; // Temp code. For demonstration
-}
-
-void MainWindow::clearScene()
-{
-    QList<QGraphicsItem *> t = _ui->mainView->scene()->items();
-    for (auto it = t.begin(); it != t.end(); it++) {
-        _ui->mainView->scene()->removeItem(dynamic_cast<QGraphicsItem *>(*it));
-    }
+    _mainCamera->getVideoWidget()->setCurrentDepth(_currentDepth);
+    _currentDepth += 0.1;
 }
 
 void MainWindow::showMessage(QString msg, QColor msgColor)
