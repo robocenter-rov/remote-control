@@ -23,6 +23,8 @@ public:
     ~MainWindow();    
 private slots:
     void updateDepth();    
+    void onStartButtonClick(bool);
+    void onTaskTimeout();
 private:   
     void cameraInit();
     void loadQSS();
@@ -35,6 +37,7 @@ private:
     RoboCamera *_extraCamera;
     Communicator *_communicator;
     QTimer *_depthTimer;
+    QTimer *_taskTimer;
     double _currentDepth; // Temp var. DO: why _ui->mainView->scene->height() return different values after redrawing depth
     double _sceneHeight, _sceneWidth; // Temp vars too
 };
