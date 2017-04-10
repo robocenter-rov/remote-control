@@ -63,7 +63,6 @@ void MainWindow::updateDepth()
 
 void MainWindow::showMessage(QString msg, QColor msgColor)
 {
-    updateDepth();
     QGraphicsScene *scene = _ui->mainView->scene();
     scene->addRect(0, 0, scene->width(), 24, QPen(msgColor), QBrush(msgColor));
 
