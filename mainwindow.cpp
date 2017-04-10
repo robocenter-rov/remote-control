@@ -30,7 +30,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_depthTimer, SIGNAL(timeout()), this, SLOT(updateDepth()));
     _depthTimer->setInterval(100);
     _depthTimer->start();
-
 }
 
 MainWindow::~MainWindow()
