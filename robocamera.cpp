@@ -6,9 +6,10 @@ RoboCamera::RoboCamera(QGraphicsScene *scene)
     sceneInit(scene);
 }
 
-RoboCamera::RoboCamera(QGraphicsView *gv, QObject *gv_parent, QGraphicsScene *scene, unsigned int idx)
+RoboCamera::RoboCamera(unsigned int idx, QGraphicsView *gv, QObject *gv_parent, QGraphicsScene *scene, bool showInfo)
 {
     _idx = idx;
+    _showInfo = showInfo;
     sceneInit(scene);
 
     if (QCamera::availableDevices().count() < idx + 1) {
@@ -46,8 +47,7 @@ QGraphicsScene *RoboCamera::getScene() const
 
 void RoboCamera::sceneInit(QGraphicsScene *scene)
 {
-    if (scene == nullptr) _scene = new QGraphicsScene();
-    else _scene = scene;
+    _scene = scene;
     addVideoWidget();
 }
 
@@ -70,9 +70,8 @@ QImage RoboCamera::getLastSavedImage()
 void RoboCamera::addVideoWidget()
 {
     if (_videoWidget == nullptr) {
-        if (_idx == 0) {
+        if (_showInfo) {
             _videoWidget = new VideoWidget(_scene);
-
         } else {
             _videoWidget = new QVideoWidget();
         }
@@ -102,21 +101,21 @@ VideoWidget::~VideoWidget()
 
 void VideoWidget::paintEvent(QPaintEvent *event)
 {
-    _sceneHeight = _scene->height();
-    _sceneWidth = _scene->width();
     QVideoWidget::paintEvent(event);
-    qreal h = _sceneHeight/15;
-    qreal middle_y = _sceneHeight/2.0;
-    qreal height = _sceneHeight;
+    if (_currentDepth == 0) return;
+    qreal height = _scene->height();
+    qreal width = _scene->width();
+
+    qreal h = height/15.0;
+    qreal middle_y = height/2.0;
     qreal nearestUp = int(_currentDepth) - (int(_currentDepth) == _currentDepth),
           nearestDown = int(_currentDepth) + 1;
-    qreal p = _currentDepth - int(_currentDepth), q = 1 - p;
+    qreal p = _currentDepth - int(_currentDepth);
+    qreal q = 1 - p;
 
     if (p == 0) p = 1;
     QString s;
-
     QPainter painter(this);
-
     for (qreal i = middle_y + q*h; i < height + h/2; i += h){
         painter.drawLine(1, i, 8, i);
         painter.drawLine(1, i - h/2, 4, i - h/2);
@@ -132,12 +131,11 @@ void VideoWidget::paintEvent(QPaintEvent *event)
     }
 
     QVector<QPointF> points;
-
-    points << QPointF(1, middle_y - 4) << QPointF(20, middle_y) << QPointF(1, middle_y + 4);
+    points << QPointF(1, middle_y - 6) << QPointF(15, middle_y) << QPointF(1, middle_y + 6);
     QPolygonF pointer(points);
     painter.drawPolygon(pointer);
     s.clear(); s.setNum(_currentDepth);
-    painter.drawText(36.0, middle_y + 4, s);
+    painter.drawText(50.0, middle_y + 4, s);
 }
 
 void VideoWidget::setCurrentDepth(double value)

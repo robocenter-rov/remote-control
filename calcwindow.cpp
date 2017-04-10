@@ -13,7 +13,7 @@ CalcWindow::CalcWindow(QWidget *parent) :
     _videoScene = new VideoGraphicsScene();
     _videoScene->addScreen(&_screen);
 
-    _mainCamera = new RoboCamera(_ui->videoView, this, _videoScene);
+    _mainCamera = new RoboCamera(0, _ui->videoView, this, _videoScene);
     _videoScene->setCamera(_mainCamera);
 
     _ui->videoView->setScene(_videoScene);

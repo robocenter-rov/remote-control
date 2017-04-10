@@ -25,8 +25,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Temp code begin
     _currentDepth = 50.1;
-    _sceneHeight = _ui->mainView->scene()->height();
-    _sceneWidth = _ui->mainView->scene()->width();
     // Temp code end
 
     connect(_depthTimer, SIGNAL(timeout()), this, SLOT(updateDepth()));
@@ -43,15 +41,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::cameraInit()
 {
-    _mainCamera = new RoboCamera(_ui->mainView, this);
-    _extraCamera = new RoboCamera(_ui->extraView, this, nullptr, 1);
+    _mainCamera = new RoboCamera(1, _ui->mainView, this, new QGraphicsScene(), true);
+    _extraCamera = new RoboCamera(0, _ui->extraView, this);
 }
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)
 {
-    if(event->type() == QEvent::Resize ) {
+    if (event->type() == QEvent::Resize) {
         _ui->mainView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::KeepAspectRatioByExpanding);
-        _ui->extraView->fitInView(_extraCamera->getScene()->sceneRect(), Qt::KeepAspectRatioByExpanding);
+        _ui->extraView->fitInView(_extraCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
         return true;
     }
     return false;

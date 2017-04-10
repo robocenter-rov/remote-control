@@ -38,7 +38,6 @@ private:
     QTimer *_depthTimer;
     QTimer *_taskTimer;
     double _currentDepth; // Temp var. DO: why _ui->mainView->scene->height() return different values after redrawing depth
-    double _sceneHeight, _sceneWidth; // Temp vars too
 };
 
 #endif // MAINWINDOW_H
