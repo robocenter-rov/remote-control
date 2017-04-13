@@ -204,6 +204,32 @@
          <string>Manipulator 0%</string>
         </property>
        </widget>
+       <widget class="QPushButton" name="flashLightButton">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>290</y>
+          <width>131</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>FlashLight</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="flashLightLabel">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>290</y>
+          <width>91</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>false</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>

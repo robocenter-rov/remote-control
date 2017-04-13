@@ -14,7 +14,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       _ui(new Ui::MainWindow),
       _taskTimer(new QTimer(this)),
-      _depthTimer(new QTimer(this)) // Temp timer. Look header
+      _depthTimer(new QTimer(this)), // Temp timer. Look header
+      _connectionProvider(new UARTConnectionProvider_t("COM3", 115200, 200, 200)),
+      _communicator(new SimpleCommunicator_t(_connectionProvider))
 {
     _ui->setupUi(this);
     cameraInit();
@@ -30,11 +32,15 @@ MainWindow::MainWindow(QWidget *parent)
     _depthTimer->setInterval(100);
     _depthTimer->start();
     connect(_ui->horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(updateManipulator(int)));
+    connect(_ui->flashLightButton, SIGNAL(clicked(bool)), this, SLOT(updateFlashLight(bool)));
+    connectionProviderInit();
 }
 
 MainWindow::~MainWindow()
 {
     delete _ui;
+    delete _communicator;
+    delete _connectionProvider;
 }
 
 void MainWindow::cameraInit()
@@ -102,4 +108,49 @@ void MainWindow::updateManipulator(int val)
     QString s;
     s.setNum(val); s += "%";
     _ui->Manipulator->setText(t+s);
+}
+
+#include <string>
+
+void MainWindow::connectionProviderInit()
+{
+    try {
+        _connectionProvider->Begin();
+
+        _communicator->OnRobotRestart([]()
+        {
+            qDebug() << "Arduino was restart\n";
+        });
+
+        /*_communicator->OnPacketsLeak([](int send, int receive)
+        {
+            std::string s = "Attention! Leak! Send : ";
+            s += send; s += ", recieved : "; s += recieve;
+            showMessage(s.c_str(), QColor(255, 102, 102));
+        });*/
+
+        _communicator->OnConnectionStateChange([this](bool connected)
+        {
+            if (connected) {
+                qDebug() << "Connected";
+                this->showMessage("Connected");
+            } else {
+                qDebug() << "Disconnect";
+                this->showMessage("Disconnect", QColor(255, 204, 102));
+            }
+        });
+        _communicator->Begin();
+    } catch (ControllerException_t &e) {
+        qDebug() << e.error_message.c_str();
+    }
+}
+
+void MainWindow::updateFlashLight(bool)
+{
+    try {
+        _communicator->SetFlashlightState(_flashLightState = !_flashLightState);
+        _ui->flashLightLabel->setText((_flashLightState) ? "true" : "false");
+    } catch (ControllerException_t &e) {
+        qDebug() << e.error_message.c_str();
+    }
 }
