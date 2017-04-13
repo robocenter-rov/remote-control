@@ -9,7 +9,6 @@
 #include <QtMultimediaWidgets>
 #include <QtGui/QtGui>
 #include "robocamera.h"
-#include "communicator.h"
 
 namespace Ui {
     class MainWindow;
@@ -35,7 +34,6 @@ private:
     Ui::MainWindow *_ui;
     RoboCamera *_mainCamera;
     RoboCamera *_extraCamera;
-    Communicator *_communicator;
     QTimer *_depthTimer;
     QTimer *_taskTimer;
     double _currentDepth; // Temp var. DO: why _ui->mainView->scene->height() return different values after redrawing depth

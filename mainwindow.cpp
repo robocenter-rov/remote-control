@@ -13,7 +13,6 @@ void MainWindow::loadQSS()
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       _ui(new Ui::MainWindow),
-      _communicator(new Communicator()),
       _taskTimer(new QTimer(this)),
       _depthTimer(new QTimer(this)) // Temp timer. Look header
 {
@@ -36,7 +35,6 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete _ui;
-    delete _communicator;
 }
 
 void MainWindow::cameraInit()
