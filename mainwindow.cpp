@@ -41,8 +41,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::cameraInit()
 {
-    _mainCamera = new RoboCamera(1, _ui->mainView, this, new QGraphicsScene(), true);
-    _extraCamera = new RoboCamera(0, _ui->extraView, this);
+    _mainCamera = new RoboCamera(0, _ui->mainView, this, new QGraphicsScene(), true);
+    _extraCamera = new RoboCamera(1, _ui->extraView, this);
 }
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)
