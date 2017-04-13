@@ -100,7 +100,7 @@ void MainWindow::onTaskTimeout()
 
 void MainWindow::updateManipulator(int val)
 {
-    QString t("Manipultor ");
+    QString t("Manipulator ");
     QString s;
     s.setNum(val); s += "%";
     _ui->Manipulator->setText(t+s);
