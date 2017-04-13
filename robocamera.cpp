@@ -104,38 +104,26 @@ void VideoWidget::paintEvent(QPaintEvent *event)
     QVideoWidget::paintEvent(event);
     if (_currentDepth == 0) return;
     qreal height = _scene->height();
-    qreal width = _scene->width();
 
-    qreal h = height/15.0;
+    qreal h = height/30.0;
     qreal middle_y = height/2.0;
-    qreal nearestUp = int(_currentDepth) - (int(_currentDepth) == _currentDepth),
-          nearestDown = int(_currentDepth) + 1;
     qreal p = _currentDepth - int(_currentDepth);
-    qreal q = 1 - p;
 
-    if (p == 0) p = 1;
     QString s;
     QPainter painter(this);
-    for (qreal i = middle_y + q*h; i < height + h/2; i += h){
+    for (qreal i = middle_y - p*h - int((middle_y-p*h)/h)*h; i < height + h/2; i+=h) {
         painter.drawLine(1, i, 8, i);
-        painter.drawLine(1, i - h/2, 4, i - h/2);
-        s.clear(); s.setNum(nearestDown++);
-        painter.drawText(20.0, i - 12, s);
-    }
-
-    for (qreal i = middle_y - p*h; i > 0; i -= h){
-        painter.drawLine(1, i, 8, i);
-        painter.drawLine(1, i + h/2, 4, i + h/2);
-        s.clear(); s.setNum(nearestUp--);
+        s.clear(); s.setNum(int(_currentDepth + i/h - middle_y/h) - 1);
         painter.drawText(20.0, i - 12, s);
     }
 
     QVector<QPointF> points;
     points << QPointF(1, middle_y - 6) << QPointF(15, middle_y) << QPointF(1, middle_y + 6);
     QPolygonF pointer(points);
+
     painter.drawPolygon(pointer);
     s.clear(); s.setNum(_currentDepth);
-    painter.drawText(50.0, middle_y + 4, s);
+    painter.drawText(QPointF(50.0, middle_y), s);
 }
 
 void VideoWidget::setCurrentDepth(double value)
