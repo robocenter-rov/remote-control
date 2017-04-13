@@ -139,6 +139,31 @@ void MainWindow::connectionProviderInit()
                 this->showMessage("Disconnect", QColor(255, 204, 102));
             }
         });
+
+        _communicator->OnI2CDevicesReceive([](SimpleCommunicator_t::I2CDevices_t devices)
+        {
+            printf("PCA1: ");
+            printf(devices.PCA1 ? "connected\n" : "disconnected\n");
+
+            printf("PCA2: ");
+            printf(devices.PCA2 ? "connected\n" : "disconnected\n");
+
+            printf("ADXL345: ");
+            printf(devices.ADXL345 ? "connected\n" : "disconnected\n");
+
+            printf("HMC58X3: ");
+            printf(devices.HMC58X3 ? "connected\n" : "disconnected\n");
+
+            printf("ITG3200: ");
+            printf(devices.ITG3200 ? "connected\n" : "disconnected\n");
+
+            printf("BMP085: ");
+            printf(devices.BMP085 ? "connected\n" : "disconnected\n");
+
+            printf("MS5803: ");
+            printf(devices.MS5803 ? "connected\n" : "disconnected\n");
+        });
+
         _communicator->Begin();
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
