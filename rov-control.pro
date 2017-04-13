@@ -32,7 +32,13 @@ SOURCES += main.cpp\
     basetool.cpp \
     figure.cpp \
     communicator.cpp \
-    joystick.cpp
+    joystick.cpp \
+    remote-control-library/Communicator.cpp \
+    remote-control-library/ConnectionProvider.cpp \
+    remote-control-library/DataReader.cpp \
+    remote-control-library/RingBuffer.cpp \
+    remote-control-library/SimpleCommunicator.cpp \
+    remote-control-library/UARTConnectionProviderWindows.cpp
 
 HEADERS  += mainwindow.h \
     messages.h \
@@ -43,7 +49,15 @@ HEADERS  += mainwindow.h \
     basetool.h \
     figure.h \
     communicator.h \
-    joystick.h
+    joystick.h \
+    remote-control-library/Communicator.h \
+    remote-control-library/ConnectionProvider.h \
+    remote-control-library/DataReader.h \
+    remote-control-library/Exception.h \
+    remote-control-library/RingBuffer.h \
+    remote-control-library/SimpleCommunicator.h \
+    remote-control-library/UARTConnectionProviderWindows.h \
+    remote-control-library/Utils.h
 
 FORMS    += mainwindow.ui \
     startwindow.ui \
