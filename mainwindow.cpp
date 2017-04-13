@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_depthTimer, SIGNAL(timeout()), this, SLOT(updateDepth()));
     _depthTimer->setInterval(100);
     _depthTimer->start();
+    connect(_ui->horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(updateManipulator(int)));
 }
 
 MainWindow::~MainWindow()
@@ -95,4 +96,12 @@ void MainWindow::onTaskTimeout()
 
     _ui->minutesLCDNumber->display(min);
     _ui->secondsLCDNumber->display(sec);
+}
+
+void MainWindow::updateManipulator(int val)
+{
+    QString t("Manipultor ");
+    QString s;
+    s.setNum(val); s += "%";
+    _ui->Manipulator->setText(t+s);
 }

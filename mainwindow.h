@@ -25,6 +25,7 @@ private slots:
     void updateDepth();    
     void onStartButtonClick(bool);
     void onTaskTimeout();
+    void updateManipulator(int);
 private:   
     void cameraInit();
     void loadQSS();
