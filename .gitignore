@@ -3,3 +3,4 @@
 SDL-1.2.15/*.txt
 SDL-1.2.15/*.html
 SDL-1.2.15/docs/**/*
+remote-control-library/**/*
