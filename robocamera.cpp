@@ -96,7 +96,6 @@ VideoWidget::VideoWidget(QGraphicsScene *scene) : VideoWidget::VideoWidget()
 
 VideoWidget::~VideoWidget()
 {
-    QVideoWidget::~QVideoWidget();
 }
 
 void VideoWidget::paintEvent(QPaintEvent *event)
