@@ -31,9 +31,7 @@ SOURCES += main.cpp\
     graphicsscene.cpp \
     basetool.cpp \
     figure.cpp \
-    communicator.cpp \
     joystick.cpp \
-    remote-control-library/Communicator.cpp \
     remote-control-library/ConnectionProvider.cpp \
     remote-control-library/DataReader.cpp \
     remote-control-library/RingBuffer.cpp \
@@ -48,9 +46,7 @@ HEADERS  += mainwindow.h \
     graphicsscene.h \
     basetool.h \
     figure.h \
-    communicator.h \
     joystick.h \
-    remote-control-library/Communicator.h \
     remote-control-library/ConnectionProvider.h \
     remote-control-library/DataReader.h \
     remote-control-library/Exception.h \
