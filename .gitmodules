@@ -1,0 +1,3 @@
+[submodule "remote-control-library"]
+	path = remote-control-library
+	url = https://github.com/robocenter-rov/remote-control-library.git
