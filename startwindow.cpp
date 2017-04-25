@@ -33,7 +33,7 @@ void StartWindow::loadQSS()
 void StartWindow::onMainPilotButtonClicked()
 {
     _mainWindow = new MainWindow();
-    _mainWindow->show();
+    _mainWindow->showMaximized();
     this->close();
 }
 
