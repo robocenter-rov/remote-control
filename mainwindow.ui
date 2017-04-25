@@ -52,8 +52,8 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>640</width>
-         <height>480</height>
+         <width>320</width>
+         <height>240</height>
         </size>
        </property>
        <property name="lineWidth">
@@ -68,20 +68,20 @@
       </widget>
       <widget class="QGroupBox" name="groupBox">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+        <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize">
         <size>
-         <width>270</width>
+         <width>370</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>270</width>
+         <width>370</width>
          <height>16777215</height>
         </size>
        </property>
