@@ -235,10 +235,19 @@ void MainWindow::hideMessage()
 
 void MainWindow::onConnectButtonClick(bool)
 {
-    showMessageByTimer("Connected", CL_GREEN);
+    try {
+        _connectionProvider->Begin();
+    } catch (ControllerException_t &e) {
+        printf(e.error_message.c_str());
+    }
 }
 
 void MainWindow::onDisconnectButtonClick(bool)
 {
-    showMessage("Connection...", CL_YELLOW);
+    try {
+        _connectionProvider->Stop();
+    } catch (ControllerException_t &e) {
+        printf(e.error_message.c_str());
+    }
+}
 }
