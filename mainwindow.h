@@ -43,10 +43,12 @@ private slots:
     void onConnectButtonClick(bool);
     void onDisconnectButtonClick(bool);
     void updateStatus(SimpleCommunicator_t::State_t);
+    void updatePosInfo(SimpleCommunicator_t::RawSensorData_t);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
-private:   
+    void rawSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t rawSensorData);
+private:
     void cameraInit();
     void loadQSS();
     bool eventFilter(QObject *, QEvent *event);

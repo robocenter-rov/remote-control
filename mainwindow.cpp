@@ -37,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Temp code end
     connect(this, SIGNAL(connectionChangedEvent(bool)), this, SLOT(updateConnectionStatus(bool)));
     connect(this, SIGNAL(stateChangedEvent(SimpleCommunicator_t::State_t)), this, SLOT(updateStatus(SimpleCommunicator_t::State_t)));
+    connect(this, SIGNAL(rawSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t)), this, SLOT(updatePosInfo(SimpleCommunicator_t::RawSensorData_t)));
 
     connect(_messageTimer, SIGNAL(timeout()), this, SLOT(hideMessage()));
     _messageTimer->setInterval(2000);
@@ -189,6 +190,10 @@ void MainWindow::connectionProviderInit()
             emit stateChangedEvent(state);
         });
 
+        _communicator->OnRawSensorDataReceive([&](SimpleCommunicator_t::RawSensorData_t rawSensorData){
+            emit rawSensorDataRecievedEvent(rawSensorData);
+        });
+
         _communicator->Begin();
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
@@ -259,4 +264,9 @@ void MainWindow::onDisconnectButtonClick(bool)
 void MainWindow::updateStatus(SimpleCommunicator_t::State_t state)
 {
     _ui->flashLightLabel->setText(state.FlashlightState ? "true" : "false");
+}
+
+void MainWindow::updatePosInfo(SimpleCommunicator_t::RawSensorData_t rawSensorData)
+{
+    _mainCamera->getVideoWidget()->setCurrentDepth(rawSensorData.Depth);
 }
