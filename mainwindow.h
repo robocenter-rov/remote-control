@@ -42,8 +42,10 @@ private slots:
     void updateConnectionStatus(bool);
     void onConnectButtonClick(bool);
     void onDisconnectButtonClick(bool);
+    void updateStatus(SimpleCommunicator_t::State_t);
 signals:
     void connectionChangedEvent(bool connectedStatus);
+    void stateChangedEvent(SimpleCommunicator_t::State_t state);
 private:   
     void cameraInit();
     void loadQSS();

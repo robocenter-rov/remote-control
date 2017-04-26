@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     _currentDepth = 50.1;
     // Temp code end
     connect(this, SIGNAL(connectionChangedEvent(bool)), this, SLOT(updateConnectionStatus(bool)));
+    connect(this, SIGNAL(stateChangedEvent(SimpleCommunicator_t::State_t)), this, SLOT(updateStatus(SimpleCommunicator_t::State_t)));
 
     connect(_messageTimer, SIGNAL(timeout()), this, SLOT(hideMessage()));
     _messageTimer->setInterval(2000);
@@ -184,6 +185,10 @@ void MainWindow::connectionProviderInit()
             printf(devices.MS5803 ? "connected\n" : "disconnected\n");
         });
 
+        _communicator->OnStateChange([&](SimpleCommunicator_t::State_t state){
+            emit stateChangedEvent(state);
+        });
+
         _communicator->Begin();
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
@@ -250,4 +255,8 @@ void MainWindow::onDisconnectButtonClick(bool)
         printf(e.error_message.c_str());
     }
 }
+
+void MainWindow::updateStatus(SimpleCommunicator_t::State_t state)
+{
+    _ui->flashLightLabel->setText(state.FlashlightState ? "true" : "false");
 }
