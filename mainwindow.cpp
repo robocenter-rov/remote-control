@@ -1,6 +1,12 @@
 #include "mainwindow.h"
 #include <iostream>
 
+static QColor msgColor[3] = {
+    QColor(0, 204, 102),
+    QColor(255, 102, 102),
+    QColor(255, 204, 102),
+};
+
 void MainWindow::loadQSS()
 {
     QFile styleF("../remote-control/qss/appstyles.css");
@@ -15,18 +21,24 @@ MainWindow::MainWindow(QWidget *parent)
       _ui(new Ui::MainWindow),
       _taskTimer(new QTimer(this)),
       _depthTimer(new QTimer(this)), // Temp timer. Look header
-      _connectionProvider(new UARTConnectionProvider_t("COM3", 115200, 200, 200)),
-      _communicator(new SimpleCommunicator_t(_connectionProvider))
+      _messageTimer(new QTimer(this))
 {
     _ui->setupUi(this);
+
     cameraInit();
     loadQSS();
     connect(_ui->startButton, SIGNAL(clicked(bool)), this, SLOT(onStartButtonClick(bool)));
     connect(_taskTimer, SIGNAL(timeout()), this, SLOT(onTaskTimeout()));
 
+    connect(_ui->connectButton, SIGNAL(clicked(bool)), this, SLOT(onConnectButtonClick(bool)));
+    connect(_ui->disconnectButton, SIGNAL(clicked(bool)), this, SLOT(onDisconnectButtonClick(bool)));
     // Temp code begin
     _currentDepth = 50.1;
     // Temp code end
+    connect(this, SIGNAL(connectionChangedEvent(bool)), this, SLOT(updateConnectionStatus(bool)));
+
+    connect(_messageTimer, SIGNAL(timeout()), this, SLOT(hideMessage()));
+    _messageTimer->setInterval(2000);
 
     connect(_depthTimer, SIGNAL(timeout()), this, SLOT(updateDepth()));
     _depthTimer->setInterval(100);
@@ -34,6 +46,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(updateManipulator(int)));
     connect(_ui->flashLightButton, SIGNAL(clicked(bool)), this, SLOT(updateFlashLight(bool)));
     connectionProviderInit();
+
+    showMessage("Connection...", CL_YELLOW);
 }
 
 MainWindow::~MainWindow()
@@ -52,7 +66,7 @@ void MainWindow::cameraInit()
 bool MainWindow::eventFilter(QObject *, QEvent *event)
 {
     if (event->type() == QEvent::Resize) {
-        _ui->mainView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::KeepAspectRatioByExpanding);
+        _ui->mainView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::IgnoreAspectRatio);
         _ui->extraView->fitInView(_extraCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
         return true;
     }
@@ -65,14 +79,25 @@ void MainWindow::updateDepth()
     _currentDepth += 0.1;
 }
 
-void MainWindow::showMessage(QString msg, QColor msgColor)
+void MainWindow::showMessage(QString msg, msg_color_t color)
 {
+    if (_showMessage) {
+        hideMessage();
+    }
+    _showMessage = true;
     QGraphicsScene *scene = _ui->mainView->scene();
-    scene->addRect(0, 0, scene->width(), 24, QPen(msgColor), QBrush(msgColor));
+    scene->addRect(0, 0, scene->width() - 1, scene->height()*0.04, QPen(msgColor[color]), QBrush(msgColor[color]));
 
-    QGraphicsTextItem *text = scene->addText(msg, QFont("Times", 10));
+    QGraphicsTextItem *text = scene->addText(msg, QFont("Times", 8));
     text->setPos(QPointF(scene->width()/2 - 24, 0));
     text->setDefaultTextColor(QColor(255, 255, 255));
+}
+
+void MainWindow::showMessageByTimer(QString msg, msg_color_t color)
+{
+    showMessage(msg, color);
+    _showMessageByTimer = true;
+    _messageTimer->start();
 }
 
 void MainWindow::onStartButtonClick(bool)
@@ -114,12 +139,14 @@ void MainWindow::updateManipulator(int val)
 
 void MainWindow::connectionProviderInit()
 {
+    _connectionProvider = new UARTConnectionProvider_t("COM3", 115200, 200, 200);
+    _communicator = new SimpleCommunicator_t(_connectionProvider);
     try {
         _connectionProvider->Begin();
 
         _communicator->OnRobotRestart([]()
         {
-            qDebug() << "Arduino was restart\n";
+            //qDebug() << "Arduino was restart\n";
         });
 
         /*_communicator->OnPacketsLeak([](int send, int receive)
@@ -128,16 +155,9 @@ void MainWindow::connectionProviderInit()
             s += send; s += ", recieved : "; s += recieve;
             showMessage(s.c_str(), QColor(255, 102, 102));
         });*/
-
-        _communicator->OnConnectionStateChange([this](bool connected)
+        _communicator->OnConnectionStateChange([&](bool connectedStatus)
         {
-            if (connected) {
-                qDebug() << "Connected";
-                this->showMessage("Connected");
-            } else {
-                qDebug() << "Disconnect";
-                this->showMessage("Disconnect", QColor(255, 204, 102));
-            }
+            emit connectionChangedEvent(connectedStatus);
         });
 
         _communicator->OnI2CDevicesReceive([](SimpleCommunicator_t::I2CDevices_t devices)
@@ -174,8 +194,51 @@ void MainWindow::updateFlashLight(bool)
 {
     try {
         _communicator->SetFlashlightState(_flashLightState = !_flashLightState);
-        _ui->flashLightLabel->setText((_flashLightState) ? "true" : "false");
+        //_ui->flashLightLabel->setText((_flashLightState) ? "true" : "false");
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
     }
+}
+
+void MainWindow::updateConnectionStatus(bool connectedStatus)
+{
+    qDebug() << "connection is " << connectedStatus;
+    if (connectedStatus) {
+        showMessageByTimer("Connected", CL_GREEN);
+    } else {
+        showMessage("Connection...", CL_YELLOW);
+    }
+}
+
+#include <QList>
+#include <QGraphicsItem>
+#include <QGraphicsScene>
+
+void MainWindow::hideMessage()
+{
+    if (!_showMessage) return;
+    if (_showMessageByTimer) {
+        _messageTimer->stop();
+        _showMessageByTimer = false;
+    }
+    _showMessage = false;
+    QList<QGraphicsItem *> t = _ui->mainView->items();
+
+    if (t.size() == 1) return;
+    int i = 1;
+    for (auto it = t.begin(); it != t.end(); it++, i++) {
+        if (i <= 2) { // i = 1 - msg, 2 - msg_rect. remove only msg
+            _ui->mainView->scene()->removeItem(dynamic_cast<QGraphicsItem *>(*it));
+        }
+    }
+}
+
+void MainWindow::onConnectButtonClick(bool)
+{
+    showMessageByTimer("Connected", CL_GREEN);
+}
+
+void MainWindow::onDisconnectButtonClick(bool)
+{
+    showMessage("Connection...", CL_YELLOW);
 }

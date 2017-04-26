@@ -20,6 +20,12 @@ namespace Ui {
     class MainWindow;
 }
 
+enum msg_color_t {
+    CL_GREEN,
+    CL_RED,
+    CL_YELLOW
+};
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -32,11 +38,18 @@ private slots:
     void onTaskTimeout();
     void updateManipulator(int);
     void updateFlashLight(bool);
+    void hideMessage();
+    void updateConnectionStatus(bool);
+    void onConnectButtonClick(bool);
+    void onDisconnectButtonClick(bool);
+signals:
+    void connectionChangedEvent(bool connectedStatus);
 private:   
     void cameraInit();
     void loadQSS();
     bool eventFilter(QObject *, QEvent *event);
-    void showMessage(QString msg, QColor msgColor = QColor(0, 204, 102));
+    void showMessage(QString msg, msg_color_t color);
+    void showMessageByTimer(QString msg, msg_color_t color);
     void connectionProviderInit();
     Ui::MainWindow *_ui;
     RoboCamera *_mainCamera;
@@ -49,6 +62,9 @@ private:
     SimpleCommunicator_t *_communicator;
 
     bool _flashLightState;
+    bool _showMessage = false;
+    bool _showMessageByTimer = false;
+    QTimer *_messageTimer;
 };
 
 #endif // MAINWINDOW_H

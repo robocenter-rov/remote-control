@@ -230,6 +230,32 @@
          <string>false</string>
         </property>
        </widget>
+       <widget class="QPushButton" name="connectButton">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>330</y>
+          <width>131</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>connectButton</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="disconnectButton">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>330</y>
+          <width>141</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>DisconnectButton</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>
