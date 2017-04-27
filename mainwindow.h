@@ -66,7 +66,6 @@ private:
 
     bool _flashLightState;
     bool _showMessage = false;
-    bool _showMessageByTimer = false;
     QTimer *_messageTimer;
 
     Joystick *_joy;

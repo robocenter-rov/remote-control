@@ -101,7 +101,6 @@ void MainWindow::showMessage(QString msg, msg_color_t color)
 void MainWindow::showMessageByTimer(QString msg, msg_color_t color)
 {
     showMessage(msg, color);
-    _showMessageByTimer = true;
     _messageTimer->start();
 }
 
@@ -234,9 +233,8 @@ void MainWindow::updateConnectionStatus(bool connectedStatus)
 void MainWindow::hideMessage()
 {
     if (!_showMessage) return;
-    if (_showMessageByTimer) {
+    if (_messageTimer->isActive()) {
         _messageTimer->stop();
-        _showMessageByTimer = false;
     }
     _showMessage = false;
     QList<QGraphicsItem *> t = _ui->mainView->items();
