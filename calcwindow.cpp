@@ -3,7 +3,7 @@
 #include <QFile>
 
 #include "graphicsscene.h"
-#include "basetool.h"
+#include "calc-tools/basetool.h"
 
 CalcWindow::CalcWindow(QWidget *parent) :
     QMainWindow(parent),

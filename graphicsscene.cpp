@@ -1,6 +1,6 @@
 #include "graphicsscene.h"
-#include "basetool.h"
-#include "figure.h"
+#include "calc-tools/basetool.h"
+#include "calc-tools/figure.h"
 #include <QGraphicsItem>
 #include "robocamera.h"
 
