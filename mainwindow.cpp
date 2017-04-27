@@ -28,13 +28,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     cameraInit();
     loadQSS();
+
     connect(_ui->startButton, SIGNAL(clicked(bool)), this, SLOT(onStartButtonClick(bool)));
     connect(_taskTimer, SIGNAL(timeout()), this, SLOT(onTaskTimeout()));
-
     connect(_ui->connectButton, SIGNAL(clicked(bool)), this, SLOT(onConnectButtonClick(bool)));
     connect(_ui->disconnectButton, SIGNAL(clicked(bool)), this, SLOT(onDisconnectButtonClick(bool)));
-
-    connect(_ui->horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(updateManipulator(int)));
     connect(_ui->flashLightButton, SIGNAL(clicked(bool)), this, SLOT(updateFlashLight(bool)));
 
     connectionProviderInit();
@@ -132,14 +130,6 @@ void MainWindow::onTaskTimeout()
 
     _ui->minutesLCDNumber->display(min);
     _ui->secondsLCDNumber->display(sec);
-}
-
-void MainWindow::updateManipulator(int val)
-{
-    QString t("Manipulator ");
-    QString s;
-    s.setNum(val); s += "%";
-    _ui->Manipulator->setText(t+s);
 }
 
 #include <string>
