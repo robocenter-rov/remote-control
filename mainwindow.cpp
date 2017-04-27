@@ -57,6 +57,10 @@ MainWindow::~MainWindow()
     delete _ui;
     delete _communicator;
     delete _connectionProvider;
+    delete _joy;
+    delete _joyTimer;
+    delete _messageTimer;
+    delete _taskTimer;
 }
 
 void MainWindow::cameraInit()
