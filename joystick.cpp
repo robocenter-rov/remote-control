@@ -47,14 +47,7 @@ void Joystick::update()
     SDL_JoystickUpdate();
 }
 
-MotorsThrustMsg Joystick::getMotorsThrust()
+float Joystick::axesAt(int idx)
 {
-    SDL_JoystickUpdate();
-
-    return MotorsThrustMsg(
-        SDL_JoystickGetAxis(_joy, 0),
-        SDL_JoystickGetAxis(_joy, 1),
-        SDL_JoystickGetAxis(_joy, 2),
-        SDL_JoystickGetAxis(_joy, 3),
-        SDL_JoystickGetAxis(_joy, 4));
+    return SDL_JoystickGetAxis(_joy, idx)/double(INT16_MAX);
 }

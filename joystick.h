@@ -24,7 +24,7 @@ public:
     ~Joystick();
     void close();
     void update();
-    MotorsThrustMsg getMotorsThrust();
+    float axesAt(int idx);
 private:
     void joyInit();
     SDL_Joystick *_joy;
