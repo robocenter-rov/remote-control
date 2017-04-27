@@ -14,7 +14,6 @@
 #undef main
 #include <QTimer>
 #include <QObject>
-#include "messages.h"
 
 class Joystick : public QObject
 {
