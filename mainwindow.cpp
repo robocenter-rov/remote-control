@@ -49,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(connectionChangedEvent(bool)), this, SLOT(updateConnectionStatus(bool)));
     connect(this, SIGNAL(stateChangedEvent(SimpleCommunicator_t::State_t)), this, SLOT(updateStatus(SimpleCommunicator_t::State_t)));
     connect(this, SIGNAL(rawSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t)), this, SLOT(updatePosInfo(SimpleCommunicator_t::RawSensorData_t)));
+    connect(this, SIGNAL(leakEvent(int, int)), this, SLOT(onLeak(int, int)));
 
     showMessage("Connection...", CL_YELLOW);
 }
@@ -155,12 +156,10 @@ void MainWindow::connectionProviderInit()
             //qDebug() << "Arduino was restart\n";
         });
 
-        /*_communicator->OnPacketsLeak([](int send, int receive)
+        _communicator->OnPacketsLeak([&](int send, int receive)
         {
-            std::string s = "Attention! Leak! Send : ";
-            s += send; s += ", recieved : "; s += recieve;
-            showMessage(s.c_str(), QColor(255, 102, 102));
-        });*/
+            emit leakEvent(send, receive);
+        });
         _communicator->OnConnectionStateChange([&](bool connectedStatus)
         {
             emit connectionChangedEvent(connectedStatus);
@@ -333,4 +332,11 @@ void MainWindow::joyManipulatorButtonHandle(int idx, uint8_t value)
                     _curManipulator._m2
                     );
     }
+}
+
+void MainWindow::onLeak(int send, int receive)
+{
+    std::string s = "ATTENTION: Leak: send ";
+    s += send; s += ", recieved "; s += receive;
+    showMessage(s.c_str(), CL_RED);
 }

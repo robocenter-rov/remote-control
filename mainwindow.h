@@ -46,10 +46,12 @@ private slots:
     void updatePosInfo(SimpleCommunicator_t::RawSensorData_t);
     void readAndSendJoySensors();
     void joyButtonHandle(int idx, uint8_t value);
+    void onLeak(int send, int receive);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
     void rawSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t rawSensorData);
+    void leakEvent(int send, int receive);
 private:
     void cameraInit();
     void loadQSS();
