@@ -20,8 +20,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       _ui(new Ui::MainWindow),
       _taskTimer(new QTimer(this)),
-      _depthTimer(new QTimer(this)), // Temp timer. Look header
-      _messageTimer(new QTimer(this))
+      _messageTimer(new QTimer(this)),
+      _joyTimer(new QTimer(this)),
+      _joy(new Joystick())
 {
     _ui->setupUi(this);
 
@@ -32,22 +33,21 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(_ui->connectButton, SIGNAL(clicked(bool)), this, SLOT(onConnectButtonClick(bool)));
     connect(_ui->disconnectButton, SIGNAL(clicked(bool)), this, SLOT(onDisconnectButtonClick(bool)));
-    // Temp code begin
-    _currentDepth = 50.1;
-    // Temp code end
-    connect(this, SIGNAL(connectionChangedEvent(bool)), this, SLOT(updateConnectionStatus(bool)));
-    connect(this, SIGNAL(stateChangedEvent(SimpleCommunicator_t::State_t)), this, SLOT(updateStatus(SimpleCommunicator_t::State_t)));
-    connect(this, SIGNAL(rawSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t)), this, SLOT(updatePosInfo(SimpleCommunicator_t::RawSensorData_t)));
+
+    connect(_ui->horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(updateManipulator(int)));
+    connect(_ui->flashLightButton, SIGNAL(clicked(bool)), this, SLOT(updateFlashLight(bool)));
+
+    connectionProviderInit();
 
     connect(_messageTimer, SIGNAL(timeout()), this, SLOT(hideMessage()));
     _messageTimer->setInterval(2000);
 
-    connect(_depthTimer, SIGNAL(timeout()), this, SLOT(updateDepth()));
-    _depthTimer->setInterval(100);
-    _depthTimer->start();
-    connect(_ui->horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(updateManipulator(int)));
-    connect(_ui->flashLightButton, SIGNAL(clicked(bool)), this, SLOT(updateFlashLight(bool)));
-    connectionProviderInit();
+    connect(_joyTimer, SIGNAL(timeout()), this, SLOT(readAndSendJoySensors()));
+    _joyTimer->setInterval(100);
+
+    connect(this, SIGNAL(connectionChangedEvent(bool)), this, SLOT(updateConnectionStatus(bool)));
+    connect(this, SIGNAL(stateChangedEvent(SimpleCommunicator_t::State_t)), this, SLOT(updateStatus(SimpleCommunicator_t::State_t)));
+    connect(this, SIGNAL(rawSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t)), this, SLOT(updatePosInfo(SimpleCommunicator_t::RawSensorData_t)));
 
     showMessage("Connection...", CL_YELLOW);
 }
@@ -75,10 +75,9 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
     return false;
 }
 
-void MainWindow::updateDepth()
+void MainWindow::updateDepth(float depth)
 {
-    _mainCamera->getVideoWidget()->setCurrentDepth(_currentDepth);
-    _currentDepth += 0.1;
+    _mainCamera->getVideoWidget()->setCurrentDepth(depth);
 }
 
 void MainWindow::showMessage(QString msg, msg_color_t color)
@@ -215,8 +214,12 @@ void MainWindow::updateConnectionStatus(bool connectedStatus)
     qDebug() << "connection is " << connectedStatus;
     if (connectedStatus) {
         showMessageByTimer("Connected", CL_GREEN);
+        _joyTimer->start();
     } else {
         showMessage("Connection...", CL_YELLOW);
+        if (_joyTimer->isActive()) {
+            _joyTimer->stop();
+        }
     }
 }
 
@@ -268,5 +271,20 @@ void MainWindow::updateStatus(SimpleCommunicator_t::State_t state)
 
 void MainWindow::updatePosInfo(SimpleCommunicator_t::RawSensorData_t rawSensorData)
 {
-    _mainCamera->getVideoWidget()->setCurrentDepth(rawSensorData.Depth);
+    updateDepth(rawSensorData.Depth);
+}
+
+void MainWindow::readAndSendJoySensors()
+{
+    try {
+        _joy->update();
+        float thrust[6];
+        for (int i = 0; i < 6; i++) {
+            thrust[i] = _joy->axesAt(i);
+        }
+        qDebug() << thrust;
+        _communicator->SetMotorsState(thrust[0], thrust[1], thrust[2], thrust[3], thrust[4], thrust[5]);
+    } catch (ControllerException_t &e) {
+        printf(e.error_message.c_str());
+    }
 }

@@ -9,7 +9,7 @@
 #include <QtMultimediaWidgets>
 #include <QtGui/QtGui>
 #include "robocamera.h"
-
+#include "joystick.h"
 #include "remote-control-library/ConnectionProvider.h"
 #include "remote-control-library/UARTConnectionProviderWindows.h"
 #include "remote-control-library/SimpleCommunicator.h"
@@ -33,7 +33,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();    
 private slots:
-    void updateDepth();    
+    void updateDepth(float depth);
     void onStartButtonClick(bool);
     void onTaskTimeout();
     void updateManipulator(int);
@@ -44,6 +44,7 @@ private slots:
     void onDisconnectButtonClick(bool);
     void updateStatus(SimpleCommunicator_t::State_t);
     void updatePosInfo(SimpleCommunicator_t::RawSensorData_t);
+    void readAndSendJoySensors();
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
@@ -58,9 +59,7 @@ private:
     Ui::MainWindow *_ui;
     RoboCamera *_mainCamera;
     RoboCamera *_extraCamera;
-    QTimer *_depthTimer;
     QTimer *_taskTimer;
-    double _currentDepth; // Temp var. DO: why _ui->mainView->scene->height() return different values after redrawing depth
 
     ConnectionProvider_t *_connectionProvider;
     SimpleCommunicator_t *_communicator;
@@ -69,6 +68,9 @@ private:
     bool _showMessage = false;
     bool _showMessageByTimer = false;
     QTimer *_messageTimer;
+
+    Joystick *_joy;
+    QTimer *_joyTimer;
 };
 
 #endif // MAINWINDOW_H
