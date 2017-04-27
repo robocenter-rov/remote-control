@@ -45,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_joyTimer, SIGNAL(timeout()), this, SLOT(readAndSendJoySensors()));
     _joyTimer->setInterval(100);
 
+    connect(_joy, SIGNAL(joyButtonEvent(int,uint8_t)), this, SLOT(joyButtonHandle(int,uint8_t)));
     connect(this, SIGNAL(connectionChangedEvent(bool)), this, SLOT(updateConnectionStatus(bool)));
     connect(this, SIGNAL(stateChangedEvent(SimpleCommunicator_t::State_t)), this, SLOT(updateStatus(SimpleCommunicator_t::State_t)));
     connect(this, SIGNAL(rawSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t)), this, SLOT(updatePosInfo(SimpleCommunicator_t::RawSensorData_t)));
@@ -71,6 +72,7 @@ void MainWindow::cameraInit()
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)
 {
+    _joy->handleEvent();
     if (event->type() == QEvent::Resize) {
         _ui->mainView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::IgnoreAspectRatio);
         _ui->extraView->fitInView(_extraCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
@@ -288,5 +290,47 @@ void MainWindow::readAndSendJoySensors()
         _communicator->SetMotorsState(thrust[0], thrust[1], thrust[2], thrust[3], thrust[4], thrust[5]);
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
+    }
+}
+
+void MainWindow::joyButtonHandle(int idx, uint8_t value)
+{
+    try {
+        //qDebug() << idx << " " << value;
+        joyManipulatorButtonHandle(idx, value);
+    } catch (ControllerException_t &e) {
+        printf(e.error_message.c_str());
+    }
+}
+
+#define MAX(x, y) (((x) > (y)) ? (x) : (y))
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
+
+void MainWindow::joyManipulatorButtonHandle(int idx, uint8_t value)
+{
+    if (idx == 9 && value) {
+        _curManipulator._cntChanged += 1;
+        _curManipulator._handPos = MAX(-1, _curManipulator._handPos - 0.01f);
+    }
+    if (idx == 10 && value) {
+        _curManipulator._handPos = MIN(1, _curManipulator._handPos + 0.01f);
+        _curManipulator._cntChanged += 1;
+    }
+    if (idx == 11 && value) {
+        _curManipulator._armPos = MIN(1, _curManipulator._armPos + 0.01f);
+        _curManipulator._cntChanged += 1;
+    }
+    if (idx == 12 && value) {
+        _curManipulator._armPos = MAX(-1, _curManipulator._armPos - 0.01f);
+        _curManipulator._cntChanged += 1;
+    }
+    if (_curManipulator._cntChanged) {
+        _curManipulator._cntChanged = 0;
+        _communicator->SetManipulatorState(
+                    _curManipulator._armPos,
+                    _curManipulator._handPos,
+                    _curManipulator._m1,
+                    _curManipulator._m2
+                    );
     }
 }

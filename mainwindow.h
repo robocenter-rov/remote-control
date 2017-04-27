@@ -45,6 +45,7 @@ private slots:
     void updateStatus(SimpleCommunicator_t::State_t);
     void updatePosInfo(SimpleCommunicator_t::RawSensorData_t);
     void readAndSendJoySensors();
+    void joyButtonHandle(int idx, uint8_t value);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
@@ -56,6 +57,7 @@ private:
     void showMessage(QString msg, msg_color_t color);
     void showMessageByTimer(QString msg, msg_color_t color);
     void connectionProviderInit();
+    void joyManipulatorButtonHandle(int idx, uint8_t value);
     Ui::MainWindow *_ui;
     RoboCamera *_mainCamera;
     RoboCamera *_extraCamera;
@@ -70,6 +72,14 @@ private:
 
     Joystick *_joy;
     QTimer *_joyTimer;
+
+    struct Manipulator {
+        float _armPos = 0.0f;
+        float _handPos = 0.0f;
+        float _m1 = 0.0f;
+        float _m2 = 0.0f;
+        int _cntChanged = 0;
+    } _curManipulator;
 };
 
 #endif // MAINWINDOW_H

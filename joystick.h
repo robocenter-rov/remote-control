@@ -23,7 +23,10 @@ public:
     ~Joystick();
     void close();
     void update();
+    void handleEvent();
     float axesAt(int idx);
+signals:
+    void joyButtonEvent(int idx, uint8_t val);
 private:
     void joyInit();
     SDL_Joystick *_joy;

@@ -9,6 +9,7 @@ Joystick::Joystick():
 
 Joystick::~Joystick()
 {
+    close();
     delete _joy;
 }
 
@@ -23,6 +24,7 @@ void Joystick::joyInit()
 
     qDebug() << "NumJoysticks = " << SDL_NumJoysticks();
     if (SDL_NumJoysticks() > 0) {
+        SDL_JoystickEventState(SDL_ENABLE);
         _joy = SDL_JoystickOpen(0);
     }
 
@@ -50,4 +52,12 @@ void Joystick::update()
 float Joystick::axesAt(int idx)
 {
     return SDL_JoystickGetAxis(_joy, idx)/double(INT16_MAX);
+}
+
+void Joystick::handleEvent()
+{
+    SDL_JoystickUpdate();
+    for (int i = 0; i < 14; i++) {
+        emit joyButtonEvent(i, SDL_JoystickGetButton(_joy, i));
+    }
 }
