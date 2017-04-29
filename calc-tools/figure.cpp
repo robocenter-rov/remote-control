@@ -30,7 +30,7 @@ void LineFigure::draw(QGraphicsScene *scene)
 void LineFigure::drawArea(QGraphicsScene *scene)
 {
     if (!_area.isEmpty()) {
-        scene->addPolygon(_area, QPen(QColor(127, 0, 127, 127)));
+        scene->addPolygon(_area, QPen(QColor(127, 0, 127, 127), 1, Qt::DotLine));
         scene->addText(getInfo());
     }
 }
