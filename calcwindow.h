@@ -40,6 +40,7 @@ private:
     MapGraphicsScene *_mapScene;
     QGraphicsPixmapItem _screen;
     QPushButton *_clearButton;
+    QList<BaseTool *> _tools;
 };
 
 #endif // CALCWINDOW_H

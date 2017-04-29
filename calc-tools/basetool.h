@@ -20,10 +20,15 @@ public:
     void virtual drawOnMouseMove(GraphicsScene *scene, QPointF point) {}
     void virtual drawOnMouseRelease(GraphicsScene *scene, QPointF point) {}
     void virtual destroyProperties() {}
+private slots:
+    void selectButtonTool(bool);
 protected:
     QString _iconsPath;
     QWidget *_parent;
     bool _isDraw;
+    QPushButton *_button;
+    int _id;
+    static int _nextId;
 };
 
 class LineTool: public BaseTool

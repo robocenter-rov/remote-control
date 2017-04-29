@@ -70,6 +70,8 @@ bool CalcWindow::eventFilter(QObject *, QEvent *event)
 void CalcWindow::generateTools()
 {
     currentTool = new LineTool(_ui->toolsWidget);
+    _tools.append(currentTool);
+    _tools.append(new SelectTool(_ui->toolsWidget));
 }
 
 void CalcWindow::changedTabIndex()
