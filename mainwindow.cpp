@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->connectButton, SIGNAL(clicked(bool)), this, SLOT(onConnectButtonClick(bool)));
     connect(_ui->disconnectButton, SIGNAL(clicked(bool)), this, SLOT(onDisconnectButtonClick(bool)));
     connect(_ui->flashLightButton, SIGNAL(clicked(bool)), this, SLOT(updateFlashLight(bool)));
+    connect(_ui->heading, SIGNAL(valueChanged(int)), this, SLOT(updateHeading(int)));
 
     connectionProviderInit();
 
@@ -48,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(stateChangedEvent(SimpleCommunicator_t::State_t)), this, SLOT(updateStatus(SimpleCommunicator_t::State_t)));
     connect(this, SIGNAL(rawSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t)), this, SLOT(updatePosInfo(SimpleCommunicator_t::RawSensorData_t)));
     connect(this, SIGNAL(leakEvent(int, int)), this, SLOT(onLeak(int, int)));
+    connect(this, SIGNAL(orientationReceivedEvent(SimpleCommunicator_t::Orientation_t)), this, SLOT(updateOrient(SimpleCommunicator_t::Orientation_t)));
 
     showMessage("Connection...", CL_YELLOW);
 }
@@ -185,6 +187,10 @@ void MainWindow::connectionProviderInit()
 
         _communicator->OnRawSensorDataReceive([&](SimpleCommunicator_t::RawSensorData_t rawSensorData){
             emit rawSensorDataRecievedEvent(rawSensorData);
+        });
+
+        _communicator->OnOrientationReceive([&](SimpleCommunicator_t::Orientation_t o){
+            emit orientationReceivedEvent(o);
         });
 
         _communicator->Begin();
@@ -328,4 +334,19 @@ void MainWindow::onLeak(int send, int receive)
     std::string s = "ATTENTION: Leak: send ";
     s += send; s += ", recieved "; s += receive;
     showMessage(s.c_str(), CL_RED);
+}
+
+void MainWindow::updateOrient(SimpleCommunicator_t::Orientation_t o)
+{
+    float angles[3];
+    angles[0] = atan2(2 * o.q2 * o.q3 - 2 * o.q1 * o.q4, 2 * o.q1 * o.q1 + 2 * o.q2 * o.q2 - 1); // psi
+    angles[1] = -asin(2 * o.q2 * o.q4 + 2 * o.q1 * o.q3); // theta
+    angles[2] = atan2(2 * o.q3 * o.q4 - 2 * o.q1 * o.q2, 2 * o.q1 * o.q1 + 2 * o.q4 * o.q4 - 1); // phi
+    updateHeading(angles[2]*180/3.1416);
+}
+
+void MainWindow::updateHeading(int value)
+{
+    std::string s = std::to_string(value);
+    _ui->headingLabel->setText(s.c_str());
 }

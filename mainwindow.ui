@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>960</width>
-    <height>541</height>
+    <height>599</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -225,6 +225,60 @@
         </property>
         <property name="text">
          <string>DisconnectButton</string>
+        </property>
+       </widget>
+       <widget class="QDial" name="heading">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>400</y>
+          <width>101</width>
+          <height>101</height>
+         </rect>
+        </property>
+        <property name="mouseTracking">
+         <bool>false</bool>
+        </property>
+        <property name="minimum">
+         <number>-180</number>
+        </property>
+        <property name="maximum">
+         <number>180</number>
+        </property>
+        <property name="wrapping">
+         <bool>true</bool>
+        </property>
+        <property name="notchesVisible">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="headingLabel">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>440</y>
+          <width>41</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="headingTitleLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>370</y>
+          <width>61</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Heading</string>
         </property>
        </widget>
       </widget>
