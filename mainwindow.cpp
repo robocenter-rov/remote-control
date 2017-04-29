@@ -332,8 +332,8 @@ void MainWindow::joyManipulatorButtonHandle(int idx, uint8_t value)
 void MainWindow::onLeak(int send, int receive)
 {
     std::string s = "ATTENTION: Leak: send ";
-    s += send; s += ", recieved "; s += receive;
-    showMessage(s.c_str(), CL_RED);
+    s += std::to_string(send); s += ", recieved "; s += std::to_string(receive);
+    showMessageByTimer(s.c_str(), CL_RED);
 }
 
 void MainWindow::updateOrient(SimpleCommunicator_t::Orientation_t o)
