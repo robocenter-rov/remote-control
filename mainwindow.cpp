@@ -285,7 +285,6 @@ void MainWindow::readAndSendJoySensors()
 void MainWindow::joyButtonHandle(int idx, uint8_t value)
 {
     try {
-        //qDebug() << idx << " " << value;
         joyManipulatorButtonHandle(idx, value);
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
