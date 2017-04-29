@@ -349,4 +349,5 @@ void MainWindow::updateHeading(int value)
 {
     std::string s = std::to_string(value);
     _ui->headingLabel->setText(s.c_str());
+    _ui->heading->setValue(value);
 }
