@@ -6,6 +6,11 @@
 #define min(x, y) (((x) < (y)) ? (x) : (y))
 #define max(x, y) (((x) > (y)) ? (x) : (y))
 
+static QPointF rotate(QPointF p, double angle)
+{
+    return QPointF(p.x()*cos(angle) - p.y()*sin(angle), p.x()*sin(angle) + p.y()*cos(angle));
+}
+
 Figure::Figure()
 {
     _pen = QPen(QColor(0, 0, 127, 127));
@@ -33,13 +38,18 @@ void LineFigure::drawArea(QGraphicsScene *scene)
         scene->addPolygon(_area, QPen(QColor(127, 0, 127, 127), 1, Qt::DotLine));
         scene->addText(getInfo());
     }
+    drawResizePoints(scene);
+}
+
+void LineFigure::drawResizePoints(QGraphicsScene *scene)
+{
+    if (!_resizePoints.empty()) {
+        scene->addPolygon(_resizePoints[0], QPen(QColor(0, 0, 0)), QBrush(QColor(255, 255, 102)));
+        scene->addPolygon(_resizePoints[1], QPen(QColor(0, 0, 0)), QBrush(QColor(255, 255, 102)));
+    }
 }
 
 #include <math.h>
-static QPointF rotate(QPointF p, double angle)
-{
-    return QPointF(p.x()*cos(angle) - p.y()*sin(angle), p.x()*sin(angle) + p.y()*cos(angle));
-}
 
 bool LineFigure::inArea(QPointF p)
 {
@@ -76,6 +86,7 @@ void LineFigure::calcArea()
     points << r1t << r2t << r2b << r1b;
 
     _area = QPolygonF(points);
+    calcResizePoints();
 }
 
 void LineFigure::resetPoints(QPointF deltaPoint)
@@ -104,4 +115,28 @@ QString LineFigure::getInfo()
         s.append(" cm");
     }
     return s;
+}
+
+void LineFigure::calcResizePoints()
+{
+    _resizePoints.clear();
+    QPointF np2 = rotatedEndPoint2();
+
+    QList<QPointF> tps;
+    tps << rotate(QPointF(0, -_offset), _angle) <<
+           rotate(QPointF(0, _offset), _angle) <<
+           rotate(QPointF(_offset*2, _offset), _angle) <<
+           rotate(QPointF(_offset*2, -_offset), _angle) <<
+
+           rotate(QPointF(np2.x() - _offset*2, -_offset), _angle) <<
+           rotate(QPointF(np2.x() - _offset*2, _offset), _angle) <<
+           rotate(QPointF(np2.x(), _offset), _angle) <<
+           rotate(QPointF(np2.x(), -_offset), _angle);
+
+    QVector <QPointF> pts1, pts2;
+    for (int i = 0; i < 4; i++) {
+        pts1 << QPointF(_p1.x() + tps[i].x(), _p1.y() + tps[i].y());
+        pts2 << QPointF(_p1.x() + tps[i + 4].x(), _p1.y() + tps[i + 4].y());
+    }
+    _resizePoints << QPolygonF(pts1) << QPolygonF(pts2);
 }
