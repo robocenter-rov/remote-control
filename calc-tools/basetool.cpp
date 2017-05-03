@@ -85,7 +85,7 @@ void LineTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
     if (!_isDraw) return;
     _endPos = point;
     intersection(_startPos, _endPos);
-    scene->addLine(_startPos.x(), _startPos.y(), _endPos.x(), _endPos.y(), QPen(QColor(0, 0, 255, 127)));
+    scene->addLine(_startPos.x(), _startPos.y(), _endPos.x(), _endPos.y(), QPen(QColor(0, 0, 255, 127), 2));
     LineFigure line(_startPos, _endPos);
     scene->addText(line.getInfo());
 }

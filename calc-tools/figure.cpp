@@ -13,7 +13,7 @@ static QPointF rotate(QPointF p, double angle)
 
 Figure::Figure()
 {
-    _pen = QPen(QColor(0, 0, 127, 127));
+    _pen = QPen(QColor(0, 0, 127, 127), 2);
 }
 
 LineFigure::LineFigure(QPointF p1, QPointF p2) :
