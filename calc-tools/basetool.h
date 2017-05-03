@@ -67,6 +67,8 @@ public:
 private:
     QPointF _startPoint;
     QList <Figure *> _selectedFigures;
+    bool _isResize;
+    int _resizePointIdx;
 };
 
 #endif // BASETOOLS_H

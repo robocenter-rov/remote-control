@@ -143,7 +143,8 @@ void SelectTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
 {
     for (auto it = _selectedFigures.begin(); it != _selectedFigures.end(); it++) {
         QPointF deltaP(point.x() - _startPoint.x(), point.y() - _startPoint.y());
-        if (_isDraw) (*it)->resetPoints(deltaP);
+        if (_isResize) (*it)->resizePoint(_resizePointIdx, point);
+        else if (_isDraw) (*it)->resetPoints(deltaP);
     }
     scene->updateScene();
     for (auto it = _selectedFigures.begin(); it != _selectedFigures.end(); it++) {
@@ -155,6 +156,13 @@ void SelectTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
 void SelectTool::drawOnMousePress(GraphicsScene *scene, QPointF point)
 {
     _startPoint = point;
+    for (auto it = _selectedFigures.rbegin(); it != _selectedFigures.rend(); it++) {
+        _resizePointIdx = 0;
+        if (_resizePointIdx = (*it)->inResizePointArea(point)) {
+            _isResize = true;
+            return;
+        }
+    }
     _selectedFigures.clear();
     scene->updateScene();
     for (auto it = figures.rbegin(); it != figures.rend(); it++) {
@@ -166,11 +174,18 @@ void SelectTool::drawOnMousePress(GraphicsScene *scene, QPointF point)
         }
     }
     _isDraw = false;
+    _isResize = false;
 }
 
 void SelectTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
 {
     _isDraw = false;
+    if (_isResize) {
+        for (auto it = figures.rbegin(); it != figures.rend(); it++) {
+            (*it)->sortPoints();
+        }
+        _isResize = false;
+    }
 }
 
 void BaseTool::selectButtonTool(bool state)

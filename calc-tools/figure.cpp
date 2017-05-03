@@ -34,6 +34,7 @@ void LineFigure::draw(QGraphicsScene *scene)
 
 void LineFigure::drawArea(QGraphicsScene *scene)
 {
+    calcArea();
     if (!_area.isEmpty()) {
         scene->addPolygon(_area, QPen(QColor(127, 0, 127, 127), 1, Qt::DotLine));
         scene->addText(getInfo());
@@ -53,12 +54,11 @@ void LineFigure::drawResizePoints(QGraphicsScene *scene)
 
 bool LineFigure::inArea(QPointF p)
 {
-    calcArea();
     QPointF t = rotate(QPointF(p.x() - _p1.x(), p.y() - _p1.y()), -_angle);
-    if (((t.x() > 0) &&
-         (t.x() < rotatedEndPoint2().x())) &&
-        ((t.y() > - _offset) &&
-         (t.y() < _offset)))
+    if ((t.x() > 0) &&
+        (t.x() < rotatedEndPoint2().x()) &&
+        (t.y() > - _offset) &&
+        (t.y() < _offset))
         return true;
     return false;
 }
@@ -139,4 +139,40 @@ void LineFigure::calcResizePoints()
         pts2 << QPointF(_p1.x() + tps[i + 4].x(), _p1.y() + tps[i + 4].y());
     }
     _resizePoints << QPolygonF(pts1) << QPolygonF(pts2);
+}
+
+void LineFigure::resizePoint(int idx, QPointF point)
+{
+    if (idx == 1) {
+        _p1 = point;
+    }
+    if (idx == 2) {
+        _p2 = point;
+    }
+    double deltay = _p2.y() - _p1.y();
+    double deltax = _p2.x() - _p1.x();
+    _angle = atan2(deltay, deltax);
+}
+
+int LineFigure::inResizePointArea(QPointF p)
+{
+    QPointF t = rotate(QPointF(p.x() - _p1.x(), p.y() - _p1.y()), -_angle);
+    if ((t.x() > 0) && (t.x() < _offset*2) && (t.y() > -_offset) && (t.y() < _offset)) {
+        return 1;
+    }
+
+    if ((t.x() > rotatedEndPoint2().x() - _offset*2) && (t.x() < rotatedEndPoint2().x()) && (t.y() > - _offset) && (t.y() < _offset)) {
+        return 2;
+    }
+    return 0;
+}
+
+void LineFigure::sortPoints()
+{
+    QPointF p1 = _p1, p2 = _p2;
+    _p1 = (p1.x() <= p2.x()) ? p1 : p2;
+    _p2 = (p1.x() <= p2.x()) ? p2 : p1;
+    double deltay = _p2.y() - _p1.y();
+    double deltax = _p2.x() - _p1.x();
+    _angle = atan2(deltay, deltax);
 }

@@ -17,9 +17,12 @@ public:
     void virtual drawArea(QGraphicsScene *scene) {}
     void virtual drawResizePoints(QGraphicsScene *scene) {}
     bool virtual inArea(QPointF p) { return true; }
+    int virtual inResizePointArea(QPointF p) { return false; }
     void virtual resetPoints(QPointF deltaPoint) {}
+    void virtual resizePoint(int idx, QPointF point) {}
     void virtual calcArea() {}
     void virtual calcResizePoints() {}
+    void virtual sortPoints() {}
     QString virtual getInfo() { return ""; }
 protected:
     QPen _pen;
@@ -36,9 +39,12 @@ public:
     void drawArea(QGraphicsScene *scene) override;
     void drawResizePoints(QGraphicsScene *scene) override;
     bool inArea(QPointF p) override;
+    int inResizePointArea(QPointF p) override;
     void resetPoints(QPointF deltaPoint) override;
+    void resizePoint(int idx, QPointF point) override;
     void calcArea() override;
     void calcResizePoints() override;
+    void sortPoints() override;
     QString getInfo() override;
     int length();
     QPointF rotatedEndPoint2();
