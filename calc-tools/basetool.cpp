@@ -233,3 +233,36 @@ void PoolLineTool::calcAngleOffset(double value)
         _absAngle = poolLine->getAngle();
     axis->rotateAxis(_absAngle-_relAngle);
 }
+ReplaceAxisTool::ReplaceAxisTool(QWidget *parent):
+    BaseTool(parent)
+{
+    _replace = false;
+    _button->setText("ReplaceAxis");
+}
+
+void ReplaceAxisTool::drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point)
+{
+    _replace = true;
+    _startPos = point;
+}
+
+void ReplaceAxisTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
+{
+    if (_replace) {
+        scene->updateAxisCenter(QPointF(point.x() - _startPos.x(), point.y() - _startPos.y()));
+        scene->updateScene();
+    }
+    _startPos = point;
+}
+
+void ReplaceAxisTool::drawOnMousePress(GraphicsScene *scene, QPointF point)
+{
+    _replace = true;
+    _startPos = point;
+}
+
+void ReplaceAxisTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
+{
+    _replace = false;
+}
+

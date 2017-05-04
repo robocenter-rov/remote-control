@@ -190,9 +190,10 @@ AxisFigure::AxisFigure()
     _scene = nullptr;
 }
 
-void AxisFigure::setCenterPoint(QPointF point)
+void AxisFigure::resetCenterPoint(QPointF deltaPoint)
 {
-    _center = point;
+    _center.setX(_center.x() + deltaPoint.x());
+    _center.setY(_center.y() + deltaPoint.y());
 }
 
 void AxisFigure::setAngle(double angle)

@@ -86,6 +86,11 @@ void GraphicsScene::setAxesAngle(double angle)
     _axesAngle = angle;
 }
 
+void GraphicsScene::updateAxisCenter(QPointF point)
+{
+    axis->resetCenterPoint(point);
+}
+
 VideoGraphicsScene::VideoGraphicsScene() : QGraphicsScene()
 {
     _timer = nullptr;

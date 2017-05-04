@@ -85,4 +85,17 @@ private:
     double _relAngle;
     double _absAngle;
 };
+
+class ReplaceAxisTool : public BaseTool
+{
+public:
+    ReplaceAxisTool(QWidget *parent = nullptr);
+    void drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point) override;
+    void drawOnMousePress(GraphicsScene *scene, QPointF point) override;
+    void drawOnMouseMove(GraphicsScene *scene, QPointF point) override;
+    void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
+private:
+    bool _replace;
+    QPointF _startPos;
+};
 #endif // BASETOOLS_H

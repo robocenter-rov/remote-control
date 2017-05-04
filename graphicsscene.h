@@ -28,6 +28,7 @@ public:
     void clearScene();
     void setShowAxes(bool value);
     void setAxesAngle(double angle);
+    void updateAxisCenter(QPointF point);
 protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

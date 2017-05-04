@@ -61,7 +61,7 @@ class AxisFigure : public Figure
 public:
     AxisFigure();
     ~AxisFigure() {}
-    void setCenterPoint(QPointF point);
+    void resetCenterPoint(QPointF deltaPoint);
     void setAngle(double angle);
     void draw(QGraphicsScene *scene) override;
     void rotateAxis(double angle);
