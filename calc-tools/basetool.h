@@ -98,4 +98,20 @@ private:
     bool _replace;
     QPointF _startPos;
 };
+
+class ContainersCenterTool : public BaseTool
+{
+    Q_OBJECT
+public:
+    ContainersCenterTool(QWidget *parent = nullptr);
+    void drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point) override;
+    void drawOnMousePress(GraphicsScene *scene, QPointF point) override;
+    void drawOnMouseMove(GraphicsScene *scene, QPointF point) override;
+    void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
+private slots:
+    void selectButtonTool(bool);
+private:
+    double _offset;
+    GraphicsScene *_scene;
+};
 #endif // BASETOOLS_H

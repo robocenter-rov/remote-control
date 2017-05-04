@@ -10,6 +10,7 @@
 double scaleCoef;
 
 QList <Figure *> figures;
+QList <QRectF> containerCenters;
 
 static bool inRect(QPointF p)
 {
@@ -233,6 +234,7 @@ void PoolLineTool::calcAngleOffset(double value)
         _absAngle = poolLine->getAngle();
     axis->rotateAxis(_absAngle-_relAngle);
 }
+
 ReplaceAxisTool::ReplaceAxisTool(QWidget *parent):
     BaseTool(parent)
 {
@@ -266,3 +268,45 @@ void ReplaceAxisTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
     _replace = false;
 }
 
+ContainersCenterTool::ContainersCenterTool(QWidget *parent) :
+    BaseTool(parent)
+{
+    _button->setText("ContainersCenter");
+    _scene = nullptr;
+}
+
+void ContainersCenterTool::drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point)
+{
+
+}
+
+void ContainersCenterTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
+{
+    _offset = 3;
+    if ((point.x() > 0) && (point.x() < 640) && (point.y() > 0) && (point.y() < 480)) {
+        scene->addRect(point.x(), point.y(), _offset, _offset);
+        scene->addLine(axis->getCenterPoint().x(), axis->getCenterPoint().y(), point.x() + _offset, point.y() + _offset, QPen(QColor(200, 0, 0)));
+        LineFigure line(QPointF(axis->getCenterPoint().x(), axis->getCenterPoint().y()), QPointF(point.x() + _offset, point.y() + _offset));
+        scene->addText(line.getInfo());
+    }
+    if (_scene == nullptr) {
+        _scene = scene;
+    }
+}
+
+void ContainersCenterTool::drawOnMousePress(GraphicsScene *scene, QPointF point)
+{
+
+}
+
+void ContainersCenterTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
+{
+    if ((point.x() > 0) && (point.x() < 640) && (point.y() > 0) && (point.y() < 480))
+        containerCenters.append(QRectF(point.x(), point.y(), _offset, _offset));
+}
+
+void ContainersCenterTool::selectButtonTool(bool value)
+{
+    _scene->setShowContainersCenters(value);
+    _scene->updateScene();
+}
