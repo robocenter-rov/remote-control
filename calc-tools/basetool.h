@@ -77,9 +77,6 @@ class PoolLineTool : public LineTool
     Q_OBJECT
 public:
     PoolLineTool(QWidget *parent = nullptr);
-    /*void drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point) override;
-    void drawOnMousePress(GraphicsScene *scene, QPointF point) override;
-    void drawOnMouseMove(GraphicsScene *scene, QPointF point) override;*/
     void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
     ~PoolLineTool() {}
 private slots:
