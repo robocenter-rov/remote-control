@@ -75,6 +75,7 @@ void CalcWindow::generateTools()
     _tools.append(new SelectTool(_ui->toolsWidget));
     _tools.append(new PoolLineTool(_ui->toolsWidget));
     _tools.append(new ReplaceAxisTool(_ui->toolsWidget));
+    _tools.append(new ContainersCenterTool(_ui->toolsWidget));
 }
 
 void CalcWindow::changedTabIndex()
