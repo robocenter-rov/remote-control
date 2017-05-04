@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="screensTab">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="videoTab">
        <attribute name="title">
@@ -62,7 +62,15 @@
             <height>16777215</height>
            </size>
           </property>
-          <layout class="QHBoxLayout" name="toolsLayout"/>
+          <layout class="QHBoxLayout" name="toolsLayout">
+           <item>
+            <widget class="QCheckBox" name="axesCheckBox">
+             <property name="text">
+              <string>Axes</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>
