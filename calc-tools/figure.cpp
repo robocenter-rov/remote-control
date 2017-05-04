@@ -177,3 +177,43 @@ void LineFigure::sortPoints()
     double deltax = _p2.x() - _p1.x();
     _angle = atan2(deltay, deltax);
 }
+
+AxisFigure::AxisFigure()
+{
+    _center = QPointF(320, 240);
+    _angle = 0;
+    _scene = nullptr;
+}
+
+void AxisFigure::setCenterPoint(QPointF point)
+{
+    _center = point;
+}
+
+void AxisFigure::setAngle(double angle)
+{
+    _angle = angle;
+}
+
+void AxisFigure::draw(QGraphicsScene *scene)
+{
+    QPointF tox1 = rotate(QPointF(_center.x() - _center.x(), 1 - _center.y()), _angle);
+    QPointF tox2 = rotate(QPointF(_center.x() - _center.x(), 479 - _center.y()), _angle);
+    QPointF toy1 = rotate(QPointF(1 - _center.x(), _center.y() - _center.y()), _angle);
+    QPointF toy2 = rotate(QPointF(639 - _center.x(), _center.y() - _center.y()), _angle);
+
+    QPointF ox1 = QPointF(tox1.x() + _center.x(), tox1.y() + _center.y());
+    QPointF ox2 = QPointF(tox2.x() + _center.x(), tox2.y() + _center.y());
+    QPointF oy1 = QPointF(toy1.x() + _center.x(), toy1.y() + _center.y());
+    QPointF oy2 = QPointF(toy2.x() + _center.x(), toy2.y() + _center.y());
+    scene->addLine(QLineF(ox1, ox2));
+    scene->addLine(QLineF(oy1, oy2));
+    if (_scene == nullptr)
+        _scene = dynamic_cast<GraphicsScene *>(scene);
+}
+
+void AxisFigure::rotateAxis(double angle) {
+    _angle = angle;
+    if (_scene != nullptr)
+        _scene->updateScene();
+}

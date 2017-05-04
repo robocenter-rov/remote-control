@@ -55,4 +55,18 @@ private:
     double _angle;
 };
 
+class AxisFigure : public Figure
+{
+public:
+    AxisFigure();
+    ~AxisFigure() {}
+    void setCenterPoint(QPointF point);
+    void setAngle(double angle);
+    void draw(QGraphicsScene *scene) override;
+    void rotateAxis(double angle);
+private:
+    QPointF _center;
+    double _angle;
+    GraphicsScene *_scene;
+};
 #endif // FIGURE_H
