@@ -178,6 +178,11 @@ void LineFigure::sortPoints()
     _angle = atan2(deltay, deltax);
 }
 
+double LineFigure::getAngle()
+{
+    return _angle;
+}
+
 AxisFigure::AxisFigure()
 {
     _center = QPointF(320, 240);

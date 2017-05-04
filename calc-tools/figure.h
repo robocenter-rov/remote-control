@@ -48,6 +48,7 @@ public:
     QString getInfo() override;
     int length();
     QPointF rotatedEndPoint2();
+    double getAngle();
 private:
     QPointF _p1;
     QPointF _p2;
