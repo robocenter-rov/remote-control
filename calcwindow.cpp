@@ -38,6 +38,7 @@ CalcWindow::CalcWindow(QWidget *parent) :
     loadQSS();
     generateTools();
     connect(_ui->screensTab, SIGNAL(currentChanged(int)), this, SLOT(changedTabIndex()));
+    connect(_ui->axesCheckBox, SIGNAL(stateChanged(int)), this, SLOT(showAxes(int)));
     _clearButton = new QPushButton(_ui->toolsWidget);
     initClearButton();
 }
