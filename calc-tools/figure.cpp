@@ -13,10 +13,10 @@ static QPointF rotate(QPointF p, double angle)
 
 Figure::Figure()
 {
-    _pen = QPen(QColor(0, 0, 127, 127), 2);
+
 }
 
-LineFigure::LineFigure(QPointF p1, QPointF p2) :
+LineFigure::LineFigure(QPointF p1, QPointF p2, QPen pen) :
     Figure()
 {
     _p1 = (p1.x() < p2.x()) ? p1 : p2;
@@ -24,6 +24,7 @@ LineFigure::LineFigure(QPointF p1, QPointF p2) :
     double deltay = _p2.y() - _p1.y();
     double deltax = _p2.x() - _p1.x();
     _angle = atan(deltay/deltax);
+    _pen = pen;
     calcArea();
 }
 

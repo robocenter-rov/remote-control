@@ -49,6 +49,7 @@ protected:
     QPointF _endPos;
     LineFigure *_line;
     QDoubleSpinBox *_spinBox;
+    QPen _pen;
 };
 
 extern QList <BaseTool *> tools;

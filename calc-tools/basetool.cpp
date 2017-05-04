@@ -61,6 +61,7 @@ LineTool::LineTool(QWidget *parent):
 {
     _spinBox = nullptr;
     _button->setText("Line");
+    _pen = QPen(QColor(0, 0, 255, 127), 2);
 }
 
 LineTool::~LineTool()
@@ -85,7 +86,7 @@ void LineTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
     if (!_isDraw) return;
     _endPos = point;
     intersection(_startPos, _endPos);
-    scene->addLine(_startPos.x(), _startPos.y(), _endPos.x(), _endPos.y(), QPen(QColor(0, 0, 255, 127), 2));
+    scene->addLine(_startPos.x(), _startPos.y(), _endPos.x(), _endPos.y(), _pen);
     LineFigure line(_startPos, _endPos);
     scene->addText(line.getInfo());
 }

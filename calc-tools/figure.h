@@ -33,7 +33,7 @@ protected:
 class LineFigure : public Figure
 {
 public:
-    LineFigure(QPointF p1, QPointF p2);
+    LineFigure(QPointF p1, QPointF p2, QPen pen = QPen(QColor(0, 0, 127, 127), 2));
     ~LineFigure(){}
     void draw(QGraphicsScene *scene) override;
     void drawArea(QGraphicsScene *scene) override;
