@@ -96,3 +96,8 @@ void CalcWindow::clearScreenView()
     _mapScene->clearScene();
     _screenScene->updateScene();
 }
+
+void CalcWindow::showAxes(int value)
+{
+    _screenScene->setShowAxes(value);
+}

@@ -26,13 +26,13 @@ public:
 private slots:
     void changedTabIndex();
     void clearScreenView();
+    void showAxes(int value);
 private:
     void loadQSS();
     void generateTools();
     void initClearButton();
     bool eventFilter(QObject *, QEvent *event);
     void onScreenViewMousePressEvent(QMouseEvent *event);
-
     Ui::CalcWindow *_ui;
     RoboCamera *_mainCamera;
     GraphicsScene *_screenScene;
