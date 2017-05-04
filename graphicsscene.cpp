@@ -49,6 +49,16 @@ void GraphicsScene::updateScene()
     if (_showAxes) {
         axis->draw(this);
     }
+    if (_showContainersCenters) {
+        QString s("\n\n\n");
+        for (auto it = containerCenters.begin(); it != containerCenters.end(); it++) {
+            this->addRect(*it);
+            this->addLine(axis->getCenterPoint().x(), axis->getCenterPoint().y(), (*it).x(), (*it).y());
+            LineFigure line(QPointF(axis->getCenterPoint().x(), axis->getCenterPoint().y()), QPointF((*it).x(), (*it).y()));
+            s += line.getInfo() + "\n";
+        }
+        this->addText(s);
+    }
     if (poolLine != nullptr) {
         poolLine->draw(this);
     }
@@ -60,6 +70,7 @@ void GraphicsScene::clearScene()
     for (auto it = t.begin(); it != t.end(); it++) {
         QGraphicsScene::removeItem(dynamic_cast<QGraphicsItem *>(*it));
     }
+    containerCenters.clear();
     for (auto it = figures.begin(); it != figures.end(); it++)
         (dynamic_cast<Figure *>(*it))->~Figure();
 }
@@ -89,6 +100,11 @@ void GraphicsScene::setAxesAngle(double angle)
 void GraphicsScene::updateAxisCenter(QPointF point)
 {
     axis->resetCenterPoint(point);
+}
+
+void GraphicsScene::setShowContainersCenters(bool value)
+{
+    _showContainersCenters = value;
 }
 
 VideoGraphicsScene::VideoGraphicsScene() : QGraphicsScene()
@@ -193,8 +209,21 @@ MapGraphicsScene::MapGraphicsScene() : QGraphicsScene()
 
 void MapGraphicsScene::updateScene()
 {
+    QList<QGraphicsItem *> t = items();
+    for (auto it = t.begin(); it != t.end(); it++) {
+        QGraphicsScene::removeItem(dynamic_cast<QGraphicsItem *>(*it));
+    }
     for (auto it = figures.begin(); it != figures.end(); it++)
         (dynamic_cast<Figure *>(*it))->draw(this);
+    axis->draw(this);
+    QString s("\n\n\n");
+    for (auto it = containerCenters.begin(); it != containerCenters.end(); it++) {
+        this->addRect(*it);
+        this->addLine(axis->getCenterPoint().x(), axis->getCenterPoint().y(), (*it).x(), (*it).y());
+        LineFigure line(QPointF(axis->getCenterPoint().x(), axis->getCenterPoint().y()), QPointF((*it).x(), (*it).y()));
+        s += line.getInfo() + "\n";
+    }
+    this->addText(s);
 }
 
 void MapGraphicsScene::clearScene()
@@ -203,6 +232,8 @@ void MapGraphicsScene::clearScene()
     for (auto it = t.begin(); it != t.end(); it++) {
         QGraphicsScene::removeItem(dynamic_cast<QGraphicsItem *>(*it));
     }
+    //containerCenters.clear();
+
     for (auto it = figures.begin(); it != figures.end(); it++)
         (dynamic_cast<Figure *>(*it))->~Figure();
 }

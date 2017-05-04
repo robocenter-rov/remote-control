@@ -16,6 +16,7 @@ class MapGraphicsScene;
 extern QList <Figure *> figures;
 extern AxisFigure *axis;
 extern LineFigure *poolLine;
+extern QList <QRectF> containerCenters;
 
 class GraphicsScene : public QGraphicsScene
 {
@@ -29,6 +30,7 @@ public:
     void setShowAxes(bool value);
     void setAxesAngle(double angle);
     void updateAxisCenter(QPointF point);
+    void setShowContainersCenters(bool value);
 protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -39,6 +41,7 @@ public slots:
 private:
     QGraphicsPixmapItem *_screen;
     bool _showAxes;
+    bool _showContainersCenters;
     double _axesAngle;
     QPointF _centerOfCoordSystem;
 };
