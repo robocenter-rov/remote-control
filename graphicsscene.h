@@ -8,11 +8,14 @@
 
 class Figure;
 class LineFigure;
+class AxisFigure;
 class SelectTool;
 class RoboCamera;
 class MapGraphicsScene;
 
 extern QList <Figure *> figures;
+extern AxisFigure *axis;
+extern LineFigure *poolLine;
 
 class GraphicsScene : public QGraphicsScene
 {
@@ -23,7 +26,8 @@ public:
     void addFigure(Figure *figure);
     void addScreen(QGraphicsPixmapItem *item);
     void clearScene();
-
+    void setShowAxes(bool value);
+    void setAxesAngle(double angle);
 protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -32,8 +36,10 @@ protected:
 public slots:
     void updateScene();
 private:
-    QTimer *_timer;
     QGraphicsPixmapItem *_screen;
+    bool _showAxes;
+    double _axesAngle;
+    QPointF _centerOfCoordSystem;
 };
 
 class VideoGraphicsScene : public QGraphicsScene

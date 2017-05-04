@@ -6,11 +6,14 @@
 
 QList <BaseTool *> tools;
 BaseTool *currentTool;
+AxisFigure *axis;
+LineFigure *poolLine;
 
 GraphicsScene::GraphicsScene() :
     QGraphicsScene()
 {
-
+    axis = new AxisFigure();
+    _showAxes = false;
 }
 
 void GraphicsScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
@@ -43,6 +46,12 @@ void GraphicsScene::updateScene()
     addItem(_screen);
     for (auto it = figures.begin(); it != figures.end(); it++)
         (dynamic_cast<Figure *>(*it))->draw(this);
+    if (_showAxes) {
+        axis->draw(this);
+    }
+    if (poolLine != nullptr) {
+        poolLine->draw(this);
+    }
 }
 
 void GraphicsScene::clearScene()
@@ -64,6 +73,17 @@ void GraphicsScene::addScreen(QGraphicsPixmapItem *item)
 {
     addItem(item);
     _screen = item;
+}
+
+void GraphicsScene::setShowAxes(bool value)
+{
+    _showAxes = value;
+    updateScene();
+}
+
+void GraphicsScene::setAxesAngle(double angle)
+{
+    _axesAngle = angle;
 }
 
 VideoGraphicsScene::VideoGraphicsScene() : QGraphicsScene()
@@ -181,4 +201,3 @@ void MapGraphicsScene::clearScene()
     for (auto it = figures.begin(); it != figures.end(); it++)
         (dynamic_cast<Figure *>(*it))->~Figure();
 }
-
