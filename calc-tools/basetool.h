@@ -72,4 +72,20 @@ private:
     int _resizePointIdx;
 };
 
+class PoolLineTool : public LineTool
+{
+    Q_OBJECT
+public:
+    PoolLineTool(QWidget *parent = nullptr);
+    /*void drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point) override;
+    void drawOnMousePress(GraphicsScene *scene, QPointF point) override;
+    void drawOnMouseMove(GraphicsScene *scene, QPointF point) override;*/
+    void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
+    ~PoolLineTool() {}
+private slots:
+    void calcAngleOffset(double);
+private:
+    double _relAngle;
+    double _absAngle;
+};
 #endif // BASETOOLS_H

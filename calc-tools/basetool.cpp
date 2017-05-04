@@ -8,6 +8,7 @@
 #define SCENE_HEIGHT 480
 
 double scaleCoef;
+
 QList <Figure *> figures;
 
 static bool inRect(QPointF p)
@@ -192,4 +193,43 @@ void SelectTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
 void BaseTool::selectButtonTool(bool state)
 {
     currentTool = this;
+}
+
+PoolLineTool::PoolLineTool(QWidget *parent):
+    LineTool(parent)
+{
+    _spinBox = nullptr;
+    _button->setText("PoolLine");
+    _pen = QPen(QColor(255, 255, 153), 2);
+    _relAngle = 0;
+}
+
+void PoolLineTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
+{
+    _endPos = point;
+    intersection(_startPos, _endPos);
+    if (_endPos != _startPos){
+        if (poolLine != nullptr) {
+            delete poolLine;
+        }
+        poolLine = new LineFigure(_startPos, _endPos, _pen);
+    }
+    _isDraw = false;
+    if (_spinBox == nullptr) {
+        _spinBox = new QDoubleSpinBox(_parent);
+        _spinBox->setGeometry(_spinBox->x(), _spinBox->y() + 34*_nextId, _spinBox->width(), _spinBox->height());
+        _spinBox->setMinimum(0);
+        _spinBox->setMaximum(360);
+        _spinBox->show();
+        connect(_spinBox, SIGNAL(valueChanged(double)), this, SLOT(calcAngleOffset(double)));
+        calcAngleOffset(0);
+    }
+}
+
+void PoolLineTool::calcAngleOffset(double value)
+{
+    _relAngle = value*3.1416/180;
+    if (poolLine != nullptr)
+        _absAngle = poolLine->getAngle();
+    axis->rotateAxis(_absAngle-_relAngle);
 }
