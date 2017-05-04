@@ -223,3 +223,8 @@ void AxisFigure::rotateAxis(double angle) {
     if (_scene != nullptr)
         _scene->updateScene();
 }
+
+QPointF AxisFigure::getCenterPoint()
+{
+    return _center;
+}
