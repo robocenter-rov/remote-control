@@ -206,25 +206,25 @@
          <rect>
           <x>10</x>
           <y>330</y>
-          <width>131</width>
+          <width>71</width>
           <height>31</height>
          </rect>
         </property>
         <property name="text">
-         <string>connectButton</string>
+         <string>connect</string>
         </property>
        </widget>
        <widget class="QPushButton" name="disconnectButton">
         <property name="geometry">
          <rect>
-          <x>150</x>
+          <x>90</x>
           <y>330</y>
-          <width>141</width>
+          <width>91</width>
           <height>31</height>
          </rect>
         </property>
         <property name="text">
-         <string>DisconnectButton</string>
+         <string>Disconnect</string>
         </property>
        </widget>
        <widget class="QDial" name="heading">
