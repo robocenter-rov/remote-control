@@ -143,8 +143,6 @@ void MainWindow::onTaskTimeout()
 
 void MainWindow::connectionProviderInit()
 {
-    _connectionProvider = new UARTConnectionProvider_t("COM3", 115200, 200, 200);
-    _communicator = new SimpleCommunicator_t(_connectionProvider);
     try {
         _connectionProvider->Begin();
 
