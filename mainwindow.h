@@ -15,6 +15,9 @@
 #include "remote-control-library/SimpleCommunicator.h"
 #include <iostream>
 #include "remote-control-library/Utils.h"
+#include <QString>
+
+extern QString COMportName;
 
 namespace Ui {
     class MainWindow;

@@ -32,9 +32,12 @@ void StartWindow::loadQSS()
 
 void StartWindow::onMainPilotButtonClicked()
 {
-    _mainWindow = new MainWindow();
-    _mainWindow->showMaximized();
-    this->close();
+    COMportName = ui->comPortNameInput->text();
+    if (COMportName != "")  {
+        _mainWindow = new MainWindow();
+        _mainWindow->showMaximized();
+        this->close();
+    }
 }
 
 void StartWindow::onCalcButtonClicked()

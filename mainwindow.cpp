@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include <iostream>
 
+QString COMportName;
+
 static QColor msgColor[3] = {
     QColor(0, 204, 102),
     QColor(255, 102, 102),
@@ -24,6 +26,9 @@ MainWindow::MainWindow(QWidget *parent)
       _joyTimer(new QTimer(this)),
       _joy(new Joystick())
 {
+    qDebug() << COMportName;
+    _connectionProvider = new UARTConnectionProvider_t(COMportName.toStdString().c_str(), 115200, 200, 200);
+    _communicator = new SimpleCommunicator_t(_connectionProvider);
     _ui->setupUi(this);
 
     cameraInit();
