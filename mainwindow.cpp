@@ -309,8 +309,6 @@ void MainWindow::readAndSendJoySensors()
          z = z/t;
          _communicator->SetMovementForce(x, y);
          _communicator->SetSinkingForce(z);
-
-        //_communicator->SetMotorsState(thrust[0], thrust[1], thrust[2], thrust[3], thrust[4], thrust[5]);
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
