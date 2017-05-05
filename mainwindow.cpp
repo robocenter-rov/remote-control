@@ -281,8 +281,33 @@ void MainWindow::readAndSendJoySensors()
         for (int i = 0; i < 6; i++) {
             thrust[i] = _joy->axesAt(i);
         }
-        qDebug() << thrust;
-        _communicator->SetMotorsState(thrust[0], thrust[1], thrust[2], thrust[3], thrust[4], thrust[5]);
+
+        int eps = 4000;
+        uint8_t axes1 = (abs(thrust[1]) < eps) ? 0 : thrust[1];
+        uint8_t axes0 = (abs(thrust[0]) < eps) ? 0 : thrust[0];
+        uint8_t axes4 = (abs(thrust[4]) < eps) ? 0 : thrust[4];
+        double dist = sqrt(pow(axes1, 2) + pow(axes0, 2) + pow(axes4, 2));
+        double x, y, z;
+        if (dist > INT16_MAX) {    
+            x = axes1/dist * INT16_MAX;
+            y = axes0/dist * INT16_MAX;
+            z = axes4/dist * INT16_MAX;
+         } else {
+            x = axes1;
+            y = axes0;
+            z = axes4;
+         }
+         /*_pos.ty = 0; // pitch
+          _pos.tz = axes3; // heading*/
+
+         double t = INT16_MAX/100.0;
+         x = x/t;
+         y = y/t;
+         z = z/t;
+         _communicator->SetMovementForce(x, y);
+         _communicator->SetSinkingForce(z);
+
+        //_communicator->SetMotorsState(thrust[0], thrust[1], thrust[2], thrust[3], thrust[4], thrust[5]);
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
