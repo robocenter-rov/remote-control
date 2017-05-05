@@ -197,8 +197,8 @@ void MainWindow::connectionProviderInit()
         });
 
         _communicator->Begin();
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
+    } catch (CantOpenPortException_t &e) {
+        qDebug() << e.error_message.c_str() << "Port name: " << e.port_name.c_str() << " Error code: " << e.error_code;
     }
 }
 
