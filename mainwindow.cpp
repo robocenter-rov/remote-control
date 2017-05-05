@@ -290,7 +290,7 @@ void MainWindow::readAndSendJoySensors()
         uint8_t axes0 = (abs(thrust[0]) < eps) ? 0 : thrust[0];
         uint8_t axes4 = (abs(thrust[4]) < eps) ? 0 : thrust[4];
         double dist = sqrt(pow(axes1, 2) + pow(axes0, 2) + pow(axes4, 2));
-        double x, y, z;
+        double x, y, z, ty, tz;
         if (dist > INT16_MAX) {    
             x = axes1/dist * INT16_MAX;
             y = axes0/dist * INT16_MAX;
@@ -300,8 +300,8 @@ void MainWindow::readAndSendJoySensors()
             y = axes0;
             z = axes4;
          }
-         /*_pos.ty = 0; // pitch
-          _pos.tz = axes3; // heading*/
+         ty = 0; // pitch
+         tz = axes3; // heading
 
          double t = INT16_MAX/100.0;
          x = x/t;
@@ -309,6 +309,7 @@ void MainWindow::readAndSendJoySensors()
          z = z/t;
          _communicator->SetMovementForce(x, y);
          _communicator->SetSinkingForce(z);
+         _communicator->SetYaw(tz);
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
