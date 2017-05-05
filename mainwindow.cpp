@@ -301,12 +301,14 @@ void MainWindow::readAndSendJoySensors()
             z = axes4;
          }
          ty = 0; // pitch
-         tz = axes3; // heading
+         tz = thrust[3]; // heading
 
          double t = INT16_MAX/100.0;
          x = x/t;
          y = y/t;
          z = z/t;
+         ty = ty/t;
+         tz = tz/t;
          _communicator->SetMovementForce(x, y);
          _communicator->SetSinkingForce(z);
          _communicator->SetYaw(tz);
