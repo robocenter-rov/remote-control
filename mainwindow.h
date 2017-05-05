@@ -51,12 +51,14 @@ private slots:
     void onLeak(int send, int receive);
     void updateOrient(SimpleCommunicator_t::Orientation_t orient);
     void updateHeading(int value);
+    void updateI2CDevicesState(SimpleCommunicator_t::I2CDevices_t devices);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
     void rawSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t rawSensorData);
     void leakEvent(int send, int receive);
     void orientationReceivedEvent(SimpleCommunicator_t::Orientation_t orient);
+    void I2CDevicesRecieveEvent(SimpleCommunicator_t::I2CDevices_t devices);
 private:
     void cameraInit();
     void loadQSS();

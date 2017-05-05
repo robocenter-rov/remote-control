@@ -55,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(rawSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t)), this, SLOT(updatePosInfo(SimpleCommunicator_t::RawSensorData_t)));
     connect(this, SIGNAL(leakEvent(int, int)), this, SLOT(onLeak(int, int)));
     connect(this, SIGNAL(orientationReceivedEvent(SimpleCommunicator_t::Orientation_t)), this, SLOT(updateOrient(SimpleCommunicator_t::Orientation_t)));
+    connect(this, SIGNAL(I2CDevicesRecieveEvent(SimpleCommunicator_t::I2CDevices_t)), this, SLOT(updateI2CDevicesState(SimpleCommunicator_t::I2CDevices_t)));
 
     showMessage("Connection...", CL_YELLOW);
 }
@@ -160,28 +161,9 @@ void MainWindow::connectionProviderInit()
             emit connectionChangedEvent(connectedStatus);
         });
 
-        _communicator->OnI2CDevicesReceive([](SimpleCommunicator_t::I2CDevices_t devices)
+        _communicator->OnI2CDevicesReceive([&](SimpleCommunicator_t::I2CDevices_t devices)
         {
-            printf("PCA1: ");
-            printf(devices.PCA1 ? "connected\n" : "disconnected\n");
-
-            printf("PCA2: ");
-            printf(devices.PCA2 ? "connected\n" : "disconnected\n");
-
-            printf("ADXL345: ");
-            printf(devices.ADXL345 ? "connected\n" : "disconnected\n");
-
-            printf("HMC58X3: ");
-            printf(devices.HMC58X3 ? "connected\n" : "disconnected\n");
-
-            printf("ITG3200: ");
-            printf(devices.ITG3200 ? "connected\n" : "disconnected\n");
-
-            printf("BMP085: ");
-            printf(devices.BMP085 ? "connected\n" : "disconnected\n");
-
-            printf("MS5803: ");
-            printf(devices.MS5803 ? "connected\n" : "disconnected\n");
+            emit I2CDevicesRecieveEvent(devices);
         });
 
         _communicator->OnStateChange([&](SimpleCommunicator_t::State_t state){
@@ -379,4 +361,15 @@ void MainWindow::updateHeading(int value)
     std::string s = std::to_string(value);
     _ui->headingLabel->setText(s.c_str());
     _ui->heading->setValue(value);
+}
+
+void MainWindow::updateI2CDevicesState(SimpleCommunicator_t::I2CDevices_t devices)
+{
+    _ui->radioPCA1->setChecked(devices.PCA1);
+    _ui->radioPCA2->setChecked(devices.PCA2);
+    _ui->radioADXL345->setChecked(devices.ADXL345);
+    _ui->radioHMC58X3->setChecked(devices.HMC58X3);
+    _ui->radioITG3200->setChecked(devices.ITG3200);
+    _ui->radioBMP085->setChecked(devices.BMP085);
+    _ui->radioMS5803->setChecked(devices.MS5803);
 }
