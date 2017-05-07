@@ -313,14 +313,12 @@ void MainWindow::joyManipulatorButtonHandle()
     if (_joy->atBtn(1)) {
         _curManipulator._handPos = 0.1f;
     }
-
     if (_joy->atBtn(9)) {
          _curManipulator._armPos = 0.1f;
     }
     if (_joy->atBtn(10)) {
         _curManipulator._armPos = -0.1f;
     }
-
     _communicator->SetManipulatorState(
         _curManipulator._armPos,
         _curManipulator._handPos,
