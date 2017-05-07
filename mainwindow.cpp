@@ -365,6 +365,14 @@ void MainWindow::updateHeading(int value)
 
 void MainWindow::updateI2CDevicesState(SimpleCommunicator_t::I2CDevices_t devices)
 {
+    _ui->radioPCA1->setCheckable(true);
+    _ui->radioPCA2->setCheckable(true);
+    _ui->radioADXL345->setCheckable(true);
+    _ui->radioHMC58X3->setCheckable(true);
+    _ui->radioITG3200->setCheckable(true);
+    _ui->radioBMP085->setCheckable(true);
+    _ui->radioMS5803->setCheckable(true);
+
     _ui->radioPCA1->setChecked(devices.PCA1);
     _ui->radioPCA2->setChecked(devices.PCA2);
     _ui->radioADXL345->setChecked(devices.ADXL345);
@@ -372,6 +380,14 @@ void MainWindow::updateI2CDevicesState(SimpleCommunicator_t::I2CDevices_t device
     _ui->radioITG3200->setChecked(devices.ITG3200);
     _ui->radioBMP085->setChecked(devices.BMP085);
     _ui->radioMS5803->setChecked(devices.MS5803);
+
+    _ui->radioPCA1->setCheckable(false);
+    _ui->radioPCA2->setCheckable(false);
+    _ui->radioADXL345->setCheckable(false);
+    _ui->radioHMC58X3->setCheckable(false);
+    _ui->radioITG3200->setCheckable(false);
+    _ui->radioBMP085->setCheckable(false);
+    _ui->radioMS5803->setCheckable(false);
 }
 
 void MainWindow::onScaneI2CdevicesButtonClick(bool value)
