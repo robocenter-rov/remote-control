@@ -282,8 +282,8 @@ void MainWindow::readAndSendJoySensors()
             y /= dist;
          }
 
-         _communicator->SetMovementForce(x, y);
-         _communicator->SetSinkingForce(z);
+         _communicator->SetMovementForce(x * 2, y * 2);
+         _communicator->SetSinkingForce(z * 2);
          _communicator->SetPitchForce(ty);
          _communicator->SetYawForce(tz);
     } catch (ControllerException_t &e) {
