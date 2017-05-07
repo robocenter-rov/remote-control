@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_joyTimer, SIGNAL(timeout()), this, SLOT(readAndSendJoySensors()));
     _joyTimer->setInterval(100);
 
-    connect(_joy, SIGNAL(joyButtonEvent(int,uint8_t)), this, SLOT(joyButtonHandle(int,uint8_t)));
+    connect(_joy, SIGNAL(joyButtonEvent()), this, SLOT(joyButtonHandle()));
     connect(this, SIGNAL(connectionChangedEvent(bool)), this, SLOT(updateConnectionStatus(bool)));
     connect(this, SIGNAL(stateChangedEvent(SimpleCommunicator_t::State_t)), this, SLOT(updateStatus(SimpleCommunicator_t::State_t)));
     connect(this, SIGNAL(rawSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t)), this, SLOT(updatePosInfo(SimpleCommunicator_t::RawSensorData_t)));
@@ -178,6 +178,8 @@ void MainWindow::connectionProviderInit()
             emit orientationReceivedEvent(o);
         });
 
+        _communicator->SetReceiveRawSensorData(true);
+
         _communicator->Begin();
     } catch (CantOpenPortException_t &e) {
         qDebug() << e.error_message.c_str() << "Port name: " << e.port_name.c_str() << " Error code: " << e.error_code;
@@ -289,10 +291,10 @@ void MainWindow::readAndSendJoySensors()
     }
 }
 
-void MainWindow::joyButtonHandle(int idx, uint8_t value)
+void MainWindow::joyButtonHandle()
 {
     try {
-        joyManipulatorButtonHandle(idx, value);
+        joyManipulatorButtonHandle();
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
@@ -301,49 +303,30 @@ void MainWindow::joyButtonHandle(int idx, uint8_t value)
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
-void MainWindow::joyManipulatorButtonHandle(int idx, uint8_t value)
+void MainWindow::joyManipulatorButtonHandle()
 {
-    if (idx == 9){
-        _curManipulator._cntChanged += 1;
-        if (value) {
-            _curManipulator._handPos = MAX(-1, _curManipulator._handPos - 0.01f);
-        } else {
-            _curManipulator._handPos = 0;
-        }
+    _curManipulator._handPos = 0;
+    _curManipulator._armPos = 0;
+    if (_joy->atBtn(0)){
+        _curManipulator._handPos = -0.1f;
     }
-    if (idx == 10) {
-        _curManipulator._cntChanged += 1;
-        if (value) {
-            _curManipulator._handPos = MIN(1, _curManipulator._handPos + 0.01f);
-        } else {
-            _curManipulator._handPos = 0;
-        }
+    if (_joy->atBtn(1)) {
+        _curManipulator._handPos = 0.1f;
     }
-    if (idx == 11) {
-       _curManipulator._cntChanged += 1;
-       if (value) {
-            _curManipulator._armPos = MIN(1, _curManipulator._armPos + 0.01f);
-       } else {
-           _curManipulator._armPos = 0;
-       }
+
+    if (_joy->atBtn(9)) {
+         _curManipulator._armPos = 0.1f;
     }
-    if (idx == 12) {
-        _curManipulator._cntChanged += 1;
-        if (value) {
-            _curManipulator._armPos = MAX(-1, _curManipulator._armPos - 0.01f);
-        } else {
-            _curManipulator._armPos = 0;
-        }
+    if (_joy->atBtn(10)) {
+        _curManipulator._armPos = -0.1f;
     }
-    if (_curManipulator._cntChanged) {
-        _curManipulator._cntChanged = 0;
-        _communicator->SetManipulatorState(
-                    _curManipulator._armPos,
-                    _curManipulator._handPos,
-                    _curManipulator._m1,
-                    _curManipulator._m2
-                    );
-    }
+
+    _communicator->SetManipulatorState(
+        _curManipulator._armPos,
+        _curManipulator._handPos,
+        _curManipulator._m1,
+        _curManipulator._m2
+    );
 }
 
 void MainWindow::onLeak(int send, int receive)

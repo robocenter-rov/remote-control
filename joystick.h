@@ -25,10 +25,12 @@ public:
     void update();
     void handleEvent();
     float axesAt(int idx);
+    bool atBtn(int idx);
 signals:
-    void joyButtonEvent(int idx, uint8_t val);
+    void joyButtonEvent();
 private:
     void joyInit();
+    bool btnState[15];
     SDL_Joystick *_joy;
 };
 

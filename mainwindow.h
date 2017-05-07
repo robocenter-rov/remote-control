@@ -48,7 +48,7 @@ private slots:
     void updateStatus(SimpleCommunicator_t::State_t);
     void updatePosInfo(SimpleCommunicator_t::RawSensorData_t);
     void readAndSendJoySensors();
-    void joyButtonHandle(int idx, uint8_t value);
+    void joyButtonHandle();
     void onLeak(int send, int receive);
     void updateOrient(SimpleCommunicator_t::Orientation_t orient);
     void updateHeading(int value);
@@ -67,7 +67,7 @@ private:
     void showMessage(QString msg, msg_color_t color);
     void showMessageByTimer(QString msg, msg_color_t color);
     void connectionProviderInit();
-    void joyManipulatorButtonHandle(int idx, uint8_t value);
+    void joyManipulatorButtonHandle();
     Ui::MainWindow *_ui;
     RoboCamera *_mainCamera;
     RoboCamera *_extraCamera;

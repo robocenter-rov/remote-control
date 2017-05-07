@@ -58,6 +58,11 @@ void Joystick::handleEvent()
 {
     SDL_JoystickUpdate();
     for (int i = 0; i < 14; i++) {
-        emit joyButtonEvent(i, SDL_JoystickGetButton(_joy, i));
+        btnState[i] = SDL_JoystickGetButton(_joy, i);
     }
+    emit joyButtonEvent();
+}
+
+bool Joystick::atBtn(int idx) {
+    return btnState[idx];
 }
