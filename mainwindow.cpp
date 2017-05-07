@@ -38,7 +38,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_taskTimer, SIGNAL(timeout()), this, SLOT(onTaskTimeout()));
     connect(_ui->connectButton, SIGNAL(clicked(bool)), this, SLOT(onConnectButtonClick(bool)));
     connect(_ui->disconnectButton, SIGNAL(clicked(bool)), this, SLOT(onDisconnectButtonClick(bool)));
-    connect(_ui->flashLightButton, SIGNAL(clicked(bool)), this, SLOT(updateFlashLight(bool)));
     connect(_ui->heading, SIGNAL(valueChanged(int)), this, SLOT(updateHeading(int)));
     connect(_ui->scanI2Cbutton, SIGNAL(clicked(bool)), this, SLOT(onScaneI2CdevicesButtonClick(bool)));
     connect(_ui->bluetoothButton, SIGNAL(clicked(bool)), this, SLOT(onBluetoothButtonClick(bool)));
@@ -198,16 +197,6 @@ void MainWindow::connectionProviderInit()
     }
 }
 
-void MainWindow::updateFlashLight(bool)
-{
-    try {
-        _communicator->SetFlashlightState(_flashLightState = !_flashLightState);
-        //_ui->flashLightLabel->setText((_flashLightState) ? "true" : "false");
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
-}
-
 void MainWindow::updateConnectionStatus(bool connectedStatus)
 {
     qDebug() << "connection is " << connectedStatus;
@@ -264,7 +253,9 @@ void MainWindow::onDisconnectButtonClick(bool)
 
 void MainWindow::updateStatus(SimpleCommunicator_t::State_t state)
 {
-    _ui->flashLightLabel->setText(state.FlashlightState ? "true" : "false");
+    _ui->flashLightRadioButton->setCheckable(true);
+    _ui->flashLightRadioButton->setChecked(state.FlashlightState);
+    _ui->flashLightRadioButton->setCheckable(false);
 }
 
 void MainWindow::updatePosInfo(SimpleCommunicator_t::RawSensorData_t rawSensorData)

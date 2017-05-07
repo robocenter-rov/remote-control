@@ -39,7 +39,6 @@ private slots:
     void updateDepth(float depth);
     void onStartButtonClick(bool);
     void onTaskTimeout();
-    void updateFlashLight(bool);
     void hideMessage();
     void updateConnectionStatus(bool);
     void onConnectButtonClick(bool);
