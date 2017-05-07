@@ -267,33 +267,23 @@ void MainWindow::readAndSendJoySensors()
             thrust[i] = _joy->axesAt(i);
         }
 
-        int eps = 4000;
-        uint8_t axes1 = (abs(thrust[1]) < eps) ? 0 : thrust[1];
-        uint8_t axes0 = (abs(thrust[0]) < eps) ? 0 : thrust[0];
-        uint8_t axes4 = (abs(thrust[4]) < eps) ? 0 : thrust[4];
-        double dist = sqrt(pow(axes1, 2) + pow(axes0, 2) + pow(axes4, 2));
-        double x, y, z, ty, tz;
-        if (dist > INT16_MAX) {    
-            x = axes1/dist * INT16_MAX;
-            y = axes0/dist * INT16_MAX;
-            z = axes4/dist * INT16_MAX;
-         } else {
-            x = axes1;
-            y = axes0;
-            z = axes4;
-         }
-         ty = 0; // pitch
-         tz = thrust[3]; // heading
+        float eps = 0;
+        float x = (abs(thrust[1]) < eps) ? 0 : thrust[1];
+        float y = (abs(thrust[0]) < eps) ? 0 : thrust[0];
+        float z = (abs(thrust[4]) < eps) ? 0 : thrust[4];
+        float ty = 0;
+        float tz = thrust[3];
+        float dist = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 
-         double t = INT16_MAX/100.0;
-         x = x/t;
-         y = y/t;
-         z = z/t;
-         ty = ty/t;
-         tz = tz/t;
+        if (dist > 1) {
+            x /= dist;
+            y /= dist;
+         }
+
          _communicator->SetMovementForce(x, y);
          _communicator->SetSinkingForce(z);
-         _communicator->SetYaw(tz);
+         _communicator->SetPitchForce(ty);
+         _communicator->SetYawForce(tz);
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
