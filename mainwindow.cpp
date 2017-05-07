@@ -172,9 +172,9 @@ void MainWindow::connectionProviderInit()
             emit stateChangedEvent(state);
         });
 
-        _communicator->OnRawSensorDataReceive([&](SimpleCommunicator_t::RawSensorData_t rawSensorData){
+        /*_communicator->OnRawSensorDataReceive([&](SimpleCommunicator_t::RawSensorData_t rawSensorData){
             emit rawSensorDataRecievedEvent(rawSensorData);
-        });
+        });*/
 
         _communicator->OnOrientationReceive([&](SimpleCommunicator_t::Orientation_t o){
             emit orientationReceivedEvent(o);
@@ -183,7 +183,12 @@ void MainWindow::connectionProviderInit()
         _communicator->OnBluetoothMsgReceive([&](std::string msg){
             emit bluetoothMsgRecieveEvent(msg);
         });
-        _communicator->SetReceiveRawSensorData(true);
+
+        _communicator->OnDepthReceive([&](float depth){
+            emit depthRecieveEvent(depth);
+        });
+
+        //_communicator->SetReceiveRawSensorData(true);
 
         _communicator->Begin();
     } catch (CantOpenPortException_t &e) {
