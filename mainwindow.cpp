@@ -263,6 +263,8 @@ void MainWindow::updatePosInfo(SimpleCommunicator_t::RawSensorData_t rawSensorDa
     updateDepth(rawSensorData.Depth);
 }
 
+#define ABS(x) ((x < 0) ? (-x) : (x))
+
 void MainWindow::readAndSendJoySensors()
 {
     _joy->update();
@@ -272,9 +274,9 @@ void MainWindow::readAndSendJoySensors()
         qDebug() << i << " "<< thrust[i];
     }
     float eps = 0.12;
-    float x = (abs(thrust[1]) < eps) ? 0 : thrust[1];
-    float y = (abs(thrust[0]) < eps) ? 0 : thrust[0];
-    float z = (abs(thrust[4]) < eps) ? 0 : thrust[4];
+    float x = (ABS(thrust[1]) < eps) ? 0 : thrust[1];
+    float y = (ABS(thrust[0]) < eps) ? 0 : thrust[0];
+    float z = (ABS(thrust[4]) < eps) ? 0 : thrust[4];
     float ty = 0;
     float tz = thrust[3];
     float dist = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
