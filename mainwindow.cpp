@@ -319,6 +319,12 @@ void MainWindow::joyManipulatorButtonHandle()
     if (_joy->atBtn(10)) {
         _curManipulator._armPos = -0.1f;
     }
+    if (_joy->atBtn(11)) {
+        _communicator->SetCamera1Pos(MIN(1.0f, cameraPos1 += 0.1));
+    }
+    if (_joy->atBtn(12)) {
+        _communicator->SetCamera1Pos(MAX(-1.0f, cameraPos1 -= 0.1));
+    }
     _communicator->SetManipulatorState(
         _curManipulator._armPos,
         _curManipulator._handPos,

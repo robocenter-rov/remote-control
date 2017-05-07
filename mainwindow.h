@@ -90,6 +90,9 @@ private:
         float _m2 = 0.0f;
         int _cntChanged = 0;
     } _curManipulator;
+
+    float cameraPos1 = 0.0f;
+    float cameraPos2 = 0.0f;
 };
 
 #endif // MAINWINDOW_H
