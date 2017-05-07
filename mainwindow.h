@@ -63,6 +63,7 @@ signals:
     void orientationReceivedEvent(SimpleCommunicator_t::Orientation_t orient);
     void I2CDevicesRecieveEvent(SimpleCommunicator_t::I2CDevices_t devices);
     void bluetoothMsgRecieveEvent(std::string msg);
+    void depthRecieveEvent(float depth);
 private:
     void cameraInit();
     void loadQSS();

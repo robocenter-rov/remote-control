@@ -432,6 +432,32 @@
          <string/>
         </property>
        </widget>
+       <widget class="QLabel" name="depthTitleLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>320</y>
+          <width>91</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Depth</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="depthValueLabel">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>320</y>
+          <width>91</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>

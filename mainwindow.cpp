@@ -58,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(orientationReceivedEvent(SimpleCommunicator_t::Orientation_t)), this, SLOT(updateOrient(SimpleCommunicator_t::Orientation_t)));
     connect(this, SIGNAL(I2CDevicesRecieveEvent(SimpleCommunicator_t::I2CDevices_t)), this, SLOT(updateI2CDevicesState(SimpleCommunicator_t::I2CDevices_t)));
     connect(this, SIGNAL(bluetoothMsgRecieveEvent(std::string)), this, SLOT(onBluetoothMsgRecieve(std::string)));
+    connect(this, SIGNAL(depthRecieveEvent(float)), this, SLOT(updateDepth(float)));
 
     showMessage("Connection...", CL_YELLOW);
 }
@@ -92,6 +93,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
 void MainWindow::updateDepth(float depth)
 {
+    _ui->depthValueLabel->setText(std::to_string(depth));
     _mainCamera->getVideoWidget()->setCurrentDepth(depth);
 }
 
