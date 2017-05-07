@@ -374,6 +374,9 @@ void MainWindow::updateOrient(SimpleCommunicator_t::Orientation_t o)
     angles[0] = atan2(2 * o.q2 * o.q3 - 2 * o.q1 * o.q4, 2 * o.q1 * o.q1 + 2 * o.q2 * o.q2 - 1); // psi
     angles[1] = -asin(2 * o.q2 * o.q4 + 2 * o.q1 * o.q3); // theta
     angles[2] = atan2(2 * o.q3 * o.q4 - 2 * o.q1 * o.q2, 2 * o.q1 * o.q1 + 2 * o.q4 * o.q4 - 1); // phi
+    _ui->psiLabel->setText(std::to_string(angles[0]).c_str());
+    _ui->thetaLabel->setText(std::to_string(angles[1]).c_str());
+    _ui->phiLabel->setText(std::to_string(angles[2]).c_str());
     updateHeading(angles[2]*180/3.1416);
 }
 
