@@ -319,11 +319,25 @@ void MainWindow::joyManipulatorButtonHandle()
     if (_joy->atBtn(10)) {
         _curManipulator._armPos = -0.1f;
     }
-    if (_joy->atBtn(11)) {
-        _communicator->SetCamera1Pos(MIN(1.0f, cameraPos1 += 0.1));
+    if (_joy->atBtn(2)) {
+        cameraPos1 = MIN(6.28f, cameraPos1 + 0.1);
+        _communicator->SetCamera1Pos(cameraPos1);
+        qDebug() << cameraPos1;
     }
-    if (_joy->atBtn(12)) {
-        _communicator->SetCamera1Pos(MAX(-1.0f, cameraPos1 -= 0.1));
+    if (_joy->atBtn(4)) {
+        cameraPos1 = MAX(0.f, cameraPos1 - 0.1);
+        _communicator->SetCamera1Pos(cameraPos1);
+        qDebug() << cameraPos1;
+    }
+    if (_joy->atBtn(5)) {
+        cameraPos2 = MIN(6.28f, cameraPos2 + 0.1);
+        _communicator->SetCamera2Pos(cameraPos2);
+        qDebug() << cameraPos2;
+    }
+    if (_joy->atBtn(6)) {
+        cameraPos2 = MAX(0.f, cameraPos2 - 0.1);
+        _communicator->SetCamera2Pos(cameraPos2);
+        qDebug() << cameraPos2;
     }
     if (_joy->atBtn(13)) {
         _communicator->SetFlashlightState(_flashLightState = !_flashLightState);
