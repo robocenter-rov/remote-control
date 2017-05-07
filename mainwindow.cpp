@@ -267,26 +267,25 @@ void MainWindow::updatePosInfo(SimpleCommunicator_t::RawSensorData_t rawSensorDa
 
 void MainWindow::readAndSendJoySensors()
 {
+    _joy->update();
+    float thrust[6];
+    for (int i = 0; i < 6; i++) {
+        thrust[i] = _joy->axesAt(i);
+        qDebug() << i << " "<< thrust[i];
+    }
+    float eps = 0.12;
+    float x = (abs(thrust[1]) < eps) ? 0 : thrust[1];
+    float y = (abs(thrust[0]) < eps) ? 0 : thrust[0];
+    float z = (abs(thrust[4]) < eps) ? 0 : thrust[4];
+    float ty = 0;
+    float tz = thrust[3];
+    float dist = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+
+    if (dist > 1) {
+        x /= dist;
+        y /= dist;
+    }
     try {
-        _joy->update();
-        float thrust[6];
-        for (int i = 0; i < 6; i++) {
-            thrust[i] = _joy->axesAt(i);
-        }
-
-        float eps = 0;
-        float x = (abs(thrust[1]) < eps) ? 0 : thrust[1];
-        float y = (abs(thrust[0]) < eps) ? 0 : thrust[0];
-        float z = (abs(thrust[4]) < eps) ? 0 : thrust[4];
-        float ty = 0;
-        float tz = thrust[3];
-        float dist = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
-
-        if (dist > 1) {
-            x /= dist;
-            y /= dist;
-         }
-
          _communicator->SetMovementForce(x, y);
          _communicator->SetSinkingForce(z);
          _communicator->SetPitchForce(ty);
