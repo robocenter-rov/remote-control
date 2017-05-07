@@ -325,6 +325,9 @@ void MainWindow::joyManipulatorButtonHandle()
     if (_joy->atBtn(12)) {
         _communicator->SetCamera1Pos(MAX(-1.0f, cameraPos1 -= 0.1));
     }
+    if (_joy->atBtn(13)) {
+        _communicator->SetFlashlightState(_flashLightState = !_flashLightState);
+    }
     _communicator->SetManipulatorState(
         _curManipulator._armPos,
         _curManipulator._handPos,
