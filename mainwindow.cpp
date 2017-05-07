@@ -286,8 +286,32 @@ void MainWindow::readAndSendJoySensors()
         y /= dist;
     }
     try {
+<<<<<<< HEAD
          _communicator->SetMovementForce(x, y);
          _communicator->SetSinkingForce(z);
+=======
+        _joy->update();
+        float thrust[6];
+        for (int i = 0; i < 6; i++) {
+            thrust[i] = _joy->axesAt(i);
+        }
+
+        float eps = 0;
+        float x = (abs(thrust[1]) < eps) ? 0 : thrust[1];
+        float y = (abs(thrust[0]) < eps) ? 0 : thrust[0];
+        float z = (abs(thrust[4]) < eps) ? 0 : thrust[4];
+        float ty = 0;
+        float tz = thrust[3];
+        float dist = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+
+        if (dist > 1) {
+            x /= dist;
+            y /= dist;
+         }
+
+         _communicator->SetMovementForce(x * 2, y * 2);
+         _communicator->SetSinkingForce(z * 2);
+>>>>>>> 81f91ab2f2dabdaac28be8f75fb82d3faf7ae312
          _communicator->SetPitchForce(ty);
          _communicator->SetYawForce(tz);
     } catch (ControllerException_t &e) {
@@ -323,11 +347,25 @@ void MainWindow::joyManipulatorButtonHandle()
     if (_joy->atBtn(10)) {
         _curManipulator._armPos = -0.1f;
     }
-    if (_joy->atBtn(11)) {
-        _communicator->SetCamera1Pos(MIN(1.0f, cameraPos1 += 0.1));
+    if (_joy->atBtn(2)) {
+        cameraPos1 = MIN(6.28f, cameraPos1 + 0.1);
+        _communicator->SetCamera1Pos(cameraPos1);
+        qDebug() << cameraPos1;
     }
-    if (_joy->atBtn(12)) {
-        _communicator->SetCamera1Pos(MAX(-1.0f, cameraPos1 -= 0.1));
+    if (_joy->atBtn(4)) {
+        cameraPos1 = MAX(0.f, cameraPos1 - 0.1);
+        _communicator->SetCamera1Pos(cameraPos1);
+        qDebug() << cameraPos1;
+    }
+    if (_joy->atBtn(5)) {
+        cameraPos2 = MIN(6.28f, cameraPos2 + 0.1);
+        _communicator->SetCamera2Pos(cameraPos2);
+        qDebug() << cameraPos2;
+    }
+    if (_joy->atBtn(6)) {
+        cameraPos2 = MAX(0.f, cameraPos2 - 0.1);
+        _communicator->SetCamera2Pos(cameraPos2);
+        qDebug() << cameraPos2;
     }
     if (_joy->atBtn(13)) {
         _communicator->SetFlashlightState(_flashLightState = !_flashLightState);

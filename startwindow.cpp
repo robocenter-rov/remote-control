@@ -13,6 +13,7 @@ StartWindow::StartWindow(QWidget *parent) :
 
     ui->calcButton->setIcon(QIcon(QPixmap::fromImage(QImage("../remote-control/img/math_pilot.png"))));
     ui->calcButton->setIconSize(QSize(60, 60));
+    ui->comPortNameInput->setText("COM3");
     loadQSS();
 }
 
