@@ -406,6 +406,32 @@
          <string>Scan I2C</string>
         </property>
        </widget>
+       <widget class="QPushButton" name="bluetoothButton">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>280</y>
+          <width>91</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Bluetooth</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="bluetoothLabel">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>280</y>
+          <width>151</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>

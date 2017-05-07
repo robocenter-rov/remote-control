@@ -53,6 +53,8 @@ private slots:
     void updateOrient(SimpleCommunicator_t::Orientation_t orient);
     void updateHeading(int value);
     void updateI2CDevicesState(SimpleCommunicator_t::I2CDevices_t devices);
+    void onBluetoothMsgRecieve(std::string msg);
+    void onBluetoothButtonClick(bool);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
@@ -60,6 +62,7 @@ signals:
     void leakEvent(int send, int receive);
     void orientationReceivedEvent(SimpleCommunicator_t::Orientation_t orient);
     void I2CDevicesRecieveEvent(SimpleCommunicator_t::I2CDevices_t devices);
+    void bluetoothMsgRecieveEvent(std::string msg);
 private:
     void cameraInit();
     void loadQSS();

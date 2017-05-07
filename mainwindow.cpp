@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->flashLightButton, SIGNAL(clicked(bool)), this, SLOT(updateFlashLight(bool)));
     connect(_ui->heading, SIGNAL(valueChanged(int)), this, SLOT(updateHeading(int)));
     connect(_ui->scanI2Cbutton, SIGNAL(clicked(bool)), this, SLOT(onScaneI2CdevicesButtonClick(bool)));
+    connect(_ui->bluetoothButton, SIGNAL(clicked(bool)), this, SLOT(onBluetoothButtonClick(bool)));
     connectionProviderInit();
 
     connect(_messageTimer, SIGNAL(timeout()), this, SLOT(hideMessage()));
@@ -56,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(leakEvent(int, int)), this, SLOT(onLeak(int, int)));
     connect(this, SIGNAL(orientationReceivedEvent(SimpleCommunicator_t::Orientation_t)), this, SLOT(updateOrient(SimpleCommunicator_t::Orientation_t)));
     connect(this, SIGNAL(I2CDevicesRecieveEvent(SimpleCommunicator_t::I2CDevices_t)), this, SLOT(updateI2CDevicesState(SimpleCommunicator_t::I2CDevices_t)));
+    connect(this, SIGNAL(bluetoothMsgRecieveEvent(std::string)), this, SLOT(onBluetoothMsgRecieve(std::string)));
 
     showMessage("Connection...", CL_YELLOW);
 }
@@ -178,6 +180,9 @@ void MainWindow::connectionProviderInit()
             emit orientationReceivedEvent(o);
         });
 
+        _communicator->OnBluetoothMsgReceive([&](std::string msg){
+            emit bluetoothMsgRecieveEvent(msg);
+        });
         _communicator->SetReceiveRawSensorData(true);
 
         _communicator->Begin();
@@ -374,6 +379,20 @@ void MainWindow::onScaneI2CdevicesButtonClick(bool value)
 {
     try {
         _communicator->SetRescanI2CDevices();
+    } catch (ControllerException_t &e) {
+        printf(e.error_message.c_str());
+    }
+}
+
+void MainWindow::onBluetoothMsgRecieve(std::string msg)
+{
+    _ui->bluetoothLabel->setText(msg.c_str());
+}
+
+void MainWindow::onBluetoothButtonClick(bool value)
+{
+    try {
+        _communicator->SetReadBluetoothState(true);
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
