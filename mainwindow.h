@@ -44,6 +44,7 @@ private slots:
     void updateConnectionStatus(bool);
     void onConnectButtonClick(bool);
     void onDisconnectButtonClick(bool);
+    void onScaneI2CdevicesButtonClick(bool);
     void updateStatus(SimpleCommunicator_t::State_t);
     void updatePosInfo(SimpleCommunicator_t::RawSensorData_t);
     void readAndSendJoySensors();

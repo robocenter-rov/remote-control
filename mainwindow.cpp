@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->disconnectButton, SIGNAL(clicked(bool)), this, SLOT(onDisconnectButtonClick(bool)));
     connect(_ui->flashLightButton, SIGNAL(clicked(bool)), this, SLOT(updateFlashLight(bool)));
     connect(_ui->heading, SIGNAL(valueChanged(int)), this, SLOT(updateHeading(int)));
-
+    connect(_ui->scanI2Cbutton, SIGNAL(clicked(bool)), this, SLOT(onScaneI2CdevicesButtonClick(bool)));
     connectionProviderInit();
 
     connect(_messageTimer, SIGNAL(timeout()), this, SLOT(hideMessage()));
@@ -372,4 +372,13 @@ void MainWindow::updateI2CDevicesState(SimpleCommunicator_t::I2CDevices_t device
     _ui->radioITG3200->setChecked(devices.ITG3200);
     _ui->radioBMP085->setChecked(devices.BMP085);
     _ui->radioMS5803->setChecked(devices.MS5803);
+}
+
+void MainWindow::onScaneI2CdevicesButtonClick(bool value)
+{
+    try {
+        _communicator->SetRescanI2CDevices();
+    } catch (ControllerException_t &e) {
+        printf(e.error_message.c_str());
+    }
 }

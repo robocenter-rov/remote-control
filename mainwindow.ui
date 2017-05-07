@@ -393,6 +393,19 @@
          <bool>false</bool>
         </property>
        </widget>
+       <widget class="QPushButton" name="scanI2Cbutton">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>160</y>
+          <width>91</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Scan I2C</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>
