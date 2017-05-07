@@ -303,21 +303,37 @@ void MainWindow::joyButtonHandle(int idx, uint8_t value)
 
 void MainWindow::joyManipulatorButtonHandle(int idx, uint8_t value)
 {
-    if (idx == 9 && value) {
+    if (idx == 9){
         _curManipulator._cntChanged += 1;
-        _curManipulator._handPos = MAX(-1, _curManipulator._handPos - 0.01f);
+        if (value) {
+            _curManipulator._handPos = MAX(-1, _curManipulator._handPos - 0.01f);
+        } else {
+            _curManipulator._handPos = 0;
+        }
     }
-    if (idx == 10 && value) {
-        _curManipulator._handPos = MIN(1, _curManipulator._handPos + 0.01f);
+    if (idx == 10) {
         _curManipulator._cntChanged += 1;
+        if (value) {
+            _curManipulator._handPos = MIN(1, _curManipulator._handPos + 0.01f);
+        } else {
+            _curManipulator._handPos = 0;
+        }
     }
-    if (idx == 11 && value) {
-        _curManipulator._armPos = MIN(1, _curManipulator._armPos + 0.01f);
-        _curManipulator._cntChanged += 1;
+    if (idx == 11) {
+       _curManipulator._cntChanged += 1;
+       if (value) {
+            _curManipulator._armPos = MIN(1, _curManipulator._armPos + 0.01f);
+       } else {
+           _curManipulator._armPos = 0;
+       }
     }
-    if (idx == 12 && value) {
-        _curManipulator._armPos = MAX(-1, _curManipulator._armPos - 0.01f);
+    if (idx == 12) {
         _curManipulator._cntChanged += 1;
+        if (value) {
+            _curManipulator._armPos = MAX(-1, _curManipulator._armPos - 0.01f);
+        } else {
+            _curManipulator._armPos = 0;
+        }
     }
     if (_curManipulator._cntChanged) {
         _curManipulator._cntChanged = 0;
