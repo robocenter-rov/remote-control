@@ -572,12 +572,12 @@ void MainWindow::onCamera2PosChanged(int value)
 void MainWindow::onSetMotorsClicked(bool value)
 {
     int m[6];
-    m[0] = _ui->motorIdxSpinBox_1->value();
-    m[1] = _ui->motorIdxSpinBox_2->value();
-    m[2] = _ui->motorIdxSpinBox_3->value();
-    m[3] = _ui->motorIdxSpinBox_4->value();
-    m[4] = _ui->motorIdxSpinBox_5->value();
-    m[5] = _ui->motorIdxSpinBox_6->value();
+    m[0] = _ui->motorIdxSpinBox_1->value() - 1;
+    m[1] = _ui->motorIdxSpinBox_2->value() - 1;
+    m[2] = _ui->motorIdxSpinBox_3->value() - 1;
+    m[3] = _ui->motorIdxSpinBox_4->value() - 1;
+    m[4] = _ui->motorIdxSpinBox_5->value() - 1;
+    m[5] = _ui->motorIdxSpinBox_6->value() - 1;
 
     for (int i = 0; i < 6; i++) {
         for (int j = i + 1; j < 6; j++) {
