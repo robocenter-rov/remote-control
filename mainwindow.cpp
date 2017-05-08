@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(rawSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t)), this, SLOT(updatePosInfo(SimpleCommunicator_t::RawSensorData_t)));
     connect(this, SIGNAL(leakEvent(int, int)), this, SLOT(onLeak(int, int)));
     connect(this, SIGNAL(orientationReceivedEvent(SimpleCommunicator_t::Orientation_t)), this, SLOT(updateOrient(SimpleCommunicator_t::Orientation_t)));
-    connect(this, SIGNAL(I2CDevicesRecieveEvent(SimpleCommunicator_t::I2CDevices_t)), this, SLOT(updateI2CDevicesState(SimpleCommunicator_t::I2CDevices_t)));
+    connect(this, SIGNAL(I2CDevicesRecieveEvent(bool,bool,bool,bool,bool,bool,bool)), this, SLOT(updateI2CDevicesState(bool,bool,bool,bool,bool,bool,bool)));
     connect(this, SIGNAL(bluetoothMsgRecieveEvent(std::string)), this, SLOT(onBluetoothMsgRecieve(std::string)));
     connect(this, SIGNAL(depthRecieveEvent(float)), this, SLOT(updateDepth(float)));
 
@@ -173,7 +173,14 @@ void MainWindow::connectionProviderInit()
 
         _communicator->OnI2CDevicesReceive([&](SimpleCommunicator_t::I2CDevices_t devices)
         {
-            emit I2CDevicesRecieveEvent(devices);
+            emit I2CDevicesRecieveEvent(
+                        devices.PCA1,
+                        devices.PCA2,
+                        devices.ADXL345,
+                        devices.HMC58X3,
+                        devices.ITG3200,
+                        devices.BMP085,
+                        devices.MS5803);
         });
 
         _communicator->OnStateChange([&](SimpleCommunicator_t::State_t state){
@@ -389,7 +396,8 @@ void MainWindow::updateHeading(int value)
     _ui->heading->setValue(value);
 }
 
-void MainWindow::updateI2CDevicesState(SimpleCommunicator_t::I2CDevices_t devices)
+void MainWindow::updateI2CDevicesState(
+        bool PCA1, bool PCA2, bool ADXL345, bool HMC58X3, bool ITG3200, bool BMP085, bool MS5803)
 {
     _ui->radioPCA1->setCheckable(true);
     _ui->radioPCA2->setCheckable(true);
@@ -399,13 +407,13 @@ void MainWindow::updateI2CDevicesState(SimpleCommunicator_t::I2CDevices_t device
     _ui->radioBMP085->setCheckable(true);
     _ui->radioMS5803->setCheckable(true);
 
-    _ui->radioPCA1->setChecked(devices.PCA1);
-    _ui->radioPCA2->setChecked(devices.PCA2);
-    _ui->radioADXL345->setChecked(devices.ADXL345);
-    _ui->radioHMC58X3->setChecked(devices.HMC58X3);
-    _ui->radioITG3200->setChecked(devices.ITG3200);
-    _ui->radioBMP085->setChecked(devices.BMP085);
-    _ui->radioMS5803->setChecked(devices.MS5803);
+    _ui->radioPCA1->setChecked(PCA1);
+    _ui->radioPCA2->setChecked(PCA2);
+    _ui->radioADXL345->setChecked(ADXL345);
+    _ui->radioHMC58X3->setChecked(HMC58X3);
+    _ui->radioITG3200->setChecked(ITG3200);
+    _ui->radioBMP085->setChecked(BMP085);
+    _ui->radioMS5803->setChecked(MS5803);
 
     _ui->radioPCA1->setCheckable(false);
     _ui->radioPCA2->setCheckable(false);
@@ -416,7 +424,7 @@ void MainWindow::updateI2CDevicesState(SimpleCommunicator_t::I2CDevices_t device
     _ui->radioMS5803->setCheckable(false);
 }
 
-void MainWindow::onScaneI2CdevicesButtonClick(bool value)
+void MainWindow::onScaneI2CdevicesButtonClick(bool)
 {
     try {
         _communicator->SetRescanI2CDevices();
