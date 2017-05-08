@@ -57,12 +57,20 @@ float Joystick::axesAt(int idx)
 void Joystick::handleEvent()
 {
     SDL_JoystickUpdate();
-    for (int i = 0; i < 14; i++) {
+    for (int i = 0; i < BUTTON_COUNT; i++) {
+        bool prevState = btnState[i];
         btnState[i] = SDL_JoystickGetButton(_joy, i);
+        _btnStateChanged[i] = !(prevState == btnState[i]);
     }
     emit joyButtonEvent();
 }
 
-bool Joystick::atBtn(int idx) {
+bool Joystick::atBtn(int idx)
+{
     return btnState[idx];
+}
+
+bool Joystick::btnStateChanged(int idx)
+{
+    return _btnStateChanged[idx];
 }

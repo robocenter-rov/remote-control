@@ -15,6 +15,7 @@
 #include <QTimer>
 #include <QObject>
 
+#define BUTTON_COUNT 14
 class Joystick : public QObject
 {
     Q_OBJECT
@@ -26,11 +27,13 @@ public:
     void handleEvent();
     float axesAt(int idx);
     bool atBtn(int idx);
+    bool btnStateChanged(int idx);
 signals:
     void joyButtonEvent();
 private:
     void joyInit();
-    bool btnState[15];
+    bool btnState[BUTTON_COUNT];
+    bool _btnStateChanged[BUTTON_COUNT];
     SDL_Joystick *_joy;
 };
 

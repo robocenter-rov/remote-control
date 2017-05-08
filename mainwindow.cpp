@@ -344,7 +344,9 @@ void MainWindow::joyManipulatorButtonHandle()
         qDebug() << cameraPos2;
     }
     if (_joy->atBtn(13)) {
-        _communicator->SetFlashlightState(_flashLightState = !_flashLightState);
+        if (_joy->btnStateChanged(13)) {
+            _communicator->SetFlashlightState(_flashLightState = !_flashLightState);
+        }
     }
     _communicator->SetManipulatorState(
         _curManipulator._armPos,
