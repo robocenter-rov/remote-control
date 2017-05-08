@@ -1422,6 +1422,106 @@ font-size: 12px;
          <string>Set multipliers</string>
         </property>
        </widget>
+       <widget class="QDoubleSpinBox" name="pitchDSpinBox">
+        <property name="geometry">
+         <rect>
+          <x>460</x>
+          <y>300</y>
+          <width>62</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <double>-100.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>100.000000000000000</double>
+        </property>
+       </widget>
+       <widget class="QLabel" name="pitchILabel">
+        <property name="geometry">
+         <rect>
+          <x>400</x>
+          <y>270</y>
+          <width>51</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>pitch I</string>
+        </property>
+       </widget>
+       <widget class="QDoubleSpinBox" name="pitchISpinBox">
+        <property name="geometry">
+         <rect>
+          <x>460</x>
+          <y>270</y>
+          <width>62</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <double>-100.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>100.000000000000000</double>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pitchPIDButtton">
+        <property name="geometry">
+         <rect>
+          <x>400</x>
+          <y>330</y>
+          <width>121</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Set PID Pitch</string>
+        </property>
+       </widget>
+       <widget class="QDoubleSpinBox" name="pitchPSpinBox">
+        <property name="geometry">
+         <rect>
+          <x>460</x>
+          <y>240</y>
+          <width>62</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <double>-100.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>100.000000000000000</double>
+        </property>
+       </widget>
+       <widget class="QLabel" name="pitchDLabel">
+        <property name="geometry">
+         <rect>
+          <x>400</x>
+          <y>300</y>
+          <width>51</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>pitch D</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="pitchPLabel">
+        <property name="geometry">
+         <rect>
+          <x>400</x>
+          <y>240</y>
+          <width>51</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>pitch P</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>

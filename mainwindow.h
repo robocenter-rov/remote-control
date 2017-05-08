@@ -65,6 +65,7 @@ private slots:
     void onCamera2PosChanged(int);
     void onSetMotorsClicked(bool);
     void onDepthPIDSpinBoxChanged(double);
+    void onPitchPIDSPinBoxChanged(double);
     void onSetMotorsMultiplier(bool);
 signals:
     void connectionChangedEvent(bool connectedStatus);
