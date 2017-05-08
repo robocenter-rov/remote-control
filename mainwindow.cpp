@@ -597,14 +597,15 @@ void MainWindow::onSetMotorsClicked(bool value)
 
 void MainWindow::onDepthPIDSpinBoxChanged(bool value)
 {
-    std::ofstream fout("depth");
     double p = _ui->depthPSpinBox->value();
     double i = _ui->depthISpinBox->value();
     double d = _ui->depthDSpinBox->value();
 
     try {
+        std::ofstream fout;
+        fout.open("depth.txt");
+        fout << p << " " << i << " "<< d;
         _communicator->SetDepthPid(p, i, d);
-        fout << p << i << d;
         fout.close();
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
@@ -632,7 +633,11 @@ void MainWindow::onPitchPIDSpinBoxChanged(bool value)
     double i = _ui->pitchISpinBox->value();
     double d = _ui->pitchDSpinBox->value();
     try {
+        std::ofstream fout;
+        fout.open("pitch.txt");
+        fout << p << " " << i << " "<< d;
         _communicator->SetPitcPid(p, i, d);
+        fout.close();
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
@@ -644,7 +649,11 @@ void MainWindow::onYawPIDSpinBoxChanged(bool value)
     double i = _ui->yawISpinBox->value();
     double d = _ui->yawDSpinBox->value();
     try {
+        std::ofstream fout;
+        fout.open("yaw.txt");
+        fout << p << " " << i << " "<< d;
         _communicator->SetYawPid(p, i, d);
+        fout.close();
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
@@ -653,13 +662,11 @@ void MainWindow::onYawPIDSpinBoxChanged(bool value)
 void MainWindow::onTabChanged(int idx)
 {
     if (idx == 0) {
-        qDebug() << "tab 0";
         if (!_joyTimer->isActive()) {
             _joyTimer->start();
         }
     }
     if (idx == 1) {
-        qDebug() << "tab 1";
         if (_joyTimer->isActive()) {
             _joyTimer->stop();
         }
