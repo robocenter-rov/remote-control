@@ -478,7 +478,7 @@ void MainWindow::onMotor1SliderChanged(int value)
     float val = value/100.0;
     _ui->motor1valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
     try {
-        _communicator->SetMotorState(0, value);
+        _communicator->SetMotorState(0, val);
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
@@ -489,7 +489,7 @@ void MainWindow::onMotor2SliderChanged(int value)
     float val = value/100.0;
     _ui->motor2valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
     try {
-        _communicator->SetMotorState(1, value);
+        _communicator->SetMotorState(1, val);
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
@@ -500,7 +500,7 @@ void MainWindow::onMotor3SliderChanged(int value)
     float val = value/100.0;
     _ui->motor3valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
     try {
-        _communicator->SetMotorState(2, value);
+        _communicator->SetMotorState(2, val);
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
@@ -511,7 +511,7 @@ void MainWindow::onMotor4SliderChanged(int value)
     float val = value/100.0;
     _ui->motor4valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
     try {
-        _communicator->SetMotorState(3, value);
+        _communicator->SetMotorState(3, val);
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
@@ -522,7 +522,7 @@ void MainWindow::onMotor5SliderChanged(int value)
     float val = value/100.0;
     _ui->motor5valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
     try {
-        _communicator->SetMotorState(4, value);
+        _communicator->SetMotorState(4, val);
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
@@ -533,7 +533,7 @@ void MainWindow::onMotor6SliderChanged(int value)
     float val = value/100.0f;
     _ui->motor6valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
     try {
-        _communicator->SetMotorState(5, value);
+        _communicator->SetMotorState(5, val);
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
