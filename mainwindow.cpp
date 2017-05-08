@@ -260,7 +260,7 @@ void MainWindow::onConnectButtonClick(bool)
     try {
         _connectionProvider->Begin();
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -269,7 +269,7 @@ void MainWindow::onDisconnectButtonClick(bool)
     try {
         _connectionProvider->Stop();
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -331,7 +331,7 @@ void MainWindow::readAndSendJoySensors()
             _yaw = tz;
         }*/
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -340,7 +340,7 @@ void MainWindow::joyButtonHandle()
     try {
         joyManipulatorButtonHandle();
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -455,7 +455,7 @@ void MainWindow::onScaneI2CdevicesButtonClick(bool)
     try {
         _communicator->SetRescanI2CDevices();
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -469,7 +469,7 @@ void MainWindow::onBluetoothButtonClick(bool value)
     try {
         _communicator->SetReadBluetoothState(true);
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -480,7 +480,7 @@ void MainWindow::onMotor1SliderChanged(int value)
     try {
         _communicator->SetMotorState(0, val);
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -491,7 +491,7 @@ void MainWindow::onMotor2SliderChanged(int value)
     try {
         _communicator->SetMotorState(1, val);
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -502,7 +502,7 @@ void MainWindow::onMotor3SliderChanged(int value)
     try {
         _communicator->SetMotorState(2, val);
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -513,7 +513,7 @@ void MainWindow::onMotor4SliderChanged(int value)
     try {
         _communicator->SetMotorState(3, val);
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -524,7 +524,7 @@ void MainWindow::onMotor5SliderChanged(int value)
     try {
         _communicator->SetMotorState(4, val);
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -535,7 +535,7 @@ void MainWindow::onMotor6SliderChanged(int value)
     try {
         _communicator->SetMotorState(5, val);
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -555,7 +555,7 @@ void MainWindow::onCamera1PosChanged(int value)
     try {
         _communicator->SetCamera1Pos(value*3.1415/180.0+3.1415);
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -565,7 +565,7 @@ void MainWindow::onCamera2PosChanged(int value)
     try {
         _communicator->SetCamera2Pos(value*3.1415/180.0+3.1415);
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -591,7 +591,7 @@ void MainWindow::onSetMotorsClicked(bool value)
     try {
         _communicator->SetMotorsPositions(m[0], m[1], m[2], m[3], m[4], m[5]);
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -608,7 +608,7 @@ void MainWindow::onDepthPIDSpinBoxChanged(bool value)
         _communicator->SetDepthPid(p, i, d);
         fout.close();
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -627,7 +627,7 @@ void MainWindow::onSetMotorsMultiplier(bool value)
         _communicator->SetMotorsMultiplier(m1, m2, m3, m4, m5, m6);
         fout.close();
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -643,7 +643,7 @@ void MainWindow::onPitchPIDSpinBoxChanged(bool value)
         _communicator->SetPitcPid(p, i, d);
         fout.close();
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -659,7 +659,7 @@ void MainWindow::onYawPIDSpinBoxChanged(bool value)
         _communicator->SetYawPid(p, i, d);
         fout.close();
     } catch (ControllerException_t &e) {
-        printf(e.error_message.c_str());
+        qDebug() << e.error_message.c_str();
     }
 }
 
