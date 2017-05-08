@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->camera2Slider, SIGNAL(valueChanged(int)), this, SLOT(onCamera2PosChanged(int)));
     connect(_ui->depthPIDButtton, SIGNAL(valueChanged(double)), this, SLOT(onDepthPIDSpinBoxChanged(double)));
     connect(_ui->pitchPIDButtton, SIGNAL(valueChanged(double)), this, SLOT(onPitchPIDSpinBoxChanged(double)));
+    connect(_ui->yawPIDButtton, SIGNAL(valueChanged(double)), this, SLOT(onYawPIDSpinBoxChanged(double)));
     connect(_ui->setMotorsMulButton, SIGNAL(clicked(bool)), this, SLOT(onSetMotorsMultiplier(bool)));
     connectionProviderInit();
 
@@ -628,6 +629,18 @@ void MainWindow::onPitchPIDSPinBoxChanged(double value)
     double d = _ui->pitchDSpinBox->value();
     try {
         _communicator->SetPitcPid(p, i, d);
+    } catch (ControllerException_t &e) {
+        printf(e.error_message.c_str());
+    }
+}
+
+void MainWindow::onYawPIDSpinBoxChanged(double value)
+{
+    double p = _ui->yawPSpinBox->value();
+    double i = _ui->yawISpinBox->value();
+    double d = _ui->yawDSpinBox->value();
+    try {
+        _communicator->SetYawPid(p, i, d);
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }

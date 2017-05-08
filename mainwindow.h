@@ -66,6 +66,7 @@ private slots:
     void onSetMotorsClicked(bool);
     void onDepthPIDSpinBoxChanged(double);
     void onPitchPIDSPinBoxChanged(double);
+    void onYawPIDSpinBoxChanged(double);
     void onSetMotorsMultiplier(bool);
 signals:
     void connectionChangedEvent(bool connectedStatus);

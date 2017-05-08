@@ -1522,6 +1522,106 @@ font-size: 12px;
          <string>pitch P</string>
         </property>
        </widget>
+       <widget class="QDoubleSpinBox" name="yawISpinBox">
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>270</y>
+          <width>62</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <double>-100.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>100.000000000000000</double>
+        </property>
+       </widget>
+       <widget class="QLabel" name="yawILabel">
+        <property name="geometry">
+         <rect>
+          <x>550</x>
+          <y>270</y>
+          <width>51</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>yaw I</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="yawDLabel">
+        <property name="geometry">
+         <rect>
+          <x>550</x>
+          <y>300</y>
+          <width>51</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>yaw D</string>
+        </property>
+       </widget>
+       <widget class="QDoubleSpinBox" name="yawDSpinBox">
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>300</y>
+          <width>62</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <double>-100.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>100.000000000000000</double>
+        </property>
+       </widget>
+       <widget class="QDoubleSpinBox" name="yawPSpinBox">
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>240</y>
+          <width>62</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <double>-100.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>100.000000000000000</double>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="yawPIDButtton">
+        <property name="geometry">
+         <rect>
+          <x>550</x>
+          <y>330</y>
+          <width>121</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Set PID yaw</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="yawPLabel">
+        <property name="geometry">
+         <rect>
+          <x>550</x>
+          <y>240</y>
+          <width>51</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>yaw P</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>
