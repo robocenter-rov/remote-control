@@ -49,7 +49,7 @@ private slots:
     void readAndSendJoySensors();
     void joyButtonHandle();
     void onLeak(int send, int receive);
-    void updateOrient(SimpleCommunicator_t::Orientation_t orient);
+    void updateOrient(float q1, float q2, float q3, float q4);
     void updateHeading(int value);
     void updateI2CDevicesState(bool PCA1, bool PCA2, bool ADXL345, bool HMC58X3, bool ITG3200, bool BMP085, bool MS5803);
     void onBluetoothMsgRecieve(std::string msg);
@@ -66,7 +66,7 @@ signals:
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
     void rawSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t rawSensorData);
     void leakEvent(int send, int receive);
-    void orientationReceivedEvent(SimpleCommunicator_t::Orientation_t orient);
+    void orientationReceivedEvent(float q1, float q2, float q3, float q4);
     void I2CDevicesRecieveEvent(bool PCA1, bool PCA2, bool ADXL345, bool HMC58X3, bool ITG3200, bool BMP085, bool MS5803);
     void bluetoothMsgRecieveEvent(std::string msg);
     void depthRecieveEvent(float depth);

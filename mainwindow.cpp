@@ -61,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(stateChangedEvent(SimpleCommunicator_t::State_t)), this, SLOT(updateStatus(SimpleCommunicator_t::State_t)));
     connect(this, SIGNAL(rawSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t)), this, SLOT(updatePosInfo(SimpleCommunicator_t::RawSensorData_t)));
     connect(this, SIGNAL(leakEvent(int, int)), this, SLOT(onLeak(int, int)));
-    connect(this, SIGNAL(orientationReceivedEvent(SimpleCommunicator_t::Orientation_t)), this, SLOT(updateOrient(SimpleCommunicator_t::Orientation_t)));
+    connect(this, SIGNAL(orientationReceivedEvent(float,float,float,float)), this, SLOT(updateOrient(float,float,float,float)));
     connect(this, SIGNAL(I2CDevicesRecieveEvent(bool,bool,bool,bool,bool,bool,bool)), this, SLOT(updateI2CDevicesState(bool,bool,bool,bool,bool,bool,bool)));
     connect(this, SIGNAL(bluetoothMsgRecieveEvent(std::string)), this, SLOT(onBluetoothMsgRecieve(std::string)));
     connect(this, SIGNAL(depthRecieveEvent(float)), this, SLOT(updateDepth(float)));
@@ -192,7 +192,7 @@ void MainWindow::connectionProviderInit()
         });*/
 
         _communicator->OnOrientationReceive([&](SimpleCommunicator_t::Orientation_t o){
-            emit orientationReceivedEvent(o);
+            emit orientationReceivedEvent(o.q1, o.q2, o.q3, o.q4);
         });
 
         _communicator->OnBluetoothMsgReceive([&](std::string msg){
@@ -377,12 +377,12 @@ void MainWindow::onLeak(int send, int receive)
     showMessageByTimer(s.c_str(), CL_RED);
 }
 
-void MainWindow::updateOrient(SimpleCommunicator_t::Orientation_t o)
+void MainWindow::updateOrient(float q1, float q2, float q3, float q4)
 {
     float angles[3];
-    angles[0] = atan2(2 * o.q2 * o.q3 - 2 * o.q1 * o.q4, 2 * o.q1 * o.q1 + 2 * o.q2 * o.q2 - 1); // psi
-    angles[1] = -asin(2 * o.q2 * o.q4 + 2 * o.q1 * o.q3); // theta
-    angles[2] = atan2(2 * o.q3 * o.q4 - 2 * o.q1 * o.q2, 2 * o.q1 * o.q1 + 2 * o.q4 * o.q4 - 1); // phi
+    angles[0] = atan2(2 * q2 * q3 - 2 * q1 * q4, 2 * q1 * q1 + 2 * q2 * q2 - 1); // psi
+    angles[1] = -asin(2 * q2 * q4 + 2 * q1 * q3); // theta
+    angles[2] = atan2(2 * q3 * q4 - 2 * q1 * q2, 2 * q1 * q1 + 2 * q4 * q4 - 1); // phi
     _ui->psiLabel->setText(std::to_string(angles[0]).c_str());
     _ui->thetaLabel->setText(std::to_string(angles[1]).c_str());
     _ui->phiLabel->setText(std::to_string(angles[2]).c_str());
