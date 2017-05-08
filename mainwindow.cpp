@@ -51,9 +51,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->SetMotorsIdx, SIGNAL(clicked(bool)), this, SLOT(onSetMotorsClicked(bool)));
     connect(_ui->camera1Slider, SIGNAL(valueChanged(int)), this, SLOT(onCamera1PosChanged(int)));
     connect(_ui->camera2Slider, SIGNAL(valueChanged(int)), this, SLOT(onCamera2PosChanged(int)));
-    connect(_ui->depthPIDButtton, SIGNAL(valueChanged(double)), this, SLOT(onDepthPIDSpinBoxChanged(double)));
-    connect(_ui->pitchPIDButtton, SIGNAL(valueChanged(double)), this, SLOT(onPitchPIDSpinBoxChanged(double)));
-    connect(_ui->yawPIDButtton, SIGNAL(valueChanged(double)), this, SLOT(onYawPIDSpinBoxChanged(double)));
+    connect(_ui->depthPIDButtton, SIGNAL(clicked(bool)), this, SLOT(onDepthPIDSpinBoxChanged(bool)));
+    connect(_ui->pitchPIDButtton, SIGNAL(clicked(bool)), this, SLOT(onPitchPIDSpinBoxChanged(bool)));
+    connect(_ui->yawPIDButtton, SIGNAL(clicked(bool)), this, SLOT(onYawPIDSpinBoxChanged(bool)));
     connect(_ui->setMotorsMulButton, SIGNAL(clicked(bool)), this, SLOT(onSetMotorsMultiplier(bool)));
     connectionProviderInit();
 
@@ -595,7 +595,7 @@ void MainWindow::onSetMotorsClicked(bool value)
     }
 }
 
-void MainWindow::onDepthPIDSpinBoxChanged(double value)
+void MainWindow::onDepthPIDSpinBoxChanged(bool value)
 {
     double p = _ui->depthPSpinBox->value();
     double i = _ui->depthISpinBox->value();
@@ -622,7 +622,7 @@ void MainWindow::onSetMotorsMultiplier(bool value)
     }
 }
 
-void MainWindow::onPitchPIDSpinBoxChanged(double value)
+void MainWindow::onPitchPIDSpinBoxChanged(bool value)
 {
     double p = _ui->pitchPSpinBox->value();
     double i = _ui->pitchISpinBox->value();
@@ -634,7 +634,7 @@ void MainWindow::onPitchPIDSpinBoxChanged(double value)
     }
 }
 
-void MainWindow::onYawPIDSpinBoxChanged(double value)
+void MainWindow::onYawPIDSpinBoxChanged(bool value)
 {
     double p = _ui->yawPSpinBox->value();
     double i = _ui->yawISpinBox->value();
