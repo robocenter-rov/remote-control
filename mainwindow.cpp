@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include <iostream>
-
+#include <fstream>
 QString COMportName;
 
 static QColor msgColor[3] = {
@@ -311,7 +311,7 @@ void MainWindow::readAndSendJoySensors()
         _communicator->SetSinkingForce(z * 2);
         _communicator->SetPitchForce(ty);
         _communicator->SetYawForce(tz);
-        if (ABS(thrust[4]) < eps) {
+      /*  if (ABS(thrust[4]) < eps) {
             _communicator->SetDepth(_depth);
             _ui->stabDepthValue->setText(std::to_string(_depth).c_str());
             _ui->autoDepthCheckBox->setCheckable(true);
@@ -329,7 +329,7 @@ void MainWindow::readAndSendJoySensors()
             _ui->autoYawCheckBox->setCheckable(false);
         } else {
             _yaw = tz;
-        }
+        }*/
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
@@ -597,11 +597,15 @@ void MainWindow::onSetMotorsClicked(bool value)
 
 void MainWindow::onDepthPIDSpinBoxChanged(bool value)
 {
+    std::ofstream fout("depth");
     double p = _ui->depthPSpinBox->value();
     double i = _ui->depthISpinBox->value();
     double d = _ui->depthDSpinBox->value();
+
     try {
         _communicator->SetDepthPid(p, i, d);
+        fout << p << i << d;
+        fout.close();
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
