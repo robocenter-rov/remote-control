@@ -15,7 +15,7 @@ RC_ICONS = robocenter.ico
 TARGET = rov-control
 TEMPLATE = app
 INCLUDEPATH = $$PWD/SDL-1.2.15/include/
-LIBS += -L$$PWD/SDL-1.2.15/lib/x64 -lSDL
+LIBS += -L$$PWD/SDL-1.2.15/lib/x86 -lSDL
 unix {
     LIBS += -lSDL2
 }
