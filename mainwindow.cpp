@@ -292,7 +292,6 @@ void MainWindow::readAndSendJoySensors()
     float thrust[6];
     for (int i = 0; i < 6; i++) {
         thrust[i] = _joy->axesAt(i);
-        qDebug() << i << " "<< thrust[i];
     }
     float eps = 0.12;
     float x = (ABS(thrust[1]) < eps) ? 0 : thrust[1];
