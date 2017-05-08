@@ -51,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->SetMotorsIdx, SIGNAL(clicked(bool)), this, SLOT(onSetMotorsClicked(bool)));
     connect(_ui->camera1Slider, SIGNAL(valueChanged(int)), this, SLOT(onCamera1PosChanged(int)));
     connect(_ui->camera2Slider, SIGNAL(valueChanged(int)), this, SLOT(onCamera2PosChanged(int)));
+    connect(_ui->depthPIDButtton, SIGNAL(valueChanged(double)), this, SLOT(onDepthPIDSpinBoxChanged(double)));
     connectionProviderInit();
 
     connect(_messageTimer, SIGNAL(timeout()), this, SLOT(hideMessage()));
@@ -586,6 +587,18 @@ void MainWindow::onSetMotorsClicked(bool value)
     _ui->setMotorsMsg->setText("");
     try {
         _communicator->SetMotorsPositions(m[0], m[1], m[2], m[3], m[4], m[5]);
+    } catch (ControllerException_t &e) {
+        printf(e.error_message.c_str());
+    }
+}
+
+void MainWindow::onDepthPIDSpinBoxChanged(double value)
+{
+    double p = _ui->depthPSpinBox->value();
+    double i = _ui->depthISpinBox->value();
+    double d = _ui->depthDSpinBox->value();
+    try {
+        _communicator->SetDepthPid(p, i, d);
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
