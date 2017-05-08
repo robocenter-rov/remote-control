@@ -54,6 +54,12 @@ private slots:
     void updateI2CDevicesState(SimpleCommunicator_t::I2CDevices_t devices);
     void onBluetoothMsgRecieve(std::string msg);
     void onBluetoothButtonClick(bool);
+    void onMotor1SliderChanged(int);
+    void onMotor2SliderChanged(int);
+    void onMotor3SliderChanged(int);
+    void onMotor4SliderChanged(int);
+    void onMotor5SliderChanged(int);
+    void onMotor6SliderChanged(int);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);

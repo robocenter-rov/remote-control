@@ -41,6 +41,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->heading, SIGNAL(valueChanged(int)), this, SLOT(updateHeading(int)));
     connect(_ui->scanI2Cbutton, SIGNAL(clicked(bool)), this, SLOT(onScaneI2CdevicesButtonClick(bool)));
     connect(_ui->bluetoothButton, SIGNAL(clicked(bool)), this, SLOT(onBluetoothButtonClick(bool)));
+    connect(_ui->motor1Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor1SliderChanged(int)));
+    connect(_ui->motor2Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor2SliderChanged(int)));
+    connect(_ui->motor3Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor3SliderChanged(int)));
+    connect(_ui->motor4Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor4SliderChanged(int)));
+    connect(_ui->motor5Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor5SliderChanged(int)));
+    connect(_ui->motor6Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor6SliderChanged(int)));
     connectionProviderInit();
 
     connect(_messageTimer, SIGNAL(timeout()), this, SLOT(hideMessage()));
@@ -427,6 +433,72 @@ void MainWindow::onBluetoothButtonClick(bool value)
 {
     try {
         _communicator->SetReadBluetoothState(true);
+    } catch (ControllerException_t &e) {
+        printf(e.error_message.c_str());
+    }
+}
+
+void MainWindow::onMotor1SliderChanged(int value)
+{
+    float val = value/100.0;
+    _ui->motor1valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    try {
+        _communicator->SetMotorState(0, value);
+    } catch (ControllerException_t &e) {
+        printf(e.error_message.c_str());
+    }
+}
+
+void MainWindow::onMotor2SliderChanged(int value)
+{
+    float val = value/100.0;
+    _ui->motor2valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    try {
+        _communicator->SetMotorState(1, value);
+    } catch (ControllerException_t &e) {
+        printf(e.error_message.c_str());
+    }
+}
+
+void MainWindow::onMotor3SliderChanged(int value)
+{
+    float val = value/100.0;
+    _ui->motor3valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    try {
+        _communicator->SetMotorState(2, value);
+    } catch (ControllerException_t &e) {
+        printf(e.error_message.c_str());
+    }
+}
+
+void MainWindow::onMotor4SliderChanged(int value)
+{
+    float val = value/100.0;
+    _ui->motor4valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    try {
+        _communicator->SetMotorState(3, value);
+    } catch (ControllerException_t &e) {
+        printf(e.error_message.c_str());
+    }
+}
+
+void MainWindow::onMotor5SliderChanged(int value)
+{
+    float val = value/100.0;
+    _ui->motor5valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    try {
+        _communicator->SetMotorState(4, value);
+    } catch (ControllerException_t &e) {
+        printf(e.error_message.c_str());
+    }
+}
+
+void MainWindow::onMotor6SliderChanged(int value)
+{
+    float val = value/100.0f;
+    _ui->motor6valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    try {
+        _communicator->SetMotorState(5, value);
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }

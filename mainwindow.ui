@@ -522,7 +522,7 @@
        <widget class="QSlider" name="motor1Slider">
         <property name="geometry">
          <rect>
-          <x>100</x>
+          <x>130</x>
           <y>10</y>
           <width>160</width>
           <height>22</height>
@@ -550,7 +550,7 @@
        <widget class="QSlider" name="motor2Slider">
         <property name="geometry">
          <rect>
-          <x>100</x>
+          <x>130</x>
           <y>40</y>
           <width>160</width>
           <height>22</height>
@@ -578,7 +578,7 @@
        <widget class="QSlider" name="motor3Slider">
         <property name="geometry">
          <rect>
-          <x>100</x>
+          <x>130</x>
           <y>70</y>
           <width>160</width>
           <height>22</height>
@@ -606,7 +606,7 @@
        <widget class="QSlider" name="motor6Slider">
         <property name="geometry">
          <rect>
-          <x>100</x>
+          <x>130</x>
           <y>160</y>
           <width>160</width>
           <height>22</height>
@@ -634,7 +634,7 @@
        <widget class="QSlider" name="motor4Slider">
         <property name="geometry">
          <rect>
-          <x>100</x>
+          <x>130</x>
           <y>100</y>
           <width>160</width>
           <height>22</height>
@@ -662,7 +662,7 @@
        <widget class="QSlider" name="motor5Slider">
         <property name="geometry">
          <rect>
-          <x>100</x>
+          <x>130</x>
           <y>130</y>
           <width>160</width>
           <height>22</height>
@@ -770,12 +770,15 @@
          <rect>
           <x>70</x>
           <y>10</y>
-          <width>21</width>
+          <width>41</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
          <string>0%</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
        <widget class="QLabel" name="motor2valueLabel">
@@ -783,12 +786,15 @@
          <rect>
           <x>70</x>
           <y>40</y>
-          <width>21</width>
+          <width>41</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
          <string>0%</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
        <widget class="QLabel" name="motor3valueLabel">
@@ -796,12 +802,15 @@
          <rect>
           <x>70</x>
           <y>70</y>
-          <width>21</width>
+          <width>41</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
          <string>0%</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
        <widget class="QLabel" name="motor4valueLabel">
@@ -809,12 +818,15 @@
          <rect>
           <x>70</x>
           <y>100</y>
-          <width>21</width>
+          <width>41</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
          <string>0%</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
        <widget class="QLabel" name="motor5valueLabel">
@@ -822,12 +834,15 @@
          <rect>
           <x>70</x>
           <y>130</y>
-          <width>21</width>
+          <width>41</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
          <string>0%</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
        <widget class="QLabel" name="motor6valueLabel">
@@ -835,12 +850,15 @@
          <rect>
           <x>70</x>
           <y>160</y>
-          <width>21</width>
+          <width>41</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
          <string>0%</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </widget>
