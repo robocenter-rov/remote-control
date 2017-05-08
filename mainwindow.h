@@ -106,6 +106,8 @@ private:
 
     float cameraPos1 = 0.0f;
     float cameraPos2 = 0.0f;
+
+    float _depth;
 };
 
 #endif // MAINWINDOW_H

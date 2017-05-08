@@ -303,10 +303,19 @@ void MainWindow::readAndSendJoySensors()
         y /= dist;
     }
     try {
-         _communicator->SetMovementForce(x * 2, y * 2);
-         _communicator->SetSinkingForce(z * 2);
-         _communicator->SetPitchForce(ty);
-         _communicator->SetYawForce(tz);
+        _communicator->SetMovementForce(x * 2, y * 2);
+        _communicator->SetSinkingForce(z * 2);
+        _communicator->SetPitchForce(ty);
+        _communicator->SetYawForce(tz);
+        if (ABS(thrust[4]) < eps) {
+            _communicator->SetDepth(_depth);
+            _ui->stabDepthValue->setText(std::to_string(_depth).c_str());
+            _ui->autoDepthCheckBox->setCheckable(true);
+            _ui->autoDepthCheckBox->setChecked(true);
+            _ui->autoDepthCheckBox->setCheckable(false);
+        } else {
+            _depth = z*2;
+        }
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
