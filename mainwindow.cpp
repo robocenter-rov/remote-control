@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->motor4Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor4SliderChanged(int)));
     connect(_ui->motor5Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor5SliderChanged(int)));
     connect(_ui->motor6Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor6SliderChanged(int)));
+    connect(_ui->stopMotorsButton, SIGNAL(clicked(bool)), this, SLOT(onStopMotorsButtonClicked(bool)));
     connectionProviderInit();
 
     connect(_messageTimer, SIGNAL(timeout()), this, SLOT(hideMessage()));
@@ -502,4 +503,14 @@ void MainWindow::onMotor6SliderChanged(int value)
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
+}
+
+void MainWindow::onStopMotorsButtonClicked(bool value)
+{
+    _ui->motor1Slider->setValue(0);
+    _ui->motor2Slider->setValue(0);
+    _ui->motor3Slider->setValue(0);
+    _ui->motor4Slider->setValue(0);
+    _ui->motor5Slider->setValue(0);
+    _ui->motor6Slider->setValue(0);
 }
