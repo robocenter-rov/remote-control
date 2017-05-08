@@ -621,7 +621,11 @@ void MainWindow::onSetMotorsMultiplier(bool value)
     float m5 = _ui->m5MultSpinBox->value();
     float m6 = _ui->m6MultSpinBox->value();
     try {
+        std::ofstream fout;
+        fout.open("multipliers.txt");
+        fout << m1 << " " << m2 << " " << m3 << " " << m4 << " " << m5 << " " << m6;
         _communicator->SetMotorsMultiplier(m1, m2, m3, m4, m5, m6);
+        fout.close();
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
     }
