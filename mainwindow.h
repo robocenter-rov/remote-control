@@ -68,6 +68,7 @@ private slots:
     void onPitchPIDSpinBoxChanged(bool);
     void onYawPIDSpinBoxChanged(bool);
     void onSetMotorsMultiplier(bool);
+    void onTabChanged(int idx);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);

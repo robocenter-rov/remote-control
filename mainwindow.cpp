@@ -55,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->pitchPIDButtton, SIGNAL(clicked(bool)), this, SLOT(onPitchPIDSpinBoxChanged(bool)));
     connect(_ui->yawPIDButtton, SIGNAL(clicked(bool)), this, SLOT(onYawPIDSpinBoxChanged(bool)));
     connect(_ui->setMotorsMulButton, SIGNAL(clicked(bool)), this, SLOT(onSetMotorsMultiplier(bool)));
+    connect(_ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
     connectionProviderInit();
 
     connect(_messageTimer, SIGNAL(timeout()), this, SLOT(hideMessage()));
@@ -646,5 +647,21 @@ void MainWindow::onYawPIDSpinBoxChanged(bool value)
         _communicator->SetYawPid(p, i, d);
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
+    }
+}
+
+void MainWindow::onTabChanged(int idx)
+{
+    if (idx == 0) {
+        qDebug() << "tab 0";
+        if (!_joyTimer->isActive()) {
+            _joyTimer->start();
+        }
+    }
+    if (idx == 1) {
+        qDebug() << "tab 1";
+        if (_joyTimer->isActive()) {
+            _joyTimer->stop();
+        }
     }
 }
