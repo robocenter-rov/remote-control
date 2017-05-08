@@ -295,7 +295,7 @@ void MainWindow::readAndSendJoySensors()
     float y = (ABS(thrust[0]) < eps) ? 0 : thrust[0];
     float z = (ABS(thrust[4]) < eps) ? 0 : thrust[4];
     float ty = 0;
-    float tz = thrust[3];
+    float tz = (ABS(thrust[3]) < eps) ? 0 : thrust[3];
     float dist = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 
     if (dist > 1) {
@@ -315,6 +315,16 @@ void MainWindow::readAndSendJoySensors()
             _ui->autoDepthCheckBox->setCheckable(false);
         } else {
             _depth = z*2;
+        }
+
+        if (ABS(thrust[3]) < eps) {
+            _communicator->SetYaw(_yaw);
+            _ui->stabYawValue->setText(std::to_string(_yaw).c_str());
+            _ui->autoYawCheckBox->setCheckable(true);
+            _ui->autoYawCheckBox->setChecked(true);
+            _ui->autoYawCheckBox->setCheckable(false);
+        } else {
+            _yaw = tz;
         }
     } catch (ControllerException_t &e) {
         printf(e.error_message.c_str());
