@@ -38,7 +38,7 @@
     <string notr="true"/>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+    <item row="0" column="1">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>1</number>
@@ -522,7 +522,7 @@
        <widget class="QSlider" name="motor1Slider">
         <property name="geometry">
          <rect>
-          <x>130</x>
+          <x>220</x>
           <y>10</y>
           <width>160</width>
           <height>22</height>
@@ -550,7 +550,7 @@
        <widget class="QSlider" name="motor2Slider">
         <property name="geometry">
          <rect>
-          <x>130</x>
+          <x>220</x>
           <y>40</y>
           <width>160</width>
           <height>22</height>
@@ -578,7 +578,7 @@
        <widget class="QSlider" name="motor3Slider">
         <property name="geometry">
          <rect>
-          <x>130</x>
+          <x>220</x>
           <y>70</y>
           <width>160</width>
           <height>22</height>
@@ -606,7 +606,7 @@
        <widget class="QSlider" name="motor6Slider">
         <property name="geometry">
          <rect>
-          <x>130</x>
+          <x>220</x>
           <y>160</y>
           <width>160</width>
           <height>22</height>
@@ -634,7 +634,7 @@
        <widget class="QSlider" name="motor4Slider">
         <property name="geometry">
          <rect>
-          <x>130</x>
+          <x>220</x>
           <y>100</y>
           <width>160</width>
           <height>22</height>
@@ -662,7 +662,7 @@
        <widget class="QSlider" name="motor5Slider">
         <property name="geometry">
          <rect>
-          <x>130</x>
+          <x>220</x>
           <y>130</y>
           <width>160</width>
           <height>22</height>
@@ -690,7 +690,7 @@
        <widget class="QLabel" name="motor1Label">
         <property name="geometry">
          <rect>
-          <x>10</x>
+          <x>100</x>
           <y>10</y>
           <width>81</width>
           <height>21</height>
@@ -703,7 +703,7 @@
        <widget class="QLabel" name="motor2Label">
         <property name="geometry">
          <rect>
-          <x>10</x>
+          <x>100</x>
           <y>40</y>
           <width>81</width>
           <height>21</height>
@@ -716,7 +716,7 @@
        <widget class="QLabel" name="motor3Label">
         <property name="geometry">
          <rect>
-          <x>10</x>
+          <x>100</x>
           <y>70</y>
           <width>81</width>
           <height>21</height>
@@ -729,7 +729,7 @@
        <widget class="QLabel" name="motor5Label">
         <property name="geometry">
          <rect>
-          <x>10</x>
+          <x>100</x>
           <y>130</y>
           <width>81</width>
           <height>21</height>
@@ -742,7 +742,7 @@
        <widget class="QLabel" name="motor4Label">
         <property name="geometry">
          <rect>
-          <x>10</x>
+          <x>100</x>
           <y>100</y>
           <width>81</width>
           <height>21</height>
@@ -755,7 +755,7 @@
        <widget class="QLabel" name="motor6Label">
         <property name="geometry">
          <rect>
-          <x>10</x>
+          <x>100</x>
           <y>160</y>
           <width>81</width>
           <height>21</height>
@@ -768,7 +768,7 @@
        <widget class="QLabel" name="motor1valueLabel">
         <property name="geometry">
          <rect>
-          <x>70</x>
+          <x>160</x>
           <y>10</y>
           <width>41</width>
           <height>21</height>
@@ -784,7 +784,7 @@
        <widget class="QLabel" name="motor2valueLabel">
         <property name="geometry">
          <rect>
-          <x>70</x>
+          <x>160</x>
           <y>40</y>
           <width>41</width>
           <height>21</height>
@@ -800,7 +800,7 @@
        <widget class="QLabel" name="motor3valueLabel">
         <property name="geometry">
          <rect>
-          <x>70</x>
+          <x>160</x>
           <y>70</y>
           <width>41</width>
           <height>21</height>
@@ -816,7 +816,7 @@
        <widget class="QLabel" name="motor4valueLabel">
         <property name="geometry">
          <rect>
-          <x>70</x>
+          <x>160</x>
           <y>100</y>
           <width>41</width>
           <height>21</height>
@@ -832,7 +832,7 @@
        <widget class="QLabel" name="motor5valueLabel">
         <property name="geometry">
          <rect>
-          <x>70</x>
+          <x>160</x>
           <y>130</y>
           <width>41</width>
           <height>21</height>
@@ -848,7 +848,7 @@
        <widget class="QLabel" name="motor6valueLabel">
         <property name="geometry">
          <rect>
-          <x>70</x>
+          <x>160</x>
           <y>160</y>
           <width>41</width>
           <height>21</height>
@@ -864,7 +864,7 @@
        <widget class="QPushButton" name="stopMotorsButton">
         <property name="geometry">
          <rect>
-          <x>10</x>
+          <x>290</x>
           <y>190</y>
           <width>91</width>
           <height>31</height>
@@ -872,6 +872,257 @@
         </property>
         <property name="text">
          <string>Stop</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="camera1Label">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>280</y>
+          <width>61</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Camera 1</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="camera2Label">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>280</y>
+          <width>61</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Camera 2</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QSlider" name="camera1Slider">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>310</y>
+          <width>22</width>
+          <height>160</height>
+         </rect>
+        </property>
+        <property name="maximum">
+         <number>90</number>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+       <widget class="QSlider" name="camera2Slider">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>310</y>
+          <width>22</width>
+          <height>160</height>
+         </rect>
+        </property>
+        <property name="maximum">
+         <number>90</number>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="camera1valueLabel">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>480</y>
+          <width>71</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0%</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="camera2valueLabel">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>480</y>
+          <width>71</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0%</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SetMotorsIdx">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>190</y>
+          <width>81</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Set motors</string>
+        </property>
+       </widget>
+       <widget class="QSpinBox" name="motorIdxSpinBox_1">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>10</y>
+          <width>42</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>6</number>
+        </property>
+        <property name="value">
+         <number>1</number>
+        </property>
+       </widget>
+       <widget class="QSpinBox" name="motorIdxSpinBox_2">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>40</y>
+          <width>42</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>6</number>
+        </property>
+        <property name="value">
+         <number>2</number>
+        </property>
+       </widget>
+       <widget class="QSpinBox" name="motorIdxSpinBox_3">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>70</y>
+          <width>42</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>6</number>
+        </property>
+        <property name="singleStep">
+         <number>1</number>
+        </property>
+        <property name="value">
+         <number>3</number>
+        </property>
+       </widget>
+       <widget class="QSpinBox" name="motorIdxSpinBox_4">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>100</y>
+          <width>42</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>6</number>
+        </property>
+        <property name="value">
+         <number>4</number>
+        </property>
+       </widget>
+       <widget class="QSpinBox" name="motorIdxSpinBox_5">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>130</y>
+          <width>42</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>6</number>
+        </property>
+        <property name="value">
+         <number>5</number>
+        </property>
+       </widget>
+       <widget class="QSpinBox" name="motorIdxSpinBox_6">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>160</y>
+          <width>42</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>6</number>
+        </property>
+        <property name="value">
+         <number>6</number>
+        </property>
+       </widget>
+       <widget class="QLabel" name="setMotorsMsg">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>230</y>
+          <width>181</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel#setMotorsMsg{
+color:rgb(255, 0, 0);
+font-size: 12px;
+}</string>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </widget>
