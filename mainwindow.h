@@ -61,6 +61,7 @@ private slots:
     void onMotor5SliderChanged(int);
     void onMotor6SliderChanged(int);
     void onStopMotorsButtonClicked(bool);
+    void onSetMotorsClicked(bool);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
