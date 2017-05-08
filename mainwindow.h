@@ -65,7 +65,7 @@ private slots:
     void onCamera2PosChanged(int);
     void onSetMotorsClicked(bool);
     void onDepthPIDSpinBoxChanged(double);
-    void onPitchPIDSPinBoxChanged(double);
+    void onPitchPIDSpinBoxChanged(double);
     void onYawPIDSpinBoxChanged(double);
     void onSetMotorsMultiplier(bool);
 signals:

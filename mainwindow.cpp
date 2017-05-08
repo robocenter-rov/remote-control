@@ -622,7 +622,7 @@ void MainWindow::onSetMotorsMultiplier(bool value)
     }
 }
 
-void MainWindow::onPitchPIDSPinBoxChanged(double value)
+void MainWindow::onPitchPIDSpinBoxChanged(double value)
 {
     double p = _ui->pitchPSpinBox->value();
     double i = _ui->pitchISpinBox->value();
