@@ -56,6 +56,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->yawPIDButtton, SIGNAL(clicked(bool)), this, SLOT(onYawPIDSpinBoxChanged(bool)));
     connect(_ui->setMotorsMulButton, SIGNAL(clicked(bool)), this, SLOT(onSetMotorsMultiplier(bool)));
     connect(_ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
+    connect(_ui->startAutoDepthButton, SIGNAL(clicked(bool)), this, SLOT(onAutoDepthClicked(bool)));
+    connect(_ui->startAutoPitchButton, SIGNAL(clicked(bool)), this, SLOT(onAutoPitchClicked(bool)));
+    connect(_ui->startAutoYawButton, SIGNAL(clicked(bool)), this, SLOT(onAutoYawClicked(bool)));
     connectionProviderInit();
 
     connect(_messageTimer, SIGNAL(timeout()), this, SLOT(hideMessage()));
@@ -675,4 +678,26 @@ void MainWindow::onTabChanged(int idx)
             _joyTimer->stop();
         }
     }
+}
+
+void MainWindow::onAutoDepthClicked(bool value)
+{
+
+    float depth = _ui->lineEdit->text().toFloat();
+    try {
+        _communicator->SetDepth(depth);
+        _ui->stabDepthValue->setText(std::to_string(depth).c_str());
+    } catch (ControllerException_t &e) {
+        qDebug() << e.error_message.c_str();
+    }
+}
+
+void MainWindow::onAutoPitchClicked(bool value)
+{
+
+}
+
+void MainWindow::onAutoYawClicked(bool value)
+{
+
 }
