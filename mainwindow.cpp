@@ -49,6 +49,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->motor6Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor6SliderChanged(int)));
     connect(_ui->stopMotorsButton, SIGNAL(clicked(bool)), this, SLOT(onStopMotorsButtonClicked(bool)));
     connect(_ui->SetMotorsIdx, SIGNAL(clicked(bool)), this, SLOT(onSetMotorsClicked(bool)));
+    connect(_ui->camera1Slider, SIGNAL(valueChanged(int)), this, SLOT(onCamera1PosChanged(int)));
+    connect(_ui->camera2Slider, SIGNAL(valueChanged(int)), this, SLOT(onCamera2PosChanged(int)));
     connectionProviderInit();
 
     connect(_messageTimer, SIGNAL(timeout()), this, SLOT(hideMessage()));
@@ -523,6 +525,27 @@ void MainWindow::onStopMotorsButtonClicked(bool value)
     _ui->motor5Slider->setValue(0);
     _ui->motor6Slider->setValue(0);
 }
+
+void MainWindow::onCamera1PosChanged(int value)
+{
+    _ui->camera1valueLabel->setText(QString(std::to_string(value).c_str()));
+    try {
+        _communicator->SetCamera1Pos(value*3.1415/180.0+3.1415);
+    } catch (ControllerException_t &e) {
+        printf(e.error_message.c_str());
+    }
+}
+
+void MainWindow::onCamera2PosChanged(int value)
+{
+    _ui->camera2valueLabel->setText(QString(std::to_string(value).c_str()));
+    try {
+        _communicator->SetCamera2Pos(value*3.1415/180.0+3.1415);
+    } catch (ControllerException_t &e) {
+        printf(e.error_message.c_str());
+    }
+}
+
 void MainWindow::onSetMotorsClicked(bool value)
 {
     int m[6];

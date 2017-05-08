@@ -61,6 +61,8 @@ private slots:
     void onMotor5SliderChanged(int);
     void onMotor6SliderChanged(int);
     void onStopMotorsButtonClicked(bool);
+    void onCamera1PosChanged(int);
+    void onCamera2PosChanged(int);
     void onSetMotorsClicked(bool);
 signals:
     void connectionChangedEvent(bool connectedStatus);
