@@ -1204,11 +1204,17 @@ font-size: 12px;
           <height>22</height>
          </rect>
         </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
         </property>
         <property name="maximum">
          <double>100.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
        </widget>
        <widget class="QDoubleSpinBox" name="depthISpinBox">
@@ -1220,11 +1226,17 @@ font-size: 12px;
           <height>22</height>
          </rect>
         </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
         </property>
         <property name="maximum">
          <double>100.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
        </widget>
        <widget class="QDoubleSpinBox" name="depthDSpinBox">
@@ -1236,11 +1248,17 @@ font-size: 12px;
           <height>22</height>
          </rect>
         </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
         </property>
         <property name="maximum">
          <double>100.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
        </widget>
        <widget class="QLabel" name="depthPLabel">
@@ -1304,11 +1322,17 @@ font-size: 12px;
           <height>22</height>
          </rect>
         </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
         <property name="minimum">
          <double>-1.000000000000000</double>
         </property>
         <property name="maximum">
          <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
         <property name="value">
          <double>1.000000000000000</double>
@@ -1323,11 +1347,17 @@ font-size: 12px;
           <height>22</height>
          </rect>
         </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
         <property name="minimum">
          <double>-1.000000000000000</double>
         </property>
         <property name="maximum">
          <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
         <property name="value">
          <double>1.000000000000000</double>
@@ -1342,11 +1372,17 @@ font-size: 12px;
           <height>22</height>
          </rect>
         </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
         <property name="minimum">
          <double>-1.000000000000000</double>
         </property>
         <property name="maximum">
          <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
         <property name="value">
          <double>1.000000000000000</double>
@@ -1361,11 +1397,17 @@ font-size: 12px;
           <height>22</height>
          </rect>
         </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
         <property name="minimum">
          <double>-1.000000000000000</double>
         </property>
         <property name="maximum">
          <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
         <property name="value">
          <double>1.000000000000000</double>
@@ -1380,11 +1422,17 @@ font-size: 12px;
           <height>22</height>
          </rect>
         </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
         <property name="minimum">
          <double>-1.000000000000000</double>
         </property>
         <property name="maximum">
          <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
         <property name="value">
          <double>1.000000000000000</double>
@@ -1399,11 +1447,17 @@ font-size: 12px;
           <height>22</height>
          </rect>
         </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
         <property name="minimum">
          <double>-1.000000000000000</double>
         </property>
         <property name="maximum">
          <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
         <property name="value">
          <double>1.000000000000000</double>
@@ -1431,11 +1485,17 @@ font-size: 12px;
           <height>22</height>
          </rect>
         </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
         </property>
         <property name="maximum">
          <double>100.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
        </widget>
        <widget class="QLabel" name="pitchILabel">
@@ -1460,11 +1520,17 @@ font-size: 12px;
           <height>22</height>
          </rect>
         </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
         </property>
         <property name="maximum">
          <double>100.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
        </widget>
        <widget class="QPushButton" name="pitchPIDButtton">
@@ -1489,11 +1555,17 @@ font-size: 12px;
           <height>22</height>
          </rect>
         </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
         </property>
         <property name="maximum">
          <double>100.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
        </widget>
        <widget class="QLabel" name="pitchDLabel">
@@ -1531,11 +1603,17 @@ font-size: 12px;
           <height>22</height>
          </rect>
         </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
         </property>
         <property name="maximum">
          <double>100.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
        </widget>
        <widget class="QLabel" name="yawILabel">
@@ -1573,11 +1651,17 @@ font-size: 12px;
           <height>22</height>
          </rect>
         </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
         </property>
         <property name="maximum">
          <double>100.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
        </widget>
        <widget class="QDoubleSpinBox" name="yawPSpinBox">
@@ -1589,11 +1673,17 @@ font-size: 12px;
           <height>22</height>
          </rect>
         </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
         </property>
         <property name="maximum">
          <double>100.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
        </widget>
        <widget class="QPushButton" name="yawPIDButtton">
