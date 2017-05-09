@@ -20,6 +20,7 @@
 extern QString COMportName;
 
 Q_DECLARE_METATYPE(SimpleCommunicator_t::PidState_t)
+Q_DECLARE_METATYPE(SimpleCommunicator_t::State_t)
 
 namespace Ui {
     class MainWindow;

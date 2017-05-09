@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
       _joy(new Joystick())
 {
     qRegisterMetaType<SimpleCommunicator_t::PidState_t>("SimpleCommunicator_t::PidState_t");
+    qRegisterMetaType<SimpleCommunicator_t::State_t>("SimpleCommunicator_t::State_t");
     qDebug() << COMportName;
     _connectionProvider = new UARTConnectionProvider_t(COMportName.toStdString().c_str(), 19200, 1 << 20, 1 << 20);
     _communicator = new SimpleCommunicator_t(_connectionProvider);
