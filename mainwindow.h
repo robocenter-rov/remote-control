@@ -19,6 +19,8 @@
 
 extern QString COMportName;
 
+Q_DECLARE_METATYPE(SimpleCommunicator_t::PidState_t)
+
 namespace Ui {
     class MainWindow;
 }
@@ -27,17 +29,6 @@ enum msg_color_t {
     CL_GREEN,
     CL_RED,
     CL_YELLOW
-};
-
-struct PidState_t {
-    float _In;
-    float _Target;
-    float _Out;
-    PidState_t(float in, float target, float out) {
-        _In = in;
-        _Target = target;
-        _Out = out;
-    }
 };
 
 class MainWindow : public QMainWindow
@@ -86,7 +77,9 @@ private slots:
     void onServo1SliderChanged(int value);
     void onUseJoyRadioButtonClicked(bool);
     void onMotorStateRecieved(float m1, float m2, float m3, float m4, float m5, float m6);
-    void onPidStateReceived(PidState_t depth, PidState_t yaw, PidState_t pitch);
+    void onPidStateReceived(SimpleCommunicator_t::PidState_t depth, SimpleCommunicator_t::PidState_t yaw, SimpleCommunicator_t::PidState_t pitch);
+    void on_receivePidStatesCheckbox_toggled(bool checked);
+
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
@@ -97,7 +90,7 @@ signals:
     void bluetoothMsgRecieveEvent(std::string msg);
     void depthRecieveEvent(float depth);
     void motorStateReceiveEvent(float m1, float m2, float m3, float m4, float m5, float m6);
-    void pidStateReceiveEvent(PidState_t depth, PidState_t yaw, PidState_t pitch);
+    void pidStateReceiveEvent(SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t);
 private:
     void cameraInit();
     void loadQSS();

@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include <iostream>
 #include <fstream>
+
 QString COMportName;
 
 static QColor msgColor[3] = {
@@ -26,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
       _joyTimer(new QTimer(this)),
       _joy(new Joystick())
 {
+    qRegisterMetaType<SimpleCommunicator_t::PidState_t>("SimpleCommunicator_t::PidState_t");
     qDebug() << COMportName;
     _connectionProvider = new UARTConnectionProvider_t(COMportName.toStdString().c_str(), 19200, 1 << 20, 1 << 20);
     _communicator = new SimpleCommunicator_t(_connectionProvider);
@@ -79,7 +81,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(bluetoothMsgRecieveEvent(std::string)), this, SLOT(onBluetoothMsgRecieve(std::string)));
     connect(this, SIGNAL(depthRecieveEvent(float)), this, SLOT(updateDepth(float)));
     connect(this, SIGNAL(motorStateReceiveEvent(float,float,float,float,float,float)), this, SLOT(onMotorStateRecieved(float,float,float,float,float,float)));
-    connect(this, SIGNAL(pidStateReceiveEvent(PidState_t,PidState_t,PidState_t)), this, SLOT(onPidStateReceived(PidState_t,PidState_t,PidState_t)));
+    connect(this, SIGNAL(pidStateReceiveEvent(SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t)), this, SLOT(onPidStateReceived(SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t)));
 
     showMessage("Connection...", CL_YELLOW);
 }
@@ -229,10 +231,7 @@ void MainWindow::connectionProviderInit()
         _communicator->OnPidStateReceive([&](SimpleCommunicator_t::PidState_t depth,
                                          SimpleCommunicator_t::PidState_t yaw,
                                          SimpleCommunicator_t::PidState_t pitch){
-            emit pidStateReceiveEvent(
-                        PidState_t(depth.In, depth.Target, depth.Out),
-                        PidState_t(yaw.In, yaw.Target, yaw.Out),
-                        PidState_t(pitch.In, pitch.Target, pitch.Out));
+            emit pidStateReceiveEvent(depth, yaw, pitch);
         });
         //_communicator->SetReceiveRawSensorData(true);
 
@@ -761,17 +760,22 @@ void MainWindow::onMotorStateRecieved(float m1, float m2, float m3, float m4, fl
     _ui->m6curLabel->setText(QString(std::to_string(m6*100).c_str()) + "%");
 }
 
-void MainWindow::onPidStateReceived(PidState_t depth, PidState_t yaw, PidState_t pitch)
+void MainWindow::onPidStateReceived(SimpleCommunicator_t::PidState_t depth, SimpleCommunicator_t::PidState_t yaw, SimpleCommunicator_t::PidState_t pitch)
 {
-    _ui->depthInValueLabel->setText(QString("In: ") + std::to_string(depth._In).c_str());
-    _ui->depthTarValueLabel->setText(QString("Target: ") + std::to_string(depth._Target).c_str());
-    _ui->depthOutValueLabel->setText(QString("Out: ") + std::to_string(depth._Out).c_str());
+    _ui->depthInValueLabel->setText(QString("In: ") + std::to_string(depth.In).c_str());
+    _ui->depthTarValueLabel->setText(QString("Target: ") + std::to_string(depth.Target).c_str());
+    _ui->depthOutValueLabel->setText(QString("Out: ") + std::to_string(depth.Out).c_str());
 
-    _ui->yawInValueLabel->setText(QString("In: ") + std::to_string(yaw._In).c_str());
-    _ui->yawTarValueLabel->setText(QString("Target: ") + std::to_string(yaw._Target).c_str());
-    _ui->yawOutValueLabel->setText(QString("Out: ") + std::to_string(yaw._Out).c_str());
+    _ui->yawInValueLabel->setText(QString("In: ") + std::to_string(yaw.In).c_str());
+    _ui->yawTarValueLabel->setText(QString("Target: ") + std::to_string(yaw.Target).c_str());
+    _ui->yawOutValueLabel->setText(QString("Out: ") + std::to_string(yaw.Out).c_str());
 
-    _ui->pitchInValueLabel->setText(QString("In: ") + std::to_string(pitch._In).c_str());
-    _ui->pitchTarValueLabel->setText(QString("Target: ") + std::to_string(pitch._Target).c_str());
-    _ui->pitchOutValueLabel->setText(QString("Out: ") + std::to_string(pitch._Out).c_str());
+    _ui->pitchInValueLabel->setText(QString("In: ") + std::to_string(pitch.In).c_str());
+    _ui->pitchTarValueLabel->setText(QString("Target: ") + std::to_string(pitch.Target).c_str());
+    _ui->pitchOutValueLabel->setText(QString("Out: ") + std::to_string(pitch.Out).c_str());
+}
+
+void MainWindow::on_receivePidStatesCheckbox_toggled(bool checked)
+{
+    _communicator->SetReceivePidState(checked);
 }
