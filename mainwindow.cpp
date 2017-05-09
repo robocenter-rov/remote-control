@@ -60,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->startAutoPitchButton, SIGNAL(clicked(bool)), this, SLOT(onAutoPitchClicked(bool)));
     connect(_ui->startAutoYawButton, SIGNAL(clicked(bool)), this, SLOT(onAutoYawClicked(bool)));
     connect(_ui->servo1Slider, SIGNAL(valueChanged(int)), this, SLOT(onServo1SliderChanged(int)));
+    connect(_ui->useJoyButton, SIGNAL(clicked(bool)), this, SLOT(onUseJoyRadioButtonClicked(bool)));
     connectionProviderInit();
 
     connect(_messageTimer, SIGNAL(timeout()), this, SLOT(hideMessage()));
@@ -716,5 +717,18 @@ void MainWindow::onServo1SliderChanged(int value)
         _ui->servo1ValueLabel->setText(QString(std::to_string(value/9*10).c_str()) + "%");
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
+    }
+}
+
+void MainWindow::onUseJoyRadioButtonClicked(bool value)
+{
+    if (value) {
+        if (!_joyTimer->isActive()) {
+            _joyTimer->start();
+        }
+    } else {
+        if (_joyTimer->isActive()) {
+            _joyTimer->stop();
+        }
     }
 }

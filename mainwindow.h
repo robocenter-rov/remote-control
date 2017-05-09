@@ -73,6 +73,7 @@ private slots:
     void onAutoPitchClicked(bool);
     void onAutoYawClicked(bool);
     void onServo1SliderChanged(int value);
+    void onUseJoyRadioButtonClicked(bool);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
