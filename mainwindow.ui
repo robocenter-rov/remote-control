@@ -41,7 +41,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="mainTab">
        <attribute name="title">
@@ -266,6 +266,9 @@
             </property>
            </widget>
            <widget class="QRadioButton" name="radioPCA1">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="geometry">
              <rect>
               <x>270</x>
@@ -278,10 +281,16 @@
              <string>PCA1</string>
             </property>
             <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="autoExclusive">
              <bool>false</bool>
             </property>
            </widget>
            <widget class="QRadioButton" name="radioPCA2">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="geometry">
              <rect>
               <x>270</x>
@@ -294,10 +303,16 @@
              <string>PCA2</string>
             </property>
             <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="autoExclusive">
              <bool>false</bool>
             </property>
            </widget>
            <widget class="QRadioButton" name="radioADXL345">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="geometry">
              <rect>
               <x>270</x>
@@ -310,10 +325,16 @@
              <string>ADXL345</string>
             </property>
             <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="autoExclusive">
              <bool>false</bool>
             </property>
            </widget>
            <widget class="QRadioButton" name="radioHMC58X3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="geometry">
              <rect>
               <x>270</x>
@@ -326,10 +347,16 @@
              <string>HMC58X3</string>
             </property>
             <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="autoExclusive">
              <bool>false</bool>
             </property>
            </widget>
            <widget class="QRadioButton" name="radioITG3200">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="geometry">
              <rect>
               <x>270</x>
@@ -342,10 +369,16 @@
              <string>ITG3200</string>
             </property>
             <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="autoExclusive">
              <bool>false</bool>
             </property>
            </widget>
            <widget class="QRadioButton" name="radioBMP085">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="geometry">
              <rect>
               <x>270</x>
@@ -358,10 +391,19 @@
              <string>BMP085</string>
             </property>
             <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+            <property name="autoExclusive">
              <bool>false</bool>
             </property>
            </widget>
            <widget class="QRadioButton" name="radioMS5803">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="geometry">
              <rect>
               <x>270</x>
@@ -374,6 +416,9 @@
              <string>MS5803</string>
             </property>
             <property name="checkable">
+             <bool>false</bool>
+            </property>
+            <property name="autoExclusive">
              <bool>false</bool>
             </property>
            </widget>
