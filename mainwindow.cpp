@@ -435,7 +435,7 @@ void MainWindow::updateOrient(float q1, float q2, float q3, float q4)
     _ui->psiLabel->setText(std::to_string(angles[0]).c_str());
     _ui->thetaLabel->setText(std::to_string(angles[1]).c_str());
     _ui->phiLabel->setText(std::to_string(angles[2]).c_str());
-    updateHeading(angles[2]*180/3.1416);
+    updateHeading(angles[0]*180/3.1416);
 }
 
 void MainWindow::updateHeading(int value)
