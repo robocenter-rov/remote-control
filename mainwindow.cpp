@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
       _joy(new Joystick())
 {
     qDebug() << COMportName;
-    _connectionProvider = new UARTConnectionProvider_t(COMportName.toStdString().c_str(), 115200, 200, 200);
+    _connectionProvider = new UARTConnectionProvider_t(COMportName.toStdString().c_str(), 19200, 1 << 20, 1 << 20);
     _communicator = new SimpleCommunicator_t(_connectionProvider);
     _ui->setupUi(this);
 
@@ -172,9 +172,11 @@ void MainWindow::connectionProviderInit()
     try {
         _connectionProvider->Begin();
 
+        _communicator->SetSendMessageFrequency(50);
+
         _communicator->OnRobotRestart([]()
         {
-            //qDebug() << "Arduino was restart\n";
+            qDebug() << "Arduino was restarted\n";
         });
 
         _communicator->OnPacketsLeak([&](int send, int receive)
