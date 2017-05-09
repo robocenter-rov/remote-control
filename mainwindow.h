@@ -29,6 +29,17 @@ enum msg_color_t {
     CL_YELLOW
 };
 
+struct PidState_t {
+    float _In;
+    float _Target;
+    float _Out;
+    PidState_t(float in, float target, float out) {
+        _In = in;
+        _Target = target;
+        _Out = out;
+    }
+};
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -75,6 +86,7 @@ private slots:
     void onServo1SliderChanged(int value);
     void onUseJoyRadioButtonClicked(bool);
     void onMotorStateRecieved(float m1, float m2, float m3, float m4, float m5, float m6);
+    void onPidStateReceived(PidState_t depth, PidState_t yaw, PidState_t pitch);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
@@ -85,6 +97,7 @@ signals:
     void bluetoothMsgRecieveEvent(std::string msg);
     void depthRecieveEvent(float depth);
     void motorStateReceiveEvent(float m1, float m2, float m3, float m4, float m5, float m6);
+    void pidStateReceiveEvent(PidState_t depth, PidState_t yaw, PidState_t pitch);
 private:
     void cameraInit();
     void loadQSS();
