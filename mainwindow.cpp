@@ -78,6 +78,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(I2CDevicesRecieveEvent(bool,bool,bool,bool,bool,bool,bool)), this, SLOT(updateI2CDevicesState(bool,bool,bool,bool,bool,bool,bool)));
     connect(this, SIGNAL(bluetoothMsgRecieveEvent(std::string)), this, SLOT(onBluetoothMsgRecieve(std::string)));
     connect(this, SIGNAL(depthRecieveEvent(float)), this, SLOT(updateDepth(float)));
+    connect(this, SIGNAL(motorStateReceiveEvent(float,float,float,float,float,float)), this, SLOT(onMotorStateRecieved(float,float,float,float,float,float)));
 
     showMessage("Connection...", CL_YELLOW);
 }
@@ -216,6 +217,11 @@ void MainWindow::connectionProviderInit()
             emit depthRecieveEvent(depth);
         });
 
+        _communicator->OnMotorsStateReceive([&](SimpleCommunicator_t::MotorsState_t motorState){
+
+            emit motorStateReceiveEvent(motorState.M1Force, motorState.M2Force, motorState.M3Force,
+                                        motorState.M4Force, motorState.M5Force, motorState.M6Force);
+        });
         //_communicator->SetReceiveRawSensorData(true);
 
         _communicator->Begin();
@@ -731,4 +737,14 @@ void MainWindow::onUseJoyRadioButtonClicked(bool value)
             _joyTimer->stop();
         }
     }
+}
+
+void MainWindow::onMotorStateRecieved(float m1, float m2, float m3, float m4, float m5, float m6)
+{
+    _ui->m1curLabel->setText(QString(std::to_string(m1*100).c_str()) + "%");
+    _ui->m2curLabel->setText(QString(std::to_string(m2*100).c_str()) + "%");
+    _ui->m3curLabel->setText(QString(std::to_string(m3*100).c_str()) + "%");
+    _ui->m4curLabel->setText(QString(std::to_string(m4*100).c_str()) + "%");
+    _ui->m5curLabel->setText(QString(std::to_string(m5*100).c_str()) + "%");
+    _ui->m6curLabel->setText(QString(std::to_string(m6*100).c_str()) + "%");
 }

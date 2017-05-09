@@ -74,6 +74,7 @@ private slots:
     void onAutoYawClicked(bool);
     void onServo1SliderChanged(int value);
     void onUseJoyRadioButtonClicked(bool);
+    void onMotorStateRecieved(float m1, float m2, float m3, float m4, float m5, float m6);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
@@ -83,6 +84,7 @@ signals:
     void I2CDevicesRecieveEvent(bool PCA1, bool PCA2, bool ADXL345, bool HMC58X3, bool ITG3200, bool BMP085, bool MS5803);
     void bluetoothMsgRecieveEvent(std::string msg);
     void depthRecieveEvent(float depth);
+    void motorStateReceiveEvent(float m1, float m2, float m3, float m4, float m5, float m6);
 private:
     void cameraInit();
     void loadQSS();
