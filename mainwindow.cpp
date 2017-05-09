@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->startAutoDepthButton, SIGNAL(clicked(bool)), this, SLOT(onAutoDepthClicked(bool)));
     connect(_ui->startAutoPitchButton, SIGNAL(clicked(bool)), this, SLOT(onAutoPitchClicked(bool)));
     connect(_ui->startAutoYawButton, SIGNAL(clicked(bool)), this, SLOT(onAutoYawClicked(bool)));
+    connect(_ui->servo1Slider, SIGNAL(valueChanged(int)), this, SLOT(onServo1SliderChanged(int)));
     connectionProviderInit();
 
     connect(_messageTimer, SIGNAL(timeout()), this, SLOT(hideMessage()));
@@ -554,7 +555,7 @@ void MainWindow::onStopMotorsButtonClicked(bool value)
 
 void MainWindow::onCamera1PosChanged(int value)
 {
-    _ui->camera1valueLabel->setText(QString(std::to_string(value).c_str()));
+    _ui->camera1valueLabel->setText(QString(std::to_string(value/18*10).c_str()) + "%");
     try {
         _communicator->SetCamera1Pos(value*3.1415/180.0+3.1415);
     } catch (ControllerException_t &e) {
@@ -564,7 +565,7 @@ void MainWindow::onCamera1PosChanged(int value)
 
 void MainWindow::onCamera2PosChanged(int value)
 {
-    _ui->camera2valueLabel->setText(QString(std::to_string(value).c_str()));
+    _ui->camera2valueLabel->setText(QString(std::to_string(value/18*10).c_str()) + "%");
     try {
         _communicator->SetCamera2Pos(value*3.1415/180.0+3.1415);
     } catch (ControllerException_t &e) {
@@ -700,4 +701,20 @@ void MainWindow::onAutoPitchClicked(bool value)
 void MainWindow::onAutoYawClicked(bool value)
 {
 
+}
+
+void MainWindow::onServo1SliderChanged(int value)
+{
+    try {
+        _curManipulator._m1 = value*3.1415/180.0+3.1415;
+        _communicator->SetManipulatorState(
+            _curManipulator._armPos,
+            _curManipulator._handPos,
+            _curManipulator._m1,
+            _curManipulator._m2
+        );
+        _ui->servo1ValueLabel->setText(QString(std::to_string(value/9*10).c_str()) + "%");
+    } catch (ControllerException_t &e) {
+        qDebug() << e.error_message.c_str();
+    }
 }

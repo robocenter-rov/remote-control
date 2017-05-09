@@ -72,6 +72,7 @@ private slots:
     void onAutoDepthClicked(bool);
     void onAutoPitchClicked(bool);
     void onAutoYawClicked(bool);
+    void onServo1SliderChanged(int value);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);

@@ -646,16 +646,6 @@
              </rect>
             </property>
            </widget>
-           <widget class="QLineEdit" name="lineEdit_2">
-            <property name="geometry">
-             <rect>
-              <x>150</x>
-              <y>150</y>
-              <width>113</width>
-              <height>31</height>
-             </rect>
-            </property>
-           </widget>
            <widget class="QLineEdit" name="lineEdit_3">
             <property name="geometry">
              <rect>
@@ -1818,6 +1808,54 @@ font-size: 12px;
         </property>
         <property name="text">
          <string>yaw P</string>
+        </property>
+       </widget>
+       <widget class="QSlider" name="servo1Slider">
+        <property name="geometry">
+         <rect>
+          <x>510</x>
+          <y>50</y>
+          <width>171</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <number>-90</number>
+        </property>
+        <property name="maximum">
+         <number>90</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="servo1Label">
+        <property name="geometry">
+         <rect>
+          <x>510</x>
+          <y>20</y>
+          <width>47</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Servo 1</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="servo1ValueLabel">
+        <property name="geometry">
+         <rect>
+          <x>570</x>
+          <y>80</y>
+          <width>51</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0%</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </widget>
