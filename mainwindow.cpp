@@ -328,9 +328,9 @@ void MainWindow::readAndSendJoySensors()
     float eps = 0.03;
     float y = (ABS(thrust[1]) < eps) ? 0 : thrust[1];
     float x = (ABS(thrust[0]) < eps) ? 0 : thrust[0];
-    float z = (ABS(thrust[4]) < eps) ? 0 : thrust[4];
+    float z = (ABS(thrust[4]) < 0.10) ? 0 : thrust[4];
     float ty = 0;
-    float tz = (ABS(thrust[3]) < 0.10) ? 0 : thrust[3];
+    float tz = (ABS(thrust[3]) < eps) ? 0 : thrust[3];
     float dist = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 
     if (dist > 1) {
