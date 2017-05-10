@@ -19,6 +19,9 @@
 
 extern QString COMportName;
 
+Q_DECLARE_METATYPE(SimpleCommunicator_t::PidState_t)
+Q_DECLARE_METATYPE(SimpleCommunicator_t::State_t)
+
 namespace Ui {
     class MainWindow;
 }
@@ -27,17 +30,6 @@ enum msg_color_t {
     CL_GREEN,
     CL_RED,
     CL_YELLOW
-};
-
-struct PidState_t {
-    float _In;
-    float _Target;
-    float _Out;
-    PidState_t(float in = 0.f, float target = 0.f, float out = 0.f) {
-        _In = in;
-        _Target = target;
-        _Out = out;
-    }
 };
 
 class MainWindow : public QMainWindow
@@ -86,8 +78,8 @@ private slots:
     void onServo1SliderChanged(int value);
     void onUseJoyRadioButtonClicked(bool);
     void onMotorStateRecieved(float m1, float m2, float m3, float m4, float m5, float m6);
-    void onPidStateReceived(PidState_t depth, PidState_t yaw, PidState_t pitch);
-    void depthReplotTimeout();
+    void onPidStateReceived(SimpleCommunicator_t::PidState_t depth, SimpleCommunicator_t::PidState_t yaw, SimpleCommunicator_t::PidState_t pitch);
+    void on_receivePidStatesCheckbox_toggled(bool checked);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
@@ -98,7 +90,7 @@ signals:
     void bluetoothMsgRecieveEvent(std::string msg);
     void depthRecieveEvent(float depth);
     void motorStateReceiveEvent(float m1, float m2, float m3, float m4, float m5, float m6);
-    void pidStateReceiveEvent(PidState_t depth, PidState_t yaw, PidState_t pitch);
+    void pidStateReceiveEvent(SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t);
 private:
     void replotData();
     void replotDataDepth();
@@ -140,7 +132,7 @@ private:
     float _yaw;
     int _count_of_recieved_pid = 0;
 #define DEPTH_DATA_SIZE 200
-    QVector<PidState_t> _depthData;
+    QVector<SimpleCommunicator_t::PidState_t> _depthData;
     QTimer *_depthDataTimer;
 };
 

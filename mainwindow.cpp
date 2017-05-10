@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include <iostream>
 #include <fstream>
+
 QString COMportName;
 
 static QColor msgColor[3] = {
@@ -26,8 +27,10 @@ MainWindow::MainWindow(QWidget *parent)
       _joyTimer(new QTimer(this)),
       _joy(new Joystick())
 {
+    qRegisterMetaType<SimpleCommunicator_t::PidState_t>("SimpleCommunicator_t::PidState_t");
+    qRegisterMetaType<SimpleCommunicator_t::State_t>("SimpleCommunicator_t::State_t");
     qDebug() << COMportName;
-    _connectionProvider = new UARTConnectionProvider_t(COMportName.toStdString().c_str(), 115200, 200, 200);
+    _connectionProvider = new UARTConnectionProvider_t(COMportName.toStdString().c_str(), 19200, 1 << 20, 1 << 20);
     _communicator = new SimpleCommunicator_t(_connectionProvider);
     _ui->setupUi(this);
 
@@ -79,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(bluetoothMsgRecieveEvent(std::string)), this, SLOT(onBluetoothMsgRecieve(std::string)));
     connect(this, SIGNAL(depthRecieveEvent(float)), this, SLOT(updateDepth(float)));
     connect(this, SIGNAL(motorStateReceiveEvent(float,float,float,float,float,float)), this, SLOT(onMotorStateRecieved(float,float,float,float,float,float)));
-    connect(this, SIGNAL(pidStateReceiveEvent(PidState_t,PidState_t,PidState_t)), this, SLOT(onPidStateReceived(PidState_t,PidState_t,PidState_t)));
+    connect(this, SIGNAL(pidStateReceiveEvent(SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t)), this, SLOT(onPidStateReceived(SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t)));
 
     showMessage("Connection...", CL_YELLOW);
     graphInit();
@@ -174,9 +177,11 @@ void MainWindow::connectionProviderInit()
     try {
         _connectionProvider->Begin();
 
+        _communicator->SetSendMessageFrequency(50);
+
         _communicator->OnRobotRestart([]()
         {
-            //qDebug() << "Arduino was restart\n";
+            qDebug() << "Arduino was restarted\n";
         });
 
         _communicator->OnPacketsLeak([&](int send, int receive)
@@ -229,10 +234,7 @@ void MainWindow::connectionProviderInit()
         _communicator->OnPidStateReceive([&](SimpleCommunicator_t::PidState_t depth,
                                          SimpleCommunicator_t::PidState_t yaw,
                                          SimpleCommunicator_t::PidState_t pitch){
-            emit pidStateReceiveEvent(
-                        PidState_t(depth.In, depth.Target, depth.Out),
-                        PidState_t(yaw.In, yaw.Target, yaw.Out),
-                        PidState_t(pitch.In, pitch.Target, pitch.Out));
+            emit pidStateReceiveEvent(depth, yaw, pitch);
         });
         //_communicator->SetReceiveRawSensorData(true);
 
@@ -435,7 +437,7 @@ void MainWindow::updateOrient(float q1, float q2, float q3, float q4)
     _ui->psiLabel->setText(std::to_string(angles[0]).c_str());
     _ui->thetaLabel->setText(std::to_string(angles[1]).c_str());
     _ui->phiLabel->setText(std::to_string(angles[2]).c_str());
-    updateHeading(angles[2]*180/3.1416);
+    updateHeading(angles[0]*180/3.1416);
 }
 
 void MainWindow::updateHeading(int value)
@@ -448,14 +450,6 @@ void MainWindow::updateHeading(int value)
 void MainWindow::updateI2CDevicesState(
         bool PCA1, bool PCA2, bool ADXL345, bool HMC58X3, bool ITG3200, bool BMP085, bool MS5803)
 {
-    _ui->radioPCA1->setCheckable(true);
-    _ui->radioPCA2->setCheckable(true);
-    _ui->radioADXL345->setCheckable(true);
-    _ui->radioHMC58X3->setCheckable(true);
-    _ui->radioITG3200->setCheckable(true);
-    _ui->radioBMP085->setCheckable(true);
-    _ui->radioMS5803->setCheckable(true);
-
     _ui->radioPCA1->setChecked(PCA1);
     _ui->radioPCA2->setChecked(PCA2);
     _ui->radioADXL345->setChecked(ADXL345);
@@ -463,14 +457,6 @@ void MainWindow::updateI2CDevicesState(
     _ui->radioITG3200->setChecked(ITG3200);
     _ui->radioBMP085->setChecked(BMP085);
     _ui->radioMS5803->setChecked(MS5803);
-
-    _ui->radioPCA1->setCheckable(false);
-    _ui->radioPCA2->setCheckable(false);
-    _ui->radioADXL345->setCheckable(false);
-    _ui->radioHMC58X3->setCheckable(false);
-    _ui->radioITG3200->setCheckable(false);
-    _ui->radioBMP085->setCheckable(false);
-    _ui->radioMS5803->setCheckable(false);
 }
 
 void MainWindow::onScaneI2CdevicesButtonClick(bool)
@@ -761,21 +747,20 @@ void MainWindow::onMotorStateRecieved(float m1, float m2, float m3, float m4, fl
     _ui->m6curLabel->setText(QString(std::to_string(m6*100).c_str()) + "%");
 }
 
-void MainWindow::onPidStateReceived(PidState_t depth, PidState_t yaw, PidState_t pitch)
+void MainWindow::onPidStateReceived(SimpleCommunicator_t::PidState_t depth, SimpleCommunicator_t::PidState_t yaw, SimpleCommunicator_t::PidState_t pitch)
 {
     _count_of_recieved_pid++;
-    _ui->depthInValueLabel->setText(QString("In: ") + std::to_string(depth._In).c_str());
-    _ui->depthTarValueLabel->setText(QString("Target: ") + std::to_string(depth._Target).c_str());
-    _ui->depthOutValueLabel->setText(QString("Out: ") + std::to_string(depth._Out).c_str());
+    _ui->depthInValueLabel->setText(QString("In: ") + std::to_string(depth.In).c_str());
+    _ui->depthTarValueLabel->setText(QString("Target: ") + std::to_string(depth.Target).c_str());
+    _ui->depthOutValueLabel->setText(QString("Out: ") + std::to_string(depth.Out).c_str());
 
-    _ui->yawInValueLabel->setText(QString("In: ") + std::to_string(yaw._In).c_str());
-    _ui->yawTarValueLabel->setText(QString("Target: ") + std::to_string(yaw._Target).c_str());
-    _ui->yawOutValueLabel->setText(QString("Out: ") + std::to_string(yaw._Out).c_str());
+    _ui->yawInValueLabel->setText(QString("In: ") + std::to_string(yaw.In).c_str());
+    _ui->yawTarValueLabel->setText(QString("Target: ") + std::to_string(yaw.Target).c_str());
+    _ui->yawOutValueLabel->setText(QString("Out: ") + std::to_string(yaw.Out).c_str());
 
-    _ui->pitchInValueLabel->setText(QString("In: ") + std::to_string(pitch._In).c_str());
-    _ui->pitchTarValueLabel->setText(QString("Target: ") + std::to_string(pitch._Target).c_str());
-    _ui->pitchOutValueLabel->setText(QString("Out: ") + std::to_string(pitch._Out).c_str());
-
+    _ui->pitchInValueLabel->setText(QString("In: ") + std::to_string(pitch.In).c_str());
+    _ui->pitchTarValueLabel->setText(QString("Target: ") + std::to_string(pitch.Target).c_str());
+    _ui->pitchOutValueLabel->setText(QString("Out: ") + std::to_string(pitch.Out).c_str());
     if (_depthData.size() == DEPTH_DATA_SIZE) _depthData.pop_front();
     _depthData.push_back(depth);
 
@@ -814,9 +799,9 @@ void MainWindow::replotDataDepth()
     QVector<double> x(DEPTH_DATA_SIZE), y1(DEPTH_DATA_SIZE), y2(DEPTH_DATA_SIZE), y3(DEPTH_DATA_SIZE);
     for (int i = 0; i < DEPTH_DATA_SIZE; i++){
         x[i] = i + _count_of_recieved_pid - DEPTH_DATA_SIZE;
-        y1[i] = (i < DEPTH_DATA_SIZE - _depthData.size()) ? 0 : _depthData[i]._In;
-        y2[i] = (i < DEPTH_DATA_SIZE - _depthData.size()) ? 0 : _depthData[i]._Out;
-        y3[i] = (i < DEPTH_DATA_SIZE - _depthData.size()) ? 0 : _depthData[i]._Target;
+        y1[i] = (i < DEPTH_DATA_SIZE - _depthData.size()) ? 0 : _depthData[i].In;
+        y2[i] = (i < DEPTH_DATA_SIZE - _depthData.size()) ? 0 : _depthData[i].Out;
+        y3[i] = (i < DEPTH_DATA_SIZE - _depthData.size()) ? 0 : _depthData[i].Target;
     }
     _ui->autoDepthGraph->graph(0)->setData(x, y1);
     _ui->autoDepthGraph->graph(1)->setData(x, y2);
@@ -832,4 +817,9 @@ void MainWindow::replotDataDepth()
     _ui->autoDepthGraph->xAxis->setRange(x[0], x[0] + DEPTH_DATA_SIZE);
     _ui->autoDepthGraph->yAxis->setRange(minY, maxY);
     _ui->autoDepthGraph->replot();
+}
+
+void MainWindow::on_receivePidStatesCheckbox_toggled(bool checked)
+{
+    _communicator->SetReceivePidState(checked);
 }
