@@ -38,7 +38,7 @@
     <string notr="true"/>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+    <item row="0" column="1">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>1</number>
@@ -447,6 +447,9 @@
             <property name="text">
              <string>Bluetooth</string>
             </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
            </widget>
            <widget class="QLabel" name="bluetoothLabel">
             <property name="geometry">
@@ -540,6 +543,9 @@
             </property>
            </widget>
            <widget class="QRadioButton" name="flashLightRadioButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="geometry">
              <rect>
               <x>10</x>
@@ -556,6 +562,9 @@
             </property>
            </widget>
            <widget class="QCheckBox" name="autoDepthCheckBox">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="geometry">
              <rect>
               <x>150</x>
@@ -568,7 +577,7 @@
              <string>AutoDepth</string>
             </property>
             <property name="checkable">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
            </widget>
            <widget class="QLabel" name="stabDepthValue">
@@ -585,6 +594,9 @@
             </property>
            </widget>
            <widget class="QCheckBox" name="autoYawCheckBox">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="geometry">
              <rect>
               <x>150</x>
@@ -597,7 +609,7 @@
              <string>AutoYaw</string>
             </property>
             <property name="checkable">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
            </widget>
            <widget class="QLabel" name="stabYawValue">
@@ -653,6 +665,9 @@
             </property>
            </widget>
            <widget class="QCheckBox" name="autoPitchCheckBox">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="geometry">
              <rect>
               <x>150</x>
@@ -665,7 +680,7 @@
              <string>AutoPitch</string>
             </property>
             <property name="checkable">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
            </widget>
            <widget class="QLabel" name="stabPitchValue">
@@ -1192,7 +1207,7 @@
        <widget class="QPushButton" name="SetMotorsIdx">
         <property name="geometry">
          <rect>
-          <x>280</x>
+          <x>300</x>
           <y>220</y>
           <width>81</width>
           <height>31</height>
@@ -1348,7 +1363,7 @@ font-size: 12px;
          </rect>
         </property>
         <property name="decimals">
-         <number>2</number>
+         <number>4</number>
         </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
@@ -1370,7 +1385,7 @@ font-size: 12px;
          </rect>
         </property>
         <property name="decimals">
-         <number>2</number>
+         <number>4</number>
         </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
@@ -1392,7 +1407,7 @@ font-size: 12px;
          </rect>
         </property>
         <property name="decimals">
-         <number>2</number>
+         <number>4</number>
         </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
@@ -1629,7 +1644,7 @@ font-size: 12px;
          </rect>
         </property>
         <property name="decimals">
-         <number>2</number>
+         <number>4</number>
         </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
@@ -1664,7 +1679,7 @@ font-size: 12px;
          </rect>
         </property>
         <property name="decimals">
-         <number>2</number>
+         <number>4</number>
         </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
@@ -1699,7 +1714,7 @@ font-size: 12px;
          </rect>
         </property>
         <property name="decimals">
-         <number>2</number>
+         <number>4</number>
         </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
@@ -1747,7 +1762,7 @@ font-size: 12px;
          </rect>
         </property>
         <property name="decimals">
-         <number>2</number>
+         <number>4</number>
         </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
@@ -1795,7 +1810,7 @@ font-size: 12px;
          </rect>
         </property>
         <property name="decimals">
-         <number>2</number>
+         <number>4</number>
         </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
@@ -1817,7 +1832,7 @@ font-size: 12px;
          </rect>
         </property>
         <property name="decimals">
-         <number>2</number>
+         <number>4</number>
         </property>
         <property name="minimum">
          <double>-100.000000000000000</double>
@@ -2034,118 +2049,118 @@ font-size: 12px;
        <widget class="QLabel" name="depthInValueLabel">
         <property name="geometry">
          <rect>
-          <x>160</x>
+          <x>210</x>
           <y>30</y>
           <width>81</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>In: 0,00</string>
+         <string>0.00</string>
         </property>
        </widget>
        <widget class="QLabel" name="depthTarValueLabel">
         <property name="geometry">
          <rect>
-          <x>160</x>
+          <x>210</x>
           <y>60</y>
           <width>81</width>
-          <height>21</height>
+          <height>20</height>
          </rect>
         </property>
         <property name="text">
-         <string>Target: 0,00</string>
+         <string>0.00</string>
         </property>
        </widget>
        <widget class="QLabel" name="depthOutValueLabel">
         <property name="geometry">
          <rect>
-          <x>160</x>
+          <x>210</x>
           <y>90</y>
           <width>81</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>Out: 0,00</string>
+         <string>0.00</string>
         </property>
        </widget>
        <widget class="QLabel" name="pitchInValueLabel">
         <property name="geometry">
          <rect>
-          <x>160</x>
+          <x>210</x>
           <y>170</y>
           <width>81</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>In: 0,00</string>
+         <string>0.00</string>
         </property>
        </widget>
        <widget class="QLabel" name="pitchTarValueLabel">
         <property name="geometry">
          <rect>
-          <x>160</x>
+          <x>210</x>
           <y>200</y>
           <width>81</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>Target: 0,00</string>
+         <string>0.00</string>
         </property>
        </widget>
        <widget class="QLabel" name="pitchOutValueLabel">
         <property name="geometry">
          <rect>
-          <x>160</x>
+          <x>210</x>
           <y>230</y>
           <width>81</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>Out: 0,00</string>
+         <string>0.00</string>
         </property>
        </widget>
        <widget class="QLabel" name="yawInValueLabel">
         <property name="geometry">
          <rect>
-          <x>160</x>
+          <x>210</x>
           <y>310</y>
           <width>81</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>In: 0,00</string>
+         <string>0.00</string>
         </property>
        </widget>
        <widget class="QLabel" name="yawTarValueLabel">
         <property name="geometry">
          <rect>
-          <x>160</x>
+          <x>210</x>
           <y>340</y>
           <width>81</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>Target: 0,00</string>
+         <string>0.00</string>
         </property>
        </widget>
        <widget class="QLabel" name="yawOutValueLabel">
         <property name="geometry">
          <rect>
-          <x>160</x>
+          <x>210</x>
           <y>370</y>
           <width>81</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>Out: 0,00</string>
+         <string>0.00</string>
         </property>
        </widget>
        <widget class="QCustomPlot" name="autoDepthGraph" native="true">
@@ -2169,6 +2184,509 @@ font-size: 12px;
         </property>
         <property name="text">
          <string>Receive PID states</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>33</y>
+          <width>47</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>In:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_2">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>63</y>
+          <width>47</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Target:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_3">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>90</y>
+          <width>47</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Outputt:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_4">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>170</y>
+          <width>47</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>In:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_5">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>200</y>
+          <width>47</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Target:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_6">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>230</y>
+          <width>47</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Outputt:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_7">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>310</y>
+          <width>47</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>In:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_8">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>340</y>
+          <width>47</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Target:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_9">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>370</y>
+          <width>47</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Outputt:</string>
+        </property>
+       </widget>
+       <widget class="QProgressBar" name="m0LoadNegativeProgressBar">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>300</y>
+          <width>118</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="invertedAppearance">
+         <bool>true</bool>
+        </property>
+        <property name="format">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QProgressBar" name="m4LoadPositiveProgressBar">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>720</x>
+          <y>280</y>
+          <width>21</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="checkBox">
+        <property name="geometry">
+         <rect>
+          <x>690</x>
+          <y>520</y>
+          <width>151</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Receive motors state</string>
+        </property>
+       </widget>
+       <widget class="QProgressBar" name="m4LoadNegativeProgressBar">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>720</x>
+          <y>330</y>
+          <width>21</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="invertedAppearance">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QProgressBar" name="m5LoadPositiveProgressBar">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>720</x>
+          <y>410</y>
+          <width>21</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+       <widget class="QProgressBar" name="m5LoadNegativeProgressBar">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>720</x>
+          <y>460</y>
+          <width>21</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="invertedAppearance">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QProgressBar" name="m0LoadPositiveProgressBar">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>300</y>
+          <width>118</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="invertedAppearance">
+         <bool>false</bool>
+        </property>
+        <property name="format">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QProgressBar" name="m1LoadNegativeProgressBar">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>770</x>
+          <y>300</y>
+          <width>118</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="invertedAppearance">
+         <bool>true</bool>
+        </property>
+        <property name="format">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QProgressBar" name="m1LoadPositiveProgressBar">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>850</x>
+          <y>300</y>
+          <width>118</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="invertedAppearance">
+         <bool>false</bool>
+        </property>
+        <property name="format">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QProgressBar" name="m2LoadPositiveProgressBar">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>470</y>
+          <width>118</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="invertedAppearance">
+         <bool>false</bool>
+        </property>
+        <property name="format">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QProgressBar" name="m2LoadNegativeProgressBar">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>470</y>
+          <width>118</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="invertedAppearance">
+         <bool>true</bool>
+        </property>
+        <property name="format">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QProgressBar" name="m3LoadPositiveProgressBar">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>850</x>
+          <y>470</y>
+          <width>118</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="invertedAppearance">
+         <bool>false</bool>
+        </property>
+        <property name="format">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QProgressBar" name="m3LoadNegativeProgressBar">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>770</x>
+          <y>470</y>
+          <width>118</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="invertedAppearance">
+         <bool>true</bool>
+        </property>
+        <property name="format">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QSlider" name="xPositionVerticalSlider">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>440</y>
+          <width>160</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <number>-400</number>
+        </property>
+        <property name="maximum">
+         <number>400</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QSlider" name="yPositionVerticalSlider">
+        <property name="geometry">
+         <rect>
+          <x>350</x>
+          <y>270</y>
+          <width>22</width>
+          <height>160</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <number>-400</number>
+        </property>
+        <property name="maximum">
+         <number>400</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_10">
+        <property name="geometry">
+         <rect>
+          <x>450</x>
+          <y>450</y>
+          <width>21</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>x</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_11">
+        <property name="geometry">
+         <rect>
+          <x>370</x>
+          <y>260</y>
+          <width>21</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>y</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="resetPositionsPushButton">
+        <property name="geometry">
+         <rect>
+          <x>320</x>
+          <y>520</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Reset</string>
+        </property>
+       </widget>
+       <widget class="QSlider" name="rotationSlider">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>480</y>
+          <width>160</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <number>-100</number>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QSlider" name="verticalSlider">
+        <property name="geometry">
+         <rect>
+          <x>460</x>
+          <y>270</y>
+          <width>22</width>
+          <height>160</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <number>-100</number>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
         </property>
        </widget>
       </widget>
