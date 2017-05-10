@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     qRegisterMetaType<SimpleCommunicator_t::PidState_t>("SimpleCommunicator_t::PidState_t");
     qRegisterMetaType<SimpleCommunicator_t::State_t>("SimpleCommunicator_t::State_t");
+    qRegisterMetaType<SimpleCommunicator_t::CalibratedSensorData_t>("SimpleCommunicator_t::CalibratedSensorData_t");
     qDebug() << COMportName;
     _connectionProvider = new UARTConnectionProvider_t(COMportName.toStdString().c_str(), 19200, 1 << 20, 1 << 20);
     _communicator = new SimpleCommunicator_t(_connectionProvider);
@@ -59,14 +60,17 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->yawPIDButtton, SIGNAL(clicked(bool)), this, SLOT(onYawPIDSpinBoxChanged(bool)));
     connect(_ui->setMotorsMulButton, SIGNAL(clicked(bool)), this, SLOT(onSetMotorsMultiplier(bool)));
     connect(_ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
-    connect(_ui->autoDepthCheckBox, SIGNAL(clicked(bool)), this, SLOT(onAutoDepthClicked(bool)));
-    connect(_ui->autoPitchCheckBox, SIGNAL(clicked(bool)), this, SLOT(onAutoPitchClicked(bool)));
-    connect(_ui->autoYawCheckBox, SIGNAL(clicked(bool)), this, SLOT(onAutoYawClicked(bool)));
+    connect(_ui->autoDepthRB, SIGNAL(clicked(bool)), this, SLOT(onAutoDepthClicked(bool)));
+    connect(_ui->autoPitchRB, SIGNAL(clicked(bool)), this, SLOT(onAutoPitchClicked(bool)));
+    connect(_ui->autoYawRB, SIGNAL(clicked(bool)), this, SLOT(onAutoYawClicked(bool)));
     connect(_ui->servo1Slider, SIGNAL(valueChanged(int)), this, SLOT(onServo1SliderChanged(int)));
     connect(_ui->useJoyButton, SIGNAL(clicked(bool)), this, SLOT(onUseJoyRadioButtonClicked(bool)));
     connect(_ui->depthEdit, SIGNAL(textEdited(QString)), this, SLOT(onAutoDepthEdit(QString)));
     connect(_ui->pitchEdit, SIGNAL(textEdited(QString)), this, SLOT(onAutoPitchEdit(QString)));
     connect(_ui->yawEdit, SIGNAL(textEdited(QString)), this, SLOT(onAutoYawEdit(QString)));
+    connect(_ui->autoDepthCurrentRB, SIGNAL(clicked(bool)), this, SLOT(onAutoCurrentDepthClicked(bool)));
+    connect(_ui->autoPitchCurrentRB, SIGNAL(clicked(bool)), this, SLOT(onAutoCurrentPitchClicked(bool)));
+    connect(_ui->autoYawCurrentRB, SIGNAL(clicked(bool)), this, SLOT(onAutoCurrentYawClicked(bool)));
     connectionProviderInit();
 
     connect(_messageTimer, SIGNAL(timeout()), this, SLOT(hideMessage()));
@@ -122,6 +126,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
 void MainWindow::updateDepth(float depth)
 {
+    _depth = depth;
     _ui->depthValueLabel->setText(std::to_string(depth).c_str());
     _mainCamera->getVideoWidget()->setCurrentDepth(depth);
 }
@@ -337,25 +342,6 @@ void MainWindow::readAndSendJoySensors()
         _communicator->SetSinkingForce(z * 2);
         _communicator->SetPitchForce(ty);
         _communicator->SetYawForce(tz);
-      /*  if (ABS(thrust[4]) < eps) {
-            _communicator->SetDepth(_depth);
-            _ui->stabDepthValue->setText(std::to_string(_depth).c_str());
-            _ui->autoDepthCheckBox->setCheckable(true);
-            _ui->autoDepthCheckBox->setChecked(true);
-            _ui->autoDepthCheckBox->setCheckable(false);
-        } else {
-            _depth = z*2;
-        }
-
-        if (ABS(thrust[3]) < eps) {
-            _communicator->SetYaw(_yaw);
-            _ui->stabYawValue->setText(std::to_string(_yaw).c_str());
-            _ui->autoYawCheckBox->setCheckable(true);
-            _ui->autoYawCheckBox->setChecked(true);
-            _ui->autoYawCheckBox->setCheckable(false);
-        } else {
-            _yaw = tz;
-        }*/
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
     }
@@ -439,6 +425,8 @@ void MainWindow::updateOrient(float q1, float q2, float q3, float q4)
     _ui->thetaLabel->setText(std::to_string(angles[1]).c_str());
     _ui->phiLabel->setText(std::to_string(angles[2]).c_str());
     updateHeading(angles[0]*180/3.1416);
+    _yaw = angles[0]*180/3.1416;
+    _pitch = angles[1]*180/3.1416;
 }
 
 void MainWindow::updateHeading(int value)
@@ -991,7 +979,7 @@ void MainWindow::on_verticalSlider_valueChanged(int value)
 void MainWindow::onAutoDepthEdit(QString value)
 {
     float depth = value.toFloat();
-    if (_ui->autoDepthCheckBox->isChecked()) {
+    if (_ui->autoDepthRB->isChecked()) {
         _ui->stabDepthValue->setText(_ui->depthEdit->text());
         try {
             _communicator->SetDepth(depth);
@@ -1010,7 +998,7 @@ void MainWindow::onAutoDepthEdit(QString value)
 void MainWindow::onAutoPitchEdit(QString value)
 {
     float pitch = value.toFloat();
-    if (_ui->autoPitchCheckBox->isChecked()) {
+    if (_ui->autoPitchRB->isChecked()) {
         _ui->stabPitchValue->setText(_ui->pitchEdit->text());
         try {
             _communicator->SetPitch(pitch);
@@ -1029,10 +1017,64 @@ void MainWindow::onAutoPitchEdit(QString value)
 void MainWindow::onAutoYawEdit(QString value)
 {
     float yaw = value.toFloat();
-    if (_ui->autoYawCheckBox->isChecked()) {
+    if (_ui->autoYawRB->isChecked()) {
         _ui->stabYawValue->setText(_ui->yawEdit->text());
         try {
             _communicator->SetYaw(yaw);
+        } catch (ControllerException_t &e) {
+            qDebug() << e.error_message.c_str();
+        }
+    } else {
+        try {
+            _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        } catch (ControllerException_t &e) {
+            qDebug() << e.error_message.c_str();
+        }
+    }
+}
+
+void MainWindow::onAutoCurrentDepthClicked(bool value)
+{
+    if (value) {
+        try {
+            _ui->stabDepthValue->setText(_depth);
+            _communicator->SetDepth(_depth);
+        } catch (ControllerException_t &e) {
+            qDebug() << e.error_message.c_str();
+        }
+    } else {
+        try {
+            _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        } catch (ControllerException_t &e) {
+            qDebug() << e.error_message.c_str();
+        }
+    }
+}
+
+void MainWindow::onAutoCurrentPitchClicked(bool value)
+{
+    if (value) {
+        try {
+            _ui->stabPitchValue->setText(_pitch);
+            _communicator->SetPitch(_pitch);
+        } catch (ControllerException_t &e) {
+            qDebug() << e.error_message.c_str();
+        }
+    } else {
+        try {
+            _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        } catch (ControllerException_t &e) {
+            qDebug() << e.error_message.c_str();
+        }
+    }
+}
+
+void MainWindow::onAutoCurrentYawClicked(bool value)
+{
+    if (value) {
+        try {
+            _ui->stabYawValue->setText(_yaw);
+            _communicator->SetYaw(_yaw);
         } catch (ControllerException_t &e) {
             qDebug() << e.error_message.c_str();
         }

@@ -21,6 +21,7 @@ extern QString COMportName;
 
 Q_DECLARE_METATYPE(SimpleCommunicator_t::PidState_t)
 Q_DECLARE_METATYPE(SimpleCommunicator_t::State_t)
+Q_DECLARE_METATYPE(SimpleCommunicator_t::CalibratedSensorData_t)
 
 namespace Ui {
     class MainWindow;
@@ -90,6 +91,9 @@ private slots:
     void onAutoDepthEdit(QString value);
     void onAutoPitchEdit(QString value);
     void onAutoYawEdit(QString value);
+    void onAutoCurrentDepthClicked(bool value);
+    void onAutoCurrentPitchClicked(bool value);
+    void onAutoCurrentYawClicked(bool value);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
@@ -145,6 +149,7 @@ private:
 
     float _depth;
     float _yaw;
+    float _pitch;
     int _count_of_recieved_pid = 0;
 #define DEPTH_DATA_SIZE 200
 #define PITCH_DATA_SIZE 200

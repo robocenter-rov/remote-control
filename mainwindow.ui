@@ -41,7 +41,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="mainTab">
        <attribute name="title">
@@ -2547,8 +2547,8 @@ font-size: 12px;
        <widget class="QLineEdit" name="depthEdit">
         <property name="geometry">
          <rect>
-          <x>110</x>
-          <y>480</y>
+          <x>160</x>
+          <y>500</y>
           <width>71</width>
           <height>21</height>
          </rect>
@@ -2557,8 +2557,8 @@ font-size: 12px;
        <widget class="QLineEdit" name="pitchEdit">
         <property name="geometry">
          <rect>
-          <x>110</x>
-          <y>510</y>
+          <x>160</x>
+          <y>530</y>
           <width>71</width>
           <height>21</height>
          </rect>
@@ -2567,37 +2567,18 @@ font-size: 12px;
        <widget class="QLineEdit" name="yawEdit">
         <property name="geometry">
          <rect>
-          <x>110</x>
-          <y>540</y>
+          <x>160</x>
+          <y>560</y>
           <width>71</width>
           <height>21</height>
          </rect>
         </property>
        </widget>
-       <widget class="QCheckBox" name="autoPitchCheckBox">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>510</y>
-          <width>81</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>AutoPitch</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-       </widget>
        <widget class="QLabel" name="stabPitchValue">
         <property name="geometry">
          <rect>
-          <x>190</x>
-          <y>510</y>
+          <x>240</x>
+          <y>530</y>
           <width>91</width>
           <height>21</height>
          </rect>
@@ -2609,8 +2590,8 @@ font-size: 12px;
        <widget class="QLabel" name="stabYawValue">
         <property name="geometry">
          <rect>
-          <x>190</x>
-          <y>540</y>
+          <x>240</x>
+          <y>560</y>
           <width>91</width>
           <height>21</height>
          </rect>
@@ -2622,8 +2603,8 @@ font-size: 12px;
        <widget class="QLabel" name="stabDepthValue">
         <property name="geometry">
          <rect>
-          <x>190</x>
-          <y>480</y>
+          <x>240</x>
+          <y>500</y>
           <width>91</width>
           <height>21</height>
          </rect>
@@ -2632,48 +2613,95 @@ font-size: 12px;
          <string/>
         </property>
        </widget>
-       <widget class="QCheckBox" name="autoYawCheckBox">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
+       <widget class="QLabel" name="stabilizationLabel">
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>540</y>
-          <width>81</width>
+          <y>475</y>
+          <width>141</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>AutoYaw</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
+         <string>Stabilizations</string>
         </property>
        </widget>
-       <widget class="QCheckBox" name="autoDepthCheckBox">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
+       <widget class="QRadioButton" name="autoDepthCurrentRB">
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>480</y>
-          <width>81</width>
-          <height>21</height>
+          <y>500</y>
+          <width>111</width>
+          <height>17</height>
          </rect>
         </property>
-        <property name="mouseTracking">
-         <bool>true</bool>
+        <property name="text">
+         <string>Current depth</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="autoDepthRB">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>500</y>
+          <width>21</width>
+          <height>17</height>
+         </rect>
         </property>
         <property name="text">
-         <string>AutoDepth</string>
+         <string/>
         </property>
-        <property name="checkable">
-         <bool>true</bool>
+       </widget>
+       <widget class="QRadioButton" name="autoPitchCurrentRB">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>530</y>
+          <width>111</width>
+          <height>17</height>
+         </rect>
         </property>
-        <property name="autoRepeat">
-         <bool>false</bool>
+        <property name="text">
+         <string>Current pitch</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="autoYawCurrentRB">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>560</y>
+          <width>111</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Current yaw</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="autoPitchRB">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>530</y>
+          <width>16</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="autoYawRB">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>560</y>
+          <width>16</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </widget>
