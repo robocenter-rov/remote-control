@@ -880,8 +880,6 @@ void MainWindow::replotDataDepth()
         minY = MIN(minY, MIN(y1[i], MIN(y2[i], y3[i])));
         minY = MAX(maxY, MAX(y1[i], MAX(y2[i], y3[i])));
     }
-    if (minY > 0) minY = 25;
-    if (maxY < 50) maxY = 35;
     _ui->autoDepthGraph->xAxis->setRange(x[0], x[0] + DEPTH_DATA_SIZE);
     _ui->autoDepthGraph->yAxis->setRange(minY, maxY);
     _ui->autoDepthGraph->replot();
@@ -904,8 +902,6 @@ void MainWindow::replotDataPitch() {
         minY = MIN(minY, MIN(y1[i], MIN(y2[i], y3[i])));
         minY = MAX(maxY, MAX(y1[i], MAX(y2[i], y3[i])));
     }
-    if (minY > 0) minY = 25;
-    if (maxY < 50) maxY = 35;
     _ui->autoPitchGraph->xAxis->setRange(x[0], x[0] + PITCH_DATA_SIZE);
     _ui->autoPitchGraph->yAxis->setRange(minY, maxY);
     _ui->autoPitchGraph->replot();
@@ -929,8 +925,6 @@ void MainWindow::replotDataYaw()
         minY = MIN(minY, MIN(y1[i], MIN(y2[i], y3[i])));
         minY = MAX(maxY, MAX(y1[i], MAX(y2[i], y3[i])));
     }
-    if (minY > 0) minY = 25;
-    if (maxY < 50) maxY = 35;
     _ui->autoYawGraph->xAxis->setRange(x[0], x[0] + YAW_DATA_SIZE);
     _ui->autoYawGraph->yAxis->setRange(minY, maxY);
     _ui->autoYawGraph->replot();
