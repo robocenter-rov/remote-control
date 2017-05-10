@@ -779,7 +779,10 @@ void MainWindow::onPidStateReceived(SimpleCommunicator_t::PidState_t depth, Simp
 
     if (_depthData.size() == DEPTH_DATA_SIZE) _depthData.pop_front();
     _depthData.push_back(depth);
-
+    if (_pitchData.size() == PITCH_DATA_SIZE) _pitchData.pop_front();
+    _pitchData.push_back(pitch);
+    if (_yawData.size() == YAW_DATA_SIZE) _yawData.pop_front();
+    _yawData.push_back(yaw);
     replotData();
 }
 
@@ -790,24 +793,34 @@ void MainWindow::graphInit()
         x[i] = i - DEPTH_DATA_SIZE;
         y[i] = 0;
     }
-    _ui->autoDepthGraph->addGraph();
-    _ui->autoDepthGraph->addGraph();
-    _ui->autoDepthGraph->addGraph();
-    _ui->autoDepthGraph->graph(0)->setData(x, y);
-    _ui->autoDepthGraph->graph(1)->setData(x, y);
-    _ui->autoDepthGraph->graph(2)->setData(x, y);
-    _ui->autoDepthGraph->graph(0)->setPen(QColor(40, 110, 255));
-    _ui->autoDepthGraph->graph(1)->setPen(QColor(255, 110, 40));
-    _ui->autoDepthGraph->graph(2)->setPen(QColor(110, 255, 40));
-    _ui->autoDepthGraph->xAxis->setLabel("X");
-    _ui->autoDepthGraph->yAxis->setLabel("Y");
+    QVector<QColor> colors = { QColor(40, 110, 255), QColor(255, 110, 40), QColor(110, 255, 40) };
+    for (int i = 0; i < 3; i++) {
+        _ui->autoDepthGraph->addGraph();
+        _ui->autoPitchGraph->addGraph();
+        _ui->autoYawGraph->addGraph();
+
+        _ui->autoDepthGraph->graph(i)->setData(x, y);
+        _ui->autoPitchGraph->graph(i)->setData(x, y);
+        _ui->autoYawGraph->graph(i)->setData(x, y);
+
+        _ui->autoDepthGraph->graph(i)->setPen(colors[i]);
+        _ui->autoPitchGraph->graph(i)->setPen(colors[i]);
+        _ui->autoYawGraph->graph(i)->setPen(colors[i]);
+    }
     _ui->autoDepthGraph->xAxis->setRange(_count_of_recieved_pid-DEPTH_DATA_SIZE, _count_of_recieved_pid);
+    _ui->autoPitchGraph->xAxis->setRange(_count_of_recieved_pid-PITCH_DATA_SIZE, _count_of_recieved_pid);
+    _ui->autoYawGraph->xAxis->setRange(_count_of_recieved_pid-YAW_DATA_SIZE, _count_of_recieved_pid);
+
     _ui->autoDepthGraph->replot();
+    _ui->autoPitchGraph->replot();
+    _ui->autoYawGraph->replot();
 }
 
 void MainWindow::replotData()
 {
     replotDataDepth();
+    replotDataPitch();
+    replotDataYaw();
 }
 
 void MainWindow::replotDataDepth()
@@ -833,6 +846,55 @@ void MainWindow::replotDataDepth()
     _ui->autoDepthGraph->xAxis->setRange(x[0], x[0] + DEPTH_DATA_SIZE);
     _ui->autoDepthGraph->yAxis->setRange(minY, maxY);
     _ui->autoDepthGraph->replot();
+}
+
+void MainWindow::replotDataPitch() {
+    QVector<double> x(PITCH_DATA_SIZE), y1(PITCH_DATA_SIZE), y2(PITCH_DATA_SIZE), y3(PITCH_DATA_SIZE);
+    for (int i = 0; i < PITCH_DATA_SIZE; i++){
+        x[i] = i + _count_of_recieved_pid - PITCH_DATA_SIZE;
+        y1[i] = (i < PITCH_DATA_SIZE - _pitchData.size()) ? 0 : _pitchData[i].In;
+        y2[i] = (i < PITCH_DATA_SIZE - _pitchData.size()) ? 0 : _pitchData[i].Out;
+        y3[i] = (i < PITCH_DATA_SIZE - _pitchData.size()) ? 0 : _pitchData[i].Target;
+    }
+    _ui->autoPitchGraph->graph(0)->setData(x, y1);
+    _ui->autoPitchGraph->graph(1)->setData(x, y2);
+    _ui->autoPitchGraph->graph(2)->setData(x, y3);
+
+    double minY = y1[0], maxY = y1[0];
+    for (int i = 0; i < PITCH_DATA_SIZE; i++) {
+        minY = MIN(minY, MIN(y1[i], MIN(y2[i], y3[i])));
+        minY = MAX(maxY, MAX(y1[i], MAX(y2[i], y3[i])));
+    }
+    if (minY > 0) minY = 25;
+    if (maxY < 50) maxY = 35;
+    _ui->autoPitchGraph->xAxis->setRange(x[0], x[0] + PITCH_DATA_SIZE);
+    _ui->autoPitchGraph->yAxis->setRange(minY, maxY);
+    _ui->autoPitchGraph->replot();
+}
+
+void MainWindow::replotDataYaw()
+{
+    QVector<double> x(YAW_DATA_SIZE), y1(YAW_DATA_SIZE), y2(YAW_DATA_SIZE), y3(YAW_DATA_SIZE);
+    for (int i = 0; i < YAW_DATA_SIZE; i++){
+        x[i] = i + _count_of_recieved_pid - YAW_DATA_SIZE;
+        y1[i] = (i < YAW_DATA_SIZE - _yawData.size()) ? 0 : _yawData[i].In;
+        y2[i] = (i < YAW_DATA_SIZE - _yawData.size()) ? 0 : _yawData[i].Out;
+        y3[i] = (i < YAW_DATA_SIZE - _yawData.size()) ? 0 : _yawData[i].Target;
+    }
+    _ui->autoYawGraph->graph(0)->setData(x, y1);
+    _ui->autoYawGraph->graph(1)->setData(x, y2);
+    _ui->autoYawGraph->graph(2)->setData(x, y3);
+
+    double minY = y1[0], maxY = y1[0];
+    for (int i = 0; i < YAW_DATA_SIZE; i++) {
+        minY = MIN(minY, MIN(y1[i], MIN(y2[i], y3[i])));
+        minY = MAX(maxY, MAX(y1[i], MAX(y2[i], y3[i])));
+    }
+    if (minY > 0) minY = 25;
+    if (maxY < 50) maxY = 35;
+    _ui->autoYawGraph->xAxis->setRange(x[0], x[0] + YAW_DATA_SIZE);
+    _ui->autoYawGraph->yAxis->setRange(minY, maxY);
+    _ui->autoYawGraph->replot();
 }
 
 void MainWindow::on_receivePidStatesCheckbox_toggled(bool checked)
@@ -890,3 +952,4 @@ void MainWindow::on_verticalSlider_valueChanged(int value)
 {
     _communicator->SetPitchForce(value / 100.f);
 }
+

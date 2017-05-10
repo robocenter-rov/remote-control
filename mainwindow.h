@@ -101,6 +101,8 @@ signals:
 private:
     void replotData();
     void replotDataDepth();
+    void replotDataPitch();
+    void replotDataYaw();
     void graphInit();
     void cameraInit();
     void loadQSS();
@@ -142,8 +144,12 @@ private:
     float _yaw;
     int _count_of_recieved_pid = 0;
 #define DEPTH_DATA_SIZE 200
+#define PITCH_DATA_SIZE 200
+#define YAW_DATA_SIZE 200
     QVector<SimpleCommunicator_t::PidState_t> _depthData;
-    QTimer *_depthDataTimer;
+    QVector<SimpleCommunicator_t::PidState_t> _pitchData;
+    QVector<SimpleCommunicator_t::PidState_t> _yawData;
+//    QTimer *_depthDataTimer;
 };
 
 #endif // MAINWINDOW_H

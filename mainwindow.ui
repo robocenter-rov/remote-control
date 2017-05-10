@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>960</width>
-    <height>646</height>
+    <width>1202</width>
+    <height>690</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -41,7 +41,7 @@
     <item row="0" column="1">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="mainTab">
        <attribute name="title">
@@ -738,8 +738,8 @@
        <widget class="QSlider" name="motor1Slider">
         <property name="geometry">
          <rect>
-          <x>450</x>
-          <y>30</y>
+          <x>650</x>
+          <y>40</y>
           <width>160</width>
           <height>22</height>
          </rect>
@@ -766,8 +766,8 @@
        <widget class="QSlider" name="motor2Slider">
         <property name="geometry">
          <rect>
-          <x>450</x>
-          <y>60</y>
+          <x>650</x>
+          <y>70</y>
           <width>160</width>
           <height>22</height>
          </rect>
@@ -794,8 +794,8 @@
        <widget class="QSlider" name="motor3Slider">
         <property name="geometry">
          <rect>
-          <x>450</x>
-          <y>90</y>
+          <x>650</x>
+          <y>100</y>
           <width>160</width>
           <height>22</height>
          </rect>
@@ -822,8 +822,8 @@
        <widget class="QSlider" name="motor6Slider">
         <property name="geometry">
          <rect>
-          <x>450</x>
-          <y>180</y>
+          <x>650</x>
+          <y>190</y>
           <width>160</width>
           <height>22</height>
          </rect>
@@ -850,8 +850,8 @@
        <widget class="QSlider" name="motor4Slider">
         <property name="geometry">
          <rect>
-          <x>450</x>
-          <y>120</y>
+          <x>650</x>
+          <y>130</y>
           <width>160</width>
           <height>22</height>
          </rect>
@@ -878,8 +878,8 @@
        <widget class="QSlider" name="motor5Slider">
         <property name="geometry">
          <rect>
-          <x>450</x>
-          <y>150</y>
+          <x>650</x>
+          <y>160</y>
           <width>160</width>
           <height>22</height>
          </rect>
@@ -906,8 +906,8 @@
        <widget class="QLabel" name="motor1Label">
         <property name="geometry">
          <rect>
-          <x>370</x>
-          <y>30</y>
+          <x>570</x>
+          <y>40</y>
           <width>81</width>
           <height>21</height>
          </rect>
@@ -919,8 +919,8 @@
        <widget class="QLabel" name="motor2Label">
         <property name="geometry">
          <rect>
-          <x>370</x>
-          <y>60</y>
+          <x>570</x>
+          <y>70</y>
           <width>81</width>
           <height>21</height>
          </rect>
@@ -932,8 +932,8 @@
        <widget class="QLabel" name="motor3Label">
         <property name="geometry">
          <rect>
-          <x>370</x>
-          <y>90</y>
+          <x>570</x>
+          <y>100</y>
           <width>81</width>
           <height>21</height>
          </rect>
@@ -945,8 +945,8 @@
        <widget class="QLabel" name="motor5Label">
         <property name="geometry">
          <rect>
-          <x>370</x>
-          <y>150</y>
+          <x>570</x>
+          <y>160</y>
           <width>81</width>
           <height>21</height>
          </rect>
@@ -958,8 +958,8 @@
        <widget class="QLabel" name="motor4Label">
         <property name="geometry">
          <rect>
-          <x>370</x>
-          <y>120</y>
+          <x>570</x>
+          <y>130</y>
           <width>81</width>
           <height>21</height>
          </rect>
@@ -971,8 +971,8 @@
        <widget class="QLabel" name="motor6Label">
         <property name="geometry">
          <rect>
-          <x>370</x>
-          <y>180</y>
+          <x>570</x>
+          <y>190</y>
           <width>81</width>
           <height>21</height>
          </rect>
@@ -984,8 +984,8 @@
        <widget class="QLabel" name="motor1valueLabel">
         <property name="geometry">
          <rect>
-          <x>620</x>
-          <y>30</y>
+          <x>820</x>
+          <y>40</y>
           <width>41</width>
           <height>21</height>
          </rect>
@@ -1000,8 +1000,8 @@
        <widget class="QLabel" name="motor2valueLabel">
         <property name="geometry">
          <rect>
-          <x>620</x>
-          <y>60</y>
+          <x>820</x>
+          <y>70</y>
           <width>41</width>
           <height>21</height>
          </rect>
@@ -1016,8 +1016,8 @@
        <widget class="QLabel" name="motor3valueLabel">
         <property name="geometry">
          <rect>
-          <x>620</x>
-          <y>90</y>
+          <x>820</x>
+          <y>100</y>
           <width>41</width>
           <height>21</height>
          </rect>
@@ -1032,8 +1032,8 @@
        <widget class="QLabel" name="motor4valueLabel">
         <property name="geometry">
          <rect>
-          <x>620</x>
-          <y>120</y>
+          <x>820</x>
+          <y>130</y>
           <width>41</width>
           <height>21</height>
          </rect>
@@ -1048,8 +1048,8 @@
        <widget class="QLabel" name="motor5valueLabel">
         <property name="geometry">
          <rect>
-          <x>620</x>
-          <y>150</y>
+          <x>820</x>
+          <y>160</y>
           <width>41</width>
           <height>21</height>
          </rect>
@@ -1064,8 +1064,8 @@
        <widget class="QLabel" name="motor6valueLabel">
         <property name="geometry">
          <rect>
-          <x>620</x>
-          <y>180</y>
+          <x>820</x>
+          <y>190</y>
           <width>41</width>
           <height>21</height>
          </rect>
@@ -1080,8 +1080,8 @@
        <widget class="QPushButton" name="stopMotorsButton">
         <property name="geometry">
          <rect>
-          <x>530</x>
-          <y>210</y>
+          <x>730</x>
+          <y>220</y>
           <width>91</width>
           <height>31</height>
          </rect>
@@ -1207,7 +1207,7 @@
        <widget class="QPushButton" name="SetMotorsIdx">
         <property name="geometry">
          <rect>
-          <x>300</x>
+          <x>500</x>
           <y>220</y>
           <width>81</width>
           <height>31</height>
@@ -1220,8 +1220,8 @@
        <widget class="QSpinBox" name="motorIdxSpinBox_1">
         <property name="geometry">
          <rect>
-          <x>300</x>
-          <y>30</y>
+          <x>500</x>
+          <y>40</y>
           <width>42</width>
           <height>22</height>
          </rect>
@@ -1239,8 +1239,8 @@
        <widget class="QSpinBox" name="motorIdxSpinBox_2">
         <property name="geometry">
          <rect>
-          <x>300</x>
-          <y>60</y>
+          <x>500</x>
+          <y>70</y>
           <width>42</width>
           <height>22</height>
          </rect>
@@ -1258,8 +1258,8 @@
        <widget class="QSpinBox" name="motorIdxSpinBox_3">
         <property name="geometry">
          <rect>
-          <x>300</x>
-          <y>90</y>
+          <x>500</x>
+          <y>100</y>
           <width>42</width>
           <height>22</height>
          </rect>
@@ -1280,8 +1280,8 @@
        <widget class="QSpinBox" name="motorIdxSpinBox_4">
         <property name="geometry">
          <rect>
-          <x>300</x>
-          <y>120</y>
+          <x>500</x>
+          <y>130</y>
           <width>42</width>
           <height>22</height>
          </rect>
@@ -1299,8 +1299,8 @@
        <widget class="QSpinBox" name="motorIdxSpinBox_5">
         <property name="geometry">
          <rect>
-          <x>300</x>
-          <y>150</y>
+          <x>500</x>
+          <y>160</y>
           <width>42</width>
           <height>22</height>
          </rect>
@@ -1318,8 +1318,8 @@
        <widget class="QSpinBox" name="motorIdxSpinBox_6">
         <property name="geometry">
          <rect>
-          <x>300</x>
-          <y>180</y>
+          <x>500</x>
+          <y>190</y>
           <width>42</width>
           <height>22</height>
          </rect>
@@ -1337,8 +1337,8 @@
        <widget class="QLabel" name="setMotorsMsg">
         <property name="geometry">
          <rect>
-          <x>280</x>
-          <y>250</y>
+          <x>480</x>
+          <y>260</y>
           <width>181</width>
           <height>21</height>
          </rect>
@@ -1474,8 +1474,8 @@ font-size: 12px;
        <widget class="QDoubleSpinBox" name="m1MultSpinBox">
         <property name="geometry">
          <rect>
-          <x>740</x>
-          <y>30</y>
+          <x>940</x>
+          <y>40</y>
           <width>62</width>
           <height>22</height>
          </rect>
@@ -1499,8 +1499,8 @@ font-size: 12px;
        <widget class="QDoubleSpinBox" name="m2MultSpinBox">
         <property name="geometry">
          <rect>
-          <x>740</x>
-          <y>60</y>
+          <x>940</x>
+          <y>70</y>
           <width>62</width>
           <height>22</height>
          </rect>
@@ -1524,8 +1524,8 @@ font-size: 12px;
        <widget class="QDoubleSpinBox" name="m3MultSpinBox">
         <property name="geometry">
          <rect>
-          <x>740</x>
-          <y>90</y>
+          <x>940</x>
+          <y>100</y>
           <width>62</width>
           <height>22</height>
          </rect>
@@ -1549,8 +1549,8 @@ font-size: 12px;
        <widget class="QDoubleSpinBox" name="m4MultSpinBox">
         <property name="geometry">
          <rect>
-          <x>740</x>
-          <y>120</y>
+          <x>940</x>
+          <y>130</y>
           <width>62</width>
           <height>22</height>
          </rect>
@@ -1574,8 +1574,8 @@ font-size: 12px;
        <widget class="QDoubleSpinBox" name="m5MultSpinBox">
         <property name="geometry">
          <rect>
-          <x>740</x>
-          <y>150</y>
+          <x>940</x>
+          <y>160</y>
           <width>62</width>
           <height>22</height>
          </rect>
@@ -1599,8 +1599,8 @@ font-size: 12px;
        <widget class="QDoubleSpinBox" name="m6MultSpinBox">
         <property name="geometry">
          <rect>
-          <x>740</x>
-          <y>180</y>
+          <x>940</x>
+          <y>190</y>
           <width>62</width>
           <height>22</height>
          </rect>
@@ -1624,8 +1624,8 @@ font-size: 12px;
        <widget class="QPushButton" name="setMotorsMulButton">
         <property name="geometry">
          <rect>
-          <x>720</x>
-          <y>210</y>
+          <x>920</x>
+          <y>220</y>
           <width>101</width>
           <height>31</height>
          </rect>
@@ -1873,8 +1873,8 @@ font-size: 12px;
        <widget class="QSlider" name="servo1Slider">
         <property name="geometry">
          <rect>
-          <x>840</x>
-          <y>40</y>
+          <x>1040</x>
+          <y>50</y>
           <width>21</width>
           <height>131</height>
          </rect>
@@ -1892,8 +1892,8 @@ font-size: 12px;
        <widget class="QLabel" name="servo1Label">
         <property name="geometry">
          <rect>
-          <x>826</x>
-          <y>10</y>
+          <x>1026</x>
+          <y>20</y>
           <width>51</width>
           <height>21</height>
          </rect>
@@ -1908,8 +1908,8 @@ font-size: 12px;
        <widget class="QLabel" name="servo1ValueLabel">
         <property name="geometry">
          <rect>
-          <x>830</x>
-          <y>180</y>
+          <x>1030</x>
+          <y>190</y>
           <width>51</width>
           <height>21</height>
          </rect>
@@ -1924,8 +1924,8 @@ font-size: 12px;
        <widget class="QRadioButton" name="useJoyButton">
         <property name="geometry">
          <rect>
-          <x>400</x>
-          <y>210</y>
+          <x>600</x>
+          <y>220</y>
           <width>101</width>
           <height>31</height>
          </rect>
@@ -1937,8 +1937,8 @@ font-size: 12px;
        <widget class="QLabel" name="m1curLabel">
         <property name="geometry">
          <rect>
-          <x>660</x>
-          <y>30</y>
+          <x>860</x>
+          <y>40</y>
           <width>71</width>
           <height>21</height>
          </rect>
@@ -1953,8 +1953,8 @@ font-size: 12px;
        <widget class="QLabel" name="m2curLabel">
         <property name="geometry">
          <rect>
-          <x>660</x>
-          <y>60</y>
+          <x>860</x>
+          <y>70</y>
           <width>71</width>
           <height>21</height>
          </rect>
@@ -1969,8 +1969,8 @@ font-size: 12px;
        <widget class="QLabel" name="m3curLabel">
         <property name="geometry">
          <rect>
-          <x>660</x>
-          <y>90</y>
+          <x>860</x>
+          <y>100</y>
           <width>71</width>
           <height>21</height>
          </rect>
@@ -1985,8 +1985,8 @@ font-size: 12px;
        <widget class="QLabel" name="m4curLabel">
         <property name="geometry">
          <rect>
-          <x>660</x>
-          <y>120</y>
+          <x>860</x>
+          <y>130</y>
           <width>71</width>
           <height>21</height>
          </rect>
@@ -2001,8 +2001,8 @@ font-size: 12px;
        <widget class="QLabel" name="m5curLabel">
         <property name="geometry">
          <rect>
-          <x>660</x>
-          <y>150</y>
+          <x>860</x>
+          <y>160</y>
           <width>71</width>
           <height>21</height>
          </rect>
@@ -2017,8 +2017,8 @@ font-size: 12px;
        <widget class="QLabel" name="m6curLabel">
         <property name="geometry">
          <rect>
-          <x>660</x>
-          <y>180</y>
+          <x>860</x>
+          <y>190</y>
           <width>71</width>
           <height>21</height>
          </rect>
@@ -2033,8 +2033,8 @@ font-size: 12px;
        <widget class="QLabel" name="curMotorsStateLabel">
         <property name="geometry">
          <rect>
-          <x>640</x>
-          <y>0</y>
+          <x>840</x>
+          <y>10</y>
           <width>91</width>
           <height>31</height>
          </rect>
@@ -2166,13 +2166,13 @@ font-size: 12px;
        <widget class="QCustomPlot" name="autoDepthGraph" native="true">
         <property name="geometry">
          <rect>
-          <x>310</x>
-          <y>290</y>
-          <width>301</width>
-          <height>241</height>
+          <x>240</x>
+          <y>20</y>
+          <width>241</width>
+          <height>131</height>
          </rect>
         </property>
-        </widget>
+       </widget>
        <widget class="QCheckBox" name="receivePidStatesCheckbox">
         <property name="geometry">
          <rect>
@@ -2222,7 +2222,7 @@ font-size: 12px;
          </rect>
         </property>
         <property name="text">
-         <string>Outputt:</string>
+         <string>Output:</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_4">
@@ -2261,7 +2261,7 @@ font-size: 12px;
          </rect>
         </property>
         <property name="text">
-         <string>Outputt:</string>
+         <string>Output:</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_7">
@@ -2300,7 +2300,7 @@ font-size: 12px;
          </rect>
         </property>
         <property name="text">
-         <string>Outputt:</string>
+         <string>Output:</string>
         </property>
        </widget>
        <widget class="QProgressBar" name="m0LoadNegativeProgressBar">
@@ -2309,8 +2309,8 @@ font-size: 12px;
         </property>
         <property name="geometry">
          <rect>
-          <x>530</x>
-          <y>300</y>
+          <x>730</x>
+          <y>310</y>
           <width>118</width>
           <height>23</height>
          </rect>
@@ -2331,8 +2331,8 @@ font-size: 12px;
         </property>
         <property name="geometry">
          <rect>
-          <x>720</x>
-          <y>280</y>
+          <x>920</x>
+          <y>290</y>
           <width>21</width>
           <height>51</height>
          </rect>
@@ -2347,8 +2347,8 @@ font-size: 12px;
        <widget class="QCheckBox" name="checkBox">
         <property name="geometry">
          <rect>
-          <x>690</x>
-          <y>520</y>
+          <x>890</x>
+          <y>530</y>
           <width>151</width>
           <height>17</height>
          </rect>
@@ -2363,8 +2363,8 @@ font-size: 12px;
         </property>
         <property name="geometry">
          <rect>
-          <x>720</x>
-          <y>330</y>
+          <x>920</x>
+          <y>340</y>
           <width>21</width>
           <height>51</height>
          </rect>
@@ -2385,8 +2385,8 @@ font-size: 12px;
         </property>
         <property name="geometry">
          <rect>
-          <x>720</x>
-          <y>410</y>
+          <x>920</x>
+          <y>420</y>
           <width>21</width>
           <height>51</height>
          </rect>
@@ -2404,8 +2404,8 @@ font-size: 12px;
         </property>
         <property name="geometry">
          <rect>
-          <x>720</x>
-          <y>460</y>
+          <x>920</x>
+          <y>470</y>
           <width>21</width>
           <height>51</height>
          </rect>
@@ -2426,8 +2426,8 @@ font-size: 12px;
         </property>
         <property name="geometry">
          <rect>
-          <x>610</x>
-          <y>300</y>
+          <x>810</x>
+          <y>310</y>
           <width>118</width>
           <height>23</height>
          </rect>
@@ -2448,8 +2448,8 @@ font-size: 12px;
         </property>
         <property name="geometry">
          <rect>
-          <x>770</x>
-          <y>300</y>
+          <x>970</x>
+          <y>310</y>
           <width>118</width>
           <height>23</height>
          </rect>
@@ -2470,8 +2470,8 @@ font-size: 12px;
         </property>
         <property name="geometry">
          <rect>
-          <x>850</x>
-          <y>300</y>
+          <x>1050</x>
+          <y>310</y>
           <width>118</width>
           <height>23</height>
          </rect>
@@ -2492,8 +2492,8 @@ font-size: 12px;
         </property>
         <property name="geometry">
          <rect>
-          <x>610</x>
-          <y>470</y>
+          <x>810</x>
+          <y>480</y>
           <width>118</width>
           <height>23</height>
          </rect>
@@ -2514,8 +2514,8 @@ font-size: 12px;
         </property>
         <property name="geometry">
          <rect>
-          <x>530</x>
-          <y>470</y>
+          <x>730</x>
+          <y>480</y>
           <width>118</width>
           <height>23</height>
          </rect>
@@ -2536,8 +2536,8 @@ font-size: 12px;
         </property>
         <property name="geometry">
          <rect>
-          <x>850</x>
-          <y>470</y>
+          <x>1050</x>
+          <y>480</y>
           <width>118</width>
           <height>23</height>
          </rect>
@@ -2558,8 +2558,8 @@ font-size: 12px;
         </property>
         <property name="geometry">
          <rect>
-          <x>770</x>
-          <y>470</y>
+          <x>970</x>
+          <y>480</y>
           <width>118</width>
           <height>23</height>
          </rect>
@@ -2577,8 +2577,8 @@ font-size: 12px;
        <widget class="QSlider" name="xPositionVerticalSlider">
         <property name="geometry">
          <rect>
-          <x>280</x>
-          <y>440</y>
+          <x>480</x>
+          <y>450</y>
           <width>160</width>
           <height>22</height>
          </rect>
@@ -2596,8 +2596,8 @@ font-size: 12px;
        <widget class="QSlider" name="yPositionVerticalSlider">
         <property name="geometry">
          <rect>
-          <x>350</x>
-          <y>270</y>
+          <x>550</x>
+          <y>280</y>
           <width>22</width>
           <height>160</height>
          </rect>
@@ -2615,8 +2615,8 @@ font-size: 12px;
        <widget class="QLabel" name="label_10">
         <property name="geometry">
          <rect>
-          <x>450</x>
-          <y>450</y>
+          <x>650</x>
+          <y>460</y>
           <width>21</width>
           <height>16</height>
          </rect>
@@ -2628,8 +2628,8 @@ font-size: 12px;
        <widget class="QLabel" name="label_11">
         <property name="geometry">
          <rect>
-          <x>370</x>
-          <y>260</y>
+          <x>580</x>
+          <y>270</y>
           <width>21</width>
           <height>16</height>
          </rect>
@@ -2641,8 +2641,8 @@ font-size: 12px;
        <widget class="QPushButton" name="resetPositionsPushButton">
         <property name="geometry">
          <rect>
-          <x>320</x>
-          <y>520</y>
+          <x>520</x>
+          <y>530</y>
           <width>75</width>
           <height>23</height>
          </rect>
@@ -2654,8 +2654,8 @@ font-size: 12px;
        <widget class="QSlider" name="rotationSlider">
         <property name="geometry">
          <rect>
-          <x>280</x>
-          <y>480</y>
+          <x>480</x>
+          <y>490</y>
           <width>160</width>
           <height>22</height>
          </rect>
@@ -2673,8 +2673,8 @@ font-size: 12px;
        <widget class="QSlider" name="verticalSlider">
         <property name="geometry">
          <rect>
-          <x>460</x>
-          <y>270</y>
+          <x>660</x>
+          <y>280</y>
           <width>22</width>
           <height>160</height>
          </rect>
@@ -2689,6 +2689,26 @@ font-size: 12px;
          <enum>Qt::Vertical</enum>
         </property>
        </widget>
+       <widget class="QCustomPlot" name="autoPitchGraph" native="true">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>160</y>
+          <width>241</width>
+          <height>131</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QCustomPlot" name="autoYawGraph" native="true">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>300</y>
+          <width>241</width>
+          <height>131</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>
@@ -2699,7 +2719,7 @@ font-size: 12px;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>960</width>
+     <width>1202</width>
      <height>21</height>
     </rect>
    </property>
