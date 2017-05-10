@@ -87,6 +87,9 @@ private slots:
     void on_yPositionVerticalSlider_sliderMoved(int position);
     void on_rotationSlider_valueChanged(int value);
     void on_verticalSlider_valueChanged(int value);
+    void onAutoDepthEdit(QString value);
+    void onAutoPitchEdit(QString value);
+    void onAutoYawEdit(QString value);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
