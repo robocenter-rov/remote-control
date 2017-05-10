@@ -557,7 +557,7 @@ void MainWindow::onStopMotorsButtonClicked(bool value)
 
 void MainWindow::onCamera1PosChanged(int value)
 {
-    _ui->camera1valueLabel->setText(QString(std::to_string(value/18*10).c_str()) + "%");
+    _ui->camera1valueLabel->setText(QString(std::to_string(value/18*10).c_str()));
     try {
         _communicator->SetCamera1Pos(value*3.1415/180.0);
     } catch (ControllerException_t &e) {
@@ -567,7 +567,7 @@ void MainWindow::onCamera1PosChanged(int value)
 
 void MainWindow::onCamera2PosChanged(int value)
 {
-    _ui->camera2valueLabel->setText(QString(std::to_string(value/18*10).c_str()) + "%");
+    _ui->camera2valueLabel->setText(QString(std::to_string(value/18*10).c_str()));
     try {
         _communicator->SetCamera2Pos(value*3.1415/180.0);
     } catch (ControllerException_t &e) {
