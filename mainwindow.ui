@@ -561,6 +561,32 @@
              <bool>false</bool>
             </property>
            </widget>
+           <widget class="QCheckBox" name="autoDepthMainInfoCB">
+            <property name="geometry">
+             <rect>
+              <x>190</x>
+              <y>340</y>
+              <width>121</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>AutoDepth</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="autoYawMainInfoCB">
+            <property name="geometry">
+             <rect>
+              <x>190</x>
+              <y>360</y>
+              <width>121</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>AutoYaw</string>
+            </property>
+           </widget>
           </widget>
          </widget>
         </item>

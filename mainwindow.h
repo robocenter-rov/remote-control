@@ -147,9 +147,12 @@ private:
     float _x_pos;
     float _y_pos;
 
+    float _currentDepth = 0.0;
+    float _currentYaw = 0.0;
+    float _curentPitch = 0.0;
+
     float _depth = 0.0;
     float _yaw = 0.0;
-    float _pitch = 0.0;
     int _count_of_recieved_pid = 0;
 #define DEPTH_DATA_SIZE 200
 #define PITCH_DATA_SIZE 200

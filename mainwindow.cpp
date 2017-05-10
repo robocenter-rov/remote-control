@@ -126,7 +126,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
 void MainWindow::updateDepth(float depth)
 {
-    _depth = depth;
+    _currentDepth = depth;
     _ui->depthValueLabel->setText(std::to_string(depth).c_str());
     _mainCamera->getVideoWidget()->setCurrentDepth(depth);
 }
@@ -338,14 +338,38 @@ void MainWindow::readAndSendJoySensors()
         y /= dist;
     }
     try {
+        if (ABS(thrust[4]) < 0.10) {
+            if (!_communicator->IsAutoDepthEnabled()) {
+                _communicator->SetDepth(_currentDepth);
+                _ui->autoDepthMainInfoCB->setChecked(true);
+                _ui->autoDepthMainInfoCB->setText(QString("AutoDepth: ") + std::to_string(_currentDepth).c_str());
+            }
+        } else {
+            if (_communicator->IsAutoDepthEnabled()) {
+                _ui->autoDepthMainInfoCB->setChecked(false);
+                _ui->autoDepthMainInfoCB->setText(QString("AutoDepth"));
+            }
+        }
+        if (ABS(thrust[3]) < eps) {
+            if (!_communicator->IsAutoYawEnabled()) {
+                _communicator->SetYaw(_yaw);
+                _ui->autoYawMainInfoCB->setChecked(true);
+                _ui->autoYawMainInfoCB->setText(QString("AutoYaw: ") + std::to_string(_currentYaw).c_str());
+            }
+        } else {
+            if (_communicator->IsAutoYawEnabled()) {
+                _ui->autoYawMainInfoCB->setChecked(false);
+                _ui->autoYawMainInfoCB->setText(QString("AutoYaw"));
+            }
+        }
         _communicator->SetMovementForce(-x * 1.5, y * 1.5);
-        if (!_ui->autoDepthCB->isChecked() && !_ui->autoDepthCurrentCB->isChecked()) {
+        if (!_communicator->IsAutoDepthEnabled()) {
             _communicator->SetSinkingForce(z * 2);
         }
-        if (!_ui->autoPitchCB->isChecked() && !_ui->autoPitchCurrentCB->isChecked()) {
+        if (!_communicator->IsAutoPitchEnabled()) {
             _communicator->SetPitchForce(ty);
         }
-        if (!_ui->autoYawCB->isChecked() && !_ui->autoYawCurrentCB->isChecked()) {
+        if (!_communicator->IsAutoYawEnabled()) {
             _communicator->SetYawForce(tz*0.4);
         }
     } catch (ControllerException_t &e) {
@@ -439,8 +463,8 @@ void MainWindow::updateOrient(float q1, float q2, float q3, float q4)
     _ui->thetaLabel->setText(std::to_string(angles[1]).c_str());
     _ui->phiLabel->setText(std::to_string(angles[2]).c_str());
     updateHeading(angles[0]*180/3.1416);
-    _yaw = angles[0];
-    _pitch = angles[2];
+    _currentYaw = angles[0];
+    _curentPitch = angles[2];
 }
 
 void MainWindow::updateHeading(int value)
@@ -1055,8 +1079,8 @@ void MainWindow::onAutoCurrentDepthClicked(bool value)
     if (value) {
         try {
             _ui->autoDepthCB->setChecked(false);
-            _ui->stabDepthValue->setText(std::to_string(_depth).c_str());
-            _communicator->SetDepth(_depth);
+            _ui->stabDepthValue->setText(std::to_string(_currentDepth).c_str());
+            _communicator->SetDepth(_currentDepth);
         } catch (ControllerException_t &e) {
             qDebug() << e.error_message.c_str();
         }
@@ -1074,8 +1098,8 @@ void MainWindow::onAutoCurrentPitchClicked(bool value)
     if (value) {
         try {
             _ui->autoPitchCB->setChecked(false);
-            _ui->stabPitchValue->setText(std::to_string(_pitch).c_str());
-            _communicator->SetPitch(_pitch);
+            _ui->stabPitchValue->setText(std::to_string(_curentPitch).c_str());
+            _communicator->SetPitch(_curentPitch);
         } catch (ControllerException_t &e) {
             qDebug() << e.error_message.c_str();
         }
@@ -1093,8 +1117,8 @@ void MainWindow::onAutoCurrentYawClicked(bool value)
     if (value) {
         try {
             _ui->autoYawCB->setChecked(false);
-            _ui->stabYawValue->setText(std::to_string(_yaw).c_str());
-            _communicator->SetYaw(_yaw);
+            _ui->stabYawValue->setText(std::to_string(_currentYaw).c_str());
+            _communicator->SetYaw(_currentYaw);
         } catch (ControllerException_t &e) {
             qDebug() << e.error_message.c_str();
         }
