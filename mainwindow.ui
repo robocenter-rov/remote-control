@@ -41,7 +41,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="mainTab">
        <attribute name="title">
@@ -1017,7 +1017,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>0%</string>
+         <string>0</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -1033,7 +1033,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>0%</string>
+         <string>0</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
