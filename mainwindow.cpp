@@ -298,9 +298,7 @@ void MainWindow::onDisconnectButtonClick(bool)
 
 void MainWindow::updateStatus(SimpleCommunicator_t::State_t state)
 {
-    _ui->flashLightRadioButton->setCheckable(true);
     _ui->flashLightRadioButton->setChecked(state.FlashlightState);
-    _ui->flashLightRadioButton->setCheckable(false);
 }
 
 void MainWindow::updatePosInfo(SimpleCommunicator_t::RawSensorData_t rawSensorData)
@@ -474,7 +472,7 @@ void MainWindow::onBluetoothMsgRecieve(std::string msg)
 void MainWindow::onBluetoothButtonClick(bool value)
 {
     try {
-        _communicator->SetReadBluetoothState(true);
+        _communicator->SetReadBluetoothState(value);
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
     }
@@ -690,7 +688,6 @@ void MainWindow::onAutoDepthClicked(bool value)
     float depth = _ui->lineEdit->text().toFloat();
     try {
         _communicator->SetDepth(depth);
-        _ui->stabDepthValue->setText(std::to_string(depth).c_str());
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
     }
@@ -743,24 +740,93 @@ void MainWindow::onMotorStateRecieved(float m1, float m2, float m3, float m4, fl
     _ui->m4curLabel->setText(QString(std::to_string(m4*100).c_str()) + "%");
     _ui->m5curLabel->setText(QString(std::to_string(m5*100).c_str()) + "%");
     _ui->m6curLabel->setText(QString(std::to_string(m6*100).c_str()) + "%");
+
+    _ui->m0LoadPositiveProgressBar->setValue(std::max(0.f, m1*100));
+    _ui->m0LoadNegativeProgressBar->setValue(std::min(0.f, m1*100)*-1);
+
+    _ui->m1LoadPositiveProgressBar->setValue(std::max(0.f, m2*100));
+    _ui->m1LoadNegativeProgressBar->setValue(std::min(0.f, m2*100)*-1);
+
+    _ui->m2LoadPositiveProgressBar->setValue(std::max(0.f, m3*100));
+    _ui->m2LoadNegativeProgressBar->setValue(std::min(0.f, m3*100)*-1);
+
+    _ui->m3LoadPositiveProgressBar->setValue(std::max(0.f, m4*100));
+    _ui->m3LoadNegativeProgressBar->setValue(std::min(0.f, m4*100)*-1);
+
+    _ui->m4LoadPositiveProgressBar->setValue(std::max(0.f, m5*100));
+    _ui->m4LoadNegativeProgressBar->setValue(std::min(0.f, m5*100)*-1);
+
+    _ui->m5LoadPositiveProgressBar->setValue(std::max(0.f, m6*100));
+    _ui->m5LoadNegativeProgressBar->setValue(std::min(0.f, m6*100)*-1);
 }
 
 void MainWindow::onPidStateReceived(SimpleCommunicator_t::PidState_t depth, SimpleCommunicator_t::PidState_t yaw, SimpleCommunicator_t::PidState_t pitch)
 {
-    _ui->depthInValueLabel->setText(QString("In: ") + std::to_string(depth.In).c_str());
-    _ui->depthTarValueLabel->setText(QString("Target: ") + std::to_string(depth.Target).c_str());
-    _ui->depthOutValueLabel->setText(QString("Out: ") + std::to_string(depth.Out).c_str());
+    _ui->depthInValueLabel->setText(std::to_string(depth.In).c_str());
+    _ui->depthTarValueLabel->setText( std::to_string(depth.Target).c_str());
+    _ui->depthOutValueLabel->setText(std::to_string(depth.Out).c_str());
 
-    _ui->yawInValueLabel->setText(QString("In: ") + std::to_string(yaw.In).c_str());
-    _ui->yawTarValueLabel->setText(QString("Target: ") + std::to_string(yaw.Target).c_str());
-    _ui->yawOutValueLabel->setText(QString("Out: ") + std::to_string(yaw.Out).c_str());
+    _ui->yawInValueLabel->setText(std::to_string(yaw.In).c_str());
+    _ui->yawTarValueLabel->setText(std::to_string(yaw.Target).c_str());
+    _ui->yawOutValueLabel->setText(std::to_string(yaw.Out).c_str());
 
-    _ui->pitchInValueLabel->setText(QString("In: ") + std::to_string(pitch.In).c_str());
-    _ui->pitchTarValueLabel->setText(QString("Target: ") + std::to_string(pitch.Target).c_str());
-    _ui->pitchOutValueLabel->setText(QString("Out: ") + std::to_string(pitch.Out).c_str());
+    _ui->pitchInValueLabel->setText(std::to_string(pitch.In).c_str());
+    _ui->pitchTarValueLabel->setText(std::to_string(pitch.Target).c_str());
+    _ui->pitchOutValueLabel->setText(std::to_string(pitch.Out).c_str());
 }
 
 void MainWindow::on_receivePidStatesCheckbox_toggled(bool checked)
 {
     _communicator->SetReceivePidState(checked);
+}
+
+void MainWindow::on_startAutoPitchButton_clicked()
+{
+
+}
+
+void MainWindow::on_checkBox_toggled(bool checked)
+{
+    _ui->m0LoadPositiveProgressBar->setEnabled(checked);
+    _ui->m0LoadNegativeProgressBar->setEnabled(checked);
+    _ui->m1LoadPositiveProgressBar->setEnabled(checked);
+    _ui->m1LoadNegativeProgressBar->setEnabled(checked);
+    _ui->m2LoadPositiveProgressBar->setEnabled(checked);
+    _ui->m2LoadNegativeProgressBar->setEnabled(checked);
+    _ui->m3LoadPositiveProgressBar->setEnabled(checked);
+    _ui->m3LoadNegativeProgressBar->setEnabled(checked);
+    _ui->m4LoadPositiveProgressBar->setEnabled(checked);
+    _ui->m4LoadNegativeProgressBar->setEnabled(checked);
+    _ui->m5LoadPositiveProgressBar->setEnabled(checked);
+    _ui->m5LoadNegativeProgressBar->setEnabled(checked);
+    _communicator->SetReceiveMotorsState(checked);
+}
+
+void MainWindow::on_resetPositionsPushButton_clicked()
+{
+    _ui->xPositionVerticalSlider->setValue(0);
+    _ui->yPositionVerticalSlider->setValue(0);
+    _communicator->SetMovementForce(_x_pos = 0, _y_pos = 0);
+}
+
+void MainWindow::on_xPositionVerticalSlider_sliderMoved(int position)
+{
+    _x_pos = position / 100.f;
+    _communicator->SetMovementForce(_x_pos, _y_pos);
+}
+
+void MainWindow::on_yPositionVerticalSlider_sliderMoved(int position)
+{
+    _y_pos = position / 100.f;
+    _communicator->SetMovementForce(_x_pos, _y_pos);
+}
+
+void MainWindow::on_rotationSlider_valueChanged(int value)
+{
+    _communicator->SetYawForce(value / 100.f);
+}
+
+void MainWindow::on_verticalSlider_valueChanged(int value)
+{
+    _communicator->SetPitchForce(value / 100.f);
 }

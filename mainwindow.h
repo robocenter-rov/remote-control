@@ -81,6 +81,20 @@ private slots:
     void onPidStateReceived(SimpleCommunicator_t::PidState_t depth, SimpleCommunicator_t::PidState_t yaw, SimpleCommunicator_t::PidState_t pitch);
     void on_receivePidStatesCheckbox_toggled(bool checked);
 
+    void on_startAutoPitchButton_clicked();
+
+    void on_checkBox_toggled(bool checked);
+
+    void on_resetPositionsPushButton_clicked();
+
+    void on_xPositionVerticalSlider_sliderMoved(int position);
+
+    void on_yPositionVerticalSlider_sliderMoved(int position);
+
+    void on_rotationSlider_valueChanged(int value);
+
+    void on_verticalSlider_valueChanged(int value);
+
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
@@ -125,6 +139,9 @@ private:
 
     float cameraPos1 = 0.0f;
     float cameraPos2 = 0.0f;
+
+    float _x_pos;
+    float _y_pos;
 
     float _depth;
     float _yaw;
