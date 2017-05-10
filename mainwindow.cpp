@@ -338,7 +338,7 @@ void MainWindow::readAndSendJoySensors()
         y /= dist;
     }
     try {
-        _communicator->SetMovementForce(-x * 2, y * 2);
+        _communicator->SetMovementForce(-x * 1.5, y * 1.5);
         if (!_ui->autoDepthCB->isChecked() && !_ui->autoDepthCurrentCB->isChecked()) {
             _communicator->SetSinkingForce(z * 2);
         }
@@ -346,7 +346,7 @@ void MainWindow::readAndSendJoySensors()
             _communicator->SetPitchForce(ty);
         }
         if (!_ui->autoYawCB->isChecked() && !_ui->autoYawCurrentCB->isChecked()) {
-            _communicator->SetYawForce(tz);
+            _communicator->SetYawForce(tz*0.4);
         }
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
@@ -439,8 +439,8 @@ void MainWindow::updateOrient(float q1, float q2, float q3, float q4)
     _ui->thetaLabel->setText(std::to_string(angles[1]).c_str());
     _ui->phiLabel->setText(std::to_string(angles[2]).c_str());
     updateHeading(angles[0]*180/3.1416);
-    _yaw = angles[0]*180/3.1416;
-    _pitch = angles[1]*180/3.1416;
+    _yaw = angles[0];
+    _pitch = angles[2];
 }
 
 void MainWindow::updateHeading(int value)
