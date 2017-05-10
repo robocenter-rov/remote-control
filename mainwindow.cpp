@@ -330,7 +330,7 @@ void MainWindow::readAndSendJoySensors()
         y /= dist;
     }
     try {
-        _communicator->SetMovementForce(x * 2, y * 2);
+        _communicator->SetMovementForce(-x * 2, y * 2);
         _communicator->SetSinkingForce(z * 2);
         _communicator->SetPitchForce(ty);
         _communicator->SetYawForce(tz);
