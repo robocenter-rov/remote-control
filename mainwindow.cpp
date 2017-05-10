@@ -60,17 +60,17 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->yawPIDButtton, SIGNAL(clicked(bool)), this, SLOT(onYawPIDSpinBoxChanged(bool)));
     connect(_ui->setMotorsMulButton, SIGNAL(clicked(bool)), this, SLOT(onSetMotorsMultiplier(bool)));
     connect(_ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
-    connect(_ui->autoDepthRB, SIGNAL(clicked(bool)), this, SLOT(onAutoDepthClicked(bool)));
-    connect(_ui->autoPitchRB, SIGNAL(clicked(bool)), this, SLOT(onAutoPitchClicked(bool)));
-    connect(_ui->autoYawRB, SIGNAL(clicked(bool)), this, SLOT(onAutoYawClicked(bool)));
+    connect(_ui->autoDepthCB, SIGNAL(clicked(bool)), this, SLOT(onAutoDepthClicked(bool)));
+    connect(_ui->autoPitchCB, SIGNAL(clicked(bool)), this, SLOT(onAutoPitchClicked(bool)));
+    connect(_ui->autoYawCB, SIGNAL(clicked(bool)), this, SLOT(onAutoYawClicked(bool)));
     connect(_ui->servo1Slider, SIGNAL(valueChanged(int)), this, SLOT(onServo1SliderChanged(int)));
-    connect(_ui->useJoyButton, SIGNAL(clicked(bool)), this, SLOT(onUseJoyRadioButtonClicked(bool)));
+    connect(_ui->useJoyButton, SIGNAL(clicked(bool)), this, SLOT(onUseJoyCheckButtonClicked(bool)));
     connect(_ui->depthEdit, SIGNAL(textEdited(QString)), this, SLOT(onAutoDepthEdit(QString)));
     connect(_ui->pitchEdit, SIGNAL(textEdited(QString)), this, SLOT(onAutoPitchEdit(QString)));
     connect(_ui->yawEdit, SIGNAL(textEdited(QString)), this, SLOT(onAutoYawEdit(QString)));
-    connect(_ui->autoDepthCurrentRB, SIGNAL(clicked(bool)), this, SLOT(onAutoCurrentDepthClicked(bool)));
-    connect(_ui->autoPitchCurrentRB, SIGNAL(clicked(bool)), this, SLOT(onAutoCurrentPitchClicked(bool)));
-    connect(_ui->autoYawCurrentRB, SIGNAL(clicked(bool)), this, SLOT(onAutoCurrentYawClicked(bool)));
+    connect(_ui->autoDepthCurrentCB, SIGNAL(clicked(bool)), this, SLOT(onAutoCurrentDepthClicked(bool)));
+    connect(_ui->autoPitchCurrentCB, SIGNAL(clicked(bool)), this, SLOT(onAutoCurrentPitchClicked(bool)));
+    connect(_ui->autoYawCurrentCB, SIGNAL(clicked(bool)), this, SLOT(onAutoCurrentYawClicked(bool)));
     connectionProviderInit();
 
     connect(_messageTimer, SIGNAL(timeout()), this, SLOT(hideMessage()));
@@ -377,28 +377,28 @@ void MainWindow::joyManipulatorButtonHandle()
     }
     if (_joy->atBtn(2)) {
         if (_joy->btnStateChanged(2)) {
-            cameraPos1 = MIN(3.14f, cameraPos1 + 0.1);
+            cameraPos1 = MIN(3.14f/2.0, cameraPos1 + 0.1);
             _communicator->SetCamera1Pos(cameraPos1);
             qDebug() << cameraPos1;
         }
     }
     if (_joy->atBtn(4)) {
         if (_joy->btnStateChanged(4)) {
-            cameraPos1 = MAX(-3.14f, cameraPos1 - 0.1);
+            cameraPos1 = MAX(-3.14f/2.0, cameraPos1 - 0.1);
             _communicator->SetCamera1Pos(cameraPos1);
             qDebug() << cameraPos1;
         }
     }
     if (_joy->atBtn(5)) {
         if (_joy->btnStateChanged(5)) {
-            cameraPos2 = MIN(3.14f, cameraPos2 + 0.1);
+            cameraPos2 = MIN(3.14f/2.0, cameraPos2 + 0.1);
             _communicator->SetCamera2Pos(cameraPos2);
             qDebug() << cameraPos2;
         }
     }
     if (_joy->atBtn(6)) {
         if (_joy->btnStateChanged(6)) {
-            cameraPos2 = MAX(-3.14f, cameraPos2 - 0.1);
+            cameraPos2 = MAX(-3.14f/2.0, cameraPos2 - 0.1);
             _communicator->SetCamera2Pos(cameraPos2);
             qDebug() << cameraPos2;
         }
@@ -756,7 +756,7 @@ void MainWindow::onServo1SliderChanged(int value)
     }
 }
 
-void MainWindow::onUseJoyRadioButtonClicked(bool value)
+void MainWindow::onUseJoyCheckButtonClicked(bool value)
 {
     if (value) {
         if (!_joyTimer->isActive()) {
@@ -987,7 +987,7 @@ void MainWindow::on_verticalSlider_valueChanged(int value)
 void MainWindow::onAutoDepthEdit(QString value)
 {
     float depth = value.toFloat();
-    if (_ui->autoDepthRB->isChecked()) {
+    if (_ui->autoDepthCB->isChecked()) {
         _ui->stabDepthValue->setText(_ui->depthEdit->text());
         try {
             _communicator->SetDepth(depth);
@@ -1006,7 +1006,7 @@ void MainWindow::onAutoDepthEdit(QString value)
 void MainWindow::onAutoPitchEdit(QString value)
 {
     float pitch = value.toFloat();
-    if (_ui->autoPitchRB->isChecked()) {
+    if (_ui->autoPitchCB->isChecked()) {
         _ui->stabPitchValue->setText(_ui->pitchEdit->text());
         try {
             _communicator->SetPitch(pitch);
@@ -1025,7 +1025,7 @@ void MainWindow::onAutoPitchEdit(QString value)
 void MainWindow::onAutoYawEdit(QString value)
 {
     float yaw = value.toFloat();
-    if (_ui->autoYawRB->isChecked()) {
+    if (_ui->autoYawCB->isChecked()) {
         _ui->stabYawValue->setText(_ui->yawEdit->text());
         try {
             _communicator->SetYaw(yaw);

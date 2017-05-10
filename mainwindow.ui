@@ -967,10 +967,10 @@
          </rect>
         </property>
         <property name="minimum">
-         <number>-180</number>
+         <number>-90</number>
         </property>
         <property name="maximum">
-         <number>180</number>
+         <number>90</number>
         </property>
         <property name="pageStep">
          <number>1</number>
@@ -992,10 +992,10 @@
          </rect>
         </property>
         <property name="minimum">
-         <number>-180</number>
+         <number>-90</number>
         </property>
         <property name="maximum">
-         <number>180</number>
+         <number>90</number>
         </property>
         <property name="pageStep">
          <number>1</number>
@@ -1754,19 +1754,6 @@ font-size: 12px;
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QRadioButton" name="useJoyButton">
-        <property name="geometry">
-         <rect>
-          <x>640</x>
-          <y>220</y>
-          <width>101</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Use joystick</string>
         </property>
        </widget>
        <widget class="QLabel" name="m1curLabel">
@@ -2626,82 +2613,95 @@ font-size: 12px;
          <string>Stabilizations</string>
         </property>
        </widget>
-       <widget class="QRadioButton" name="autoDepthCurrentRB">
+       <widget class="QCheckBox" name="useJoyButton">
+        <property name="geometry">
+         <rect>
+          <x>640</x>
+          <y>230</y>
+          <width>101</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Use joystick</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="autoDepthCB">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>500</y>
+          <width>16</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="autoPitchCB">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>530</y>
+          <width>16</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="autoYawCB">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>560</y>
+          <width>16</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="autoDepthCurrentCB">
         <property name="geometry">
          <rect>
           <x>20</x>
           <y>500</y>
-          <width>111</width>
-          <height>17</height>
+          <width>101</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
          <string>Current depth</string>
         </property>
        </widget>
-       <widget class="QRadioButton" name="autoDepthRB">
-        <property name="geometry">
-         <rect>
-          <x>140</x>
-          <y>500</y>
-          <width>21</width>
-          <height>17</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QRadioButton" name="autoPitchCurrentRB">
+       <widget class="QCheckBox" name="autoPitchCurrentCB">
         <property name="geometry">
          <rect>
           <x>20</x>
           <y>530</y>
-          <width>111</width>
-          <height>17</height>
+          <width>101</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
          <string>Current pitch</string>
         </property>
        </widget>
-       <widget class="QRadioButton" name="autoYawCurrentRB">
+       <widget class="QCheckBox" name="autoYawCurrentCB">
         <property name="geometry">
          <rect>
           <x>20</x>
           <y>560</y>
-          <width>111</width>
-          <height>17</height>
+          <width>101</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
          <string>Current yaw</string>
-        </property>
-       </widget>
-       <widget class="QRadioButton" name="autoPitchRB">
-        <property name="geometry">
-         <rect>
-          <x>140</x>
-          <y>530</y>
-          <width>16</width>
-          <height>17</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QRadioButton" name="autoYawRB">
-        <property name="geometry">
-         <rect>
-          <x>140</x>
-          <y>560</y>
-          <width>16</width>
-          <height>17</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
         </property>
        </widget>
       </widget>

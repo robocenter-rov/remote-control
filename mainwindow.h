@@ -77,7 +77,7 @@ private slots:
     void onAutoPitchClicked(bool);
     void onAutoYawClicked(bool);
     void onServo1SliderChanged(int value);
-    void onUseJoyRadioButtonClicked(bool);
+    void onUseJoyCheckButtonClicked(bool);
     void onMotorStateRecieved(float m1, float m2, float m3, float m4, float m5, float m6);
     void onPidStateReceived(SimpleCommunicator_t::PidState_t depth, SimpleCommunicator_t::PidState_t yaw, SimpleCommunicator_t::PidState_t pitch);
     void on_receivePidStatesCheckbox_toggled(bool checked);
