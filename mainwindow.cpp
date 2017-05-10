@@ -339,9 +339,15 @@ void MainWindow::readAndSendJoySensors()
     }
     try {
         _communicator->SetMovementForce(-x * 2, y * 2);
-        _communicator->SetSinkingForce(z * 2);
-        _communicator->SetPitchForce(ty);
-        _communicator->SetYawForce(tz);
+        if (!_ui->autoDepthCB->isChecked() && !_ui->autoDepthCurrentCB->isChecked()) {
+            _communicator->SetSinkingForce(z * 2);
+        }
+        if (!_ui->autoPitchCB->isChecked() && !_ui->autoPitchCurrentCB->isChecked()) {
+            _communicator->SetPitchForce(ty);
+        }
+        if (!_ui->autoYawCB->isChecked() && !_ui->autoYawCurrentCB->isChecked()) {
+            _communicator->SetYawForce(tz);
+        }
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
     }
