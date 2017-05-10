@@ -33,7 +33,7 @@ struct PidState_t {
     float _In;
     float _Target;
     float _Out;
-    PidState_t(float in, float target, float out) {
+    PidState_t(float in = 0.f, float target = 0.f, float out = 0.f) {
         _In = in;
         _Target = target;
         _Out = out;
@@ -87,6 +87,7 @@ private slots:
     void onUseJoyRadioButtonClicked(bool);
     void onMotorStateRecieved(float m1, float m2, float m3, float m4, float m5, float m6);
     void onPidStateReceived(PidState_t depth, PidState_t yaw, PidState_t pitch);
+    void depthReplotTimeout();
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
@@ -99,6 +100,9 @@ signals:
     void motorStateReceiveEvent(float m1, float m2, float m3, float m4, float m5, float m6);
     void pidStateReceiveEvent(PidState_t depth, PidState_t yaw, PidState_t pitch);
 private:
+    void replotData();
+    void replotDataDepth();
+    void graphInit();
     void cameraInit();
     void loadQSS();
     bool eventFilter(QObject *, QEvent *event);
@@ -134,6 +138,10 @@ private:
 
     float _depth;
     float _yaw;
+    int _count_of_recieved_pid = 0;
+#define DEPTH_DATA_SIZE 200
+    QVector<PidState_t> _depthData;
+    QTimer *_depthDataTimer;
 };
 
 #endif // MAINWINDOW_H

@@ -82,6 +82,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(pidStateReceiveEvent(PidState_t,PidState_t,PidState_t)), this, SLOT(onPidStateReceived(PidState_t,PidState_t,PidState_t)));
 
     showMessage("Connection...", CL_YELLOW);
+    graphInit();
+    replotData();
 }
 
 MainWindow::~MainWindow()
@@ -761,6 +763,7 @@ void MainWindow::onMotorStateRecieved(float m1, float m2, float m3, float m4, fl
 
 void MainWindow::onPidStateReceived(PidState_t depth, PidState_t yaw, PidState_t pitch)
 {
+    _count_of_recieved_pid++;
     _ui->depthInValueLabel->setText(QString("In: ") + std::to_string(depth._In).c_str());
     _ui->depthTarValueLabel->setText(QString("Target: ") + std::to_string(depth._Target).c_str());
     _ui->depthOutValueLabel->setText(QString("Out: ") + std::to_string(depth._Out).c_str());
@@ -772,4 +775,61 @@ void MainWindow::onPidStateReceived(PidState_t depth, PidState_t yaw, PidState_t
     _ui->pitchInValueLabel->setText(QString("In: ") + std::to_string(pitch._In).c_str());
     _ui->pitchTarValueLabel->setText(QString("Target: ") + std::to_string(pitch._Target).c_str());
     _ui->pitchOutValueLabel->setText(QString("Out: ") + std::to_string(pitch._Out).c_str());
+
+    if (_depthData.size() == DEPTH_DATA_SIZE) _depthData.pop_front();
+    _depthData.push_back(depth);
+
+    replotData();
+}
+
+void MainWindow::graphInit()
+{
+    QVector<double> x(DEPTH_DATA_SIZE), y(DEPTH_DATA_SIZE);
+    for (int i = 0; i < DEPTH_DATA_SIZE; i++){
+        x[i] = i - DEPTH_DATA_SIZE;
+        y[i] = 0;
+    }
+    _ui->autoDepthGraph->addGraph();
+    _ui->autoDepthGraph->addGraph();
+    _ui->autoDepthGraph->addGraph();
+    _ui->autoDepthGraph->graph(0)->setData(x, y);
+    _ui->autoDepthGraph->graph(1)->setData(x, y);
+    _ui->autoDepthGraph->graph(2)->setData(x, y);
+    _ui->autoDepthGraph->graph(0)->setPen(QColor(40, 110, 255));
+    _ui->autoDepthGraph->graph(1)->setPen(QColor(255, 110, 40));
+    _ui->autoDepthGraph->graph(2)->setPen(QColor(110, 255, 40));
+    _ui->autoDepthGraph->xAxis->setLabel("X");
+    _ui->autoDepthGraph->yAxis->setLabel("Y");
+    _ui->autoDepthGraph->xAxis->setRange(_count_of_recieved_pid-DEPTH_DATA_SIZE, _count_of_recieved_pid);
+    _ui->autoDepthGraph->replot();
+}
+
+void MainWindow::replotData()
+{
+    replotDataDepth();
+}
+
+void MainWindow::replotDataDepth()
+{
+    QVector<double> x(DEPTH_DATA_SIZE), y1(DEPTH_DATA_SIZE), y2(DEPTH_DATA_SIZE), y3(DEPTH_DATA_SIZE);
+    for (int i = 0; i < DEPTH_DATA_SIZE; i++){
+        x[i] = i + _count_of_recieved_pid - DEPTH_DATA_SIZE;
+        y1[i] = (i < DEPTH_DATA_SIZE - _depthData.size()) ? 0 : _depthData[i]._In;
+        y2[i] = (i < DEPTH_DATA_SIZE - _depthData.size()) ? 0 : _depthData[i]._Out;
+        y3[i] = (i < DEPTH_DATA_SIZE - _depthData.size()) ? 0 : _depthData[i]._Target;
+    }
+    _ui->autoDepthGraph->graph(0)->setData(x, y1);
+    _ui->autoDepthGraph->graph(1)->setData(x, y2);
+    _ui->autoDepthGraph->graph(2)->setData(x, y3);
+
+    double minY = y1[0], maxY = y1[0];
+    for (int i = 0; i < DEPTH_DATA_SIZE; i++) {
+        minY = MIN(minY, MIN(y1[i], MIN(y2[i], y3[i])));
+        minY = MAX(maxY, MAX(y1[i], MAX(y2[i], y3[i])));
+    }
+    if (minY > 0) minY = 25;
+    if (maxY < 50) maxY = 35;
+    _ui->autoDepthGraph->xAxis->setRange(x[0], x[0] + DEPTH_DATA_SIZE);
+    _ui->autoDepthGraph->yAxis->setRange(minY, maxY);
+    _ui->autoDepthGraph->replot();
 }
