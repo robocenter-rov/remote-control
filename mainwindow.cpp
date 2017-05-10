@@ -687,6 +687,7 @@ void MainWindow::onAutoDepthClicked(bool value)
 {
     float depth = _ui->depthEdit->text().toFloat();
     if (value) {
+        _ui->autoDepthCurrentCB->setChecked(false);
         _ui->stabDepthValue->setText(_ui->depthEdit->text());
         try {
             _communicator->SetDepth(depth);
@@ -706,6 +707,7 @@ void MainWindow::onAutoPitchClicked(bool value)
 {
     float pitch = _ui->pitchEdit->text().toFloat();
     if (value) {
+        _ui->autoPitchCurrentCB->setChecked(false);
         _ui->stabPitchValue->setText(_ui->pitchEdit->text());
         try {
             _communicator->SetPitch(pitch);
@@ -725,6 +727,7 @@ void MainWindow::onAutoYawClicked(bool value)
 {
     float yaw = _ui->yawEdit->text().toFloat();
     if (value) {
+        _ui->autoYawCurrentCB->setChecked(false);
         _ui->stabYawValue->setText(_ui->yawEdit->text());
         try {
             _communicator->SetYaw(yaw);
@@ -1045,6 +1048,7 @@ void MainWindow::onAutoCurrentDepthClicked(bool value)
 {
     if (value) {
         try {
+            _ui->autoDepthCB->setChecked(false);
             _ui->stabDepthValue->setText(std::to_string(_depth).c_str());
             _communicator->SetDepth(_depth);
         } catch (ControllerException_t &e) {
@@ -1063,6 +1067,7 @@ void MainWindow::onAutoCurrentPitchClicked(bool value)
 {
     if (value) {
         try {
+            _ui->autoPitchCB->setChecked(false);
             _ui->stabPitchValue->setText(std::to_string(_pitch).c_str());
             _communicator->SetPitch(_pitch);
         } catch (ControllerException_t &e) {
@@ -1081,6 +1086,7 @@ void MainWindow::onAutoCurrentYawClicked(bool value)
 {
     if (value) {
         try {
+            _ui->autoYawCB->setChecked(false);
             _ui->stabYawValue->setText(std::to_string(_yaw).c_str());
             _communicator->SetYaw(_yaw);
         } catch (ControllerException_t &e) {
