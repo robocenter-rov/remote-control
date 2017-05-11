@@ -361,39 +361,31 @@ void MainWindow::readAndSendJoySensors()
         y /= dist;
     }
     try {
-        if (ABS(thrust[4]) < 0.10) {
+        if (z == 0) {
             if (!_communicator->IsAutoDepthEnabled()) {
                 _communicator->SetDepth(_currentDepth);
                 _ui->autoDepthMainInfoCB->setChecked(true);
                 _ui->autoDepthMainInfoCB->setText(QString("AutoDepth: ") + std::to_string(_currentDepth).c_str());
             }
         } else {
-            if (_communicator->IsAutoDepthEnabled()) {
-                _ui->autoDepthMainInfoCB->setChecked(false);
-                _ui->autoDepthMainInfoCB->setText(QString("AutoDepth"));
-            }
+            _ui->autoDepthMainInfoCB->setChecked(false);
+            _ui->autoDepthMainInfoCB->setText(QString("AutoDepth"));
+            _communicator->SetSinkingForce(z * 2);
         }
-        if (ABS(thrust[3]) < eps) {
+        if (tz == 0) {
             if (!_communicator->IsAutoYawEnabled()) {
                 _communicator->SetYaw(_yaw);
                 _ui->autoYawMainInfoCB->setChecked(true);
                 _ui->autoYawMainInfoCB->setText(QString("AutoYaw: ") + std::to_string(_currentYaw).c_str());
             }
         } else {
-            if (_communicator->IsAutoYawEnabled()) {
-                _ui->autoYawMainInfoCB->setChecked(false);
-                _ui->autoYawMainInfoCB->setText(QString("AutoYaw"));
-            }
+            _ui->autoYawMainInfoCB->setChecked(false);
+            _ui->autoYawMainInfoCB->setText(QString("AutoYaw"));
+            _communicator->SetYawForce(tz*0.4);
         }
         _communicator->SetMovementForce(-x * 1.5, y * 1.5);
-        if (!_communicator->IsAutoDepthEnabled()) {
-            _communicator->SetSinkingForce(z * 2);
-        }
         if (!_communicator->IsAutoPitchEnabled()) {
             _communicator->SetPitchForce(ty);
-        }
-        if (!_communicator->IsAutoYawEnabled()) {
-            _communicator->SetYawForce(tz*0.4);
         }
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
