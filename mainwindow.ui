@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1487</width>
+    <width>1248</width>
     <height>723</height>
    </rect>
   </property>
@@ -37,8 +37,8 @@
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>0</number>
@@ -564,9 +564,9 @@
            <widget class="QCheckBox" name="autoDepthMainInfoCB">
             <property name="geometry">
              <rect>
-              <x>190</x>
+              <x>150</x>
               <y>340</y>
-              <width>121</width>
+              <width>211</width>
               <height>17</height>
              </rect>
             </property>
@@ -577,9 +577,9 @@
            <widget class="QCheckBox" name="autoYawMainInfoCB">
             <property name="geometry">
              <rect>
-              <x>190</x>
+              <x>150</x>
               <y>360</y>
-              <width>121</width>
+              <width>211</width>
               <height>17</height>
              </rect>
             </property>
@@ -1939,431 +1939,24 @@ font-size: 12px;
          <string>Use joystick</string>
         </property>
        </widget>
-      </widget>
-      <widget class="QWidget" name="pidTab">
-       <attribute name="title">
-        <string>PID</string>
-       </attribute>
-       <widget class="QPushButton" name="depthPIDButtton">
+       <widget class="QCheckBox" name="autoYawCB">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>560</y>
-          <width>121</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Set PID Depth</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="depthPLabel">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>470</y>
-          <width>51</width>
+          <x>830</x>
+          <y>100</y>
+          <width>16</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>depth P</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="depthInValueLabel">
-        <property name="geometry">
-         <rect>
-          <x>220</x>
-          <y>470</y>
-          <width>81</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>0.00</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="depthTarValueLabel">
-        <property name="geometry">
-         <rect>
-          <x>220</x>
-          <y>500</y>
-          <width>81</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>0.00</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="depthILabel">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>500</y>
-          <width>51</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>depth I</string>
-        </property>
-       </widget>
-       <widget class="QDoubleSpinBox" name="depthDSpinBox">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>530</y>
-          <width>62</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="decimals">
-         <number>4</number>
-        </property>
-        <property name="minimum">
-         <double>-100.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>100.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.100000000000000</double>
-        </property>
-       </widget>
-       <widget class="QDoubleSpinBox" name="depthPSpinBox">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>470</y>
-          <width>62</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="decimals">
-         <number>4</number>
-        </property>
-        <property name="minimum">
-         <double>-100.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>100.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.100000000000000</double>
-        </property>
-       </widget>
-       <widget class="QLabel" name="depthDLabel">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>530</y>
-          <width>51</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>depth D</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="depthOutValueLabel">
-        <property name="geometry">
-         <rect>
-          <x>220</x>
-          <y>526</y>
-          <width>81</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>0.00</string>
-        </property>
-       </widget>
-       <widget class="QDoubleSpinBox" name="depthISpinBox">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>500</y>
-          <width>62</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="decimals">
-         <number>4</number>
-        </property>
-        <property name="minimum">
-         <double>-100.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>100.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.100000000000000</double>
-        </property>
-       </widget>
-       <widget class="QLabel" name="yawILabel">
-        <property name="geometry">
-         <rect>
-          <x>510</x>
-          <y>500</y>
-          <width>51</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>yaw I</string>
-        </property>
-       </widget>
-       <widget class="QDoubleSpinBox" name="yawISpinBox">
-        <property name="geometry">
-         <rect>
-          <x>570</x>
-          <y>500</y>
-          <width>62</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="decimals">
-         <number>4</number>
-        </property>
-        <property name="minimum">
-         <double>-100.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>100.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.100000000000000</double>
-        </property>
-       </widget>
-       <widget class="QLabel" name="yawDLabel">
-        <property name="geometry">
-         <rect>
-          <x>510</x>
-          <y>530</y>
-          <width>51</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>yaw D</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="yawOutValueLabel">
-        <property name="geometry">
-         <rect>
-          <x>700</x>
-          <y>530</y>
-          <width>81</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>0.00</string>
-        </property>
-       </widget>
-       <widget class="QDoubleSpinBox" name="yawDSpinBox">
-        <property name="geometry">
-         <rect>
-          <x>570</x>
-          <y>530</y>
-          <width>62</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="decimals">
-         <number>4</number>
-        </property>
-        <property name="minimum">
-         <double>-100.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>100.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.100000000000000</double>
-        </property>
-       </widget>
-       <widget class="QLabel" name="yawInValueLabel">
-        <property name="geometry">
-         <rect>
-          <x>700</x>
-          <y>470</y>
-          <width>81</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>0.00</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="yawTarValueLabel">
-        <property name="geometry">
-         <rect>
-          <x>700</x>
-          <y>500</y>
-          <width>81</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>0.00</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="yawPIDButtton">
-        <property name="geometry">
-         <rect>
-          <x>510</x>
-          <y>560</y>
-          <width>121</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Set PID yaw</string>
-        </property>
-       </widget>
-       <widget class="QDoubleSpinBox" name="yawPSpinBox">
-        <property name="geometry">
-         <rect>
-          <x>570</x>
-          <y>470</y>
-          <width>62</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="decimals">
-         <number>4</number>
-        </property>
-        <property name="minimum">
-         <double>-100.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>100.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.100000000000000</double>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="yawEdit">
-        <property name="geometry">
-         <rect>
-          <x>150</x>
-          <y>90</y>
-          <width>71</width>
-          <height>21</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QLabel" name="yawPLabel">
-        <property name="geometry">
-         <rect>
-          <x>510</x>
-          <y>470</y>
-          <width>51</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>yaw P</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_7">
-        <property name="geometry">
-         <rect>
-          <x>640</x>
-          <y>470</y>
-          <width>47</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>In:</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_2">
-        <property name="geometry">
-         <rect>
-          <x>160</x>
-          <y>500</y>
-          <width>47</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Target:</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_9">
-        <property name="geometry">
-         <rect>
-          <x>640</x>
-          <y>530</y>
-          <width>47</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Output:</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_3">
-        <property name="geometry">
-         <rect>
-          <x>160</x>
-          <y>527</y>
-          <width>47</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Output:</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_8">
-        <property name="geometry">
-         <rect>
-          <x>640</x>
-          <y>500</y>
-          <width>47</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Target:</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label">
-        <property name="geometry">
-         <rect>
-          <x>160</x>
-          <y>470</y>
-          <width>47</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>In:</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="autoDepthCurrentCB">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>30</y>
-          <width>101</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Current depth</string>
+         <string/>
         </property>
        </widget>
        <widget class="QCheckBox" name="autoYawCurrentCB">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>90</y>
+          <x>710</x>
+          <y>100</y>
           <width>101</width>
           <height>21</height>
          </rect>
@@ -2372,83 +1965,44 @@ font-size: 12px;
          <string>Current yaw</string>
         </property>
        </widget>
-       <widget class="QCheckBox" name="autoPitchCurrentCB">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>60</y>
-          <width>101</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Current pitch</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="autoDepthCB">
-        <property name="geometry">
-         <rect>
-          <x>130</x>
-          <y>30</y>
-          <width>16</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="pitchEdit">
-        <property name="geometry">
-         <rect>
-          <x>150</x>
-          <y>60</y>
-          <width>71</width>
-          <height>21</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="autoYawCB">
-        <property name="geometry">
-         <rect>
-          <x>130</x>
-          <y>90</y>
-          <width>16</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="receivePidStatesCheckbox">
-        <property name="geometry">
-         <rect>
-          <x>430</x>
-          <y>20</y>
-          <width>131</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Receive PID states</string>
-        </property>
-       </widget>
        <widget class="QLineEdit" name="depthEdit">
         <property name="geometry">
          <rect>
-          <x>150</x>
-          <y>30</y>
+          <x>850</x>
+          <y>40</y>
           <width>71</width>
           <height>21</height>
          </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="yawEdit">
+        <property name="geometry">
+         <rect>
+          <x>850</x>
+          <y>100</y>
+          <width>71</width>
+          <height>21</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="stabYawValue">
+        <property name="geometry">
+         <rect>
+          <x>930</x>
+          <y>100</y>
+          <width>91</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
        <widget class="QLabel" name="stabilizationLabel">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>5</y>
+          <x>710</x>
+          <y>15</y>
           <width>141</width>
           <height>21</height>
          </rect>
@@ -2457,69 +2011,25 @@ font-size: 12px;
          <string>Stabilizations</string>
         </property>
        </widget>
-       <widget class="QCheckBox" name="autoPitchCB">
-        <property name="geometry">
-         <rect>
-          <x>130</x>
-          <y>60</y>
-          <width>16</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QCustomPlot" name="autoDepthGraph" native="true">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>150</y>
-          <width>471</width>
-          <height>301</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QCustomPlot" name="autoYawGraph" native="true">
-        <property name="geometry">
-         <rect>
-          <x>500</x>
-          <y>150</y>
-          <width>471</width>
-          <height>301</height>
-         </rect>
-        </property>
-        <zorder>autoPitchGraph</zorder>
-       </widget>
-       <widget class="QCustomPlot" name="autoPitchGraph" native="true">
-        <property name="geometry">
-         <rect>
-          <x>980</x>
-          <y>150</y>
-          <width>471</width>
-          <height>301</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QLabel" name="stabYawValue">
-        <property name="geometry">
-         <rect>
-          <x>230</x>
-          <y>90</y>
-          <width>91</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
        <widget class="QLabel" name="stabDepthValue">
         <property name="geometry">
          <rect>
-          <x>230</x>
-          <y>30</y>
+          <x>930</x>
+          <y>40</y>
           <width>91</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="autoPitchCB">
+        <property name="geometry">
+         <rect>
+          <x>830</x>
+          <y>70</y>
+          <width>16</width>
           <height>21</height>
          </rect>
         </property>
@@ -2530,8 +2040,8 @@ font-size: 12px;
        <widget class="QLabel" name="stabPitchValue">
         <property name="geometry">
          <rect>
-          <x>230</x>
-          <y>60</y>
+          <x>930</x>
+          <y>70</y>
           <width>91</width>
           <height>21</height>
          </rect>
@@ -2540,202 +2050,709 @@ font-size: 12px;
          <string/>
         </property>
        </widget>
-       <widget class="QLabel" name="pitchILabel">
+       <widget class="QLineEdit" name="pitchEdit">
         <property name="geometry">
          <rect>
-          <x>990</x>
-          <y>500</y>
-          <width>51</width>
+          <x>850</x>
+          <y>70</y>
+          <width>71</width>
+          <height>21</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="autoDepthCB">
+        <property name="geometry">
+         <rect>
+          <x>830</x>
+          <y>40</y>
+          <width>16</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>pitch I</string>
+         <string/>
         </property>
        </widget>
-       <widget class="QDoubleSpinBox" name="pitchDSpinBox">
+       <widget class="QCheckBox" name="autoDepthCurrentCB">
         <property name="geometry">
          <rect>
-          <x>1050</x>
-          <y>530</y>
-          <width>62</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="decimals">
-         <number>4</number>
-        </property>
-        <property name="minimum">
-         <double>-100.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>100.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.100000000000000</double>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pitchPIDButtton">
-        <property name="geometry">
-         <rect>
-          <x>990</x>
-          <y>560</y>
-          <width>121</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Set PID Pitch</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="pitchDLabel">
-        <property name="geometry">
-         <rect>
-          <x>990</x>
-          <y>530</y>
-          <width>51</width>
+          <x>710</x>
+          <y>40</y>
+          <width>101</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>pitch D</string>
+         <string>Current depth</string>
         </property>
        </widget>
-       <widget class="QLabel" name="pitchOutValueLabel">
+       <widget class="QCheckBox" name="autoPitchCurrentCB">
         <property name="geometry">
          <rect>
-          <x>1180</x>
-          <y>530</y>
-          <width>81</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>0.00</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="pitchTarValueLabel">
-        <property name="geometry">
-         <rect>
-          <x>1180</x>
-          <y>500</y>
-          <width>81</width>
+          <x>710</x>
+          <y>70</y>
+          <width>101</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>0.00</string>
+         <string>Current pitch</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_4">
-        <property name="geometry">
-         <rect>
-          <x>1120</x>
-          <y>470</y>
-          <width>47</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>In:</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="pitchInValueLabel">
-        <property name="geometry">
-         <rect>
-          <x>1180</x>
-          <y>471</y>
-          <width>81</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>0.00</string>
-        </property>
-       </widget>
-       <widget class="QDoubleSpinBox" name="pitchPSpinBox">
-        <property name="geometry">
-         <rect>
-          <x>1050</x>
-          <y>470</y>
-          <width>62</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="decimals">
-         <number>4</number>
-        </property>
-        <property name="minimum">
-         <double>-100.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>100.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.100000000000000</double>
-        </property>
-       </widget>
-       <widget class="QLabel" name="pitchPLabel">
-        <property name="geometry">
-         <rect>
-          <x>990</x>
-          <y>470</y>
-          <width>51</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>pitch P</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_6">
-        <property name="geometry">
-         <rect>
-          <x>1120</x>
-          <y>530</y>
-          <width>47</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Output:</string>
-        </property>
-       </widget>
-       <widget class="QDoubleSpinBox" name="pitchISpinBox">
-        <property name="geometry">
-         <rect>
-          <x>1050</x>
-          <y>500</y>
-          <width>62</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="decimals">
-         <number>4</number>
-        </property>
-        <property name="minimum">
-         <double>-100.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>100.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.100000000000000</double>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_5">
-        <property name="geometry">
-         <rect>
-          <x>1120</x>
-          <y>500</y>
-          <width>47</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Target:</string>
-        </property>
-       </widget>
+      </widget>
+      <widget class="QWidget" name="pidTab">
+       <attribute name="title">
+        <string>PID</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QTabWidget" name="pidTrioTab">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="depthPidTab">
+           <attribute name="title">
+            <string>Depth</string>
+           </attribute>
+           <widget class="QLabel" name="depthPLabel">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>20</y>
+              <width>51</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>depth P</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="depthILabel">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>50</y>
+              <width>51</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>depth I</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="depthTarValueLabel">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>193</y>
+              <width>81</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>0.00</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="depthDLabel">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>80</y>
+              <width>51</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>depth D</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="depthPIDButtton">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>110</y>
+              <width>121</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Set PID Depth</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>163</y>
+              <width>47</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>In:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="depthOutValueLabel">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>219</y>
+              <width>81</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>0.00</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="depthInValueLabel">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>163</y>
+              <width>81</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>0.00</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_3">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>220</y>
+              <width>47</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Output:</string>
+            </property>
+           </widget>
+           <widget class="QDoubleSpinBox" name="depthDSpinBox">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>80</y>
+              <width>62</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="decimals">
+             <number>4</number>
+            </property>
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+           <widget class="QCustomPlot" name="autoDepthGraph" native="true">
+            <property name="geometry">
+             <rect>
+              <x>160</x>
+              <y>20</y>
+              <width>1021</width>
+              <height>551</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_2">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>193</y>
+              <width>47</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Target:</string>
+            </property>
+           </widget>
+           <widget class="QDoubleSpinBox" name="depthISpinBox">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>50</y>
+              <width>62</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="decimals">
+             <number>4</number>
+            </property>
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+           <widget class="QDoubleSpinBox" name="depthPSpinBox">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>20</y>
+              <width>62</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="decimals">
+             <number>4</number>
+            </property>
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="yawPidTab">
+           <attribute name="title">
+            <string>Yaw</string>
+           </attribute>
+           <widget class="QPushButton" name="yawPIDButtton">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>110</y>
+              <width>121</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Set PID yaw</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="yawDLabel">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>80</y>
+              <width>51</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>yaw D</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="yawOutValueLabel">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>220</y>
+              <width>81</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>0.00</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="yawILabel">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>50</y>
+              <width>51</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>yaw I</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_7">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>160</y>
+              <width>47</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>In:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="yawInValueLabel">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>160</y>
+              <width>81</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>0.00</string>
+            </property>
+           </widget>
+           <widget class="QDoubleSpinBox" name="yawPSpinBox">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>20</y>
+              <width>62</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="decimals">
+             <number>4</number>
+            </property>
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_9">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>220</y>
+              <width>47</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Output:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="yawTarValueLabel">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>190</y>
+              <width>81</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>0.00</string>
+            </property>
+           </widget>
+           <widget class="QCustomPlot" name="autoYawGraph" native="true">
+            <property name="geometry">
+             <rect>
+              <x>160</x>
+              <y>20</y>
+              <width>1021</width>
+              <height>551</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QLabel" name="yawPLabel">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>20</y>
+              <width>51</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>yaw P</string>
+            </property>
+           </widget>
+           <widget class="QDoubleSpinBox" name="yawISpinBox">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>50</y>
+              <width>62</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="decimals">
+             <number>4</number>
+            </property>
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_8">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>190</y>
+              <width>47</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Target:</string>
+            </property>
+           </widget>
+           <widget class="QDoubleSpinBox" name="yawDSpinBox">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>80</y>
+              <width>62</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="decimals">
+             <number>4</number>
+            </property>
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="pitchPidTab">
+           <attribute name="title">
+            <string>Pitch</string>
+           </attribute>
+           <widget class="QDoubleSpinBox" name="pitchDSpinBox">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>80</y>
+              <width>62</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="decimals">
+             <number>4</number>
+            </property>
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="pitchPIDButtton">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>110</y>
+              <width>121</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Set PID Pitch</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="pitchDLabel">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>80</y>
+              <width>51</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>pitch D</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="pitchOutValueLabel">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>220</y>
+              <width>81</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>0.00</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="pitchTarValueLabel">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>190</y>
+              <width>81</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>0.00</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_4">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>160</y>
+              <width>47</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>In:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="pitchInValueLabel">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>161</y>
+              <width>81</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>0.00</string>
+            </property>
+           </widget>
+           <widget class="QDoubleSpinBox" name="pitchPSpinBox">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>20</y>
+              <width>62</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="decimals">
+             <number>4</number>
+            </property>
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+           <widget class="QLabel" name="pitchPLabel">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>20</y>
+              <width>51</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>pitch P</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_6">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>220</y>
+              <width>47</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Output:</string>
+            </property>
+           </widget>
+           <widget class="QDoubleSpinBox" name="pitchISpinBox">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>50</y>
+              <width>62</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="decimals">
+             <number>4</number>
+            </property>
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+           <widget class="QCustomPlot" name="autoPitchGraph" native="true">
+            <property name="geometry">
+             <rect>
+              <x>160</x>
+              <y>20</y>
+              <width>1021</width>
+              <height>551</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_5">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>190</y>
+              <width>47</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Target:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="pitchILabel">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>50</y>
+              <width>51</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>pitch I</string>
+            </property>
+           </widget>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="receivePidStatesCheckbox">
+          <property name="text">
+           <string>Receive PID states</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="screensTab">
        <attribute name="title">
@@ -2801,7 +2818,7 @@ font-size: 12px;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1487</width>
+     <width>1248</width>
      <height>21</height>
     </rect>
    </property>
