@@ -16,6 +16,7 @@
 #include <iostream>
 #include "remote-control-library/Utils.h"
 #include <QString>
+#include "graphicsscene.h"
 
 extern QString COMportName;
 
@@ -32,6 +33,8 @@ enum msg_color_t {
     CL_RED,
     CL_YELLOW
 };
+
+class BaseTool;
 
 class MainWindow : public QMainWindow
 {
@@ -94,6 +97,8 @@ private slots:
     void onAutoCurrentDepthClicked(bool value);
     void onAutoCurrentPitchClicked(bool value);
     void onAutoCurrentYawClicked(bool value);
+    void clearScreenView();
+    void showAxis(int value);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
@@ -118,6 +123,8 @@ private:
     void showMessageByTimer(QString msg, msg_color_t color);
     void connectionProviderInit();
     void joyManipulatorButtonHandle();
+    void generateMapTools();
+    void initClearButton();
     Ui::MainWindow *_ui;
     RoboCamera *_mainCamera;
     RoboCamera *_extraCamera;
@@ -161,6 +168,13 @@ private:
     QVector<SimpleCommunicator_t::PidState_t> _pitchData;
     QVector<SimpleCommunicator_t::PidState_t> _yawData;
 //    QTimer *_depthDataTimer;
+    QGraphicsPixmapItem _screen;
+    VideoGraphicsScene *_videoScene;
+    QList<BaseTool *> _tools;
+    QPushButton *_clearButton;
+
+    GraphicsScene *_screenScene;
+    MapGraphicsScene *_mapScene;
 };
 
 #endif // MAINWINDOW_H

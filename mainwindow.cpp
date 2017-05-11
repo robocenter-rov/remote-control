@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include <iostream>
 #include <fstream>
+#include "calc-tools/basetool.h"
 
 QString COMportName;
 
@@ -30,7 +31,6 @@ MainWindow::MainWindow(QWidget *parent)
     qRegisterMetaType<SimpleCommunicator_t::PidState_t>("SimpleCommunicator_t::PidState_t");
     qRegisterMetaType<SimpleCommunicator_t::State_t>("SimpleCommunicator_t::State_t");
     qRegisterMetaType<SimpleCommunicator_t::CalibratedSensorData_t>("SimpleCommunicator_t::CalibratedSensorData_t");
-    qDebug() << COMportName;
     _connectionProvider = new UARTConnectionProvider_t(COMportName.toStdString().c_str(), 19200, 1 << 20, 1 << 20);
     _communicator = new SimpleCommunicator_t(_connectionProvider);
     _ui->setupUi(this);
@@ -94,6 +94,8 @@ MainWindow::MainWindow(QWidget *parent)
     showMessage("Connection...", CL_YELLOW);
     graphInit();
     replotData();
+    generateMapTools();
+    connect(_ui->axesCheckBox, SIGNAL(stateChanged(int)), this, SLOT(showAxes(int)));
 }
 
 MainWindow::~MainWindow()
@@ -109,7 +111,26 @@ MainWindow::~MainWindow()
 
 void MainWindow::cameraInit()
 {
-    _mainCamera = new RoboCamera(0, _ui->mainView, this, new QGraphicsScene(), true);
+    _videoScene = new VideoGraphicsScene();
+    _videoScene->addScreen(&_screen);
+    _mainCamera = new RoboCamera(0, _ui->mainView, this, _videoScene, true);
+    _videoScene->setCamera(_mainCamera);
+
+    _screenScene = new GraphicsScene();
+    _screenScene->addScreen(&_screen);
+    _ui->screensView->setScene(_screenScene);
+    _ui->screensView->viewport()->installEventFilter(this);
+    _ui->screensView->show();
+
+    _videoScene->addScreenScene(_screenScene);
+
+    _mapScene = new MapGraphicsScene();
+    _ui->mapView->setScene(_mapScene);
+    _ui->mapView->viewport()->installEventFilter(this);
+    _ui->mapView->show();
+
+    _videoScene->addMapScene(_mapScene);
+
     _extraCamera = new RoboCamera(1, _ui->extraView, this);
 }
 
@@ -119,6 +140,8 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
     if (event->type() == QEvent::Resize) {
         _ui->mainView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::IgnoreAspectRatio);
         _ui->extraView->fitInView(_extraCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
+        _ui->screensView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
+        _ui->mapView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
         return true;
     }
     return false;
@@ -711,6 +734,10 @@ void MainWindow::onTabChanged(int idx)
             _joyTimer->stop();
         }
     }
+    if (idx == 3) {
+        _mapScene->setSceneRect(_ui->mainView->sceneRect());
+        _mapScene->updateScene();
+    }
 }
 
 void MainWindow::onAutoDepthClicked(bool value)
@@ -1129,4 +1156,33 @@ void MainWindow::onAutoCurrentYawClicked(bool value)
             qDebug() << e.error_message.c_str();
         }
     }
+}
+
+void MainWindow::generateMapTools()
+{
+    currentTool = new LineTool(_ui->toolsWidget);
+    _tools.append(currentTool);
+    _tools.append(new SelectTool(_ui->toolsWidget));
+    _tools.append(new PoolLineTool(_ui->toolsWidget));
+    _tools.append(new ReplaceAxisTool(_ui->toolsWidget));
+    _tools.append(new ContainersCenterTool(_ui->toolsWidget));
+}
+
+void MainWindow::initClearButton()
+{
+    _clearButton = new QPushButton(_ui->toolsWidget);
+    _clearButton->setText("Clear");
+    _clearButton->setIconSize(QSize(30, 30));
+    connect(_clearButton, SIGNAL(clicked(bool)), this, SLOT(clearScreenView()));
+}
+
+void MainWindow::clearScreenView()
+{
+    _mapScene->clearScene();
+    _screenScene->updateScene();
+}
+
+void MainWindow::showAxis(int value)
+{
+    _screenScene->setShowAxes(value);
 }

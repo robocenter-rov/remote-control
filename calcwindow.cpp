@@ -88,6 +88,7 @@ void CalcWindow::changedTabIndex()
 }
 
 void CalcWindow::initClearButton() {
+    _clearButton = new QPushButton(_ui->toolsWidget);
     _clearButton->setText("Clear");
     _clearButton->setIconSize(QSize(30, 30));
     connect(_clearButton, SIGNAL(clicked(bool)), this, SLOT(clearScreenView()));
