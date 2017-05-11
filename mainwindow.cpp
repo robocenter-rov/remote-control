@@ -362,7 +362,7 @@ void MainWindow::readAndSendJoySensors()
     }
     try {
         if (z == 0) {
-            if (!_communicator->IsAutoDepthEnabled()) {
+            if (_isAutoDepth && !_communicator->IsAutoDepthEnabled()) {
                 _communicator->SetDepth(_currentDepth);
                 _ui->autoDepthMainInfoCB->setChecked(true);
                 _ui->autoDepthMainInfoCB->setText(QString("AutoDepth: ") + std::to_string(_currentDepth).c_str());
@@ -373,7 +373,7 @@ void MainWindow::readAndSendJoySensors()
             _communicator->SetSinkingForce(z * 2);
         }
         if (tz == 0) {
-            if (!_communicator->IsAutoYawEnabled()) {
+            if (_isAutoYaw && !_communicator->IsAutoYawEnabled()) {
                 _communicator->SetYaw(_yaw);
                 _ui->autoYawMainInfoCB->setChecked(true);
                 _ui->autoYawMainInfoCB->setText(QString("AutoYaw: ") + std::to_string(_currentYaw).c_str());
@@ -451,6 +451,16 @@ void MainWindow::joyManipulatorButtonHandle()
     if (_joy->atBtn(13)) {
         if (_joy->btnStateChanged(13)) {
             _communicator->SetFlashlightState(_flashLightState = !_flashLightState);
+        }
+    }
+    if (_joy->atBtn(7)) {
+        if (_joy->btnStateChanged(7)) {
+            _isAutoDepth = !_isAutoDepth;
+        }
+    }
+    if (_joy->atBtn(8)) {
+        if (_joy->btnStateChanged(8)) {
+            _isAutoYaw = !_isAutoYaw;
         }
     }
     _communicator->SetManipulatorState(
