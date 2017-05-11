@@ -1207,3 +1207,39 @@ void MainWindow::showAxis(int value)
 {
     _screenScene->setShowAxes(value);
 }
+
+void MainWindow::on_cam1MinValSpinBox_valueChanged(double arg1)
+{
+    try {
+        _communicator->SetCam1MinVal(arg1);
+    } catch (ControllerException_t &e) {
+        qDebug() << e.error_message.c_str();
+    }
+}
+
+void MainWindow::on_cam1MaxValSpinBox_valueChanged(double arg1)
+{
+    try {
+        _communicator->SetCam1MaxVal(arg1);
+    } catch (ControllerException_t &e) {
+        qDebug() << e.error_message.c_str();
+    }
+}
+
+void MainWindow::on_cam2MinValSpinBox_valueChanged(double arg1)
+{
+    try {
+        _communicator->SetCam2MinVal(arg1);
+    } catch (ControllerException_t &e) {
+        qDebug() << e.error_message.c_str();
+    }
+}
+
+void MainWindow::on_cam2MaxValSpinBox_valueChanged(double arg1)
+{
+    try {
+        _communicator->SetCam2MaxVal(arg1);
+    } catch (ControllerException_t &e) {
+        qDebug() << e.error_message.c_str();
+    }
+}

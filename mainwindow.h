@@ -98,7 +98,11 @@ private slots:
     void onAutoCurrentPitchClicked(bool value);
     void onAutoCurrentYawClicked(bool value);
     void clearScreenView();
-    void showAxis(int value);
+    void showAxis(int value);    
+    void on_cam1MinValSpinBox_valueChanged(double arg1);
+    void on_cam1MaxValSpinBox_valueChanged(double arg1);
+    void on_cam2MinValSpinBox_valueChanged(double arg1);
+    void on_cam2MaxValSpinBox_valueChanged(double arg1);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
