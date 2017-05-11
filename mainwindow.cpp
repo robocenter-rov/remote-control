@@ -423,28 +423,28 @@ void MainWindow::joyManipulatorButtonHandle()
     if (_joy->atBtn(2)) {
         if (_joy->btnStateChanged(2)) {
             cameraPos1 = MIN(3.14f/2.0, cameraPos1 + 0.1);
-            _communicator->SetCamera1Pos(cameraPos1);
+            _communicator->SetCamera1GlobalPos(cameraPos1);
             qDebug() << cameraPos1;
         }
     }
     if (_joy->atBtn(4)) {
         if (_joy->btnStateChanged(4)) {
             cameraPos1 = MAX(-3.14f/2.0, cameraPos1 - 0.1);
-            _communicator->SetCamera1Pos(cameraPos1);
+            _communicator->SetCamera1GlobalPos(cameraPos1);
             qDebug() << cameraPos1;
         }
     }
     if (_joy->atBtn(5)) {
         if (_joy->btnStateChanged(5)) {
             cameraPos2 = MIN(3.14f/2.0, cameraPos2 + 0.1);
-            _communicator->SetCamera2Pos(cameraPos2);
+            _communicator->SetCamera2GlobalPos(cameraPos2);
             qDebug() << cameraPos2;
         }
     }
     if (_joy->atBtn(6)) {
         if (_joy->btnStateChanged(6)) {
             cameraPos2 = MAX(-3.14f/2.0, cameraPos2 - 0.1);
-            _communicator->SetCamera2Pos(cameraPos2);
+            _communicator->SetCamera2GlobalPos(cameraPos2);
             qDebug() << cameraPos2;
         }
     }
@@ -619,7 +619,7 @@ void MainWindow::onCamera1PosChanged(int value)
 {
     _ui->camera1valueLabel->setText(QString(std::to_string(value).c_str()));
     try {
-        _communicator->SetCamera1Pos(value*3.1415/180.0);
+        _communicator->SetCamera1LocalPos(value*3.1415/180.0);
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
     }
@@ -629,7 +629,7 @@ void MainWindow::onCamera2PosChanged(int value)
 {
     _ui->camera2valueLabel->setText(QString(std::to_string(value).c_str()));
     try {
-        _communicator->SetCamera2Pos(value*3.1415/180.0);
+        _communicator->SetCamera2LocalPos(value*3.1415/180.0);
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
     }
