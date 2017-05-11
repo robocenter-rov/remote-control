@@ -374,7 +374,7 @@ void MainWindow::readAndSendJoySensors()
         }
         if (tz == 0 && _isAutoYaw) {
             if (!_communicator->IsAutoYawEnabled()) {
-                _communicator->SetYaw(_yaw);
+                _communicator->SetYaw(_currentYaw);
                 _ui->autoYawMainInfoCB->setChecked(true);
                 _ui->autoYawMainInfoCB->setText(QString("AutoYaw: ") + std::to_string(_currentYaw).c_str());
             }
@@ -385,7 +385,7 @@ void MainWindow::readAndSendJoySensors()
         }
         if (ty == 0 && _isAutoPitch) {
             if (!_communicator->IsAutoPitchEnabled()) {
-                _communicator->SetPitch(_pitch);
+                _communicator->SetPitch(_currentPitch);
                 _ui->autoPitchMainInfoCB->setChecked(true);
                 _ui->autoPitchMainInfoCB->setText(QString("AutoPitch: ") + std::to_string(_currentPitch).c_str());
             }
@@ -431,28 +431,28 @@ void MainWindow::joyManipulatorButtonHandle()
     if (_joy->atBtn(2)) {
         if (_joy->btnStateChanged(2)) {
             cameraPos1 = MIN(3.14f/2.0, cameraPos1 + 0.1);
-            _communicator->SetCamera1Pos(cameraPos1);
+            _communicator->SetCamera1GlobalPos(cameraPos1);
             qDebug() << cameraPos1;
         }
     }
     if (_joy->atBtn(4)) {
         if (_joy->btnStateChanged(4)) {
             cameraPos1 = MAX(-3.14f/2.0, cameraPos1 - 0.1);
-            _communicator->SetCamera1Pos(cameraPos1);
+            _communicator->SetCamera1GlobalPos(cameraPos1);
             qDebug() << cameraPos1;
         }
     }
     if (_joy->atBtn(5)) {
         if (_joy->btnStateChanged(5)) {
             cameraPos2 = MIN(3.14f/2.0, cameraPos2 + 0.1);
-            _communicator->SetCamera2Pos(cameraPos2);
+            _communicator->SetCamera2GlobalPos(cameraPos2);
             qDebug() << cameraPos2;
         }
     }
     if (_joy->atBtn(6)) {
         if (_joy->btnStateChanged(6)) {
             cameraPos2 = MAX(-3.14f/2.0, cameraPos2 - 0.1);
-            _communicator->SetCamera2Pos(cameraPos2);
+            _communicator->SetCamera2GlobalPos(cameraPos2);
             qDebug() << cameraPos2;
         }
     }
@@ -632,7 +632,7 @@ void MainWindow::onCamera1PosChanged(int value)
 {
     _ui->camera1valueLabel->setText(QString(std::to_string(value).c_str()));
     try {
-        _communicator->SetCamera1Pos(value*3.1415/180.0);
+        _communicator->SetCamera1LocalPos(value*3.1415/180.0);
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
     }
@@ -642,7 +642,7 @@ void MainWindow::onCamera2PosChanged(int value)
 {
     _ui->camera2valueLabel->setText(QString(std::to_string(value).c_str()));
     try {
-        _communicator->SetCamera2Pos(value*3.1415/180.0);
+        _communicator->SetCamera2LocalPos(value*3.1415/180.0);
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
     }

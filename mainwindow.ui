@@ -2204,6 +2204,9 @@ font-size: 12px;
         <property name="maximum">
          <double>180.000000000000000</double>
         </property>
+        <property name="value">
+         <double>180.000000000000000</double>
+        </property>
        </widget>
        <widget class="QDoubleSpinBox" name="cam2MinValSpinBox">
         <property name="geometry">
@@ -2234,6 +2237,9 @@ font-size: 12px;
          <double>-180.000000000000000</double>
         </property>
         <property name="maximum">
+         <double>180.000000000000000</double>
+        </property>
+        <property name="value">
          <double>180.000000000000000</double>
         </property>
        </widget>
