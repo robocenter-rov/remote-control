@@ -562,6 +562,9 @@
             </property>
            </widget>
            <widget class="QCheckBox" name="autoDepthMainInfoCB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="geometry">
              <rect>
               <x>150</x>
@@ -575,6 +578,9 @@
             </property>
            </widget>
            <widget class="QCheckBox" name="autoYawMainInfoCB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="geometry">
              <rect>
               <x>150</x>
