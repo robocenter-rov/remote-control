@@ -344,8 +344,8 @@ void MainWindow::updatePosInfo(SimpleCommunicator_t::RawSensorData_t rawSensorDa
 void MainWindow::readAndSendJoySensors()
 {
     _joy->update();
-    float thrust[6];
-    for (int i = 0; i < 6; i++) {
+    float thrust[5];
+    for (int i = 0; i < 5; i++) {
         thrust[i] = _joy->axesAt(i);
     }
     float eps = 0.03;
