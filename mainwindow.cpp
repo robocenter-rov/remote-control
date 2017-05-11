@@ -95,7 +95,7 @@ MainWindow::MainWindow(QWidget *parent)
     graphInit();
     replotData();
     generateMapTools();
-    connect(_ui->axesCheckBox, SIGNAL(stateChanged(int)), this, SLOT(showAxes(int)));
+    connect(_ui->axesCheckBox, SIGNAL(stateChanged(int)), this, SLOT(showAxis(int)));
 }
 
 MainWindow::~MainWindow()
@@ -734,7 +734,7 @@ void MainWindow::onTabChanged(int idx)
             _joyTimer->stop();
         }
     }
-    if (idx == 3) {
+    if (idx == 4) {
         _mapScene->setSceneRect(_ui->mainView->sceneRect());
         _mapScene->updateScene();
     }
