@@ -361,8 +361,8 @@ void MainWindow::readAndSendJoySensors()
         y /= dist;
     }
     try {
-        if (z == 0) {
-            if (_isAutoDepth && !_communicator->IsAutoDepthEnabled()) {
+        if (z == 0 && _isAutoDepth) {
+            if (!_communicator->IsAutoDepthEnabled()) {
                 _communicator->SetDepth(_currentDepth);
                 _ui->autoDepthMainInfoCB->setChecked(true);
                 _ui->autoDepthMainInfoCB->setText(QString("AutoDepth: ") + std::to_string(_currentDepth).c_str());
@@ -372,8 +372,8 @@ void MainWindow::readAndSendJoySensors()
             _ui->autoDepthMainInfoCB->setText(QString("AutoDepth"));
             _communicator->SetSinkingForce(z * 2);
         }
-        if (tz == 0) {
-            if (_isAutoYaw && !_communicator->IsAutoYawEnabled()) {
+        if (tz == 0 && _isAutoYaw) {
+            if (!_communicator->IsAutoYawEnabled()) {
                 _communicator->SetYaw(_yaw);
                 _ui->autoYawMainInfoCB->setChecked(true);
                 _ui->autoYawMainInfoCB->setText(QString("AutoYaw: ") + std::to_string(_currentYaw).c_str());
