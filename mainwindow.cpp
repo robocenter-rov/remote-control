@@ -598,6 +598,11 @@ void MainWindow::onStopMotorsButtonClicked(bool value)
     _ui->motor4Slider->setValue(0);
     _ui->motor5Slider->setValue(0);
     _ui->motor6Slider->setValue(0);
+    try {
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+    } catch (ControllerException_t &e) {
+        qDebug() << e.error_message.c_str();
+    }
 }
 
 void MainWindow::onCamera1PosChanged(int value)
