@@ -598,6 +598,11 @@ void MainWindow::onStopMotorsButtonClicked(bool value)
     _ui->motor4Slider->setValue(0);
     _ui->motor5Slider->setValue(0);
     _ui->motor6Slider->setValue(0);
+    try {
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+    } catch (ControllerException_t &e) {
+        qDebug() << e.error_message.c_str();
+    }
 }
 
 void MainWindow::onCamera1PosChanged(int value)
@@ -864,11 +869,11 @@ void MainWindow::onPidStateReceived(SimpleCommunicator_t::PidState_t depth, Simp
     _ui->pitchTarValueLabel->setText(std::to_string(pitch.Target).c_str());
     _ui->pitchOutValueLabel->setText(std::to_string(pitch.Out).c_str());
 
-    if (_depthData.size() == DEPTH_DATA_SIZE) _depthData.pop_front();
+    _depthData.pop_front();
     _depthData.push_back(depth);
-    if (_pitchData.size() == PITCH_DATA_SIZE) _pitchData.pop_front();
+    _pitchData.pop_front();
     _pitchData.push_back(pitch);
-    if (_yawData.size() == YAW_DATA_SIZE) _yawData.pop_front();
+    _yawData.pop_front();
     _yawData.push_back(yaw);
     replotData();
 }
@@ -894,13 +899,27 @@ void MainWindow::graphInit()
         _ui->autoPitchGraph->graph(i)->setPen(colors[i]);
         _ui->autoYawGraph->graph(i)->setPen(colors[i]);
     }
-    _ui->autoDepthGraph->xAxis->setRange(_count_of_recieved_pid-DEPTH_DATA_SIZE, _count_of_recieved_pid);
-    _ui->autoPitchGraph->xAxis->setRange(_count_of_recieved_pid-PITCH_DATA_SIZE, _count_of_recieved_pid);
-    _ui->autoYawGraph->xAxis->setRange(_count_of_recieved_pid-YAW_DATA_SIZE, _count_of_recieved_pid);
+    _ui->autoDepthGraph->xAxis->setRange(-DEPTH_DATA_SIZE, 0);
+    _ui->autoPitchGraph->xAxis->setRange(-PITCH_DATA_SIZE, 0);
+    _ui->autoYawGraph->xAxis->setRange(-YAW_DATA_SIZE, 0);
 
     _ui->autoDepthGraph->replot();
     _ui->autoPitchGraph->replot();
     _ui->autoYawGraph->replot();
+
+    SimpleCommunicator_t::PidState_t t;
+    t.In = 0.f;
+    t.Out = 0.f;
+    t.Target = 0.f;
+    for (int i = 0; i < DEPTH_DATA_SIZE; i++) {
+       _depthData.push_back(t);
+    }
+    for (int i = 0; i < PITCH_DATA_SIZE; i++) {
+       _pitchData.push_back(t);
+    }
+    for (int i = 0; i < YAW_DATA_SIZE; i++) {
+       _yawData.push_back(t);
+    }
 }
 
 void MainWindow::replotData()
@@ -915,9 +934,9 @@ void MainWindow::replotDataDepth()
     QVector<double> x(DEPTH_DATA_SIZE), y1(DEPTH_DATA_SIZE), y2(DEPTH_DATA_SIZE), y3(DEPTH_DATA_SIZE);
     for (int i = 0; i < DEPTH_DATA_SIZE; i++){
         x[i] = i + _count_of_recieved_pid - DEPTH_DATA_SIZE;
-        y1[i] = (i < DEPTH_DATA_SIZE - _depthData.size()) ? 0 : _depthData[i].In;
-        y2[i] = (i < DEPTH_DATA_SIZE - _depthData.size()) ? 0 : _depthData[i].Out;
-        y3[i] = (i < DEPTH_DATA_SIZE - _depthData.size()) ? 0 : _depthData[i].Target;
+        y1[i] = _depthData[i].In;
+        y2[i] = _depthData[i].Out;
+        y3[i] = _depthData[i].Target;
     }
     _ui->autoDepthGraph->graph(0)->setData(x, y1);
     _ui->autoDepthGraph->graph(1)->setData(x, y2);
@@ -939,9 +958,9 @@ void MainWindow::replotDataPitch() {
     QVector<double> x(PITCH_DATA_SIZE), y1(PITCH_DATA_SIZE), y2(PITCH_DATA_SIZE), y3(PITCH_DATA_SIZE);
     for (int i = 0; i < PITCH_DATA_SIZE; i++){
         x[i] = i + _count_of_recieved_pid - PITCH_DATA_SIZE;
-        y1[i] = (i < PITCH_DATA_SIZE - _pitchData.size()) ? 0 : _pitchData[i].In;
-        y2[i] = (i < PITCH_DATA_SIZE - _pitchData.size()) ? 0 : _pitchData[i].Out;
-        y3[i] = (i < PITCH_DATA_SIZE - _pitchData.size()) ? 0 : _pitchData[i].Target;
+        y1[i] = _pitchData[i].In;
+        y2[i] = _pitchData[i].Out;
+        y3[i] = _pitchData[i].Target;
     }
     _ui->autoPitchGraph->graph(0)->setData(x, y1);
     _ui->autoPitchGraph->graph(1)->setData(x, y2);
@@ -962,9 +981,9 @@ void MainWindow::replotDataYaw()
     QVector<double> x(YAW_DATA_SIZE), y1(YAW_DATA_SIZE), y2(YAW_DATA_SIZE), y3(YAW_DATA_SIZE);
     for (int i = 0; i < YAW_DATA_SIZE; i++){
         x[i] = i + _count_of_recieved_pid - YAW_DATA_SIZE;
-        y1[i] = (i < YAW_DATA_SIZE - _yawData.size()) ? 0 : _yawData[i].In;
-        y2[i] = (i < YAW_DATA_SIZE - _yawData.size()) ? 0 : _yawData[i].Out;
-        y3[i] = (i < YAW_DATA_SIZE - _yawData.size()) ? 0 : _yawData[i].Target;
+        y1[i] = _yawData[i].In;
+        y2[i] = _yawData[i].Out;
+        y3[i] = _yawData[i].Target;
     }
     _ui->autoYawGraph->graph(0)->setData(x, y1);
     _ui->autoYawGraph->graph(1)->setData(x, y2);
