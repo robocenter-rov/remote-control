@@ -352,7 +352,7 @@ void MainWindow::readAndSendJoySensors()
     float y = (ABS(thrust[1]) < eps) ? 0 : thrust[1];
     float x = (ABS(thrust[0]) < eps) ? 0 : thrust[0];
     float z = (ABS(thrust[4]) < 0.10) ? 0 : thrust[4];
-    float ty = 0;
+    float ty = (ABS(thrust[2]) < eps) ? 0 : thrust[2];;
     float tz = (ABS(thrust[3]) < eps) ? 0 : thrust[3];
     float dist = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 
@@ -383,10 +383,18 @@ void MainWindow::readAndSendJoySensors()
             _ui->autoYawMainInfoCB->setText(QString("AutoYaw"));
             _communicator->SetYawForce(tz*0.4);
         }
-        _communicator->SetMovementForce(-x * 1.5, y * 1.5);
-        if (!_communicator->IsAutoPitchEnabled()) {
-            _communicator->SetPitchForce(ty);
+        if (ty == 0 && _isAutoPitch) {
+            if (!_communicator->IsAutoPitchEnabled()) {
+                _communicator->SetPitch(_pitch);
+                _ui->autoPitchMainInfoCB->setChecked(true);
+                _ui->autoPitchMainInfoCB->setText(QString("AutoPitch: ") + std::to_string(_currentPitch).c_str());
+            }
+        } else {
+            _ui->autoPitchMainInfoCB->setChecked(false);
+            _ui->autoPitchMainInfoCB->setText(QString("AutoPitch"));
+            _communicator->SetPitchForce(_currentPitch);
         }
+        _communicator->SetMovementForce(-x * 1.5, y * 1.5);
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
     }
@@ -463,6 +471,11 @@ void MainWindow::joyManipulatorButtonHandle()
             _isAutoYaw = !_isAutoYaw;
         }
     }
+    if (_joy->atBtn(3)) {
+        if (_joy->btnStateChanged(3)) {
+            _isAutoPitch = !_isAutoPitch;
+        }
+    }
     _communicator->SetManipulatorState(
         _curManipulator._armPos,
         _curManipulator._handPos,
@@ -489,7 +502,7 @@ void MainWindow::updateOrient(float q1, float q2, float q3, float q4)
     _ui->phiLabel->setText(std::to_string(angles[2]).c_str());
     updateHeading(angles[0]*180/3.1416);
     _currentYaw = angles[0];
-    _curentPitch = angles[2];
+    _currentPitch = angles[2];
 }
 
 void MainWindow::updateHeading(int value)
@@ -1146,8 +1159,8 @@ void MainWindow::onAutoCurrentPitchClicked(bool value)
     if (value) {
         try {
             _ui->autoPitchCB->setChecked(false);
-            _ui->stabPitchValue->setText(std::to_string(_curentPitch).c_str());
-            _communicator->SetPitch(_curentPitch);
+            _ui->stabPitchValue->setText(std::to_string(_currentPitch).c_str());
+            _communicator->SetPitch(_currentPitch);
         } catch (ControllerException_t &e) {
             qDebug() << e.error_message.c_str();
         }

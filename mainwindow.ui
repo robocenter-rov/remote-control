@@ -593,6 +593,22 @@
              <string>AutoYaw</string>
             </property>
            </widget>
+           <widget class="QCheckBox" name="autoPitchMainInfoCB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>150</x>
+              <y>380</y>
+              <width>211</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>AutoYaw</string>
+            </property>
+           </widget>
           </widget>
          </widget>
         </item>
