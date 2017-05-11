@@ -206,9 +206,9 @@ void MainWindow::onTaskTimeout()
 void MainWindow::connectionProviderInit()
 {
     try {
-        _connectionProvider->Begin();
+        _communicator->SetSendMessageFrequency(200);
 
-        _communicator->SetSendMessageFrequency(50);
+        _connectionProvider->Begin();
 
         _communicator->OnRobotRestart([]()
         {
