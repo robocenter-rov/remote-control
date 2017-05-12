@@ -363,44 +363,40 @@ void MainWindow::readAndSendJoySensors()
         x /= dist;
         y /= dist;
     }
-    try {
-        if (z == 0 && _isAutoDepth) {
-            if (!_communicator->IsAutoDepthEnabled()) {
-                _communicator->SetDepth(_currentDepth);
-                _ui->autoDepthMainInfoCB->setChecked(true);
-                _ui->autoDepthMainInfoCB->setText(QString("AutoDepth: ") + std::to_string(_currentDepth).c_str());
-            }
-        } else {
-            _ui->autoDepthMainInfoCB->setChecked(false);
-            _ui->autoDepthMainInfoCB->setText(QString("AutoDepth"));
-            _communicator->SetSinkingForce(z * 2);
+    if (z == 0 && _isAutoDepth) {
+        if (!_communicator->IsAutoDepthEnabled()) {
+            _communicator->SetDepth(_currentDepth);
+            _ui->autoDepthMainInfoCB->setChecked(true);
+            _ui->autoDepthMainInfoCB->setText(QString("AutoDepth: ") + std::to_string(_currentDepth).c_str());
         }
-        if (tz == 0 && _isAutoYaw) {
-            if (!_communicator->IsAutoYawEnabled()) {
-                _communicator->SetYaw(_currentYaw);
-                _ui->autoYawMainInfoCB->setChecked(true);
-                _ui->autoYawMainInfoCB->setText(QString("AutoYaw: ") + std::to_string(_currentYaw).c_str());
-            }
-        } else {
-            _ui->autoYawMainInfoCB->setChecked(false);
-            _ui->autoYawMainInfoCB->setText(QString("AutoYaw"));
-            _communicator->SetYawForce(tz*0.4);
-        }
-        if (ty == 0 && _isAutoPitch) {
-            if (!_communicator->IsAutoPitchEnabled()) {
-                _communicator->SetPitch(_currentPitch);
-                _ui->autoPitchMainInfoCB->setChecked(true);
-                _ui->autoPitchMainInfoCB->setText(QString("AutoPitch: ") + std::to_string(_currentPitch).c_str());
-            }
-        } else {
-            _ui->autoPitchMainInfoCB->setChecked(false);
-            _ui->autoPitchMainInfoCB->setText(QString("AutoPitch"));
-            _communicator->SetPitchForce(_currentPitch);
-        }
-        _communicator->SetMovementForce(-x * 1.5, y * 1.5);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
+    } else {
+        _ui->autoDepthMainInfoCB->setChecked(false);
+        _ui->autoDepthMainInfoCB->setText(QString("AutoDepth"));
+        _communicator->SetSinkingForce(z * 2);
     }
+    if (tz == 0 && _isAutoYaw) {
+        if (!_communicator->IsAutoYawEnabled()) {
+            _communicator->SetYaw(_currentYaw);
+            _ui->autoYawMainInfoCB->setChecked(true);
+            _ui->autoYawMainInfoCB->setText(QString("AutoYaw: ") + std::to_string(_currentYaw).c_str());
+        }
+    } else {
+        _ui->autoYawMainInfoCB->setChecked(false);
+        _ui->autoYawMainInfoCB->setText(QString("AutoYaw"));
+        _communicator->SetYawForce(tz*0.4);
+    }
+    if (ty == 0 && _isAutoPitch) {
+        if (!_communicator->IsAutoPitchEnabled()) {
+            _communicator->SetPitch(_currentPitch);
+            _ui->autoPitchMainInfoCB->setChecked(true);
+            _ui->autoPitchMainInfoCB->setText(QString("AutoPitch: ") + std::to_string(_currentPitch).c_str());
+        }
+    } else {
+        _ui->autoPitchMainInfoCB->setChecked(false);
+        _ui->autoPitchMainInfoCB->setText(QString("AutoPitch"));
+        _communicator->SetPitchForce(_currentPitch);
+    }
+    _communicator->SetMovementForce(-x * 1.5, y * 1.5);
 }
 
 void MainWindow::joyButtonHandle()
@@ -529,11 +525,7 @@ void MainWindow::updateI2CDevicesState(
 
 void MainWindow::onScaneI2CdevicesButtonClick(bool)
 {
-    try {
-        _communicator->SetRescanI2CDevices();
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetRescanI2CDevices();
 }
 
 void MainWindow::onBluetoothMsgRecieve(std::string msg)
@@ -543,77 +535,49 @@ void MainWindow::onBluetoothMsgRecieve(std::string msg)
 
 void MainWindow::onBluetoothButtonClick(bool value)
 {
-    try {
-        _communicator->SetReadBluetoothState(value);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetReadBluetoothState(value);
 }
 
 void MainWindow::onMotor1SliderChanged(int value)
 {
     float val = value/100.0;
     _ui->motor1valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
-    try {
-        _communicator->SetMotorState(0, val);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetMotorState(0, val);
 }
 
 void MainWindow::onMotor2SliderChanged(int value)
 {
     float val = value/100.0;
     _ui->motor2valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
-    try {
-        _communicator->SetMotorState(1, val);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetMotorState(1, val);
 }
 
 void MainWindow::onMotor3SliderChanged(int value)
 {
     float val = value/100.0;
     _ui->motor3valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
-    try {
-        _communicator->SetMotorState(2, val);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetMotorState(2, val);
 }
 
 void MainWindow::onMotor4SliderChanged(int value)
 {
     float val = value/100.0;
     _ui->motor4valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
-    try {
-        _communicator->SetMotorState(3, val);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetMotorState(3, val);
 }
 
 void MainWindow::onMotor5SliderChanged(int value)
 {
     float val = value/100.0;
     _ui->motor5valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
-    try {
-        _communicator->SetMotorState(4, val);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetMotorState(4, val);
 }
 
 void MainWindow::onMotor6SliderChanged(int value)
 {
     float val = value/100.0f;
     _ui->motor6valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
-    try {
-        _communicator->SetMotorState(5, val);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetMotorState(5, val);
 }
 
 void MainWindow::onStopMotorsButtonClicked(bool value)
@@ -624,31 +588,19 @@ void MainWindow::onStopMotorsButtonClicked(bool value)
     _ui->motor4Slider->setValue(0);
     _ui->motor5Slider->setValue(0);
     _ui->motor6Slider->setValue(0);
-    try {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
 }
 
 void MainWindow::onCamera1PosChanged(int value)
 {
     _ui->camera1valueLabel->setText(QString(std::to_string(value).c_str()));
-    try {
-        _communicator->SetCamera1LocalPos(value*3.1415/180.0);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetCamera1LocalPos(value*3.1415/180.0);
 }
 
 void MainWindow::onCamera2PosChanged(int value)
 {
     _ui->camera2valueLabel->setText(QString(std::to_string(value).c_str()));
-    try {
-        _communicator->SetCamera2LocalPos(value*3.1415/180.0);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetCamera2LocalPos(value*3.1415/180.0);
 }
 
 void MainWindow::onSetMotorsClicked(bool value)
@@ -670,11 +622,7 @@ void MainWindow::onSetMotorsClicked(bool value)
         }
     }
     _ui->setMotorsMsg->setText("");
-    try {
-        _communicator->SetMotorsPositions(m[0], m[1], m[2], m[3], m[4], m[5]);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetMotorsPositions(m[0], m[1], m[2], m[3], m[4], m[5]);
 }
 
 void MainWindow::onDepthPIDSpinBoxChanged(bool value)
@@ -682,15 +630,14 @@ void MainWindow::onDepthPIDSpinBoxChanged(bool value)
     double p = _ui->depthPSpinBox->value();
     double i = _ui->depthISpinBox->value();
     double d = _ui->depthDSpinBox->value();
-
-    try {
-        std::ofstream fout;
-        fout.open("depth.txt");
+    std::ofstream fout;
+    fout.open("depth.txt");
+    if (fout.is_open()) {
         fout << p << " " << i << " "<< d;
         _communicator->SetDepthPid(p, i, d);
         fout.close();
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
+    } else {
+        qDebug() << "Can't open file: depth.txt";
     }
 }
 
@@ -702,14 +649,14 @@ void MainWindow::onSetMotorsMultiplier(bool value)
     float m4 = _ui->m4MultSpinBox->value();
     float m5 = _ui->m5MultSpinBox->value();
     float m6 = _ui->m6MultSpinBox->value();
-    try {
-        std::ofstream fout;
-        fout.open("multipliers.txt");
+    std::ofstream fout;
+    fout.open("multipliers.txt");
+    if (fout.is_open()) {
         fout << m1 << " " << m2 << " " << m3 << " " << m4 << " " << m5 << " " << m6;
         _communicator->SetMotorsMultiplier(m1, m2, m3, m4, m5, m6);
         fout.close();
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
+    } else {
+        qDebug() << "Can't open file: multipliers.txt";
     }
 }
 
@@ -718,14 +665,14 @@ void MainWindow::onPitchPIDSpinBoxChanged(bool value)
     double p = _ui->pitchPSpinBox->value();
     double i = _ui->pitchISpinBox->value();
     double d = _ui->pitchDSpinBox->value();
-    try {
-        std::ofstream fout;
-        fout.open("pitch.txt");
+    std::ofstream fout;
+    fout.open("pitch.txt");
+    if (fout.is_open()) {
         fout << p << " " << i << " "<< d;
         _communicator->SetPitcPid(p, i, d);
         fout.close();
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
+    } else {
+        qDebug() << "Can't open file: pitch.txt";
     }
 }
 
@@ -734,14 +681,14 @@ void MainWindow::onYawPIDSpinBoxChanged(bool value)
     double p = _ui->yawPSpinBox->value();
     double i = _ui->yawISpinBox->value();
     double d = _ui->yawDSpinBox->value();
-    try {
-        std::ofstream fout;
-        fout.open("yaw.txt");
+    std::ofstream fout;
+    fout.open("yaw.txt");
+    if (fout.is_open()) {
         fout << p << " " << i << " "<< d;
         _communicator->SetYawPid(p, i, d);
         fout.close();
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
+    } else {
+        qDebug() << "Cant't open file: yaw.txt";
     }
 }
 
@@ -769,17 +716,9 @@ void MainWindow::onAutoDepthClicked(bool value)
     if (value) {
         _ui->autoDepthCurrentCB->setChecked(false);
         _ui->stabDepthValue->setText(_ui->depthEdit->text());
-        try {
-            _communicator->SetDepth(depth);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _communicator->SetDepth(depth);
     } else {
-        try {
-            _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -789,17 +728,9 @@ void MainWindow::onAutoPitchClicked(bool value)
     if (value) {
         _ui->autoPitchCurrentCB->setChecked(false);
         _ui->stabPitchValue->setText(_ui->pitchEdit->text());
-        try {
-            _communicator->SetPitch(pitch);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _communicator->SetPitch(pitch);
     } else {
-        try {
-            _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -809,23 +740,15 @@ void MainWindow::onAutoYawClicked(bool value)
     if (value) {
         _ui->autoYawCurrentCB->setChecked(false);
         _ui->stabYawValue->setText(_ui->yawEdit->text());
-        try {
-            _communicator->SetYaw(yaw);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _communicator->SetYaw(yaw);
     } else {
-        try {
-            _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
     }
 }
 
 void MainWindow::onServo1SliderChanged(int value)
 {
-    try {
+    try { /* DO: check values */
         _curManipulator._m1 = value*3.1415/180.0+3.1415;
         _communicator->SetManipulatorState(
             _curManipulator._armPos,
@@ -1086,17 +1009,9 @@ void MainWindow::onAutoDepthEdit(QString value)
     float depth = value.toFloat();
     if (_ui->autoDepthCB->isChecked()) {
         _ui->stabDepthValue->setText(_ui->depthEdit->text());
-        try {
-            _communicator->SetDepth(depth);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _communicator->SetDepth(depth);
     } else {
-        try {
-            _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -1105,17 +1020,9 @@ void MainWindow::onAutoPitchEdit(QString value)
     float pitch = value.toFloat();
     if (_ui->autoPitchCB->isChecked()) {
         _ui->stabPitchValue->setText(_ui->pitchEdit->text());
-        try {
-            _communicator->SetPitch(pitch);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _communicator->SetPitch(pitch);
     } else {
-        try {
-            _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -1124,74 +1031,42 @@ void MainWindow::onAutoYawEdit(QString value)
     float yaw = value.toFloat();
     if (_ui->autoYawCB->isChecked()) {
         _ui->stabYawValue->setText(_ui->yawEdit->text());
-        try {
-            _communicator->SetYaw(yaw);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _communicator->SetYaw(yaw);
     } else {
-        try {
-            _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
     }
 }
 
 void MainWindow::onAutoCurrentDepthClicked(bool value)
 {
     if (value) {
-        try {
-            _ui->autoDepthCB->setChecked(false);
-            _ui->stabDepthValue->setText(std::to_string(_currentDepth).c_str());
-            _communicator->SetDepth(_currentDepth);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _ui->autoDepthCB->setChecked(false);
+        _ui->stabDepthValue->setText(std::to_string(_currentDepth).c_str());
+        _communicator->SetDepth(_currentDepth);
     } else {
-        try {
-            _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
     }
 }
 
 void MainWindow::onAutoCurrentPitchClicked(bool value)
 {
     if (value) {
-        try {
-            _ui->autoPitchCB->setChecked(false);
-            _ui->stabPitchValue->setText(std::to_string(_currentPitch).c_str());
-            _communicator->SetPitch(_currentPitch);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _ui->autoPitchCB->setChecked(false);
+        _ui->stabPitchValue->setText(std::to_string(_currentPitch).c_str());
+        _communicator->SetPitch(_currentPitch);
     } else {
-        try {
-            _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
     }
 }
 
 void MainWindow::onAutoCurrentYawClicked(bool value)
 {
     if (value) {
-        try {
-            _ui->autoYawCB->setChecked(false);
-            _ui->stabYawValue->setText(std::to_string(_currentYaw).c_str());
-            _communicator->SetYaw(_currentYaw);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _ui->autoYawCB->setChecked(false);
+        _ui->stabYawValue->setText(std::to_string(_currentYaw).c_str());
+        _communicator->SetYaw(_currentYaw);
     } else {
-        try {
-            _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
-        } catch (ControllerException_t &e) {
-            qDebug() << e.error_message.c_str();
-        }
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -1227,41 +1102,25 @@ void MainWindow::showAxis(int value)
 void MainWindow::on_cam1MinValSpinBox_valueChanged(double arg1)
 {
     saveCamMinMax();
-    try {
-        _communicator->SetCam1MinVal(arg1);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetCam1MinVal(arg1);
 }
 
 void MainWindow::on_cam1MaxValSpinBox_valueChanged(double arg1)
 {
     saveCamMinMax();
-    try {
-        _communicator->SetCam1MaxVal(arg1);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetCam1MaxVal(arg1);
 }
 
 void MainWindow::on_cam2MinValSpinBox_valueChanged(double arg1)
 {
     saveCamMinMax();
-    try {
-        _communicator->SetCam2MinVal(arg1);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetCam2MinVal(arg1);
 }
 
 void MainWindow::on_cam2MaxValSpinBox_valueChanged(double arg1)
 {
     saveCamMinMax();
-    try {
-        _communicator->SetCam2MaxVal(arg1);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetCam2MaxVal(arg1);
 }
 
 void MainWindow::initPIDcoeffs()
@@ -1312,11 +1171,7 @@ void MainWindow::setDepthPID(double p, double i, double d)
     _ui->depthPSpinBox->setValue(p);
     _ui->depthISpinBox->setValue(i);
     _ui->depthDSpinBox->setValue(d);
-    try {
-        _communicator->SetDepthPid(p, i, d);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetDepthPid(p, i, d);
 }
 
 void MainWindow::setPitchPID(double p, double i, double d)
@@ -1324,11 +1179,7 @@ void MainWindow::setPitchPID(double p, double i, double d)
     _ui->pitchPSpinBox->setValue(p);
     _ui->pitchISpinBox->setValue(i);
     _ui->pitchDSpinBox->setValue(d);
-    try {
-        _communicator->SetPitcPid(p, i, d);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetPitcPid(p, i, d);
 }
 
 void MainWindow::setYawPID(double p, double i, double d)
@@ -1336,11 +1187,7 @@ void MainWindow::setYawPID(double p, double i, double d)
     _ui->yawPSpinBox->setValue(p);
     _ui->yawISpinBox->setValue(i);
     _ui->yawDSpinBox->setValue(d);
-    try {
-        _communicator->SetYawPid(p, i, d);
-    } catch (ControllerException_t &e) {
-        qDebug() << e.error_message.c_str();
-    }
+    _communicator->SetYawPid(p, i, d);
 }
 
 void MainWindow::initMotorsMultipliers()
