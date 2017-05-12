@@ -96,6 +96,7 @@ MainWindow::MainWindow(QWidget *parent)
     replotData();
     generateMapTools();
     connect(_ui->axesCheckBox, SIGNAL(stateChanged(int)), this, SLOT(showAxis(int)));
+    initPIDcoeffs();
 }
 
 MainWindow::~MainWindow()
@@ -1252,6 +1253,86 @@ void MainWindow::on_cam2MaxValSpinBox_valueChanged(double arg1)
 {
     try {
         _communicator->SetCam2MaxVal(arg1);
+    } catch (ControllerException_t &e) {
+        qDebug() << e.error_message.c_str();
+    }
+}
+
+void MainWindow::initPIDcoeffs()
+{
+    std::ifstream fDepth, fPitch, fYaw;
+    double p, i, d;
+    qDebug() << "init pid coeffs";
+    try {
+        fDepth.open("depth.txt", fstream::in);
+        p = 0.0, i = 0.0, d = 0.0;
+        if (fDepth.is_open()) {
+            fDepth >> p >> i >> d;
+            qDebug() << "depth: " << p << i << d;
+            setDepthPID(p, i, d);
+        } else {
+            qDebug() << "Can't open file: " << "depth.txt";
+        }
+        fDepth.close();
+
+        fPitch.open("pitch.txt", fstream::in);
+        p = 0.0; i = 0.0; d = 0.0;
+        if (fPitch.is_open()) {
+            fPitch >> p >> i >> d;
+            qDebug() << "pitch: " << p << i << d;
+            setPitchPID(p, i, d);
+        } else {
+            qDebug() << "Can't open file: " << "pitch.txt";
+        }
+        fPitch.close();
+
+        fYaw.open("yaw.txt", fstream::in);
+        p = 0.0; i = 0.0; d = 0.0;
+        if (fYaw.is_open()) {
+            fYaw >> p >> i >> d;
+            qDebug() << "yaw: " << p << i << d;
+            setYawPID(p, i, d);
+        } else {
+            qDebug() << "Can't open file: " << "yaw.txt";
+        }
+        fYaw.close();
+
+    } catch (std::ifstream::failure e) {
+        qDebug() << "Exception opening file: " << std::strerror(errno);
+    }
+}
+
+void MainWindow::setDepthPID(double p, double i, double d)
+{
+    _ui->depthPSpinBox->setValue(p);
+    _ui->depthISpinBox->setValue(i);
+    _ui->depthDSpinBox->setValue(d);
+    try {
+        _communicator->SetDepthPid(p, i, d);
+    } catch (ControllerException_t &e) {
+        qDebug() << e.error_message.c_str();
+    }
+}
+
+void MainWindow::setPitchPID(double p, double i, double d)
+{
+    _ui->pitchPSpinBox->setValue(p);
+    _ui->pitchISpinBox->setValue(i);
+    _ui->pitchDSpinBox->setValue(d);
+    try {
+        _communicator->SetPitcPid(p, i, d);
+    } catch (ControllerException_t &e) {
+        qDebug() << e.error_message.c_str();
+    }
+}
+
+void MainWindow::setYawPID(double p, double i, double d)
+{
+    _ui->yawPSpinBox->setValue(p);
+    _ui->yawISpinBox->setValue(i);
+    _ui->yawDSpinBox->setValue(d);
+    try {
+        _communicator->SetYawPid(p, i, d);
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
     }

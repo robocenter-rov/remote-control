@@ -129,6 +129,10 @@ private:
     void joyManipulatorButtonHandle();
     void generateMapTools();
     void initClearButton();
+    void initPIDcoeffs();
+    void setDepthPID(double p, double i, double d);
+    void setPitchPID(double p, double i, double d);
+    void setYawPID(double p, double i, double d);
     Ui::MainWindow *_ui;
     RoboCamera *_mainCamera;
     RoboCamera *_extraCamera;
