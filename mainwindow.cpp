@@ -356,7 +356,7 @@ void MainWindow::readAndSendJoySensors()
     float y = (ABS(thrust[1]) < eps) ? 0 : thrust[1];
     float x = (ABS(thrust[0]) < eps) ? 0 : thrust[0];
     float z = (ABS(thrust[4]) < 0.10) ? 0 : thrust[4];
-    float ty = (ABS(thrust[2]) < eps) ? 0 : thrust[2];;
+    float ty = 0;
     float tz = (ABS(thrust[3]) < eps) ? 0 : thrust[3];
     float dist = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 
@@ -385,17 +385,6 @@ void MainWindow::readAndSendJoySensors()
         _ui->autoYawMainInfoCB->setChecked(false);
         _ui->autoYawMainInfoCB->setText(QString("AutoYaw"));
         _communicator->SetYawForce(tz*0.4);
-    }
-    if (ty == 0 && _isAutoPitch) {
-        if (!_communicator->IsAutoPitchEnabled()) {
-            _communicator->SetPitch(_currentPitch);
-            _ui->autoPitchMainInfoCB->setChecked(true);
-            _ui->autoPitchMainInfoCB->setText(QString("AutoPitch: ") + std::to_string(_currentPitch).c_str());
-        }
-    } else {
-        _ui->autoPitchMainInfoCB->setChecked(false);
-        _ui->autoPitchMainInfoCB->setText(QString("AutoPitch"));
-        _communicator->SetPitchForce(_currentPitch);
     }
     _communicator->SetMovementForce(-x * 1.5, y * 1.5);
 }
@@ -429,32 +418,14 @@ void MainWindow::joyManipulatorButtonHandle()
         _curManipulator._armPos = -0.3f;
     }
     if (_joy->atBtn(2)) {
-        if (_joy->btnStateChanged(2)) {
-            cameraPos1 = MIN(3.14f/2.0, cameraPos1 + 0.1);
-            _communicator->SetCamera1LocalPos(cameraPos1);
-            qDebug() << cameraPos1;
-        }
+        cameraPos1 = MIN(3.14f/2.0, cameraPos1 + 0.05);
+        _communicator->SetCamera1LocalPos(cameraPos1);
+        qDebug() << cameraPos1;
     }
     if (_joy->atBtn(4)) {
-        if (_joy->btnStateChanged(4)) {
-            cameraPos1 = MAX(-3.14f/2.0, cameraPos1 - 0.1);
-            _communicator->SetCamera1LocalPos(cameraPos1);
-            qDebug() << cameraPos1;
-        }
-    }
-    if (_joy->atBtn(5)) {
-        if (_joy->btnStateChanged(5)) {
-            cameraPos2 = MIN(3.14f/2.0, cameraPos2 + 0.1);
-            _communicator->SetCamera1LocalPos(cameraPos2);
-            qDebug() << cameraPos2;
-        }
-    }
-    if (_joy->atBtn(6)) {
-        if (_joy->btnStateChanged(6)) {
-            cameraPos2 = MAX(-3.14f/2.0, cameraPos2 - 0.1);
-            _communicator->SetCamera1LocalPos(cameraPos2);
-            qDebug() << cameraPos2;
-        }
+        cameraPos1 = MAX(-3.14f/2.0, cameraPos1 - 0.05);
+        _communicator->SetCamera1LocalPos(cameraPos1);
+        qDebug() << cameraPos1;
     }
     if (_joy->atBtn(13)) {
         if (_joy->btnStateChanged(13)) {
