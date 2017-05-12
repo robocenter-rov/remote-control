@@ -41,16 +41,16 @@ static void intersection(QPointF &p1, QPointF &p2)
 }
 
 int BaseTool::_nextId = 1;
-BaseTool::BaseTool(QWidget *parent) :
-    _button(new QPushButton(parent))
+BaseTool::BaseTool(QWidget *parent)/* :
+    _button(new QPushButton(parent))*/
 {
     _iconsPath = (QCoreApplication::applicationDirPath() + "../remote-control/icons");
     _isDraw = false;
     _parent = parent;
-    _button->setIconSize(QSize(30, 30));
+    //_button->setIconSize(QSize(30, 30));
     _id = _nextId++;
-    _button->setGeometry(_button->x(), _button->y() + _id*34, _button->width(), _button->height());
-    connect(_button, SIGNAL(clicked(bool)), this, SLOT(selectButtonTool(bool)));
+    //_button->setGeometry(_button->x(), _button->y() + _id*34, _button->width(), _button->height());
+    //connect(_button, SIGNAL(clicked(bool)), this, SLOT(selectButtonTool(bool)));
 }
 
 BaseTool::~BaseTool()
@@ -62,7 +62,7 @@ LineTool::LineTool(QWidget *parent):
     BaseTool(parent)
 {
     _spinBox = nullptr;
-    _button->setText("Line");
+    //_button->setText("Line");
     _pen = QPen(QColor(0, 0, 255, 127), 2);
 }
 
@@ -134,7 +134,7 @@ SelectTool::SelectTool(QWidget *parent) :
     BaseTool(parent)
 {
     _isDraw = false;
-    _button->setText("Select");
+    //_button->setText("Select");
 }
 
 void SelectTool::drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point)
@@ -200,7 +200,7 @@ PoolLineTool::PoolLineTool(QWidget *parent):
     LineTool(parent)
 {
     _spinBox = nullptr;
-    _button->setText("PoolLine");
+    //_button->setText("PoolLine");
     _pen = QPen(QColor(255, 255, 153), 2);
     _relAngle = 0;
 }
@@ -239,7 +239,7 @@ ReplaceAxisTool::ReplaceAxisTool(QWidget *parent):
     BaseTool(parent)
 {
     _replace = false;
-    _button->setText("ReplaceAxis");
+    //_button->setText("ReplaceAxis");
 }
 
 void ReplaceAxisTool::drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point)
@@ -271,7 +271,7 @@ void ReplaceAxisTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
 ContainersCenterTool::ContainersCenterTool(QWidget *parent) :
     BaseTool(parent)
 {
-    _button->setText("ContainersCenter");
+    //_button->setText("ContainersCenter");
     _scene = nullptr;
 }
 
