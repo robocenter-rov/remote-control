@@ -98,6 +98,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->axesCheckBox, SIGNAL(stateChanged(int)), this, SLOT(showAxis(int)));
     initPIDcoeffs();
     initMotorsMultipliers();
+    initCameraMinMax();
 }
 
 MainWindow::~MainWindow()
@@ -1225,6 +1226,7 @@ void MainWindow::showAxis(int value)
 
 void MainWindow::on_cam1MinValSpinBox_valueChanged(double arg1)
 {
+    saveCamMinMax();
     try {
         _communicator->SetCam1MinVal(arg1);
     } catch (ControllerException_t &e) {
@@ -1234,6 +1236,7 @@ void MainWindow::on_cam1MinValSpinBox_valueChanged(double arg1)
 
 void MainWindow::on_cam1MaxValSpinBox_valueChanged(double arg1)
 {
+    saveCamMinMax();
     try {
         _communicator->SetCam1MaxVal(arg1);
     } catch (ControllerException_t &e) {
@@ -1243,6 +1246,7 @@ void MainWindow::on_cam1MaxValSpinBox_valueChanged(double arg1)
 
 void MainWindow::on_cam2MinValSpinBox_valueChanged(double arg1)
 {
+    saveCamMinMax();
     try {
         _communicator->SetCam2MinVal(arg1);
     } catch (ControllerException_t &e) {
@@ -1252,6 +1256,7 @@ void MainWindow::on_cam2MinValSpinBox_valueChanged(double arg1)
 
 void MainWindow::on_cam2MaxValSpinBox_valueChanged(double arg1)
 {
+    saveCamMinMax();
     try {
         _communicator->SetCam2MaxVal(arg1);
     } catch (ControllerException_t &e) {
@@ -1361,5 +1366,47 @@ void MainWindow::initMotorsMultipliers()
         fmult.close();
     } catch (std::ifstream::failure e) {
         qDebug() << "Exception opening file: " << std::strerror(errno);
+    }
+}
+
+void MainWindow::initCameraMinMax()
+{
+    std::ifstream fin;
+    double cam1min = 150, cam1max = 600, cam2min = 150, cam2max = 600;
+    try {
+        fin.open("campos.txt", fstream::in);
+        if (fin.is_open()) {
+            fin >> cam1min >> cam1max >> cam2min >> cam2max;
+            qDebug() << "camera positions: " << cam1min << cam1max << cam2min << cam2max;
+            _ui->cam1MinValSpinBox->setValue(cam1min);
+            _ui->cam1MaxValSpinBox->setValue(cam1max);
+            _ui->cam2MinValSpinBox->setValue(cam2min);
+            _ui->cam2MaxValSpinBox->setValue(cam2max);
+            _communicator->SetCam1MinVal(cam1min);
+            _communicator->SetCam1MaxVal(cam1max);
+            _communicator->SetCam2MinVal(cam2min);
+            _communicator->SetCam2MaxVal(cam2max);
+        } else {
+            qDebug() << "Can't open file: campos.txt";
+        }
+        fin.close();
+    } catch (std::ifstream::failure e) {
+        qDebug() << "Exception opening file: " << std::strerror(errno);
+    }
+}
+
+void MainWindow::saveCamMinMax()
+{
+    std::ofstream fout;
+    fout.open("campos.txt");
+    double cam1min, cam1max, cam2min, cam2max;
+    cam1min = _ui->cam1MinValSpinBox->value();
+    cam1max = _ui->cam1MaxValSpinBox->value();
+    cam2min = _ui->cam2MinValSpinBox->value();
+    cam2max = _ui->cam2MaxValSpinBox->value();
+    if (fout.is_open()) {
+        fout << cam1min << " " << cam1max << " " << cam2min << " " << cam2max;
+    } else {
+        qDebug() << "Can't open file: campos.txt";
     }
 }

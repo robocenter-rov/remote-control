@@ -131,6 +131,8 @@ private:
     void initClearButton();
     void initPIDcoeffs();
     void initMotorsMultipliers();
+    void initCameraMinMax();
+    void saveCamMinMax();
     void setDepthPID(double p, double i, double d);
     void setPitchPID(double p, double i, double d);
     void setYawPID(double p, double i, double d);
