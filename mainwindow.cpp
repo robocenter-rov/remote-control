@@ -97,6 +97,7 @@ MainWindow::MainWindow(QWidget *parent)
     generateMapTools();
     connect(_ui->axesCheckBox, SIGNAL(stateChanged(int)), this, SLOT(showAxis(int)));
     initPIDcoeffs();
+    initMotorsMultipliers();
 }
 
 MainWindow::~MainWindow()
@@ -1296,7 +1297,6 @@ void MainWindow::initPIDcoeffs()
             qDebug() << "Can't open file: " << "yaw.txt";
         }
         fYaw.close();
-
     } catch (std::ifstream::failure e) {
         qDebug() << "Exception opening file: " << std::strerror(errno);
     }
@@ -1335,5 +1335,31 @@ void MainWindow::setYawPID(double p, double i, double d)
         _communicator->SetYawPid(p, i, d);
     } catch (ControllerException_t &e) {
         qDebug() << e.error_message.c_str();
+    }
+}
+
+void MainWindow::initMotorsMultipliers()
+{
+    std::ifstream fmult;
+    double m1 = 0.0, m2 = 0.0, m3 = 0.0, m4 = 0.0, m5 = 0.0, m6 = 0.0;
+    qDebug() << "init motors multipliers";
+    try {
+        fmult.open("multipliers.txt", fstream::in);
+        if (fmult.is_open()) {
+            fmult >> m1  >> m2 >> m3 >> m4 >> m5 >> m6;
+            qDebug() << "muplipliers: " << m1 << m2 << m3 << m4 << m5 << m6;
+            _ui->m1MultSpinBox->setValue(m1);
+            _ui->m2MultSpinBox->setValue(m2);
+            _ui->m3MultSpinBox->setValue(m3);
+            _ui->m4MultSpinBox->setValue(m4);
+            _ui->m5MultSpinBox->setValue(m5);
+            _ui->m6MultSpinBox->setValue(m6);
+            _communicator->SetMotorsMultiplier(m1, m2, m3, m4, m5, m6);
+        } else {
+            qDebug() << "Can't open file: " << "multipliers.txt";
+        }
+        fmult.close();
+    } catch (std::ifstream::failure e) {
+        qDebug() << "Exception opening file: " << std::strerror(errno);
     }
 }
