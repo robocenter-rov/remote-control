@@ -105,7 +105,6 @@ void LineTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
     }
     _isDraw = false;
     if (_spinBox == nullptr) {
-        qDebug() << "build spin box";
         _spinBox = new QDoubleSpinBox(_parent);
         _spinBox->setGeometry(_spinBox->x(), _spinBox->y(), _spinBox->width(), _spinBox->height());
         _spinBox->setMinimum(0.001);
