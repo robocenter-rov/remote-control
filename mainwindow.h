@@ -103,6 +103,8 @@ private slots:
     void on_cam1MaxValSpinBox_valueChanged(double arg1);
     void on_cam2MinValSpinBox_valueChanged(double arg1);
     void on_cam2MaxValSpinBox_valueChanged(double arg1);
+    void on_nextStepButton_clicked(bool checked);
+    void on_previousStepButton_clicked(bool checked);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
@@ -136,6 +138,7 @@ private:
     void setDepthPID(double p, double i, double d);
     void setPitchPID(double p, double i, double d);
     void setYawPID(double p, double i, double d);
+    void setCurrentTool();
     Ui::MainWindow *_ui;
     RoboCamera *_mainCamera;
     RoboCamera *_extraCamera;
@@ -188,6 +191,7 @@ private:
 
     GraphicsScene *_screenScene;
     MapGraphicsScene *_mapScene;
+    int _curToolIdx;
 };
 
 #endif // MAINWINDOW_H

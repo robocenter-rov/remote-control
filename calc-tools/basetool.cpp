@@ -11,6 +11,7 @@ double scaleCoef;
 
 QList <Figure *> figures;
 QList <QRectF> containerCenters;
+AxisFigure *axis;
 
 static bool inRect(QPointF p)
 {
@@ -41,16 +42,12 @@ static void intersection(QPointF &p1, QPointF &p2)
 }
 
 int BaseTool::_nextId = 1;
-BaseTool::BaseTool(QWidget *parent)/* :
-    _button(new QPushButton(parent))*/
+BaseTool::BaseTool(QWidget *parent)
 {
     _iconsPath = (QCoreApplication::applicationDirPath() + "../remote-control/icons");
     _isDraw = false;
     _parent = parent;
-    //_button->setIconSize(QSize(30, 30));
     _id = _nextId++;
-    //_button->setGeometry(_button->x(), _button->y() + _id*34, _button->width(), _button->height());
-    //connect(_button, SIGNAL(clicked(bool)), this, SLOT(selectButtonTool(bool)));
 }
 
 BaseTool::~BaseTool()
@@ -58,11 +55,15 @@ BaseTool::~BaseTool()
 
 }
 
+QString BaseTool::getInfo()
+{
+    return "BaseTool";
+}
+
 LineTool::LineTool(QWidget *parent):
     BaseTool(parent)
 {
     _spinBox = nullptr;
-    //_button->setText("Line");
     _pen = QPen(QColor(0, 0, 255, 127), 2);
 }
 
@@ -91,6 +92,8 @@ void LineTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
     scene->addLine(_startPos.x(), _startPos.y(), _endPos.x(), _endPos.y(), _pen);
     LineFigure line(_startPos, _endPos);
     scene->addText(line.getInfo());
+    double dist = sqrt(pow(_startPos.x() - _endPos.x(), 2) + pow(_startPos.y() - _endPos.y(), 2));
+    if (_spinBox != nullptr) _spinBox->setValue(dist/scaleCoef);
 }
 
 void LineTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
@@ -101,15 +104,14 @@ void LineTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
         scene->addFigure(new LineFigure(_startPos, _endPos));
     }
     _isDraw = false;
-    if (scaleCoef == 0) {
-        if (_spinBox == nullptr) {
-            _spinBox = new QDoubleSpinBox(_parent);
-            _spinBox->setGeometry(_spinBox->x(), _spinBox->y() + 34*_nextId, _spinBox->width(), _spinBox->height());
-            _spinBox->setMinimum(0.1);
-            _spinBox->setMaximum(1000);
-            _spinBox->show();
-            connect(_spinBox, SIGNAL(valueChanged(double)), this, SLOT(calcScaleCoef()));
-        }
+    if (_spinBox == nullptr) {
+        qDebug() << "build spin box";
+        _spinBox = new QDoubleSpinBox(_parent);
+        _spinBox->setGeometry(_spinBox->x(), _spinBox->y(), _spinBox->width(), _spinBox->height());
+        _spinBox->setMinimum(0.001);
+        _spinBox->setMaximum(1000);
+        _spinBox->show();
+        connect(_spinBox, SIGNAL(valueChanged(double)), this, SLOT(calcScaleCoef()));
     }
 }
 
@@ -118,7 +120,6 @@ void LineTool::destroyProperties()
     if (_spinBox != nullptr) {
         _spinBox->~QDoubleSpinBox();
         _spinBox = nullptr;
-        scaleCoef = 0.0;
     }
 }
 
@@ -128,13 +129,17 @@ void LineTool::calcScaleCoef()
     scaleCoef = dist/_spinBox->value();
 }
 
+QString LineTool::getInfo()
+{
+    return "LineTool";
+}
+
 #include <string>
 
 SelectTool::SelectTool(QWidget *parent) :
     BaseTool(parent)
 {
     _isDraw = false;
-    //_button->setText("Select");
 }
 
 void SelectTool::drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point)
@@ -191,6 +196,11 @@ void SelectTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
     }
 }
 
+QString SelectTool::getInfo()
+{
+    return "SelectTool";
+}
+
 void BaseTool::selectButtonTool(bool state)
 {
     currentTool = this;
@@ -200,7 +210,6 @@ PoolLineTool::PoolLineTool(QWidget *parent):
     LineTool(parent)
 {
     _spinBox = nullptr;
-    //_button->setText("PoolLine");
     _pen = QPen(QColor(255, 255, 153), 2);
     _relAngle = 0;
 }
@@ -235,11 +244,15 @@ void PoolLineTool::calcAngleOffset(double value)
     axis->rotateAxis(_absAngle-_relAngle);
 }
 
+QString PoolLineTool::getInfo()
+{
+    return "PoolLineTool";
+}
+
 ReplaceAxisTool::ReplaceAxisTool(QWidget *parent):
     BaseTool(parent)
 {
     _replace = false;
-    //_button->setText("ReplaceAxis");
 }
 
 void ReplaceAxisTool::drawOnMouseDoubleClick(GraphicsScene *scene, QPointF point)
@@ -268,10 +281,14 @@ void ReplaceAxisTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
     _replace = false;
 }
 
+QString ReplaceAxisTool::getInfo()
+{
+    return "ReplaceAxisTool";
+}
+
 ContainersCenterTool::ContainersCenterTool(QWidget *parent) :
     BaseTool(parent)
 {
-    //_button->setText("ContainersCenter");
     _scene = nullptr;
 }
 
@@ -284,10 +301,7 @@ void ContainersCenterTool::drawOnMouseMove(GraphicsScene *scene, QPointF point)
 {
     _offset = 3;
     if ((point.x() > 0) && (point.x() < 640) && (point.y() > 0) && (point.y() < 480)) {
-        scene->addRect(point.x(), point.y(), _offset, _offset);
-        scene->addLine(axis->getCenterPoint().x(), axis->getCenterPoint().y(), point.x() + _offset, point.y() + _offset, QPen(QColor(200, 0, 0)));
-        LineFigure line(QPointF(axis->getCenterPoint().x(), axis->getCenterPoint().y()), QPointF(point.x() + _offset, point.y() + _offset));
-        scene->addText(line.getInfo());
+        scene->addRect(point.x() - _offset*0.5, point.y() - _offset*0.5, _offset, _offset);
     }
     if (_scene == nullptr) {
         _scene = scene;
@@ -301,12 +315,20 @@ void ContainersCenterTool::drawOnMousePress(GraphicsScene *scene, QPointF point)
 
 void ContainersCenterTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
 {
-    if ((point.x() > 0) && (point.x() < 640) && (point.y() > 0) && (point.y() < 480))
-        containerCenters.append(QRectF(point.x(), point.y(), _offset, _offset));
+    if ((point.x() > 0) && (point.x() < 640) && (point.y() > 0) && (point.y() < 480)) {
+        if (containerCenters.isEmpty()) axis->setCenterPoint(QPointF(point.x(), point.y()));
+        containerCenters.append(QRectF(point.x() - _offset*0.5, point.y() - _offset*0.5, _offset, _offset));
+        scene->addRect(point.x() - _offset*0.5, point.y() - _offset*0.5, _offset, _offset);
+    }
 }
 
 void ContainersCenterTool::selectButtonTool(bool value)
 {
     _scene->setShowContainersCenters(value);
     _scene->updateScene();
+}
+
+QString ContainersCenterTool::getInfo()
+{
+    return "ContainersCenterTool";
 }

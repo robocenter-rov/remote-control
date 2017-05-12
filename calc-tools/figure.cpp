@@ -228,3 +228,10 @@ QPointF AxisFigure::getCenterPoint()
 {
     return _center;
 }
+
+void AxisFigure::setCenterPoint(QPointF point)
+{
+    _center = point;
+    if (_scene != nullptr)
+        _scene->updateScene();
+}

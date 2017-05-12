@@ -1072,12 +1072,12 @@ void MainWindow::onAutoCurrentYawClicked(bool value)
 
 void MainWindow::generateMapTools()
 {
-    currentTool = new LineTool(_ui->toolsWidget);
-    _tools.append(currentTool);
-    _tools.append(new SelectTool(_ui->toolsWidget));
-    _tools.append(new PoolLineTool(_ui->toolsWidget));
-    _tools.append(new ReplaceAxisTool(_ui->toolsWidget));
-    _tools.append(new ContainersCenterTool(_ui->toolsWidget));
+    _curToolIdx = 0;
+    _tools.append(new LineTool(_ui->propWidget));
+    //_tools.append(new SelectTool(_ui->toolsWidget));
+    _tools.append(new ContainersCenterTool(_ui->propWidget));
+    _tools.append(new PoolLineTool(_ui->propWidget));
+    currentTool = _tools[_curToolIdx];
 }
 
 void MainWindow::initClearButton()
@@ -1256,4 +1256,37 @@ void MainWindow::saveCamMinMax()
     } else {
         qDebug() << "Can't open file: campos.txt";
     }
+}
+
+void MainWindow::on_nextStepButton_clicked(bool checked)
+{
+    if (!_ui->previousStepButton->isEnabled()) {
+        _ui->previousStepButton->setEnabled(true);
+    }
+    _curToolIdx++;
+    setCurrentTool();
+    if (_curToolIdx == _tools.size() - 1) {
+        _ui->nextStepButton->setEnabled(false);
+        return;
+    }
+}
+
+void MainWindow::on_previousStepButton_clicked(bool checked)
+{
+    if (!_ui->nextStepButton->isEnabled()) {
+        _ui->nextStepButton->setEnabled(true);
+    }
+    _curToolIdx--;
+    setCurrentTool();
+    if (_curToolIdx == 0) {
+        _ui->previousStepButton->setEnabled(false);
+        return;
+    }
+}
+
+void MainWindow::setCurrentTool()
+{
+    currentTool->destroyProperties();
+    currentTool = _tools[_curToolIdx];
+    _ui->currentToolLabel->setText(currentTool->getInfo());
 }

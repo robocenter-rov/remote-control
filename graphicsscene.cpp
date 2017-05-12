@@ -6,7 +6,6 @@
 
 QList <BaseTool *> tools;
 BaseTool *currentTool;
-AxisFigure *axis;
 LineFigure *poolLine;
 
 GraphicsScene::GraphicsScene() :
@@ -49,16 +48,15 @@ void GraphicsScene::updateScene()
     if (_showAxes) {
         axis->draw(this);
     }
-    if (_showContainersCenters) {
-        QString s("\n\n\n");
-        for (auto it = containerCenters.begin(); it != containerCenters.end(); it++) {
-            this->addRect(*it);
-            this->addLine(axis->getCenterPoint().x(), axis->getCenterPoint().y(), (*it).x(), (*it).y());
-            LineFigure line(QPointF(axis->getCenterPoint().x(), axis->getCenterPoint().y()), QPointF((*it).x(), (*it).y()));
-            s += line.getInfo() + "\n";
-        }
-        this->addText(s);
+    QString s("\n\n\n");
+    for (auto it = containerCenters.begin(); it != containerCenters.end(); it++) {
+        this->addRect(*it, (it == containerCenters.begin()) ? QColor(255, 0, 0) : QColor(0, 0, 255));
+
+        //this->addLine(axis->getCenterPoint().x(), axis->getCenterPoint().y(), (*it).x(), (*it).y());
+        //LineFigure line(QPointF(axis->getCenterPoint().x(), axis->getCenterPoint().y()), QPointF((*it).x(), (*it).y()));
+        //s += line.getInfo() + "\n";
     }
+    this->addText(s);
     if (poolLine != nullptr) {
         poolLine->draw(this);
     }
@@ -117,6 +115,8 @@ VideoGraphicsScene::VideoGraphicsScene() : QGraphicsScene()
 
 void VideoGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    _mapScene->clearScene();
+    _screenScene->updateScene();
     makeScreen();
 }
 
@@ -217,10 +217,11 @@ void MapGraphicsScene::updateScene()
         (dynamic_cast<Figure *>(*it))->draw(this);
     axis->draw(this);
     QString s("\n\n\n");
+    double offset = 1.5;
     for (auto it = containerCenters.begin(); it != containerCenters.end(); it++) {
-        this->addRect(*it);
-        this->addLine(axis->getCenterPoint().x(), axis->getCenterPoint().y(), (*it).x(), (*it).y());
-        LineFigure line(QPointF(axis->getCenterPoint().x(), axis->getCenterPoint().y()), QPointF((*it).x(), (*it).y()));
+        this->addRect(*it, (it == containerCenters.begin()) ? QColor(255, 0, 0) : QColor(0, 0, 255));
+        this->addLine(axis->getCenterPoint().x(), axis->getCenterPoint().y(), (*it).x() + offset, (*it).y() + offset);
+        LineFigure line(QPointF(axis->getCenterPoint().x(), axis->getCenterPoint().y()), QPointF((*it).x() + offset, (*it).y() + offset));
         s += line.getInfo() + "\n";
     }
     this->addText(s);
@@ -232,7 +233,6 @@ void MapGraphicsScene::clearScene()
     for (auto it = t.begin(); it != t.end(); it++) {
         QGraphicsScene::removeItem(dynamic_cast<QGraphicsItem *>(*it));
     }
-    //containerCenters.clear();
 
     for (auto it = figures.begin(); it != figures.end(); it++)
         (dynamic_cast<Figure *>(*it))->~Figure();

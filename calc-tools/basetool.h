@@ -20,6 +20,7 @@ public:
     void virtual drawOnMouseMove(GraphicsScene *scene, QPointF point) {}
     void virtual drawOnMouseRelease(GraphicsScene *scene, QPointF point) {}
     void virtual destroyProperties() {}
+    QString virtual getInfo();
 private slots:
     void selectButtonTool(bool);
 protected:
@@ -42,6 +43,7 @@ public:
     void drawOnMouseMove(GraphicsScene *scene, QPointF point) override;
     void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
     void destroyProperties() override;
+    QString getInfo() override;
 private slots:
     void calcScaleCoef();
 protected:
@@ -65,6 +67,7 @@ public:
     void drawOnMousePress(GraphicsScene *scene, QPointF point) override;
     void drawOnMouseMove(GraphicsScene *scene, QPointF point) override;
     void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
+    QString getInfo() override;
 private:
     QPointF _startPoint;
     QList <Figure *> _selectedFigures;
@@ -79,6 +82,7 @@ public:
     PoolLineTool(QWidget *parent = nullptr);
     void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
     ~PoolLineTool() {}
+    QString getInfo() override;
 private slots:
     void calcAngleOffset(double);
 private:
@@ -94,6 +98,7 @@ public:
     void drawOnMousePress(GraphicsScene *scene, QPointF point) override;
     void drawOnMouseMove(GraphicsScene *scene, QPointF point) override;
     void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
+    QString getInfo() override;
 private:
     bool _replace;
     QPointF _startPos;
@@ -108,6 +113,7 @@ public:
     void drawOnMousePress(GraphicsScene *scene, QPointF point) override;
     void drawOnMouseMove(GraphicsScene *scene, QPointF point) override;
     void drawOnMouseRelease(GraphicsScene *scene, QPointF point) override;
+    QString getInfo() override;
 private slots:
     void selectButtonTool(bool);
 private:

@@ -66,6 +66,7 @@ public:
     void draw(QGraphicsScene *scene) override;
     void rotateAxis(double angle);
     QPointF getCenterPoint();
+    void setCenterPoint(QPointF point);
 private:
     QPointF _center;
     double _angle;

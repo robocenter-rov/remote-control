@@ -2936,12 +2936,69 @@ font-size: 12px;
             <height>16777215</height>
            </size>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_3">
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
            <item>
-            <widget class="QCheckBox" name="axesCheckBox">
-             <property name="text">
-              <string>Axes</string>
-             </property>
+            <widget class="QWidget" name="curToolWidget" native="true">
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <widget class="QLabel" name="currentToolLabel">
+                <property name="maximumSize">
+                 <size>
+                  <width>1677215</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Line tool</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="axesCheckBox">
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Axes</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="currentToolWidget" native="true">
+             <zorder>axesCheckBox</zorder>
+             <zorder>currentToolLabel</zorder>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="propWidget" native="true"/>
+           </item>
+           <item>
+            <widget class="QWidget" name="stepsWidget" native="true">
+             <layout class="QHBoxLayout" name="stepsLayout">
+              <item>
+               <widget class="QPushButton" name="previousStepButton">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>Previous</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="nextStepButton">
+                <property name="text">
+                 <string>Next</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
           </layout>
