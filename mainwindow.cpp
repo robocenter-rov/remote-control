@@ -1162,7 +1162,7 @@ void MainWindow::initPIDcoeffs()
         }
         fYaw.close();
     } catch (std::ifstream::failure e) {
-        qDebug() << "Exception opening file: " << std::strerror(errno);
+        qDebug() << "Exception opening file: " << strerror(errno);
     }
 }
 
@@ -1212,7 +1212,7 @@ void MainWindow::initMotorsMultipliers()
         }
         fmult.close();
     } catch (std::ifstream::failure e) {
-        qDebug() << "Exception opening file: " << std::strerror(errno);
+        qDebug() << "Exception opening file: " << strerror(errno);
     }
 }
 
@@ -1238,7 +1238,7 @@ void MainWindow::initCameraMinMax()
         }
         fin.close();
     } catch (std::ifstream::failure e) {
-        qDebug() << "Exception opening file: " << std::strerror(errno);
+        qDebug() << "Exception opening file: " << strerror(errno);
     }
 }
 
