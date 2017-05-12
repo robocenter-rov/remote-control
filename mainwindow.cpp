@@ -209,7 +209,7 @@ void MainWindow::onTaskTimeout()
 void MainWindow::connectionProviderInit()
 {
     try {
-        _communicator->SetSendMessageFrequency(200);
+        _communicator->SetSendMessageFrequency(50);
 
         _connectionProvider->Begin();
 
