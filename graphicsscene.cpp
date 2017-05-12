@@ -69,8 +69,7 @@ void GraphicsScene::clearScene()
         QGraphicsScene::removeItem(dynamic_cast<QGraphicsItem *>(*it));
     }
     containerCenters.clear();
-    for (auto it = figures.begin(); it != figures.end(); it++)
-        (dynamic_cast<Figure *>(*it))->~Figure();
+    figures.clear();
 }
 
 void GraphicsScene::addFigure(Figure *figure)
