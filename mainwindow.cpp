@@ -406,10 +406,10 @@ void MainWindow::joyManipulatorButtonHandle()
     _curManipulator._handPos = 0;
     _curManipulator._armPos = 0;
     if (_joy->atBtn(0)){
-        _curManipulator._handPos = -0.3f;
+        _curManipulator._handPos = -0.15f;
     }
     if (_joy->atBtn(1)) {
-        _curManipulator._handPos = 0.3f;
+        _curManipulator._handPos = 0.15f;
     }
     if (_joy->atBtn(9)) {
          _curManipulator._armPos = 0.3f;
