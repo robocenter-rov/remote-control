@@ -227,7 +227,7 @@ void PoolLineTool::drawOnMouseRelease(GraphicsScene *scene, QPointF point)
     _isDraw = false;
     if (_spinBox == nullptr) {
         _spinBox = new QDoubleSpinBox(_parent);
-        _spinBox->setGeometry(_spinBox->x(), _spinBox->y() + 34*_nextId, _spinBox->width(), _spinBox->height());
+        _spinBox->setGeometry(_spinBox->x(), _spinBox->y(), _spinBox->width(), _spinBox->height());
         _spinBox->setMinimum(0);
         _spinBox->setMaximum(360);
         _spinBox->show();
