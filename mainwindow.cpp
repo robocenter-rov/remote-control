@@ -430,28 +430,28 @@ void MainWindow::joyManipulatorButtonHandle()
     if (_joy->atBtn(2)) {
         if (_joy->btnStateChanged(2)) {
             cameraPos1 = MIN(3.14f/2.0, cameraPos1 + 0.1);
-            _communicator->SetCamera1GlobalPos(cameraPos1);
+            _communicator->SetCamera1LocalPos(cameraPos1);
             qDebug() << cameraPos1;
         }
     }
     if (_joy->atBtn(4)) {
         if (_joy->btnStateChanged(4)) {
             cameraPos1 = MAX(-3.14f/2.0, cameraPos1 - 0.1);
-            _communicator->SetCamera1GlobalPos(cameraPos1);
+            _communicator->SetCamera1LocalPos(cameraPos1);
             qDebug() << cameraPos1;
         }
     }
     if (_joy->atBtn(5)) {
         if (_joy->btnStateChanged(5)) {
             cameraPos2 = MIN(3.14f/2.0, cameraPos2 + 0.1);
-            _communicator->SetCamera2GlobalPos(cameraPos2);
+            _communicator->SetCamera1LocalPos(cameraPos2);
             qDebug() << cameraPos2;
         }
     }
     if (_joy->atBtn(6)) {
         if (_joy->btnStateChanged(6)) {
             cameraPos2 = MAX(-3.14f/2.0, cameraPos2 - 0.1);
-            _communicator->SetCamera2GlobalPos(cameraPos2);
+            _communicator->SetCamera1LocalPos(cameraPos2);
             qDebug() << cameraPos2;
         }
     }
