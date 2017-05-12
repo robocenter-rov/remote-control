@@ -2908,32 +2908,7 @@ font-size: 12px;
        <attribute name="title">
         <string>Screens</string>
        </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QWidget" name="toolsWidget" native="true">
-          <property name="minimumSize">
-           <size>
-            <width>200</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>200</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <layout class="QHBoxLayout" name="toolsLayout_2">
-           <item>
-            <widget class="QCheckBox" name="axesCheckBox">
-             <property name="text">
-              <string>Axes</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
          <widget class="QGraphicsView" name="screensView">
           <property name="verticalScrollBarPolicy">
@@ -2945,6 +2920,31 @@ font-size: 12px;
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContents</enum>
           </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="toolsWidget" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QCheckBox" name="axesCheckBox">
+             <property name="text">
+              <string>Axes</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>
