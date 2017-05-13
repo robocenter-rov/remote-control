@@ -267,7 +267,7 @@
            </widget>
            <widget class="QRadioButton" name="radioPCA1">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="geometry">
              <rect>
@@ -289,7 +289,7 @@
            </widget>
            <widget class="QRadioButton" name="radioPCA2">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="geometry">
              <rect>
@@ -311,7 +311,7 @@
            </widget>
            <widget class="QRadioButton" name="radioADXL345">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="geometry">
              <rect>
@@ -333,7 +333,7 @@
            </widget>
            <widget class="QRadioButton" name="radioHMC58X3">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="geometry">
              <rect>
@@ -355,7 +355,7 @@
            </widget>
            <widget class="QRadioButton" name="radioITG3200">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="geometry">
              <rect>
@@ -377,7 +377,7 @@
            </widget>
            <widget class="QRadioButton" name="radioBMP085">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="geometry">
              <rect>
@@ -402,7 +402,7 @@
            </widget>
            <widget class="QRadioButton" name="radioMS5803">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="geometry">
              <rect>
@@ -544,7 +544,7 @@
            </widget>
            <widget class="QRadioButton" name="flashLightRadioButton">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="geometry">
              <rect>
@@ -563,7 +563,7 @@
            </widget>
            <widget class="QCheckBox" name="autoDepthMainInfoCB">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="geometry">
              <rect>
@@ -579,7 +579,7 @@
            </widget>
            <widget class="QCheckBox" name="autoYawMainInfoCB">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="geometry">
              <rect>
@@ -606,7 +606,7 @@
              </rect>
             </property>
             <property name="text">
-             <string>AutoYaw</string>
+             <string>AutoPitch</string>
             </property>
            </widget>
           </widget>
@@ -628,10 +628,10 @@
          </rect>
         </property>
         <property name="minimum">
-         <number>-100</number>
+         <number>-127</number>
         </property>
         <property name="maximum">
-         <number>100</number>
+         <number>127</number>
         </property>
         <property name="singleStep">
          <number>1</number>
@@ -656,10 +656,10 @@
          </rect>
         </property>
         <property name="minimum">
-         <number>-100</number>
+         <number>-127</number>
         </property>
         <property name="maximum">
-         <number>100</number>
+         <number>127</number>
         </property>
         <property name="singleStep">
          <number>1</number>
@@ -684,10 +684,10 @@
          </rect>
         </property>
         <property name="minimum">
-         <number>-100</number>
+         <number>-127</number>
         </property>
         <property name="maximum">
-         <number>100</number>
+         <number>127</number>
         </property>
         <property name="singleStep">
          <number>1</number>
@@ -712,10 +712,10 @@
          </rect>
         </property>
         <property name="minimum">
-         <number>-100</number>
+         <number>-127</number>
         </property>
         <property name="maximum">
-         <number>100</number>
+         <number>127</number>
         </property>
         <property name="singleStep">
          <number>1</number>
@@ -740,10 +740,10 @@
          </rect>
         </property>
         <property name="minimum">
-         <number>-100</number>
+         <number>-127</number>
         </property>
         <property name="maximum">
-         <number>100</number>
+         <number>127</number>
         </property>
         <property name="singleStep">
          <number>1</number>
@@ -768,10 +768,10 @@
          </rect>
         </property>
         <property name="minimum">
-         <number>-100</number>
+         <number>-127</number>
         </property>
         <property name="maximum">
-         <number>100</number>
+         <number>127</number>
         </property>
         <property name="singleStep">
          <number>1</number>
@@ -1249,10 +1249,10 @@ font-size: 12px;
          <number>2</number>
         </property>
         <property name="minimum">
-         <double>-1.000000000000000</double>
+         <double>-100.000000000000000</double>
         </property>
         <property name="maximum">
-         <double>1.000000000000000</double>
+         <double>100.000000000000000</double>
         </property>
         <property name="singleStep">
          <double>0.100000000000000</double>
@@ -1274,10 +1274,10 @@ font-size: 12px;
          <number>2</number>
         </property>
         <property name="minimum">
-         <double>-1.000000000000000</double>
+         <double>-100.000000000000000</double>
         </property>
         <property name="maximum">
-         <double>1.000000000000000</double>
+         <double>100.000000000000000</double>
         </property>
         <property name="singleStep">
          <double>0.100000000000000</double>
@@ -1299,10 +1299,10 @@ font-size: 12px;
          <number>2</number>
         </property>
         <property name="minimum">
-         <double>-1.000000000000000</double>
+         <double>-100.000000000000000</double>
         </property>
         <property name="maximum">
-         <double>1.000000000000000</double>
+         <double>100.000000000000000</double>
         </property>
         <property name="singleStep">
          <double>0.100000000000000</double>
@@ -1324,10 +1324,10 @@ font-size: 12px;
          <number>2</number>
         </property>
         <property name="minimum">
-         <double>-1.000000000000000</double>
+         <double>-100.000000000000000</double>
         </property>
         <property name="maximum">
-         <double>1.000000000000000</double>
+         <double>100.000000000000000</double>
         </property>
         <property name="singleStep">
          <double>0.100000000000000</double>
@@ -1349,10 +1349,10 @@ font-size: 12px;
          <number>2</number>
         </property>
         <property name="minimum">
-         <double>-1.000000000000000</double>
+         <double>-100.000000000000000</double>
         </property>
         <property name="maximum">
-         <double>1.000000000000000</double>
+         <double>100.000000000000000</double>
         </property>
         <property name="singleStep">
          <double>0.100000000000000</double>
@@ -1374,10 +1374,10 @@ font-size: 12px;
          <number>2</number>
         </property>
         <property name="minimum">
-         <double>-1.000000000000000</double>
+         <double>-100.000000000000000</double>
         </property>
         <property name="maximum">
-         <double>1.000000000000000</double>
+         <double>100.000000000000000</double>
         </property>
         <property name="singleStep">
          <double>0.100000000000000</double>
@@ -2258,7 +2258,7 @@ font-size: 12px;
         <item>
          <widget class="QTabWidget" name="pidTrioTab">
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="depthPidTab">
            <attribute name="title">

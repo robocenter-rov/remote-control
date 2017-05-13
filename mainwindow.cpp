@@ -795,30 +795,32 @@ void MainWindow::onUseJoyCheckButtonClicked(bool value)
 
 void MainWindow::onMotorStateRecieved(float m1, float m2, float m3, float m4, float m5, float m6)
 {
-    _ui->m1curLabel->setText(QString(std::to_string(m1*100).c_str()) + "%");
-    _ui->m2curLabel->setText(QString(std::to_string(m2*100).c_str()) + "%");
-    _ui->m3curLabel->setText(QString(std::to_string(m3*100).c_str()) + "%");
-    _ui->m4curLabel->setText(QString(std::to_string(m4*100).c_str()) + "%");
-    _ui->m5curLabel->setText(QString(std::to_string(m5*100).c_str()) + "%");
-    _ui->m6curLabel->setText(QString(std::to_string(m6*100).c_str()) + "%");
+    const int maxval = 127;
 
-    _ui->m0LoadPositiveProgressBar->setValue(std::max(0.f, m1*100));
-    _ui->m0LoadNegativeProgressBar->setValue(std::min(0.f, m1*100)*-1);
+    _ui->m1curLabel->setText(QString(std::to_string(m1*maxval).c_str()) + "%");
+    _ui->m2curLabel->setText(QString(std::to_string(m2*maxval).c_str()) + "%");
+    _ui->m3curLabel->setText(QString(std::to_string(m3*maxval).c_str()) + "%");
+    _ui->m4curLabel->setText(QString(std::to_string(m4*maxval).c_str()) + "%");
+    _ui->m5curLabel->setText(QString(std::to_string(m5*maxval).c_str()) + "%");
+    _ui->m6curLabel->setText(QString(std::to_string(m6*maxval).c_str()) + "%");
 
-    _ui->m1LoadPositiveProgressBar->setValue(std::max(0.f, m2*100));
-    _ui->m1LoadNegativeProgressBar->setValue(std::min(0.f, m2*100)*-1);
+    _ui->m0LoadPositiveProgressBar->setValue(std::max(0.f, m1*maxval));
+    _ui->m0LoadNegativeProgressBar->setValue(std::min(0.f, m1*maxval)*-1);
 
-    _ui->m2LoadPositiveProgressBar->setValue(std::max(0.f, m3*100));
-    _ui->m2LoadNegativeProgressBar->setValue(std::min(0.f, m3*100)*-1);
+    _ui->m1LoadPositiveProgressBar->setValue(std::max(0.f, m2*maxval));
+    _ui->m1LoadNegativeProgressBar->setValue(std::min(0.f, m2*maxval)*-1);
 
-    _ui->m3LoadPositiveProgressBar->setValue(std::max(0.f, m4*100));
-    _ui->m3LoadNegativeProgressBar->setValue(std::min(0.f, m4*100)*-1);
+    _ui->m2LoadPositiveProgressBar->setValue(std::max(0.f, m3*maxval));
+    _ui->m2LoadNegativeProgressBar->setValue(std::min(0.f, m3*maxval)*-1);
 
-    _ui->m4LoadPositiveProgressBar->setValue(std::max(0.f, m5*100));
-    _ui->m4LoadNegativeProgressBar->setValue(std::min(0.f, m5*100)*-1);
+    _ui->m3LoadPositiveProgressBar->setValue(std::max(0.f, m4*maxval));
+    _ui->m3LoadNegativeProgressBar->setValue(std::min(0.f, m4*maxval)*-1);
 
-    _ui->m5LoadPositiveProgressBar->setValue(std::max(0.f, m6*100));
-    _ui->m5LoadNegativeProgressBar->setValue(std::min(0.f, m6*100)*-1);
+    _ui->m4LoadPositiveProgressBar->setValue(std::max(0.f, m5*maxval));
+    _ui->m4LoadNegativeProgressBar->setValue(std::min(0.f, m5*maxval)*-1);
+
+    _ui->m5LoadPositiveProgressBar->setValue(std::max(0.f, m6*maxval));
+    _ui->m5LoadNegativeProgressBar->setValue(std::min(0.f, m6*maxval)*-1);
 }
 
 void MainWindow::onPidStateReceived(SimpleCommunicator_t::PidState_t depth, SimpleCommunicator_t::PidState_t yaw, SimpleCommunicator_t::PidState_t pitch)
