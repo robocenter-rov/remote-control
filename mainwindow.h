@@ -139,6 +139,7 @@ private:
     void setPitchPID(double p, double i, double d);
     void setYawPID(double p, double i, double d);
     void setCurrentTool();
+    void setMotorsPos();
     Ui::MainWindow *_ui;
     RoboCamera *_mainCamera;
     RoboCamera *_extraCamera;
@@ -176,8 +177,7 @@ private:
 
     int _control_sensitivity_level = 1;
     static const int _control_sensitivity_count = 4;
-    float _control_sensitivities[_control_sensitivity_count] = {0.1, 0.3, 0.5, 1};
-
+    float _control_sensitivities[_control_sensitivity_count] = {0.1, 0.3, 0.5, 2.5};
     float _x_move_force = 0;
     float _y_move_force = 0;
     float _z_rotate_force = 0;
