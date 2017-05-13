@@ -609,6 +609,22 @@
              <string>AutoPitch</string>
             </property>
            </widget>
+           <widget class="QLCDNumber" name="lcdNumber">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>150</x>
+              <y>460</y>
+              <width>64</width>
+              <height>23</height>
+             </rect>
+            </property>
+            <property name="smallDecimalPoint">
+             <bool>false</bool>
+            </property>
+           </widget>
           </widget>
          </widget>
         </item>
