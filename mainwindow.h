@@ -178,6 +178,10 @@ private:
     static const int _control_sensitivity_count = 4;
     float _control_sensitivities[_control_sensitivity_count] = {0.1, 0.3, 0.5, 1};
 
+    float _x_move_force = 0;
+    float _y_move_force = 0;
+    float _z_rotate_force = 0;
+
     bool _isAutoDepth = true;
     bool _isAutoYaw = true;
     bool _isAutoPitch = true;
