@@ -405,7 +405,7 @@ void MainWindow::readAndSendJoySensors()
     } else if (abs(-x) < start_val) {
         _x_move_force = start_val * ((-x) < 0 ? -1 : 1);
     } else {
-        _x_move_force += ((-x * 1.5 * _sensitivity) - _x_move_force) * 0.2f;
+        _x_move_force += ((-x * 1.5 * _sensitivity) - _x_move_force) * 0.3f;
     }
 
     if (abs(y) < zero_val) {
@@ -413,7 +413,7 @@ void MainWindow::readAndSendJoySensors()
     } else if (abs(y) < start_val) {
         _y_move_force = start_val * (y < 0 ? -1 : 1);
     } else {
-        _y_move_force += ((y * 1.5 * _sensitivity) - _y_move_force) * 0.2f;
+        _y_move_force += ((y * 1.5 * _sensitivity) - _y_move_force) * 0.3f;
     }
 
     qDebug() << _z_rotate_force;
