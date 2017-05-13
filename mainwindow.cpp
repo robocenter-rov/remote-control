@@ -489,12 +489,20 @@ void MainWindow::joyManipulatorButtonHandle()
     }
     if (_joy->atBtn(3)) {
         if (_joy->btnStateChanged(3)) {
-            _isAutoPitch = !_isAutoPitch;
-            if (_control_sensitivity_level == 2) {
-                _control_sensitivity_level = 3;
-            } else {
-                _control_sensitivity_level = 2;
-            }
+            _control_sensitivity_level = 0;
+            _ui->lcdNumber->display("0");
+        }
+    }
+    if (_joy->atBtn(5)) {
+        if (_joy->btnStateChanged(5)) {
+            _control_sensitivity_level = 1;
+            _ui->lcdNumber->display("1");
+        }
+    }
+    if (_joy->atBtn(6)) {
+        if (_joy->btnStateChanged(6)) {
+            _control_sensitivity_level = 2;
+            _ui->lcdNumber->display("2");
         }
     }
     _communicator->SetManipulatorState(
@@ -562,42 +570,42 @@ void MainWindow::onBluetoothButtonClick(bool value)
 
 void MainWindow::onMotor1SliderChanged(int value)
 {
-    float val = value/100.0;
+    float val = value/127.0;
     _ui->motor1valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
     _communicator->SetMotorState(0, val);
 }
 
 void MainWindow::onMotor2SliderChanged(int value)
 {
-    float val = value/100.0;
+    float val = value/127.0;
     _ui->motor2valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
     _communicator->SetMotorState(1, val);
 }
 
 void MainWindow::onMotor3SliderChanged(int value)
 {
-    float val = value/100.0;
+    float val = value/127.0;
     _ui->motor3valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
     _communicator->SetMotorState(2, val);
 }
 
 void MainWindow::onMotor4SliderChanged(int value)
 {
-    float val = value/100.0;
+    float val = value/127.0;
     _ui->motor4valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
     _communicator->SetMotorState(3, val);
 }
 
 void MainWindow::onMotor5SliderChanged(int value)
 {
-    float val = value/100.0;
+    float val = value/127.0;
     _ui->motor5valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
     _communicator->SetMotorState(4, val);
 }
 
 void MainWindow::onMotor6SliderChanged(int value)
 {
-    float val = value/100.0f;
+    float val = value/127.0f;
     _ui->motor6valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
     _communicator->SetMotorState(5, val);
 }
@@ -799,14 +807,14 @@ void MainWindow::onUseJoyCheckButtonClicked(bool value)
 
 void MainWindow::onMotorStateRecieved(float m1, float m2, float m3, float m4, float m5, float m6)
 {
-    const int maxval = 127;
+    const int maxval = 100;
 
-    _ui->m1curLabel->setText(QString(std::to_string(m1*maxval).c_str()) + "%");
-    _ui->m2curLabel->setText(QString(std::to_string(m2*maxval).c_str()) + "%");
-    _ui->m3curLabel->setText(QString(std::to_string(m3*maxval).c_str()) + "%");
-    _ui->m4curLabel->setText(QString(std::to_string(m4*maxval).c_str()) + "%");
-    _ui->m5curLabel->setText(QString(std::to_string(m5*maxval).c_str()) + "%");
-    _ui->m6curLabel->setText(QString(std::to_string(m6*maxval).c_str()) + "%");
+    _ui->m1curLabel->setText(QString(std::to_string(m1*100).c_str()) + "%");
+    _ui->m2curLabel->setText(QString(std::to_string(m2*100).c_str()) + "%");
+    _ui->m3curLabel->setText(QString(std::to_string(m3*100).c_str()) + "%");
+    _ui->m4curLabel->setText(QString(std::to_string(m4*100).c_str()) + "%");
+    _ui->m5curLabel->setText(QString(std::to_string(m5*100).c_str()) + "%");
+    _ui->m6curLabel->setText(QString(std::to_string(m6*100).c_str()) + "%");
 
     _ui->m0LoadPositiveProgressBar->setValue(std::max(0.f, m1*maxval));
     _ui->m0LoadNegativeProgressBar->setValue(std::min(0.f, m1*maxval)*-1);
