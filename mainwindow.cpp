@@ -99,6 +99,7 @@ MainWindow::MainWindow(QWidget *parent)
     initPIDcoeffs();
     initMotorsMultipliers();
     initCameraMinMax();
+    setMotorsPos();
 }
 
 MainWindow::~MainWindow()
@@ -1312,4 +1313,11 @@ void MainWindow::setCurrentTool()
     currentTool->destroyProperties();
     currentTool = _tools[_curToolIdx];
     _ui->currentToolLabel->setText(currentTool->getInfo());
+}
+
+void MainWindow::setMotorsPos()
+{
+    _ui->motorIdxSpinBox_3->setValue(4);
+    _ui->motorIdxSpinBox_4->setValue(3);
+    _communicator->SetMotorsPositions(0, 1, 3, 2, 4, 5);
 }
