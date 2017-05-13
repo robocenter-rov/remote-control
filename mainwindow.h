@@ -174,6 +174,10 @@ private:
 
     int _count_of_recieved_pid = 0;
 
+    int _control_sensitivity_level = 1;
+    static const int _control_sensitivity_count = 4;
+    float _control_sensitivities[_control_sensitivity_count] = {0.1, 0.3, 0.5, 1};
+
     bool _isAutoDepth = true;
     bool _isAutoYaw = true;
     bool _isAutoPitch = true;
