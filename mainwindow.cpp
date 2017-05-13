@@ -355,7 +355,7 @@ void MainWindow::readAndSendJoySensors()
     float eps = 0.03;
     float y = (ABS(thrust[1]) < eps) ? 0 : thrust[1];
     float x = (ABS(thrust[0]) < eps) ? 0 : thrust[0];
-    float z = (ABS(thrust[4]) < 0.10) ? 0 : thrust[4];
+    float z = (ABS(thrust[4]) < 0.15) ? 0 : thrust[4];
     float ty = 0;
     float tz = (ABS(thrust[3]) < eps) ? 0 : thrust[3];
     float dist = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
@@ -364,6 +364,9 @@ void MainWindow::readAndSendJoySensors()
         x /= dist;
         y /= dist;
     }
+
+    float _sensitivity = _control_sensitivities[_control_sensitivity_level];
+
     if (z == 0 && _isAutoDepth) {
         if (!_communicator->IsAutoDepthEnabled()) {
             _communicator->SetDepth(_currentDepth);
@@ -384,9 +387,10 @@ void MainWindow::readAndSendJoySensors()
     } else {
         _ui->autoYawMainInfoCB->setChecked(false);
         _ui->autoYawMainInfoCB->setText(QString("AutoYaw"));
-        _communicator->SetYawForce(tz*0.4);
+        _communicator->SetYawForce(tz*0.4 * _sensitivity);
     }
-    _communicator->SetMovementForce(-x * 1.5, y * 1.5);
+
+    _communicator->SetMovementForce(-x * 1.5 * _sensitivity, y * 1.5 * _sensitivity);
 }
 
 void MainWindow::joyButtonHandle()
@@ -412,10 +416,10 @@ void MainWindow::joyManipulatorButtonHandle()
         _curManipulator._handPos = 0.15f;
     }
     if (_joy->atBtn(9)) {
-         _curManipulator._armPos = 0.3f;
+         _curManipulator._armPos = 0.15f;
     }
     if (_joy->atBtn(10)) {
-        _curManipulator._armPos = -0.3f;
+        _curManipulator._armPos = -0.15f;
     }
     if (_joy->atBtn(2)) {
         cameraPos1 = MIN(3.14f/2.0, cameraPos1 + 0.05);
@@ -431,6 +435,15 @@ void MainWindow::joyManipulatorButtonHandle()
         if (_joy->btnStateChanged(13)) {
             _communicator->SetFlashlightState(_flashLightState = !_flashLightState);
         }
+    }if (_joy->atBtn(7)) {/*
+        if (_joy->btnStateChanged(6)) {
+            _isAutoPitch = !_isAutoPitch;
+            if (_isAutoPitch) {
+                _communicator->SetPitch(0);
+            } else {
+                _communicator->SetPitchForce(0);
+            }
+        }*/
     }
     if (_joy->atBtn(7)) {
         if (_joy->btnStateChanged(7)) {
@@ -445,6 +458,11 @@ void MainWindow::joyManipulatorButtonHandle()
     if (_joy->atBtn(3)) {
         if (_joy->btnStateChanged(3)) {
             _isAutoPitch = !_isAutoPitch;
+            if (_control_sensitivity_level == 2) {
+                _control_sensitivity_level = 3;
+            } else {
+                _control_sensitivity_level = 2;
+            }
         }
     }
     _communicator->SetManipulatorState(
@@ -637,11 +655,11 @@ void MainWindow::onPitchPIDSpinBoxChanged(bool value)
     double p = _ui->pitchPSpinBox->value();
     double i = _ui->pitchISpinBox->value();
     double d = _ui->pitchDSpinBox->value();
+    _communicator->SetPitcPid(p, i, d);
     std::ofstream fout;
     fout.open("pitch.txt");
     if (fout.is_open()) {
         fout << p << " " << i << " "<< d;
-        _communicator->SetPitcPid(p, i, d);
         fout.close();
     } else {
         qDebug() << "Can't open file: pitch.txt";
@@ -653,11 +671,11 @@ void MainWindow::onYawPIDSpinBoxChanged(bool value)
     double p = _ui->yawPSpinBox->value();
     double i = _ui->yawISpinBox->value();
     double d = _ui->yawDSpinBox->value();
+    _communicator->SetYawPid(p, i, d);
     std::ofstream fout;
     fout.open("yaw.txt");
     if (fout.is_open()) {
         fout << p << " " << i << " "<< d;
-        _communicator->SetYawPid(p, i, d);
         fout.close();
     } else {
         qDebug() << "Cant't open file: yaw.txt";
