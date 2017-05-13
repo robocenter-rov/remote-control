@@ -367,6 +367,9 @@ void MainWindow::readAndSendJoySensors()
 
     float _sensitivity = _control_sensitivities[_control_sensitivity_level];
 
+    const float start_val = 0.2f;
+    const float zero_val = 0.05f;
+
     if (z == 0 && _isAutoDepth) {
         if (!_communicator->IsAutoDepthEnabled()) {
             _communicator->SetDepth(_currentDepth);
@@ -387,10 +390,35 @@ void MainWindow::readAndSendJoySensors()
     } else {
         _ui->autoYawMainInfoCB->setChecked(false);
         _ui->autoYawMainInfoCB->setText(QString("AutoYaw"));
+
+        if (abs(tz) < zero_val) {
+            _z_rotate_force = 0;
+        } else {
+            _z_rotate_force += (tz*0.4 * _sensitivity - _z_rotate_force) * 0.5f;
+        }
         _communicator->SetYawForce(tz*0.4 * _sensitivity);
     }
 
-    _communicator->SetMovementForce(-x * 1.5 * _sensitivity, y * 1.5 * _sensitivity);
+
+    if (abs(-x) < zero_val) {
+        _x_move_force = 0;
+    } else if (abs(-x) < start_val) {
+        _x_move_force = start_val * ((-x) < 0 ? -1 : 1);
+    } else {
+        _x_move_force += ((-x * 1.5 * _sensitivity) - _x_move_force) * 0.2f;
+    }
+
+    if (abs(y) < zero_val) {
+        _y_move_force = 0;
+    } else if (abs(y) < start_val) {
+        _y_move_force = start_val * (y < 0 ? -1 : 1);
+    } else {
+        _y_move_force += ((y * 1.5 * _sensitivity) - _y_move_force) * 0.2f;
+    }
+
+    qDebug() << _z_rotate_force;
+
+    _communicator->SetMovementForce(_x_move_force, _y_move_force);
 }
 
 void MainWindow::joyButtonHandle()
