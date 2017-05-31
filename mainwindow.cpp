@@ -51,6 +51,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->motor4Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor4SliderChanged(int)));
     connect(_ui->motor5Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor5SliderChanged(int)));
     connect(_ui->motor6Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor6SliderChanged(int)));
+    connect(_ui->motor7Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor7SliderChanged(int)));
+    connect(_ui->motor8Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor8SliderChanged(int)));
     connect(_ui->stopMotorsButton, SIGNAL(clicked(bool)), this, SLOT(onStopMotorsButtonClicked(bool)));
     connect(_ui->SetMotorsIdx, SIGNAL(clicked(bool)), this, SLOT(onSetMotorsClicked(bool)));
     connect(_ui->camera1Slider, SIGNAL(valueChanged(int)), this, SLOT(onCamera1PosChanged(int)));
@@ -88,7 +90,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(I2CDevicesRecieveEvent(bool,bool,bool,bool,bool,bool,bool)), this, SLOT(updateI2CDevicesState(bool,bool,bool,bool,bool,bool,bool)));
     connect(this, SIGNAL(bluetoothMsgRecieveEvent(std::string)), this, SLOT(onBluetoothMsgRecieve(std::string)));
     connect(this, SIGNAL(depthRecieveEvent(float)), this, SLOT(updateDepth(float)));
-    connect(this, SIGNAL(motorStateReceiveEvent(float,float,float,float,float,float)), this, SLOT(onMotorStateRecieved(float,float,float,float,float,float)));
+    connect(this, SIGNAL(motorStateReceiveEvent(float,float,float,float,float,float,float,float)), this, SLOT(onMotorStateRecieved(float,float,float,float,float,float,float,float)));
     connect(this, SIGNAL(pidStateReceiveEvent(SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t)), this, SLOT(onPidStateReceived(SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t)));
 
     showMessage("Connection...", CL_YELLOW);
@@ -267,7 +269,8 @@ void MainWindow::connectionProviderInit()
         _communicator->OnMotorsStateReceive([&](SimpleCommunicator_t::MotorsState_t motorState){
 
             emit motorStateReceiveEvent(motorState.M1Force, motorState.M2Force, motorState.M3Force,
-                                        motorState.M4Force, motorState.M5Force, motorState.M6Force);
+                                        motorState.M4Force, motorState.M5Force, motorState.M6Force,
+                                        motorState.M6Force, motorState.M7Force);
         });
 
         _communicator->OnPidStateReceive([&](SimpleCommunicator_t::PidState_t depth,
@@ -610,6 +613,20 @@ void MainWindow::onMotor6SliderChanged(int value)
     _communicator->SetMotorState(5, val);
 }
 
+void MainWindow::onMotor7SliderChanged(int value)
+{
+    float val = value/127.0f;
+    _ui->motor7valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    _communicator->SetMotorState(6, val);
+}
+
+void MainWindow::onMotor8SliderChanged(int value)
+{
+    float val = value/127.0f;
+    _ui->motor7valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    _communicator->SetMotorState(7, val);
+}
+
 void MainWindow::onStopMotorsButtonClicked(bool value)
 {
     _ui->motor1Slider->setValue(0);
@@ -618,7 +635,9 @@ void MainWindow::onStopMotorsButtonClicked(bool value)
     _ui->motor4Slider->setValue(0);
     _ui->motor5Slider->setValue(0);
     _ui->motor6Slider->setValue(0);
-    _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+    _ui->motor7Slider->setValue(0);
+    _ui->motor8Slider->setValue(0);
+    _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
 }
 
 void MainWindow::onCamera1PosChanged(int value)
@@ -635,16 +654,18 @@ void MainWindow::onCamera2PosChanged(int value)
 
 void MainWindow::onSetMotorsClicked(bool value)
 {
-    int m[6];
+    int m[8];
     m[0] = _ui->motorIdxSpinBox_1->value() - 1;
     m[1] = _ui->motorIdxSpinBox_2->value() - 1;
     m[2] = _ui->motorIdxSpinBox_3->value() - 1;
     m[3] = _ui->motorIdxSpinBox_4->value() - 1;
     m[4] = _ui->motorIdxSpinBox_5->value() - 1;
     m[5] = _ui->motorIdxSpinBox_6->value() - 1;
+    m[6] = _ui->motorIdxSpinBox_7->value() - 1;
+    m[7] = _ui->motorIdxSpinBox_8->value() - 1;
 
-    for (int i = 0; i < 6; i++) {
-        for (int j = i + 1; j < 6; j++) {
+    for (int i = 0; i < 8; i++) {
+        for (int j = i + 1; j < 8; j++) {
             if (m[i] == m[j]) {
                 _ui->setMotorsMsg->setText("Motors should not be the same");
                 return;
@@ -652,7 +673,7 @@ void MainWindow::onSetMotorsClicked(bool value)
         }
     }
     _ui->setMotorsMsg->setText("");
-    _communicator->SetMotorsPositions(m[0], m[1], m[2], m[3], m[4], m[5]);
+    _communicator->SetMotorsPositions(m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7]);
 }
 
 void MainWindow::onDepthPIDSpinBoxChanged(bool value)
@@ -679,11 +700,13 @@ void MainWindow::onSetMotorsMultiplier(bool value)
     float m4 = _ui->m4MultSpinBox->value();
     float m5 = _ui->m5MultSpinBox->value();
     float m6 = _ui->m6MultSpinBox->value();
+    float m7 = _ui->m7MultSpinBox->value();
+    float m8 = _ui->m8MultSpinBox->value();
     std::ofstream fout;
     fout.open("multipliers.txt");
     if (fout.is_open()) {
-        fout << m1 << " " << m2 << " " << m3 << " " << m4 << " " << m5 << " " << m6;
-        _communicator->SetMotorsMultiplier(m1, m2, m3, m4, m5, m6);
+        fout << m1 << " " << m2 << " " << m3 << " " << m4 << " " << m5 << " " << m6 << " " << m7 << " " << m8;
+        _communicator->SetMotorsMultiplier(m1, m2, m3, m4, m5, m6, m7, m8);
         fout.close();
     } else {
         qDebug() << "Can't open file: multipliers.txt";
@@ -748,7 +771,7 @@ void MainWindow::onAutoDepthClicked(bool value)
         _ui->stabDepthValue->setText(_ui->depthEdit->text());
         _communicator->SetDepth(depth);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -760,7 +783,7 @@ void MainWindow::onAutoPitchClicked(bool value)
         _ui->stabPitchValue->setText(_ui->pitchEdit->text());
         _communicator->SetPitch(pitch);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -772,7 +795,7 @@ void MainWindow::onAutoYawClicked(bool value)
         _ui->stabYawValue->setText(_ui->yawEdit->text());
         _communicator->SetYaw(yaw);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -805,7 +828,7 @@ void MainWindow::onUseJoyCheckButtonClicked(bool value)
     }
 }
 
-void MainWindow::onMotorStateRecieved(float m1, float m2, float m3, float m4, float m5, float m6)
+void MainWindow::onMotorStateRecieved(float m1, float m2, float m3, float m4, float m5, float m6, float m7, float m8)
 {
     const int maxval = 100;
 
@@ -815,6 +838,8 @@ void MainWindow::onMotorStateRecieved(float m1, float m2, float m3, float m4, fl
     _ui->m4curLabel->setText(QString(std::to_string(m4*100).c_str()) + "%");
     _ui->m5curLabel->setText(QString(std::to_string(m5*100).c_str()) + "%");
     _ui->m6curLabel->setText(QString(std::to_string(m6*100).c_str()) + "%");
+    _ui->m7curLabel->setText(QString(std::to_string(m7*100).c_str()) + "%");
+    _ui->m8curLabel->setText(QString(std::to_string(m8*100).c_str()) + "%");
 
     _ui->m0LoadPositiveProgressBar->setValue(std::max(0.f, m1*maxval));
     _ui->m0LoadNegativeProgressBar->setValue(std::min(0.f, m1*maxval)*-1);
@@ -833,6 +858,12 @@ void MainWindow::onMotorStateRecieved(float m1, float m2, float m3, float m4, fl
 
     _ui->m5LoadPositiveProgressBar->setValue(std::max(0.f, m6*maxval));
     _ui->m5LoadNegativeProgressBar->setValue(std::min(0.f, m6*maxval)*-1);
+
+    _ui->m6LoadPositiveProgressBar->setValue(std::max(0.f, m7*maxval));
+    _ui->m6LoadNegativeProgressBar->setValue(std::min(0.f, m7*maxval)*-1);
+
+    _ui->m7LoadPositiveProgressBar->setValue(std::max(0.f, m8*maxval));
+    _ui->m7LoadNegativeProgressBar->setValue(std::min(0.f, m8*maxval)*-1);
 }
 
 void MainWindow::onPidStateReceived(SimpleCommunicator_t::PidState_t depth, SimpleCommunicator_t::PidState_t yaw, SimpleCommunicator_t::PidState_t pitch)
@@ -1004,6 +1035,10 @@ void MainWindow::on_checkBox_toggled(bool checked)
     _ui->m4LoadNegativeProgressBar->setEnabled(checked);
     _ui->m5LoadPositiveProgressBar->setEnabled(checked);
     _ui->m5LoadNegativeProgressBar->setEnabled(checked);
+    _ui->m6LoadPositiveProgressBar->setEnabled(checked);
+    _ui->m6LoadNegativeProgressBar->setEnabled(checked);
+    _ui->m7LoadPositiveProgressBar->setEnabled(checked);
+    _ui->m7LoadNegativeProgressBar->setEnabled(checked);
     _communicator->SetReceiveMotorsState(checked);
 }
 
@@ -1043,7 +1078,7 @@ void MainWindow::onAutoDepthEdit(QString value)
         _ui->stabDepthValue->setText(_ui->depthEdit->text());
         _communicator->SetDepth(depth);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -1054,7 +1089,7 @@ void MainWindow::onAutoPitchEdit(QString value)
         _ui->stabPitchValue->setText(_ui->pitchEdit->text());
         _communicator->SetPitch(pitch);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -1065,7 +1100,7 @@ void MainWindow::onAutoYawEdit(QString value)
         _ui->stabYawValue->setText(_ui->yawEdit->text());
         _communicator->SetYaw(yaw);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -1076,7 +1111,7 @@ void MainWindow::onAutoCurrentDepthClicked(bool value)
         _ui->stabDepthValue->setText(std::to_string(_currentDepth).c_str());
         _communicator->SetDepth(_currentDepth);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -1087,7 +1122,7 @@ void MainWindow::onAutoCurrentPitchClicked(bool value)
         _ui->stabPitchValue->setText(std::to_string(_currentPitch).c_str());
         _communicator->SetPitch(_currentPitch);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -1098,7 +1133,7 @@ void MainWindow::onAutoCurrentYawClicked(bool value)
         _ui->stabYawValue->setText(std::to_string(_currentYaw).c_str());
         _communicator->SetYaw(_currentYaw);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -1225,20 +1260,22 @@ void MainWindow::setYawPID(double p, double i, double d)
 void MainWindow::initMotorsMultipliers()
 {
     std::ifstream fmult;
-    double m1 = 0.0, m2 = 0.0, m3 = 0.0, m4 = 0.0, m5 = 0.0, m6 = 0.0;
+    double m1 = 0.0, m2 = 0.0, m3 = 0.0, m4 = 0.0, m5 = 0.0, m6 = 0.0, m7 = 0.0, m8 = 0.0;
     qDebug() << "init motors multipliers";
     try {
         fmult.open("multipliers.txt", fstream::in);
         if (fmult.is_open()) {
-            fmult >> m1  >> m2 >> m3 >> m4 >> m5 >> m6;
-            qDebug() << "muplipliers: " << m1 << m2 << m3 << m4 << m5 << m6;
+            fmult >> m1  >> m2 >> m3 >> m4 >> m5 >> m6 >> m7 >> m8;
+            qDebug() << "muplipliers: " << m1 << m2 << m3 << m4 << m5 << m6 << m7 << m8;
             _ui->m1MultSpinBox->setValue(m1);
             _ui->m2MultSpinBox->setValue(m2);
             _ui->m3MultSpinBox->setValue(m3);
             _ui->m4MultSpinBox->setValue(m4);
             _ui->m5MultSpinBox->setValue(m5);
             _ui->m6MultSpinBox->setValue(m6);
-            _communicator->SetMotorsMultiplier(m1, m2, m3, m4, m5, m6);
+            _ui->m6MultSpinBox->setValue(m7);
+            _ui->m6MultSpinBox->setValue(m8);
+            _communicator->SetMotorsMultiplier(m1, m2, m3, m4, m5, m6, m7, m8);
         } else {
             qDebug() << "Can't open file: " << "multipliers.txt";
         }
@@ -1327,5 +1364,5 @@ void MainWindow::setMotorsPos()
 {
     _ui->motorIdxSpinBox_3->setValue(4);
     _ui->motorIdxSpinBox_4->setValue(3);
-    _communicator->SetMotorsPositions(0, 1, 3, 2, 4, 5);
+    _communicator->SetMotorsPositions(0, 1, 3, 2, 4, 5, 6, 7);
 }

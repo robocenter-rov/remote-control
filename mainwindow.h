@@ -67,6 +67,8 @@ private slots:
     void onMotor4SliderChanged(int);
     void onMotor5SliderChanged(int);
     void onMotor6SliderChanged(int);
+    void onMotor7SliderChanged(int);
+    void onMotor8SliderChanged(int);
     void onStopMotorsButtonClicked(bool);
     void onCamera1PosChanged(int);
     void onCamera2PosChanged(int);
@@ -81,7 +83,7 @@ private slots:
     void onAutoYawClicked(bool);
     void onServo1SliderChanged(int value);
     void onUseJoyCheckButtonClicked(bool);
-    void onMotorStateRecieved(float m1, float m2, float m3, float m4, float m5, float m6);
+    void onMotorStateRecieved(float m1, float m2, float m3, float m4, float m5, float m6, float m7, float m8);
     void onPidStateReceived(SimpleCommunicator_t::PidState_t depth, SimpleCommunicator_t::PidState_t yaw, SimpleCommunicator_t::PidState_t pitch);
     void on_receivePidStatesCheckbox_toggled(bool checked);
     void on_startAutoPitchButton_clicked();
@@ -114,7 +116,7 @@ signals:
     void I2CDevicesRecieveEvent(bool PCA1, bool PCA2, bool ADXL345, bool HMC58X3, bool ITG3200, bool BMP085, bool MS5803);
     void bluetoothMsgRecieveEvent(std::string msg);
     void depthRecieveEvent(float depth);
-    void motorStateReceiveEvent(float m1, float m2, float m3, float m4, float m5, float m6);
+    void motorStateReceiveEvent(float m1, float m2, float m3, float m4, float m5, float m6, float m7, float m8);
     void pidStateReceiveEvent(SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t);
 private:
     void replotData();
