@@ -574,56 +574,56 @@ void MainWindow::onBluetoothButtonClick(bool value)
 void MainWindow::onMotor1SliderChanged(int value)
 {
     float val = value/127.0;
-    _ui->motor1valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    _ui->motor1valueLabel->setText(QString(std::to_string(value*100/127).c_str()) + "%");
     _communicator->SetMotorState(0, val);
 }
 
 void MainWindow::onMotor2SliderChanged(int value)
 {
     float val = value/127.0;
-    _ui->motor2valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    _ui->motor2valueLabel->setText(QString(std::to_string(value*100/127).c_str()) + "%");
     _communicator->SetMotorState(1, val);
 }
 
 void MainWindow::onMotor3SliderChanged(int value)
 {
     float val = value/127.0;
-    _ui->motor3valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    _ui->motor3valueLabel->setText(QString(std::to_string(value*100/127).c_str()) + "%");
     _communicator->SetMotorState(2, val);
 }
 
 void MainWindow::onMotor4SliderChanged(int value)
 {
     float val = value/127.0;
-    _ui->motor4valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    _ui->motor4valueLabel->setText(QString(std::to_string(value*100/127).c_str()) + "%");
     _communicator->SetMotorState(3, val);
 }
 
 void MainWindow::onMotor5SliderChanged(int value)
 {
     float val = value/127.0;
-    _ui->motor5valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    _ui->motor5valueLabel->setText(QString(std::to_string(value*100/127).c_str()) + "%");
     _communicator->SetMotorState(4, val);
 }
 
 void MainWindow::onMotor6SliderChanged(int value)
 {
     float val = value/127.0f;
-    _ui->motor6valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    _ui->motor6valueLabel->setText(QString(std::to_string(value*100/127).c_str()) + "%");
     _communicator->SetMotorState(5, val);
 }
 
 void MainWindow::onMotor7SliderChanged(int value)
 {
     float val = value/127.0f;
-    _ui->motor7valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    _ui->motor7valueLabel->setText(QString(std::to_string(value*100/127).c_str()) + "%");
     _communicator->SetMotorState(6, val);
 }
 
 void MainWindow::onMotor8SliderChanged(int value)
 {
     float val = value/127.0f;
-    _ui->motor7valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    _ui->motor8valueLabel->setText(QString(std::to_string(value*100/127).c_str()) + "%");
     _communicator->SetMotorState(7, val);
 }
 
