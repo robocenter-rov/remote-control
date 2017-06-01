@@ -210,7 +210,7 @@ void MainWindow::onTaskTimeout()
 void MainWindow::connectionProviderInit()
 {
     try {
-        _communicator->SetSendMessageFrequency(70);
+        _communicator->SetSendMessageFrequency(150);
         _communicator->SetRemoteSendMessageFrequency(100);
 
         _connectionProvider->Begin();
@@ -366,25 +366,23 @@ void MainWindow::readAndSendJoySensors()
         y /= dist;
     }
 
-    float _sensitivity = _control_sensitivities[_control_sensitivity_level];
-
     const float start_val = 0.2f;
     const float zero_val = 0.05f;
 
     if (z == 0 && _isAutoDepth) {
         if (!_communicator->IsAutoDepthEnabled()) {
-            _communicator->SetDepth(_currentDepth);
+            //_communicator->SetDepth(_currentDepth);
             _ui->autoDepthMainInfoCB->setChecked(true);
             _ui->autoDepthMainInfoCB->setText(QString("AutoDepth: ") + std::to_string(_currentDepth).c_str());
         }
     } else {
         _ui->autoDepthMainInfoCB->setChecked(false);
         _ui->autoDepthMainInfoCB->setText(QString("AutoDepth"));
-        _communicator->SetSinkingForce(z * 2);
+        //_communicator->SetSinkingForce(z * 2);
     }
     if (tz == 0 && _isAutoYaw) {
         if (!_communicator->IsAutoYawEnabled()) {
-            _communicator->SetYaw(_currentYaw);
+            //_communicator->SetYaw(_currentYaw);
             _ui->autoYawMainInfoCB->setChecked(true);
             _ui->autoYawMainInfoCB->setText(QString("AutoYaw: ") + std::to_string(_currentYaw).c_str());
         }
@@ -395,18 +393,18 @@ void MainWindow::readAndSendJoySensors()
         if (abs(tz) < zero_val) {
             _z_rotate_force = 0;
         } else {
-            _z_rotate_force += (tz*0.4 * _sensitivity - _z_rotate_force) * 0.5f;
+            //_z_rotate_force += (tz*0.6 * _sensitivity - _z_rotate_force) * 0.5f;
         }
-        _communicator->SetYawForce(tz*0.4 * _sensitivity);
     }
 
+    _z_rotate_force = tz*0.45 * _control_sensitivity_level * 0.5f;
 
     if (abs(-x) < zero_val) {
         _x_move_force = 0;
     } else if (abs(-x) < start_val) {
         _x_move_force = start_val * ((-x) < 0 ? -1 : 1);
     } else {
-        _x_move_force += ((-x * 1.5 * _sensitivity) - _x_move_force) * 0.3f;
+        _x_move_force += ((-x * _control_sensitivity_level * 0.5f) - _x_move_force) * 0.3f;
     }
 
     if (abs(y) < zero_val) {
@@ -414,12 +412,21 @@ void MainWindow::readAndSendJoySensors()
     } else if (abs(y) < start_val) {
         _y_move_force = start_val * (y < 0 ? -1 : 1);
     } else {
-        _y_move_force += ((y * 1.5 * _sensitivity) - _y_move_force) * 0.3f;
+        _y_move_force += ((y * _control_sensitivity_level * 0.5f) - _y_move_force) * 0.3f;
     }
 
     qDebug() << _z_rotate_force;
 
-    _communicator->SetMovementForce(_x_move_force, _y_move_force);
+    force_distrib.ClearForces();
+
+    force_distrib.SetMoveForce(_x_move_force, _y_move_force, z);
+    force_distrib.AddRotateForce(0, _z_rotate_force);
+
+    float motors_thrust[6];
+
+    force_distrib.Update(motors_thrust);
+
+    _communicator->SetMotorsState(motors_thrust[0], motors_thrust[1], motors_thrust[2], motors_thrust[3],motors_thrust[4],motors_thrust[5]);
 }
 
 void MainWindow::joyButtonHandle()
@@ -464,42 +471,38 @@ void MainWindow::joyManipulatorButtonHandle()
         if (_joy->btnStateChanged(13)) {
             _communicator->SetFlashlightState(_flashLightState = !_flashLightState);
         }
-    }if (_joy->atBtn(7)) {/*
-        if (_joy->btnStateChanged(6)) {
+    }if (_joy->atBtn(8)) {
+        if (_joy->btnStateChanged(8)) {
             _isAutoPitch = !_isAutoPitch;
             if (_isAutoPitch) {
                 _communicator->SetPitch(0);
+                _ui->autoPitchMainInfoCB->setChecked(true);
             } else {
                 _communicator->SetPitchForce(0);
+                _ui->autoPitchMainInfoCB->setChecked(false);
             }
-        }*/
-    }
-    if (_joy->atBtn(7)) {
-        if (_joy->btnStateChanged(7)) {
-            _isAutoDepth = !_isAutoDepth;
-        }
-    }
-    if (_joy->atBtn(8)) {
-        if (_joy->btnStateChanged(8)) {
-            _isAutoYaw = !_isAutoYaw;
-        }
-    }
-    if (_joy->atBtn(3)) {
-        if (_joy->btnStateChanged(3)) {
-            _control_sensitivity_level = 0;
-            _ui->lcdNumber->display("0");
-        }
-    }
-    if (_joy->atBtn(5)) {
-        if (_joy->btnStateChanged(5)) {
-            _control_sensitivity_level = 1;
-            _ui->lcdNumber->display("1");
         }
     }
     if (_joy->atBtn(6)) {
         if (_joy->btnStateChanged(6)) {
-            _control_sensitivity_level = 2;
-            _ui->lcdNumber->display("2");
+            _isAutoDepth = !_isAutoDepth;
+        }
+    }
+    if (_joy->atBtn(7)) {
+        if (_joy->btnStateChanged(7)) {
+            _isAutoYaw = !_isAutoYaw;
+        }
+    }
+    if (_joy->atBtn(5)) {
+        if (_joy->btnStateChanged(5)) {
+            _control_sensitivity_level = min(_control_sensitivity_level + 1, 8);
+            _ui->lcdNumber->display(std::to_string(_control_sensitivity_level).c_str());
+        }
+    }
+    if (_joy->atBtn(3)) {
+        if (_joy->btnStateChanged(3))  {
+            _control_sensitivity_level = max(_control_sensitivity_level - 1, 1);
+            _ui->lcdNumber->display(std::to_string(_control_sensitivity_level).c_str());
         }
     }
     _communicator->SetManipulatorState(
@@ -925,8 +928,8 @@ void MainWindow::replotDataDepth()
         minY = MIN(minY, MIN(y1[i], MIN(y2[i], y3[i])));
         minY = MAX(maxY, MAX(y1[i], MAX(y2[i], y3[i])));
     }
-    if (minY > 0) minY = 25;
-    if (maxY < 50) maxY = 35;
+    minY = 950;
+    maxY = 1070;
     _ui->autoDepthGraph->xAxis->setRange(x[0], x[0] + DEPTH_DATA_SIZE);
     _ui->autoDepthGraph->yAxis->setRange(minY, maxY);
     _ui->autoDepthGraph->replot();
