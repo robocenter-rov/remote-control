@@ -270,7 +270,7 @@ void MainWindow::connectionProviderInit()
 
             emit motorStateReceiveEvent(motorState.M1Force, motorState.M2Force, motorState.M3Force,
                                         motorState.M4Force, motorState.M5Force, motorState.M6Force,
-                                        motorState.M6Force, motorState.M7Force);
+                                        motorState.M7Force, motorState.M8Force);
         });
 
         _communicator->OnPidStateReceive([&](SimpleCommunicator_t::PidState_t depth,
