@@ -316,7 +316,7 @@
             <property name="geometry">
              <rect>
               <x>270</x>
-              <y>60</y>
+              <y>80</y>
               <width>91</width>
               <height>17</height>
              </rect>
@@ -338,7 +338,7 @@
             <property name="geometry">
              <rect>
               <x>270</x>
-              <y>80</y>
+              <y>100</y>
               <width>91</width>
               <height>17</height>
              </rect>
@@ -360,7 +360,7 @@
             <property name="geometry">
              <rect>
               <x>270</x>
-              <y>100</y>
+              <y>120</y>
               <width>91</width>
               <height>17</height>
              </rect>
@@ -382,7 +382,7 @@
             <property name="geometry">
              <rect>
               <x>270</x>
-              <y>120</y>
+              <y>140</y>
               <width>91</width>
               <height>17</height>
              </rect>
@@ -407,7 +407,7 @@
             <property name="geometry">
              <rect>
               <x>270</x>
-              <y>140</y>
+              <y>160</y>
               <width>91</width>
               <height>17</height>
              </rect>
@@ -426,7 +426,7 @@
             <property name="geometry">
              <rect>
               <x>270</x>
-              <y>170</y>
+              <y>190</y>
               <width>91</width>
               <height>31</height>
              </rect>
@@ -622,6 +622,28 @@
              </rect>
             </property>
             <property name="smallDecimalPoint">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QRadioButton" name="radioPCA3">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>270</x>
+              <y>60</y>
+              <width>91</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>PCA3</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="autoExclusive">
              <bool>false</bool>
             </property>
            </widget>

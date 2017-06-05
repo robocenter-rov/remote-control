@@ -90,7 +90,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(calibratedSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t)), this, SLOT(updateCalibratedSensorData(SimpleCommunicator_t::RawSensorData_t)));
     connect(this, SIGNAL(leakEvent(int, int)), this, SLOT(onLeak(int, int)));
     connect(this, SIGNAL(orientationReceivedEvent(float,float,float,float)), this, SLOT(updateOrient(float,float,float,float)));
-    connect(this, SIGNAL(I2CDevicesRecieveEvent(bool,bool,bool,bool,bool,bool,bool)), this, SLOT(updateI2CDevicesState(bool,bool,bool,bool,bool,bool,bool)));
+    connect(this, SIGNAL(I2CDevicesRecieveEvent(bool,bool,bool,bool,bool,bool,bool,bool)), this, SLOT(updateI2CDevicesState(bool,bool,bool,bool,bool,bool,bool,bool)));
     connect(this, SIGNAL(bluetoothMsgRecieveEvent(std::string)), this, SLOT(onBluetoothMsgRecieve(std::string)));
     connect(this, SIGNAL(depthRecieveEvent(float)), this, SLOT(updateDepth(float)));
     connect(this, SIGNAL(motorStateReceiveEvent(float,float,float,float,float,float,float,float)), this, SLOT(onMotorStateRecieved(float,float,float,float,float,float,float,float)));
@@ -240,6 +240,7 @@ void MainWindow::connectionProviderInit()
             emit I2CDevicesRecieveEvent(
                         devices.PCA1,
                         devices.PCA2,
+                        devices.PCA3,
                         devices.ADXL345,
                         devices.HMC58X3,
                         devices.ITG3200,
@@ -579,10 +580,11 @@ void MainWindow::updateHeading(int value)
 }
 
 void MainWindow::updateI2CDevicesState(
-        bool PCA1, bool PCA2, bool ADXL345, bool HMC58X3, bool ITG3200, bool BMP085, bool MS5803)
+        bool PCA1, bool PCA2, bool PCA3, bool ADXL345, bool HMC58X3, bool ITG3200, bool BMP085, bool MS5803)
 {
     _ui->radioPCA1->setChecked(PCA1);
     _ui->radioPCA2->setChecked(PCA2);
+    _ui->radioPCA3->setChecked(PCA3);
     _ui->radioADXL345->setChecked(ADXL345);
     _ui->radioHMC58X3->setChecked(HMC58X3);
     _ui->radioITG3200->setChecked(ITG3200);
