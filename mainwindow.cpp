@@ -1273,8 +1273,8 @@ void MainWindow::initMotorsMultipliers()
             _ui->m4MultSpinBox->setValue(m4);
             _ui->m5MultSpinBox->setValue(m5);
             _ui->m6MultSpinBox->setValue(m6);
-            _ui->m6MultSpinBox->setValue(m7);
-            _ui->m6MultSpinBox->setValue(m8);
+            _ui->m7MultSpinBox->setValue(m7);
+            _ui->m8MultSpinBox->setValue(m8);
             _communicator->SetMotorsMultiplier(m1, m2, m3, m4, m5, m6, m7, m8);
         } else {
             qDebug() << "Can't open file: " << "multipliers.txt";
