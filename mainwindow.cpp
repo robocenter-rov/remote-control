@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     _communicator = new SimpleCommunicator_t(_connectionProvider);
     _ui->setupUi(this);
 
-    //cameraInit();
+    cameraInit();
     loadQSS();
 
     connect(_ui->startButton, SIGNAL(clicked(bool)), this, SLOT(onStartButtonClick(bool)));
@@ -161,13 +161,11 @@ void MainWindow::updateDepth(float depth)
 {
     _currentDepth = depth;
     _ui->depthValueLabel->setText(std::to_string(depth).c_str());
-    return;
     _mainCamera->getVideoWidget()->setCurrentDepth(depth);
 }
 
 void MainWindow::showMessage(QString msg, msg_color_t color)
 {
-    return;
     if (_showMessage) {
         hideMessage();
     }
@@ -182,7 +180,6 @@ void MainWindow::showMessage(QString msg, msg_color_t color)
 
 void MainWindow::showMessageByTimer(QString msg, msg_color_t color)
 {
-    return;
     showMessage(msg, color);
     _messageTimer->start();
 }
