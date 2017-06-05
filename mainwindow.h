@@ -107,6 +107,8 @@ private slots:
     void on_cam2MaxValSpinBox_valueChanged(double arg1);
     void on_nextStepButton_clicked(bool checked);
     void on_previousStepButton_clicked(bool checked);
+    void on_zPositionVerticalSlider_valueChanged(int value);
+
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);

@@ -386,7 +386,7 @@ void MainWindow::readAndSendJoySensors()
     } else {
         _ui->autoDepthMainInfoCB->setChecked(false);
         _ui->autoDepthMainInfoCB->setText(QString("AutoDepth"));
-        _communicator->SetSinkingForce(z * 2);
+        _communicator->SetLocalZForce(z * 2);
     }
     if (tz == 0 && _isAutoYaw) {
         if (!_communicator->IsAutoYawEnabled()) {
@@ -1046,7 +1046,9 @@ void MainWindow::on_resetPositionsPushButton_clicked()
 {
     _ui->xPositionVerticalSlider->setValue(0);
     _ui->yPositionVerticalSlider->setValue(0);
+    _ui->zPositionVerticalSlider->setValue(0);
     _communicator->SetMovementForce(_x_pos = 0, _y_pos = 0);
+    _communicator->SetLocalZForce(0);
 }
 
 void MainWindow::on_xPositionVerticalSlider_sliderMoved(int position)
@@ -1059,6 +1061,11 @@ void MainWindow::on_yPositionVerticalSlider_sliderMoved(int position)
 {
     _y_pos = position / 100.f;
     _communicator->SetMovementForce(_x_pos, _y_pos);
+}
+
+void MainWindow::on_zPositionVerticalSlider_valueChanged(int value)
+{
+    _communicator->SetLocalZForce(value/400.f);
 }
 
 void MainWindow::on_rotationSlider_valueChanged(int value)
