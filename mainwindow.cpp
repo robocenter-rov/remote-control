@@ -31,11 +31,12 @@ MainWindow::MainWindow(QWidget *parent)
     qRegisterMetaType<SimpleCommunicator_t::PidState_t>("SimpleCommunicator_t::PidState_t");
     qRegisterMetaType<SimpleCommunicator_t::State_t>("SimpleCommunicator_t::State_t");
     qRegisterMetaType<SimpleCommunicator_t::CalibratedSensorData_t>("SimpleCommunicator_t::CalibratedSensorData_t");
+    qRegisterMetaType<SimpleCommunicator_t::CalibratedSensorData_t>("SimpleCommunicator_t::RawSensorData_t");
     _connectionProvider = new UARTConnectionProvider_t(COMportName.toStdString().c_str(), 19200, 1 << 20, 1 << 20);
     _communicator = new SimpleCommunicator_t(_connectionProvider);
     _ui->setupUi(this);
 
-    //cameraInit();
+    cameraInit();
     loadQSS();
 
     connect(_ui->startButton, SIGNAL(clicked(bool)), this, SLOT(onStartButtonClick(bool)));
@@ -51,6 +52,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->motor4Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor4SliderChanged(int)));
     connect(_ui->motor5Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor5SliderChanged(int)));
     connect(_ui->motor6Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor6SliderChanged(int)));
+    connect(_ui->motor7Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor7SliderChanged(int)));
+    connect(_ui->motor8Slider, SIGNAL(valueChanged(int)), this, SLOT(onMotor8SliderChanged(int)));
     connect(_ui->stopMotorsButton, SIGNAL(clicked(bool)), this, SLOT(onStopMotorsButtonClicked(bool)));
     connect(_ui->SetMotorsIdx, SIGNAL(clicked(bool)), this, SLOT(onSetMotorsClicked(bool)));
     connect(_ui->camera1Slider, SIGNAL(valueChanged(int)), this, SLOT(onCamera1PosChanged(int)));
@@ -83,12 +86,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(connectionChangedEvent(bool)), this, SLOT(updateConnectionStatus(bool)));
     connect(this, SIGNAL(stateChangedEvent(SimpleCommunicator_t::State_t)), this, SLOT(updateStatus(SimpleCommunicator_t::State_t)));
     connect(this, SIGNAL(rawSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t)), this, SLOT(updatePosInfo(SimpleCommunicator_t::RawSensorData_t)));
+    connect(this, SIGNAL(rawSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t)), this, SLOT(updateRawSensorData(SimpleCommunicator_t::RawSensorData_t)));
+    connect(this, SIGNAL(calibratedSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t)), this, SLOT(updateCalibratedSensorData(SimpleCommunicator_t::RawSensorData_t)));
     connect(this, SIGNAL(leakEvent(int, int)), this, SLOT(onLeak(int, int)));
     connect(this, SIGNAL(orientationReceivedEvent(float,float,float,float)), this, SLOT(updateOrient(float,float,float,float)));
-    connect(this, SIGNAL(I2CDevicesRecieveEvent(bool,bool,bool,bool,bool,bool,bool)), this, SLOT(updateI2CDevicesState(bool,bool,bool,bool,bool,bool,bool)));
+    connect(this, SIGNAL(I2CDevicesRecieveEvent(bool,bool,bool,bool,bool,bool,bool,bool)), this, SLOT(updateI2CDevicesState(bool,bool,bool,bool,bool,bool,bool,bool)));
     connect(this, SIGNAL(bluetoothMsgRecieveEvent(std::string)), this, SLOT(onBluetoothMsgRecieve(std::string)));
     connect(this, SIGNAL(depthRecieveEvent(float)), this, SLOT(updateDepth(float)));
-    connect(this, SIGNAL(motorStateReceiveEvent(float,float,float,float,float,float)), this, SLOT(onMotorStateRecieved(float,float,float,float,float,float)));
+    connect(this, SIGNAL(motorStateReceiveEvent(float,float,float,float,float,float,float,float)), this, SLOT(onMotorStateRecieved(float,float,float,float,float,float,float,float)));
     connect(this, SIGNAL(pidStateReceiveEvent(SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t)), this, SLOT(onPidStateReceived(SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t)));
 
     showMessage("Connection...", CL_YELLOW);
@@ -99,6 +104,7 @@ MainWindow::MainWindow(QWidget *parent)
     initPIDcoeffs();
     initMotorsMultipliers();
     initCameraMinMax();
+    initIMUCalibration();
     setMotorsPos();
 }
 
@@ -155,13 +161,11 @@ void MainWindow::updateDepth(float depth)
 {
     _currentDepth = depth;
     _ui->depthValueLabel->setText(std::to_string(depth).c_str());
-    return;
     _mainCamera->getVideoWidget()->setCurrentDepth(depth);
 }
 
 void MainWindow::showMessage(QString msg, msg_color_t color)
 {
-    return;
     if (_showMessage) {
         hideMessage();
     }
@@ -176,7 +180,6 @@ void MainWindow::showMessage(QString msg, msg_color_t color)
 
 void MainWindow::showMessageByTimer(QString msg, msg_color_t color)
 {
-    return;
     showMessage(msg, color);
     _messageTimer->start();
 }
@@ -237,6 +240,7 @@ void MainWindow::connectionProviderInit()
             emit I2CDevicesRecieveEvent(
                         devices.PCA1,
                         devices.PCA2,
+                        devices.PCA3,
                         devices.ADXL345,
                         devices.HMC58X3,
                         devices.ITG3200,
@@ -248,9 +252,13 @@ void MainWindow::connectionProviderInit()
             emit stateChangedEvent(state);
         });
 
-        /*_communicator->OnRawSensorDataReceive([&](SimpleCommunicator_t::RawSensorData_t rawSensorData){
+        _communicator->OnRawSensorDataReceive([&](SimpleCommunicator_t::RawSensorData_t rawSensorData){
             emit rawSensorDataRecievedEvent(rawSensorData);
-        });*/
+        });
+
+        _communicator->OnCalibratedSensorDataReceive([&](SimpleCommunicator_t::CalibratedSensorData_t calibratedSensorData) {
+            emit calibratedSensorDataRecievedEvent(calibratedSensorData);
+        });
 
         _communicator->OnOrientationReceive([&](SimpleCommunicator_t::Orientation_t o){
             emit orientationReceivedEvent(o.q1, o.q2, o.q3, o.q4);
@@ -267,7 +275,8 @@ void MainWindow::connectionProviderInit()
         _communicator->OnMotorsStateReceive([&](SimpleCommunicator_t::MotorsState_t motorState){
 
             emit motorStateReceiveEvent(motorState.M1Force, motorState.M2Force, motorState.M3Force,
-                                        motorState.M4Force, motorState.M5Force, motorState.M6Force);
+                                        motorState.M4Force, motorState.M5Force, motorState.M6Force,
+                                        motorState.M7Force, motorState.M8Force);
         });
 
         _communicator->OnPidStateReceive([&](SimpleCommunicator_t::PidState_t depth,
@@ -275,7 +284,6 @@ void MainWindow::connectionProviderInit()
                                          SimpleCommunicator_t::PidState_t pitch){
             emit pidStateReceiveEvent(depth, yaw, pitch);
         });
-        //_communicator->SetReceiveRawSensorData(true);
 
         _communicator->Begin();
     } catch (CantOpenPortException_t &e) {
@@ -347,6 +355,38 @@ void MainWindow::updatePosInfo(SimpleCommunicator_t::RawSensorData_t rawSensorDa
     updateDepth(rawSensorData.Depth);
 }
 
+void MainWindow::updateRawSensorData(SimpleCommunicator_t::RawSensorData_t rawSensorData)
+{
+    _ui->xGyroRawValue_Label->setText(std::to_string(rawSensorData.Gx).c_str());
+    _ui->yGyroRawValue_Label->setText(std::to_string(rawSensorData.Gy).c_str());
+    _ui->zGyroRawValue_Label->setText(std::to_string(rawSensorData.Gz).c_str());
+
+    _ui->xAccRawValue_Label->setText(std::to_string(rawSensorData.Ax).c_str());
+    _ui->yAccRawValue_Label->setText(std::to_string(rawSensorData.Ay).c_str());
+    _ui->zAccRawValue_Label->setText(std::to_string(rawSensorData.Az).c_str());
+
+    if (_ui->CalibrateGyro_PushButton->isChecked()) {
+        _xGyroOffset += rawSensorData.Gx;
+        _yGyroOffset += rawSensorData.Gy;
+        _zGyroOffset += rawSensorData.Gz;
+        _calibrateIteration++;
+        _ui->xGyroOffset_LineEdit->setText(std::to_string(_xGyroOffset/_calibrateIteration).c_str());
+        _ui->yGyroOffset_LineEdit->setText(std::to_string(_yGyroOffset/_calibrateIteration).c_str());
+        _ui->zGyroOffset_LineEdit->setText(std::to_string(_zGyroOffset/_calibrateIteration).c_str());
+    }
+}
+
+void MainWindow::updateCalibratedSensorData(SimpleCommunicator_t::CalibratedSensorData_t calibratedSensorData)
+{
+    _ui->xGyroCalibratedValue_Label->setText(std::to_string(calibratedSensorData.Gx).c_str());
+    _ui->yGyroCalibratedValue_Label->setText(std::to_string(calibratedSensorData.Gy).c_str());
+    _ui->zGyroCalibratedValue_Label->setText(std::to_string(calibratedSensorData.Gz).c_str());
+
+    _ui->xAccCalibratedValue_Label->setText(std::to_string(calibratedSensorData.Ax).c_str());
+    _ui->yAccCalibratedValue_Label->setText(std::to_string(calibratedSensorData.Ay).c_str());
+    _ui->zAccCalibratedValue_Label->setText(std::to_string(calibratedSensorData.Az).c_str());
+}
+
 #define ABS(x) ((x < 0) ? (-x) : (x))
 
 void MainWindow::readAndSendJoySensors()
@@ -383,7 +423,7 @@ void MainWindow::readAndSendJoySensors()
     } else {
         _ui->autoDepthMainInfoCB->setChecked(false);
         _ui->autoDepthMainInfoCB->setText(QString("AutoDepth"));
-        _communicator->SetSinkingForce(z * 2);
+        _communicator->SetLocalZForce(z * 2);
     }
     if (tz == 0 && _isAutoYaw) {
         if (!_communicator->IsAutoYawEnabled()) {
@@ -419,8 +459,6 @@ void MainWindow::readAndSendJoySensors()
     } else {
         _y_move_force += ((y * 1.5 * _sensitivity) - _y_move_force) * 0.3f;
     }
-
-    qDebug() << _z_rotate_force;
 
     _communicator->SetMovementForce(_x_move_force, _y_move_force);
 }
@@ -542,10 +580,11 @@ void MainWindow::updateHeading(int value)
 }
 
 void MainWindow::updateI2CDevicesState(
-        bool PCA1, bool PCA2, bool ADXL345, bool HMC58X3, bool ITG3200, bool BMP085, bool MS5803)
+        bool PCA1, bool PCA2, bool PCA3, bool ADXL345, bool HMC58X3, bool ITG3200, bool BMP085, bool MS5803)
 {
     _ui->radioPCA1->setChecked(PCA1);
     _ui->radioPCA2->setChecked(PCA2);
+    _ui->radioPCA3->setChecked(PCA3);
     _ui->radioADXL345->setChecked(ADXL345);
     _ui->radioHMC58X3->setChecked(HMC58X3);
     _ui->radioITG3200->setChecked(ITG3200);
@@ -571,43 +610,57 @@ void MainWindow::onBluetoothButtonClick(bool value)
 void MainWindow::onMotor1SliderChanged(int value)
 {
     float val = value/127.0;
-    _ui->motor1valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    _ui->motor1valueLabel->setText(QString(std::to_string(value*100/127).c_str()) + "%");
     _communicator->SetMotorState(0, val);
 }
 
 void MainWindow::onMotor2SliderChanged(int value)
 {
     float val = value/127.0;
-    _ui->motor2valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    _ui->motor2valueLabel->setText(QString(std::to_string(value*100/127).c_str()) + "%");
     _communicator->SetMotorState(1, val);
 }
 
 void MainWindow::onMotor3SliderChanged(int value)
 {
     float val = value/127.0;
-    _ui->motor3valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    _ui->motor3valueLabel->setText(QString(std::to_string(value*100/127).c_str()) + "%");
     _communicator->SetMotorState(2, val);
 }
 
 void MainWindow::onMotor4SliderChanged(int value)
 {
     float val = value/127.0;
-    _ui->motor4valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    _ui->motor4valueLabel->setText(QString(std::to_string(value*100/127).c_str()) + "%");
     _communicator->SetMotorState(3, val);
 }
 
 void MainWindow::onMotor5SliderChanged(int value)
 {
     float val = value/127.0;
-    _ui->motor5valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    _ui->motor5valueLabel->setText(QString(std::to_string(value*100/127).c_str()) + "%");
     _communicator->SetMotorState(4, val);
 }
 
 void MainWindow::onMotor6SliderChanged(int value)
 {
     float val = value/127.0f;
-    _ui->motor6valueLabel->setText(QString(std::to_string(value).c_str()) + "%");
+    _ui->motor6valueLabel->setText(QString(std::to_string(value*100/127).c_str()) + "%");
     _communicator->SetMotorState(5, val);
+}
+
+void MainWindow::onMotor7SliderChanged(int value)
+{
+    float val = value/127.0f;
+    _ui->motor7valueLabel->setText(QString(std::to_string(value*100/127).c_str()) + "%");
+    _communicator->SetMotorState(6, val);
+}
+
+void MainWindow::onMotor8SliderChanged(int value)
+{
+    float val = value/127.0f;
+    _ui->motor8valueLabel->setText(QString(std::to_string(value*100/127).c_str()) + "%");
+    _communicator->SetMotorState(7, val);
 }
 
 void MainWindow::onStopMotorsButtonClicked(bool value)
@@ -618,7 +671,9 @@ void MainWindow::onStopMotorsButtonClicked(bool value)
     _ui->motor4Slider->setValue(0);
     _ui->motor5Slider->setValue(0);
     _ui->motor6Slider->setValue(0);
-    _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+    _ui->motor7Slider->setValue(0);
+    _ui->motor8Slider->setValue(0);
+    _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
 }
 
 void MainWindow::onCamera1PosChanged(int value)
@@ -635,16 +690,18 @@ void MainWindow::onCamera2PosChanged(int value)
 
 void MainWindow::onSetMotorsClicked(bool value)
 {
-    int m[6];
+    int m[8];
     m[0] = _ui->motorIdxSpinBox_1->value() - 1;
     m[1] = _ui->motorIdxSpinBox_2->value() - 1;
     m[2] = _ui->motorIdxSpinBox_3->value() - 1;
     m[3] = _ui->motorIdxSpinBox_4->value() - 1;
     m[4] = _ui->motorIdxSpinBox_5->value() - 1;
     m[5] = _ui->motorIdxSpinBox_6->value() - 1;
+    m[6] = _ui->motorIdxSpinBox_7->value() - 1;
+    m[7] = _ui->motorIdxSpinBox_8->value() - 1;
 
-    for (int i = 0; i < 6; i++) {
-        for (int j = i + 1; j < 6; j++) {
+    for (int i = 0; i < 8; i++) {
+        for (int j = i + 1; j < 8; j++) {
             if (m[i] == m[j]) {
                 _ui->setMotorsMsg->setText("Motors should not be the same");
                 return;
@@ -652,7 +709,7 @@ void MainWindow::onSetMotorsClicked(bool value)
         }
     }
     _ui->setMotorsMsg->setText("");
-    _communicator->SetMotorsPositions(m[0], m[1], m[2], m[3], m[4], m[5]);
+    _communicator->SetMotorsPositions(m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7]);
 }
 
 void MainWindow::onDepthPIDSpinBoxChanged(bool value)
@@ -679,11 +736,13 @@ void MainWindow::onSetMotorsMultiplier(bool value)
     float m4 = _ui->m4MultSpinBox->value();
     float m5 = _ui->m5MultSpinBox->value();
     float m6 = _ui->m6MultSpinBox->value();
+    float m7 = _ui->m7MultSpinBox->value();
+    float m8 = _ui->m8MultSpinBox->value();
     std::ofstream fout;
     fout.open("multipliers.txt");
     if (fout.is_open()) {
-        fout << m1 << " " << m2 << " " << m3 << " " << m4 << " " << m5 << " " << m6;
-        _communicator->SetMotorsMultiplier(m1, m2, m3, m4, m5, m6);
+        fout << m1 << " " << m2 << " " << m3 << " " << m4 << " " << m5 << " " << m6 << " " << m7 << " " << m8;
+        _communicator->SetMotorsMultiplier(m1, m2, m3, m4, m5, m6, m7, m8);
         fout.close();
     } else {
         qDebug() << "Can't open file: multipliers.txt";
@@ -748,7 +807,7 @@ void MainWindow::onAutoDepthClicked(bool value)
         _ui->stabDepthValue->setText(_ui->depthEdit->text());
         _communicator->SetDepth(depth);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -760,7 +819,7 @@ void MainWindow::onAutoPitchClicked(bool value)
         _ui->stabPitchValue->setText(_ui->pitchEdit->text());
         _communicator->SetPitch(pitch);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -772,7 +831,7 @@ void MainWindow::onAutoYawClicked(bool value)
         _ui->stabYawValue->setText(_ui->yawEdit->text());
         _communicator->SetYaw(yaw);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -805,7 +864,7 @@ void MainWindow::onUseJoyCheckButtonClicked(bool value)
     }
 }
 
-void MainWindow::onMotorStateRecieved(float m1, float m2, float m3, float m4, float m5, float m6)
+void MainWindow::onMotorStateRecieved(float m1, float m2, float m3, float m4, float m5, float m6, float m7, float m8)
 {
     const int maxval = 100;
 
@@ -815,6 +874,8 @@ void MainWindow::onMotorStateRecieved(float m1, float m2, float m3, float m4, fl
     _ui->m4curLabel->setText(QString(std::to_string(m4*100).c_str()) + "%");
     _ui->m5curLabel->setText(QString(std::to_string(m5*100).c_str()) + "%");
     _ui->m6curLabel->setText(QString(std::to_string(m6*100).c_str()) + "%");
+    _ui->m7curLabel->setText(QString(std::to_string(m7*100).c_str()) + "%");
+    _ui->m8curLabel->setText(QString(std::to_string(m8*100).c_str()) + "%");
 
     _ui->m0LoadPositiveProgressBar->setValue(std::max(0.f, m1*maxval));
     _ui->m0LoadNegativeProgressBar->setValue(std::min(0.f, m1*maxval)*-1);
@@ -833,6 +894,12 @@ void MainWindow::onMotorStateRecieved(float m1, float m2, float m3, float m4, fl
 
     _ui->m5LoadPositiveProgressBar->setValue(std::max(0.f, m6*maxval));
     _ui->m5LoadNegativeProgressBar->setValue(std::min(0.f, m6*maxval)*-1);
+
+    _ui->m6LoadPositiveProgressBar->setValue(std::max(0.f, m7*maxval));
+    _ui->m6LoadNegativeProgressBar->setValue(std::min(0.f, m7*maxval)*-1);
+
+    _ui->m7LoadPositiveProgressBar->setValue(std::max(0.f, m8*maxval));
+    _ui->m7LoadNegativeProgressBar->setValue(std::min(0.f, m8*maxval)*-1);
 }
 
 void MainWindow::onPidStateReceived(SimpleCommunicator_t::PidState_t depth, SimpleCommunicator_t::PidState_t yaw, SimpleCommunicator_t::PidState_t pitch)
@@ -1004,6 +1071,10 @@ void MainWindow::on_checkBox_toggled(bool checked)
     _ui->m4LoadNegativeProgressBar->setEnabled(checked);
     _ui->m5LoadPositiveProgressBar->setEnabled(checked);
     _ui->m5LoadNegativeProgressBar->setEnabled(checked);
+    _ui->m6LoadPositiveProgressBar->setEnabled(checked);
+    _ui->m6LoadNegativeProgressBar->setEnabled(checked);
+    _ui->m7LoadPositiveProgressBar->setEnabled(checked);
+    _ui->m7LoadNegativeProgressBar->setEnabled(checked);
     _communicator->SetReceiveMotorsState(checked);
 }
 
@@ -1011,7 +1082,9 @@ void MainWindow::on_resetPositionsPushButton_clicked()
 {
     _ui->xPositionVerticalSlider->setValue(0);
     _ui->yPositionVerticalSlider->setValue(0);
+    _ui->zPositionVerticalSlider->setValue(0);
     _communicator->SetMovementForce(_x_pos = 0, _y_pos = 0);
+    _communicator->SetLocalZForce(0);
 }
 
 void MainWindow::on_xPositionVerticalSlider_sliderMoved(int position)
@@ -1024,6 +1097,11 @@ void MainWindow::on_yPositionVerticalSlider_sliderMoved(int position)
 {
     _y_pos = position / 100.f;
     _communicator->SetMovementForce(_x_pos, _y_pos);
+}
+
+void MainWindow::on_zPositionVerticalSlider_valueChanged(int value)
+{
+    _communicator->SetLocalZForce(value/400.f);
 }
 
 void MainWindow::on_rotationSlider_valueChanged(int value)
@@ -1043,7 +1121,7 @@ void MainWindow::onAutoDepthEdit(QString value)
         _ui->stabDepthValue->setText(_ui->depthEdit->text());
         _communicator->SetDepth(depth);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -1054,7 +1132,7 @@ void MainWindow::onAutoPitchEdit(QString value)
         _ui->stabPitchValue->setText(_ui->pitchEdit->text());
         _communicator->SetPitch(pitch);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -1065,7 +1143,7 @@ void MainWindow::onAutoYawEdit(QString value)
         _ui->stabYawValue->setText(_ui->yawEdit->text());
         _communicator->SetYaw(yaw);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -1076,7 +1154,7 @@ void MainWindow::onAutoCurrentDepthClicked(bool value)
         _ui->stabDepthValue->setText(std::to_string(_currentDepth).c_str());
         _communicator->SetDepth(_currentDepth);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -1087,7 +1165,7 @@ void MainWindow::onAutoCurrentPitchClicked(bool value)
         _ui->stabPitchValue->setText(std::to_string(_currentPitch).c_str());
         _communicator->SetPitch(_currentPitch);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -1098,7 +1176,7 @@ void MainWindow::onAutoCurrentYawClicked(bool value)
         _ui->stabYawValue->setText(std::to_string(_currentYaw).c_str());
         _communicator->SetYaw(_currentYaw);
     } else {
-        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0);
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -1225,20 +1303,22 @@ void MainWindow::setYawPID(double p, double i, double d)
 void MainWindow::initMotorsMultipliers()
 {
     std::ifstream fmult;
-    double m1 = 0.0, m2 = 0.0, m3 = 0.0, m4 = 0.0, m5 = 0.0, m6 = 0.0;
+    double m1 = 0.0, m2 = 0.0, m3 = 0.0, m4 = 0.0, m5 = 0.0, m6 = 0.0, m7 = 0.0, m8 = 0.0;
     qDebug() << "init motors multipliers";
     try {
         fmult.open("multipliers.txt", fstream::in);
         if (fmult.is_open()) {
-            fmult >> m1  >> m2 >> m3 >> m4 >> m5 >> m6;
-            qDebug() << "muplipliers: " << m1 << m2 << m3 << m4 << m5 << m6;
+            fmult >> m1  >> m2 >> m3 >> m4 >> m5 >> m6 >> m7 >> m8;
+            qDebug() << "muplipliers: " << m1 << m2 << m3 << m4 << m5 << m6 << m7 << m8;
             _ui->m1MultSpinBox->setValue(m1);
             _ui->m2MultSpinBox->setValue(m2);
             _ui->m3MultSpinBox->setValue(m3);
             _ui->m4MultSpinBox->setValue(m4);
             _ui->m5MultSpinBox->setValue(m5);
             _ui->m6MultSpinBox->setValue(m6);
-            _communicator->SetMotorsMultiplier(m1, m2, m3, m4, m5, m6);
+            _ui->m7MultSpinBox->setValue(m7);
+            _ui->m8MultSpinBox->setValue(m8);
+            _communicator->SetMotorsMultiplier(m1, m2, m3, m4, m5, m6, m7, m8);
         } else {
             qDebug() << "Can't open file: " << "multipliers.txt";
         }
@@ -1290,6 +1370,65 @@ void MainWindow::saveCamMinMax()
     }
 }
 
+void MainWindow::initIMUCalibration()
+{
+    std::ifstream fin;
+    float xGyroOffset = 0, yGyroOffset = 0, zGyroOffset = 0, gyroScale = 1,
+          xAccelOffset = 0, yAccelOffset = 0, zAccelOffset = 0,
+          xAccelScale = 0, yAccelScale = 0, zAccelScale = 0;
+    try {
+        fin.open("IMUCalibration.txt", fstream::in);
+        if (fin.is_open()) {
+            fin >> xGyroOffset >> yGyroOffset >> zGyroOffset >> gyroScale
+                >> xAccelOffset >> yAccelOffset >> zAccelOffset
+                >> xAccelScale >> yAccelScale >> zAccelScale;
+            _ui->xGyroOffset_LineEdit->setText(std::to_string(xGyroOffset).c_str());
+            _ui->yGyroOffset_LineEdit->setText(std::to_string(yGyroOffset).c_str());
+            _ui->zGyroOffset_LineEdit->setText(std::to_string(zGyroOffset).c_str());
+            _ui->GyroScale_LineEdit->setText(std::to_string(gyroScale).c_str());
+
+            _ui->xAccelOffset_LineEdit->setText(std::to_string(xAccelOffset).c_str());
+            _ui->yAccelOffset_LineEdit->setText(std::to_string(yAccelOffset).c_str());
+            _ui->zAccelOffset_LineEdit->setText(std::to_string(zAccelOffset).c_str());
+
+            _ui->xAccelScale_LineEdit->setText(std::to_string(xAccelScale).c_str());
+            _ui->yAccelScale_LineEdit->setText(std::to_string(yAccelScale).c_str());
+            _ui->zAccelScale_LineEdit->setText(std::to_string(zAccelScale).c_str());
+
+            _communicator->SetGyroConfig(xGyroOffset, yGyroOffset, zGyroOffset, gyroScale);
+            _communicator->SetAccelConfig(xAccelOffset, yAccelOffset, zAccelOffset,
+                                          xAccelScale, yAccelScale, zAccelScale);
+        } else {
+            qDebug() << "Can't open file: IMUCalibration.txt";
+        }
+        fin.close();
+    } catch (std::ifstream::failure e) {
+        qDebug() << "Exception opening file: " << strerror(errno);
+    }
+}
+
+void MainWindow::saveIMUCalibration()
+{
+    std::ofstream fout;
+    fout.open("IMUCalibration.txt");
+    if (fout.is_open()) {
+        fout
+            << _ui->xGyroOffset_LineEdit->text().toFloat() << std::endl
+            << _ui->yGyroOffset_LineEdit->text().toFloat() << std::endl
+            << _ui->zGyroOffset_LineEdit->text().toFloat() << std::endl
+            << _ui->GyroScale_LineEdit->text().toFloat() << std::endl
+            << _ui->xAccelOffset_LineEdit->text().toFloat() << std::endl
+            << _ui->yAccelOffset_LineEdit->text().toFloat() << std::endl
+            << _ui->zAccelOffset_LineEdit->text().toFloat() << std::endl
+            << _ui->xAccelScale_LineEdit->text().toFloat() << std::endl
+            << _ui->yAccelScale_LineEdit->text().toFloat() << std::endl
+            << _ui->zAccelScale_LineEdit->text().toFloat() << std::endl
+        ;
+    } else {
+        qDebug() << "Can't open file: IMUCalibration.txt";
+    }
+}
+
 void MainWindow::on_nextStepButton_clicked(bool checked)
 {
     if (!_ui->previousStepButton->isEnabled()) {
@@ -1325,7 +1464,48 @@ void MainWindow::setCurrentTool()
 
 void MainWindow::setMotorsPos()
 {
-    _ui->motorIdxSpinBox_3->setValue(4);
-    _ui->motorIdxSpinBox_4->setValue(3);
-    _communicator->SetMotorsPositions(0, 1, 3, 2, 4, 5);
+    _communicator->SetMotorsPositions(0, 1, 2, 3, 4, 5, 6, 7);
+}
+
+void MainWindow::on_ReceiveRawIMUValues_CheckBox_toggled(bool checked)
+{
+    _communicator->SetReceiveRawSensorData(checked);
+}
+
+void MainWindow::on_CalibrateGyro_PushButton_pressed()
+{
+}
+
+void MainWindow::on_ReceiveCalibratedIMUValues_CheckBox_toggled(bool checked)
+{
+    _communicator->SetReceiveCalibratedSensorData(checked);
+}
+
+void MainWindow::on_CalibrateGyro_PushButton_released()
+{
+}
+
+void MainWindow::on_setCalibrationValues_clicked()
+{
+
+}
+
+void MainWindow::on_setCalibrationValues_PushButton_clicked()
+{
+    saveIMUCalibration();
+    _communicator->SetGyroConfig(
+        _ui->xGyroOffset_LineEdit->text().toFloat(),
+        _ui->yGyroOffset_LineEdit->text().toFloat(),
+        _ui->zGyroOffset_LineEdit->text().toFloat(),
+        _ui->GyroScale_LineEdit->text().toFloat()
+    );
+}
+
+void MainWindow::on_CalibrateGyro_PushButton_toggled(bool checked)
+{
+    if (checked) {
+        _xGyroOffset = _yGyroOffset = _zGyroOffset = 0;
+        _calibrateIteration = 0;
+        _ui->ReceiveRawIMUValues_CheckBox->setChecked(true);
+    }
 }

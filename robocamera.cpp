@@ -11,12 +11,12 @@ RoboCamera::RoboCamera(unsigned int idx, QGraphicsView *gv, QObject *gv_parent, 
     _idx = idx;
     _showInfo = showInfo;
     sceneInit(scene);
-/*qDebug() << QCamera::availableDevices().count() << idx;
+
     if (QCamera::availableDevices().count() < idx + 1) {
         qDebug() << "Unavaible video device\n";
         return;
-    }*/
-    _camera = new QCamera(QCameraInfo::availableCameras().at(0));
+    }
+    _camera = new QCamera(QCameraInfo::availableCameras().at(idx));
     _imageCapture = new QCameraImageCapture(_camera);
     _imageCapture->setCaptureDestination(QCameraImageCapture::CaptureToFile);
     _camera->setCaptureMode(QCamera::CaptureStillImage);
