@@ -1362,7 +1362,5 @@ void MainWindow::setCurrentTool()
 
 void MainWindow::setMotorsPos()
 {
-    _ui->motorIdxSpinBox_3->setValue(4);
-    _ui->motorIdxSpinBox_4->setValue(3);
-    _communicator->SetMotorsPositions(0, 1, 3, 2, 4, 5, 6, 7);
+    _communicator->SetMotorsPositions(0, 1, 2, 3, 4, 5, 6, 7);
 }
