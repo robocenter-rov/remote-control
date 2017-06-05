@@ -177,7 +177,7 @@ private:
 
     int _control_sensitivity_level = 1;
     static const int _control_sensitivity_count = 3;
-    float _control_sensitivities[_control_sensitivity_count] = {0.3, 1, 3};
+    float _control_sensitivities[_control_sensitivity_count] = {0.3f, 1.f, 3.f};
     float _x_move_force = 0;
     float _y_move_force = 0;
     float _z_rotate_force = 0;
