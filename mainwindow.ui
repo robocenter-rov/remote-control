@@ -416,7 +416,7 @@
              <string>MS5803</string>
             </property>
             <property name="checkable">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="autoExclusive">
              <bool>false</bool>
