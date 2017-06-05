@@ -53,6 +53,8 @@ private slots:
     void onScaneI2CdevicesButtonClick(bool);
     void updateStatus(SimpleCommunicator_t::State_t);
     void updatePosInfo(SimpleCommunicator_t::RawSensorData_t);
+    void updateRawSensorData(SimpleCommunicator_t::RawSensorData_t);
+    void updateCalibratedSensorData(SimpleCommunicator_t::CalibratedSensorData_t calibratedSensorData);
     void readAndSendJoySensors();
     void joyButtonHandle();
     void onLeak(int send, int receive);
@@ -108,11 +110,20 @@ private slots:
     void on_nextStepButton_clicked(bool checked);
     void on_previousStepButton_clicked(bool checked);
     void on_zPositionVerticalSlider_valueChanged(int value);
+    void on_ReceiveRawIMUValues_CheckBox_toggled(bool checked);
+    void on_CalibrateGyro_PushButton_pressed();
+    void on_ReceiveCalibratedIMUValues_CheckBox_toggled(bool checked);
+    void on_CalibrateGyro_PushButton_released();
+    void on_setCalibrationValues_clicked();
+    void on_setCalibrationValues_PushButton_clicked();
+
+    void on_CalibrateGyro_PushButton_toggled(bool checked);
 
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
     void rawSensorDataRecievedEvent(SimpleCommunicator_t::RawSensorData_t rawSensorData);
+    void calibratedSensorDataRecievedEvent(SimpleCommunicator_t::CalibratedSensorData_t calibratedSensorData);
     void leakEvent(int send, int receive);
     void orientationReceivedEvent(float q1, float q2, float q3, float q4);
     void I2CDevicesRecieveEvent(bool PCA1, bool PCA2, bool ADXL345, bool HMC58X3, bool ITG3200, bool BMP085, bool MS5803);
@@ -138,6 +149,8 @@ private:
     void initPIDcoeffs();
     void initMotorsMultipliers();
     void initCameraMinMax();
+    void initIMUCalibration();
+    void saveIMUCalibration();
     void saveCamMinMax();
     void setDepthPID(double p, double i, double d);
     void setPitchPID(double p, double i, double d);
@@ -176,6 +189,12 @@ private:
     float _currentDepth = 0.0;
     float _currentYaw = 0.0;
     float _currentPitch = 0.0;
+
+    float _xGyroOffset = 0.0;
+    float _yGyroOffset = 0.0;
+    float _zGyroOffset = 0.0;
+
+    float _calibrateIteration = 0;
 
     int _count_of_recieved_pid = 0;
 
