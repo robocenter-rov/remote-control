@@ -218,10 +218,10 @@ private:
     float _y_move_force = 0;
     float _z_rotate_force = 0;
 
-    bool _isAutoDepth = true;
-    bool _isAutoYaw = true;
-    bool _isAutoPitch = true;
-    bool _isAutoRoll = true;
+    bool _isAutoDepth = false;
+    bool _isAutoYaw = false;
+    bool _isAutoPitch = false;
+    bool _isAutoRoll = false;
 #define DEPTH_DATA_SIZE 200
 #define PITCH_DATA_SIZE 200
 #define YAW_DATA_SIZE 200
