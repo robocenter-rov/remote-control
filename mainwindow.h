@@ -78,15 +78,17 @@ private slots:
     void onDepthPIDSpinBoxChanged(bool);
     void onPitchPIDSpinBoxChanged(bool);
     void onYawPIDSpinBoxChanged(bool);
+    void onRollPIDSpinBoxChanged(bool);
     void onSetMotorsMultiplier(bool);
     void onTabChanged(int idx);
     void onAutoDepthClicked(bool);
     void onAutoPitchClicked(bool);
     void onAutoYawClicked(bool);
+    void onAutoRollClicked(bool);
     void onServo1SliderChanged(int value);
     void onUseJoyCheckButtonClicked(bool);
     void onMotorStateRecieved(float m1, float m2, float m3, float m4, float m5, float m6, float m7, float m8);
-    void onPidStateReceived(SimpleCommunicator_t::PidState_t depth, SimpleCommunicator_t::PidState_t yaw, SimpleCommunicator_t::PidState_t pitch);
+    void onPidStateReceived(SimpleCommunicator_t::PidState_t depth, SimpleCommunicator_t::PidState_t yaw, SimpleCommunicator_t::PidState_t pitch, SimpleCommunicator_t::PidState_t roll);
     void on_receivePidStatesCheckbox_toggled(bool checked);
     void on_startAutoPitchButton_clicked();
     void on_checkBox_toggled(bool checked);
@@ -98,9 +100,11 @@ private slots:
     void onAutoDepthEdit(QString value);
     void onAutoPitchEdit(QString value);
     void onAutoYawEdit(QString value);
+    void onAutoRollEdit(QString value);
     void onAutoCurrentDepthClicked(bool value);
     void onAutoCurrentPitchClicked(bool value);
     void onAutoCurrentYawClicked(bool value);
+    void onAutoCurrentRollClicked(bool value);
     void clearScreenView();
     void showAxis(int value);    
     void on_cam1MinValSpinBox_valueChanged(double arg1);
@@ -130,12 +134,13 @@ signals:
     void bluetoothMsgRecieveEvent(std::string msg);
     void depthRecieveEvent(float depth);
     void motorStateReceiveEvent(float m1, float m2, float m3, float m4, float m5, float m6, float m7, float m8);
-    void pidStateReceiveEvent(SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t);
+    void pidStateReceiveEvent(SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t);
 private:
     void replotData();
     void replotDataDepth();
     void replotDataPitch();
     void replotDataYaw();
+    void replotDataRoll();
     void graphInit();
     void cameraInit();
     void loadQSS();
@@ -155,6 +160,7 @@ private:
     void setDepthPID(double p, double i, double d);
     void setPitchPID(double p, double i, double d);
     void setYawPID(double p, double i, double d);
+    void setRollPID(double p, double i, double d);
     void setCurrentTool();
     void setMotorsPos();
     Ui::MainWindow *_ui;
@@ -189,6 +195,7 @@ private:
     float _currentDepth = 0.0;
     float _currentYaw = 0.0;
     float _currentPitch = 0.0;
+    float _currentRoll = 0.0;
 
     float _xGyroOffset = 0.0;
     float _yGyroOffset = 0.0;
@@ -208,12 +215,15 @@ private:
     bool _isAutoDepth = true;
     bool _isAutoYaw = true;
     bool _isAutoPitch = true;
+    bool _isAutoRoll = true;
 #define DEPTH_DATA_SIZE 200
 #define PITCH_DATA_SIZE 200
 #define YAW_DATA_SIZE 200
+#define ROLL_DATA_SIZE 200
     QVector<SimpleCommunicator_t::PidState_t> _depthData;
     QVector<SimpleCommunicator_t::PidState_t> _pitchData;
     QVector<SimpleCommunicator_t::PidState_t> _yawData;
+    QVector<SimpleCommunicator_t::PidState_t> _rollData;
 //    QTimer *_depthDataTimer;
     QGraphicsPixmapItem _screen;
     VideoGraphicsScene *_videoScene;

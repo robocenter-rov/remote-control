@@ -61,19 +61,23 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->depthPIDButtton, SIGNAL(clicked(bool)), this, SLOT(onDepthPIDSpinBoxChanged(bool)));
     connect(_ui->pitchPIDButtton, SIGNAL(clicked(bool)), this, SLOT(onPitchPIDSpinBoxChanged(bool)));
     connect(_ui->yawPIDButtton, SIGNAL(clicked(bool)), this, SLOT(onYawPIDSpinBoxChanged(bool)));
+    connect(_ui->rollPIDButtton, SIGNAL(clicked(bool)), this, SLOT(onRollPIDSpinBoxChanged(bool)));
     connect(_ui->setMotorsMulButton, SIGNAL(clicked(bool)), this, SLOT(onSetMotorsMultiplier(bool)));
     connect(_ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
     connect(_ui->autoDepthCB, SIGNAL(clicked(bool)), this, SLOT(onAutoDepthClicked(bool)));
     connect(_ui->autoPitchCB, SIGNAL(clicked(bool)), this, SLOT(onAutoPitchClicked(bool)));
     connect(_ui->autoYawCB, SIGNAL(clicked(bool)), this, SLOT(onAutoYawClicked(bool)));
+    connect(_ui->autoRollCB, SIGNAL(clicked(bool)), this, SLOT(onAutoRollClicked(bool)));
     connect(_ui->servo1Slider, SIGNAL(valueChanged(int)), this, SLOT(onServo1SliderChanged(int)));
     connect(_ui->useJoyButton, SIGNAL(clicked(bool)), this, SLOT(onUseJoyCheckButtonClicked(bool)));
     connect(_ui->depthEdit, SIGNAL(textEdited(QString)), this, SLOT(onAutoDepthEdit(QString)));
     connect(_ui->pitchEdit, SIGNAL(textEdited(QString)), this, SLOT(onAutoPitchEdit(QString)));
     connect(_ui->yawEdit, SIGNAL(textEdited(QString)), this, SLOT(onAutoYawEdit(QString)));
+    connect(_ui->rollEdit, SIGNAL(textEdited(QString)), this, SLOT(onAutoRollEdit(QString)));
     connect(_ui->autoDepthCurrentCB, SIGNAL(clicked(bool)), this, SLOT(onAutoCurrentDepthClicked(bool)));
     connect(_ui->autoPitchCurrentCB, SIGNAL(clicked(bool)), this, SLOT(onAutoCurrentPitchClicked(bool)));
     connect(_ui->autoYawCurrentCB, SIGNAL(clicked(bool)), this, SLOT(onAutoCurrentYawClicked(bool)));
+    connect(_ui->autoRollCurrentCB, SIGNAL(clicked(bool)), this, SLOT(onAutoCurrentRollClicked(bool)));
     connectionProviderInit();
 
     connect(_messageTimer, SIGNAL(timeout()), this, SLOT(hideMessage()));
@@ -94,7 +98,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(bluetoothMsgRecieveEvent(std::string)), this, SLOT(onBluetoothMsgRecieve(std::string)));
     connect(this, SIGNAL(depthRecieveEvent(float)), this, SLOT(updateDepth(float)));
     connect(this, SIGNAL(motorStateReceiveEvent(float,float,float,float,float,float,float,float)), this, SLOT(onMotorStateRecieved(float,float,float,float,float,float,float,float)));
-    connect(this, SIGNAL(pidStateReceiveEvent(SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t)), this, SLOT(onPidStateReceived(SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t)));
+    connect(this, SIGNAL(pidStateReceiveEvent(SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t)), this, SLOT(onPidStateReceived(SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t)));
 
     showMessage("Connection...", CL_YELLOW);
     graphInit();
@@ -281,8 +285,9 @@ void MainWindow::connectionProviderInit()
 
         _communicator->OnPidStateReceive([&](SimpleCommunicator_t::PidState_t depth,
                                          SimpleCommunicator_t::PidState_t yaw,
-                                         SimpleCommunicator_t::PidState_t pitch){
-            emit pidStateReceiveEvent(depth, yaw, pitch);
+                                         SimpleCommunicator_t::PidState_t pitch,
+                                         SimpleCommunicator_t::PidState_t roll){
+            emit pidStateReceiveEvent(depth, yaw, pitch, roll);
         });
 
         _communicator->Begin();
@@ -423,7 +428,7 @@ void MainWindow::readAndSendJoySensors()
     } else {
         _ui->autoDepthMainInfoCB->setChecked(false);
         _ui->autoDepthMainInfoCB->setText(QString("AutoDepth"));
-        _communicator->SetLocalZForce(z * 2);
+        _communicator->SetLocalZForce(z * 4);
     }
     if (tz == 0 && _isAutoYaw) {
         if (!_communicator->IsAutoYawEnabled()) {
@@ -449,7 +454,7 @@ void MainWindow::readAndSendJoySensors()
     } else if (abs(-x) < start_val) {
         _x_move_force = start_val * ((-x) < 0 ? -1 : 1);
     } else {
-        _x_move_force += ((-x * 1.5 * _sensitivity) - _x_move_force) * 0.3f;
+        _x_move_force += ((-x * _sensitivity) - _x_move_force) * 0.3f;
     }
 
     if (abs(y) < zero_val) {
@@ -457,7 +462,7 @@ void MainWindow::readAndSendJoySensors()
     } else if (abs(y) < start_val) {
         _y_move_force = start_val * (y < 0 ? -1 : 1);
     } else {
-        _y_move_force += ((y * 1.5 * _sensitivity) - _y_move_force) * 0.3f;
+        _y_move_force += ((y * _sensitivity) - _y_move_force) * 0.3f;
     }
 
     _communicator->SetMovementForce(_x_move_force, _y_move_force);
@@ -781,6 +786,22 @@ void MainWindow::onYawPIDSpinBoxChanged(bool value)
     }
 }
 
+void MainWindow::onRollPIDSpinBoxChanged(bool)
+{
+    double p = _ui->rollPSpinBox->value();
+    double i = _ui->rollISpinBox->value();
+    double d = _ui->rollDSpinBox->value();
+    _communicator->SetRollPid(p, i, d);
+    std::ofstream fout;
+    fout.open("roll.txt");
+    if (fout.is_open()) {
+        fout << p << " " << i << " "<< d;
+        fout.close();
+    } else {
+        qDebug() << "Cant't open file: roll.txt";
+    }
+}
+
 void MainWindow::onTabChanged(int idx)
 {
     if (idx == 0) {
@@ -818,6 +839,18 @@ void MainWindow::onAutoPitchClicked(bool value)
         _ui->autoPitchCurrentCB->setChecked(false);
         _ui->stabPitchValue->setText(_ui->pitchEdit->text());
         _communicator->SetPitch(pitch);
+    } else {
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
+    }
+}
+
+void MainWindow::onAutoRollClicked(bool value)
+{
+    float roll = _ui->rollEdit->text().toFloat();
+    if (value) {
+        _ui->autoRollCurrentCB->setChecked(false);
+        _ui->stabRollValue->setText(_ui->rollEdit->text());
+        _communicator->SetRoll(roll);
     } else {
         _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
@@ -902,7 +935,7 @@ void MainWindow::onMotorStateRecieved(float m1, float m2, float m3, float m4, fl
     _ui->m7LoadNegativeProgressBar->setValue(std::min(0.f, m8*maxval)*-1);
 }
 
-void MainWindow::onPidStateReceived(SimpleCommunicator_t::PidState_t depth, SimpleCommunicator_t::PidState_t yaw, SimpleCommunicator_t::PidState_t pitch)
+void MainWindow::onPidStateReceived(SimpleCommunicator_t::PidState_t depth, SimpleCommunicator_t::PidState_t yaw, SimpleCommunicator_t::PidState_t pitch, SimpleCommunicator_t::PidState_t roll)
 {
     _count_of_recieved_pid++;
     _ui->depthInValueLabel->setText(std::to_string(depth.In).c_str());
@@ -917,12 +950,18 @@ void MainWindow::onPidStateReceived(SimpleCommunicator_t::PidState_t depth, Simp
     _ui->pitchTarValueLabel->setText(std::to_string(pitch.Target).c_str());
     _ui->pitchOutValueLabel->setText(std::to_string(pitch.Out).c_str());
 
+    _ui->rollInValueLabel->setText(std::to_string(roll.In).c_str());
+    _ui->rollTarValueLabel->setText(std::to_string(roll.Target).c_str());
+    _ui->rollOutValueLabel->setText(std::to_string(roll.Out).c_str());
+
     _depthData.pop_front();
     _depthData.push_back(depth);
     _pitchData.pop_front();
     _pitchData.push_back(pitch);
     _yawData.pop_front();
     _yawData.push_back(yaw);
+    _rollData.pop_front();
+    _rollData.push_back(roll);
     replotData();
 }
 
@@ -938,22 +977,27 @@ void MainWindow::graphInit()
         _ui->autoDepthGraph->addGraph();
         _ui->autoPitchGraph->addGraph();
         _ui->autoYawGraph->addGraph();
+        _ui->autoRollGraph->addGraph();
 
         _ui->autoDepthGraph->graph(i)->setData(x, y);
         _ui->autoPitchGraph->graph(i)->setData(x, y);
         _ui->autoYawGraph->graph(i)->setData(x, y);
+        _ui->autoRollGraph->graph(i)->setData(x, y);
 
         _ui->autoDepthGraph->graph(i)->setPen(colors[i]);
         _ui->autoPitchGraph->graph(i)->setPen(colors[i]);
         _ui->autoYawGraph->graph(i)->setPen(colors[i]);
+        _ui->autoRollGraph->graph(i)->setPen(colors[i]);
     }
     _ui->autoDepthGraph->xAxis->setRange(-DEPTH_DATA_SIZE, 0);
     _ui->autoPitchGraph->xAxis->setRange(-PITCH_DATA_SIZE, 0);
     _ui->autoYawGraph->xAxis->setRange(-YAW_DATA_SIZE, 0);
+    _ui->autoRollGraph->xAxis->setRange(-ROLL_DATA_SIZE, 0);
 
     _ui->autoDepthGraph->replot();
     _ui->autoPitchGraph->replot();
     _ui->autoYawGraph->replot();
+    _ui->autoRollGraph->replot();
 
     SimpleCommunicator_t::PidState_t t;
     t.In = 0.f;
@@ -968,6 +1012,9 @@ void MainWindow::graphInit()
     for (int i = 0; i < YAW_DATA_SIZE; i++) {
        _yawData.push_back(t);
     }
+    for (int i = 0; i < ROLL_DATA_SIZE; i++) {
+        _rollData.push_back(t);
+    }
 }
 
 void MainWindow::replotData()
@@ -975,6 +1022,7 @@ void MainWindow::replotData()
     replotDataDepth();
     replotDataPitch();
     replotDataYaw();
+    replotDataRoll();
 }
 
 void MainWindow::replotDataDepth()
@@ -1045,6 +1093,28 @@ void MainWindow::replotDataYaw()
     _ui->autoYawGraph->xAxis->setRange(x[0], x[0] + YAW_DATA_SIZE);
     _ui->autoYawGraph->yAxis->setRange(-3.1416, 3.1416);
     _ui->autoYawGraph->replot();
+}
+
+void MainWindow::replotDataRoll() {
+    QVector<double> x(ROLL_DATA_SIZE), y1(ROLL_DATA_SIZE), y2(ROLL_DATA_SIZE), y3(ROLL_DATA_SIZE);
+    for (int i = 0; i < ROLL_DATA_SIZE; i++){
+        x[i] = i + _count_of_recieved_pid - ROLL_DATA_SIZE;
+        y1[i] = _rollData[i].In;
+        y2[i] = _rollData[i].Out;
+        y3[i] = _rollData[i].Target;
+    }
+    _ui->autoRollGraph->graph(0)->setData(x, y1);
+    _ui->autoRollGraph->graph(1)->setData(x, y2);
+    _ui->autoRollGraph->graph(2)->setData(x, y3);
+
+    double minY = y1[0], maxY = y1[0];
+    for (int i = 0; i < ROLL_DATA_SIZE; i++) {
+        minY = MIN(minY, MIN(y1[i], MIN(y2[i], y3[i])));
+        minY = MAX(maxY, MAX(y1[i], MAX(y2[i], y3[i])));
+    }
+    _ui->autoRollGraph->xAxis->setRange(x[0], x[0] + ROLL_DATA_SIZE);
+    _ui->autoRollGraph->yAxis->setRange(-3.1416, 3.1416);
+    _ui->autoRollGraph->replot();
 }
 
 void MainWindow::on_receivePidStatesCheckbox_toggled(bool checked)
@@ -1147,6 +1217,17 @@ void MainWindow::onAutoYawEdit(QString value)
     }
 }
 
+void MainWindow::onAutoRollEdit(QString value)
+{
+    float roll = value.toFloat();
+    if (_ui->autoRollCB->isChecked()) {
+        _ui->stabRollValue->setText(_ui->rollEdit->text());
+        _communicator->SetRoll(roll);
+    } else {
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
+    }
+}
+
 void MainWindow::onAutoCurrentDepthClicked(bool value)
 {
     if (value) {
@@ -1175,6 +1256,17 @@ void MainWindow::onAutoCurrentYawClicked(bool value)
         _ui->autoYawCB->setChecked(false);
         _ui->stabYawValue->setText(std::to_string(_currentYaw).c_str());
         _communicator->SetYaw(_currentYaw);
+    } else {
+        _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
+    }
+}
+
+void MainWindow::onAutoCurrentRollClicked(bool value)
+{
+    if (value) {
+        _ui->autoRollCB->setChecked(false);
+        _ui->stabRollValue->setText(std::to_string(_currentRoll).c_str());
+        _communicator->SetRoll(_currentRoll);
     } else {
         _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
     }
@@ -1235,42 +1327,26 @@ void MainWindow::on_cam2MaxValSpinBox_valueChanged(double arg1)
 
 void MainWindow::initPIDcoeffs()
 {
-    std::ifstream fDepth, fPitch, fYaw;
+    std::string fname[4] = {"depth.txt", "pitch.txt", "yaw.txt", "roll.txt" };
+    std::ifstream fout;
     double p, i, d;
     qDebug() << "init pid coeffs";
     try {
-        fDepth.open("depth.txt", fstream::in);
-        p = 0.0, i = 0.0, d = 0.0;
-        if (fDepth.is_open()) {
-            fDepth >> p >> i >> d;
-            qDebug() << "depth: " << p << i << d;
-            setDepthPID(p, i, d);
-        } else {
-            qDebug() << "Can't open file: " << "depth.txt";
+        for (int k = 0; k < 4; k++) {
+            fout.open(fname[k], fstream::in);
+            p = 0.0, i = 0.0, d = 0.0;
+            if (fout.is_open()) {
+                fout >> p >> i >> d;
+                qDebug() << p << i << d << ">" << fname[k].c_str();
+                if (k == 0) setDepthPID(p, i, d);
+                if (k == 1) setPitchPID(p, i, d);
+                if (k == 2) setYawPID(p, i, d);
+                if (k == 3) setRollPID(p, i, d);
+            } else {
+                qDebug() << "Can't open file: " << fname[k].c_str();
+            }
+            fout.close();
         }
-        fDepth.close();
-
-        fPitch.open("pitch.txt", fstream::in);
-        p = 0.0; i = 0.0; d = 0.0;
-        if (fPitch.is_open()) {
-            fPitch >> p >> i >> d;
-            qDebug() << "pitch: " << p << i << d;
-            setPitchPID(p, i, d);
-        } else {
-            qDebug() << "Can't open file: " << "pitch.txt";
-        }
-        fPitch.close();
-
-        fYaw.open("yaw.txt", fstream::in);
-        p = 0.0; i = 0.0; d = 0.0;
-        if (fYaw.is_open()) {
-            fYaw >> p >> i >> d;
-            qDebug() << "yaw: " << p << i << d;
-            setYawPID(p, i, d);
-        } else {
-            qDebug() << "Can't open file: " << "yaw.txt";
-        }
-        fYaw.close();
     } catch (std::ifstream::failure e) {
         qDebug() << "Exception opening file: " << strerror(errno);
     }
@@ -1298,6 +1374,14 @@ void MainWindow::setYawPID(double p, double i, double d)
     _ui->yawISpinBox->setValue(i);
     _ui->yawDSpinBox->setValue(d);
     _communicator->SetYawPid(p, i, d);
+}
+
+void MainWindow::setRollPID(double p, double i, double d)
+{
+    _ui->rollPSpinBox->setValue(p);
+    _ui->rollISpinBox->setValue(i);
+    _ui->rollDSpinBox->setValue(d);
+    _communicator->SetRollPid(p, i, d);
 }
 
 void MainWindow::initMotorsMultipliers()

@@ -41,7 +41,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="mainTab">
        <attribute name="title">
@@ -1009,120 +1009,6 @@
         </property>
         <property name="text">
          <string>Stop</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="camera1Label">
-        <property name="geometry">
-         <rect>
-          <x>170</x>
-          <y>580</y>
-          <width>61</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Camera 1</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QLabel" name="camera2Label">
-        <property name="geometry">
-         <rect>
-          <x>170</x>
-          <y>610</y>
-          <width>61</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Camera 2</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QSlider" name="camera1Slider">
-        <property name="geometry">
-         <rect>
-          <x>240</x>
-          <y>580</y>
-          <width>121</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="minimum">
-         <number>-90</number>
-        </property>
-        <property name="maximum">
-         <number>90</number>
-        </property>
-        <property name="pageStep">
-         <number>1</number>
-        </property>
-        <property name="value">
-         <number>0</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-       <widget class="QSlider" name="camera2Slider">
-        <property name="geometry">
-         <rect>
-          <x>240</x>
-          <y>610</y>
-          <width>121</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="minimum">
-         <number>-90</number>
-        </property>
-        <property name="maximum">
-         <number>90</number>
-        </property>
-        <property name="pageStep">
-         <number>1</number>
-        </property>
-        <property name="value">
-         <number>0</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-       <widget class="QLabel" name="camera1valueLabel">
-        <property name="geometry">
-         <rect>
-          <x>370</x>
-          <y>580</y>
-          <width>41</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>0</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QLabel" name="camera2valueLabel">
-        <property name="geometry">
-         <rect>
-          <x>370</x>
-          <y>610</y>
-          <width>41</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>0</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
         </property>
        </widget>
        <widget class="QPushButton" name="SetMotorsIdx">
@@ -2159,134 +2045,6 @@ font-size: 12px;
          <string>Current pitch</string>
         </property>
        </widget>
-       <widget class="QLabel" name="cam1MinVal">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>650</y>
-          <width>61</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Cam1Min</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="cam1MaxVal">
-        <property name="geometry">
-         <rect>
-          <x>210</x>
-          <y>650</y>
-          <width>61</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Cam1Max</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="cam2MinVal">
-        <property name="geometry">
-         <rect>
-          <x>390</x>
-          <y>650</y>
-          <width>61</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Cam2Min</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="cam2MaxVal">
-        <property name="geometry">
-         <rect>
-          <x>590</x>
-          <y>650</y>
-          <width>61</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Cam2Max</string>
-        </property>
-       </widget>
-       <widget class="QDoubleSpinBox" name="cam1MinValSpinBox">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>650</y>
-          <width>81</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="minimum">
-         <double>-1000.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>1000.000000000000000</double>
-        </property>
-        <property name="value">
-         <double>0.000000000000000</double>
-        </property>
-       </widget>
-       <widget class="QDoubleSpinBox" name="cam1MaxValSpinBox">
-        <property name="geometry">
-         <rect>
-          <x>280</x>
-          <y>650</y>
-          <width>81</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="minimum">
-         <double>-1000.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>1000.000000000000000</double>
-        </property>
-        <property name="value">
-         <double>180.000000000000000</double>
-        </property>
-       </widget>
-       <widget class="QDoubleSpinBox" name="cam2MinValSpinBox">
-        <property name="geometry">
-         <rect>
-          <x>450</x>
-          <y>650</y>
-          <width>81</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="minimum">
-         <double>-1000.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>1000.000000000000000</double>
-        </property>
-        <property name="value">
-         <double>0.000000000000000</double>
-        </property>
-       </widget>
-       <widget class="QDoubleSpinBox" name="cam2MaxValSpinBox">
-        <property name="geometry">
-         <rect>
-          <x>660</x>
-          <y>650</y>
-          <width>91</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="minimum">
-         <double>-1000.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>1000.000000000000000</double>
-        </property>
-        <property name="value">
-         <double>180.000000000000000</double>
-        </property>
-       </widget>
        <widget class="QProgressBar" name="m6LoadNegativeProgressBar">
         <property name="enabled">
          <bool>false</bool>
@@ -2639,7 +2397,7 @@ font-size: 12px;
         <property name="geometry">
          <rect>
           <x>710</x>
-          <y>140</y>
+          <y>180</y>
           <width>361</width>
           <height>291</height>
          </rect>
@@ -3088,6 +2846,360 @@ font-size: 12px;
           <string>Set Calibration Values</string>
          </property>
         </widget>
+        <zorder>label_13</zorder>
+        <zorder>label_14</zorder>
+        <zorder>label_15</zorder>
+        <zorder>xGyroRawValue_Label</zorder>
+        <zorder>yGyroRawValue_Label</zorder>
+        <zorder>zGyroRawValue_Label</zorder>
+        <zorder>ReceiveRawIMUValues_CheckBox</zorder>
+        <zorder>CalibrateGyro_PushButton</zorder>
+        <zorder>yAccRawValue_Label</zorder>
+        <zorder>zAccRawValue_Label</zorder>
+        <zorder>xAccRawValue_Label</zorder>
+        <zorder>xGyroOffset_LineEdit</zorder>
+        <zorder>yGyroOffset_LineEdit</zorder>
+        <zorder>zGyroOffset_LineEdit</zorder>
+        <zorder>yAccelOffset_LineEdit</zorder>
+        <zorder>xAccelOffset_LineEdit</zorder>
+        <zorder>zAccelOffset_LineEdit</zorder>
+        <zorder>ReceiveCalibratedIMUValues_CheckBox</zorder>
+        <zorder>zAccCalibratedValue_Label</zorder>
+        <zorder>yGyroCalibratedValue_Label</zorder>
+        <zorder>yAccCalibratedValue_Label</zorder>
+        <zorder>zGyroCalibratedValue_Label</zorder>
+        <zorder>xAccCalibratedValue_Label</zorder>
+        <zorder>xGyroCalibratedValue_Label</zorder>
+        <zorder>label_16</zorder>
+        <zorder>label_17</zorder>
+        <zorder>label_18</zorder>
+        <zorder>label_19</zorder>
+        <zorder>label_20</zorder>
+        <zorder>label_21</zorder>
+        <zorder>zAccelScale_LineEdit</zorder>
+        <zorder>yAccelScale_LineEdit</zorder>
+        <zorder>xAccelScale_LineEdit</zorder>
+        <zorder>GyroScale_LineEdit</zorder>
+        <zorder>label_22</zorder>
+        <zorder>setCalibrationValues_PushButton</zorder>
+        <zorder>stabYawValue_2</zorder>
+        <zorder>yawEdit_2</zorder>
+        <zorder>autoYawCB_2</zorder>
+        <zorder>autoYawCurrentCB_2</zorder>
+       </widget>
+       <widget class="QLineEdit" name="rollEdit">
+        <property name="geometry">
+         <rect>
+          <x>850</x>
+          <y>130</y>
+          <width>71</width>
+          <height>21</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="autoRollCB">
+        <property name="geometry">
+         <rect>
+          <x>830</x>
+          <y>130</y>
+          <width>16</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="autoRollCurrentCB">
+        <property name="geometry">
+         <rect>
+          <x>710</x>
+          <y>130</y>
+          <width>101</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Current roll</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="stabRollValue">
+        <property name="geometry">
+         <rect>
+          <x>930</x>
+          <y>130</y>
+          <width>91</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QScrollArea" name="camerasScrollArea">
+        <property name="geometry">
+         <rect>
+          <x>710</x>
+          <y>490</y>
+          <width>441</width>
+          <height>131</height>
+         </rect>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>439</width>
+           <height>129</height>
+          </rect>
+         </property>
+         <widget class="QDoubleSpinBox" name="cam1MinValSpinBox">
+          <property name="geometry">
+           <rect>
+            <x>70</x>
+            <y>10</y>
+            <width>81</width>
+            <height>22</height>
+           </rect>
+          </property>
+          <property name="minimum">
+           <double>-1000.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>1000.000000000000000</double>
+          </property>
+          <property name="value">
+           <double>0.000000000000000</double>
+          </property>
+         </widget>
+         <widget class="QLabel" name="cam1MinVal">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>61</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Cam1Min</string>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="cam1MaxValSpinBox">
+          <property name="geometry">
+           <rect>
+            <x>70</x>
+            <y>40</y>
+            <width>81</width>
+            <height>22</height>
+           </rect>
+          </property>
+          <property name="minimum">
+           <double>-1000.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>1000.000000000000000</double>
+          </property>
+          <property name="value">
+           <double>180.000000000000000</double>
+          </property>
+         </widget>
+         <widget class="QLabel" name="cam1MaxVal">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>40</y>
+            <width>61</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Cam1Max</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="cam2MinVal">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>70</y>
+            <width>61</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Cam2Min</string>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="cam2MinValSpinBox">
+          <property name="geometry">
+           <rect>
+            <x>70</x>
+            <y>70</y>
+            <width>81</width>
+            <height>22</height>
+           </rect>
+          </property>
+          <property name="minimum">
+           <double>-1000.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>1000.000000000000000</double>
+          </property>
+          <property name="value">
+           <double>0.000000000000000</double>
+          </property>
+         </widget>
+         <widget class="QLabel" name="cam2MaxVal">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>100</y>
+            <width>61</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Cam2Max</string>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="cam2MaxValSpinBox">
+          <property name="geometry">
+           <rect>
+            <x>70</x>
+            <y>100</y>
+            <width>81</width>
+            <height>22</height>
+           </rect>
+          </property>
+          <property name="minimum">
+           <double>-1000.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>1000.000000000000000</double>
+          </property>
+          <property name="value">
+           <double>180.000000000000000</double>
+          </property>
+         </widget>
+         <widget class="QSlider" name="camera2Slider">
+          <property name="geometry">
+           <rect>
+            <x>240</x>
+            <y>80</y>
+            <width>121</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="minimum">
+           <number>-90</number>
+          </property>
+          <property name="maximum">
+           <number>90</number>
+          </property>
+          <property name="pageStep">
+           <number>1</number>
+          </property>
+          <property name="value">
+           <number>0</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="QLabel" name="camera2Label">
+          <property name="geometry">
+           <rect>
+            <x>170</x>
+            <y>80</y>
+            <width>61</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Camera 2</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="QSlider" name="camera1Slider">
+          <property name="geometry">
+           <rect>
+            <x>240</x>
+            <y>30</y>
+            <width>121</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="minimum">
+           <number>-90</number>
+          </property>
+          <property name="maximum">
+           <number>90</number>
+          </property>
+          <property name="pageStep">
+           <number>1</number>
+          </property>
+          <property name="value">
+           <number>0</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="QLabel" name="camera1Label">
+          <property name="geometry">
+           <rect>
+            <x>170</x>
+            <y>30</y>
+            <width>61</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Camera 1</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="camera2valueLabel">
+          <property name="geometry">
+           <rect>
+            <x>370</x>
+            <y>80</y>
+            <width>41</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="camera1valueLabel">
+          <property name="geometry">
+           <rect>
+            <x>370</x>
+            <y>30</y>
+            <width>41</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="pidTab">
@@ -3098,7 +3210,7 @@ font-size: 12px;
         <item>
          <widget class="QTabWidget" name="pidTrioTab">
           <property name="currentIndex">
-           <number>1</number>
+           <number>3</number>
           </property>
           <widget class="QWidget" name="depthPidTab">
            <attribute name="title">
@@ -3730,6 +3842,217 @@ font-size: 12px;
             </property>
             <property name="text">
              <string>pitch I</string>
+            </property>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="tab">
+           <attribute name="title">
+            <string>Roll</string>
+           </attribute>
+           <widget class="QDoubleSpinBox" name="rollDSpinBox">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>80</y>
+              <width>62</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="decimals">
+             <number>4</number>
+            </property>
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+           <widget class="QLabel" name="rollOutValueLabel">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>220</y>
+              <width>81</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>0.00</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="rollTargetLabel">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>190</y>
+              <width>47</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Target:</string>
+            </property>
+           </widget>
+           <widget class="QCustomPlot" name="autoRollGraph" native="true">
+            <property name="geometry">
+             <rect>
+              <x>160</x>
+              <y>20</y>
+              <width>1021</width>
+              <height>521</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QLabel" name="rollTarValueLabel">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>190</y>
+              <width>81</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>0.00</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="rollInLabel">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>160</y>
+              <width>47</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>In:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="rollPLabel">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>20</y>
+              <width>51</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>roll P</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="rollPIDButtton">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>110</y>
+              <width>121</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Set PID Roll</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="rollDLabel">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>80</y>
+              <width>51</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>roll D</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="rollOutputLabel">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>220</y>
+              <width>47</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Output:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="rolILabel">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>50</y>
+              <width>51</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>roll I</string>
+            </property>
+           </widget>
+           <widget class="QDoubleSpinBox" name="rollISpinBox">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>50</y>
+              <width>62</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="decimals">
+             <number>4</number>
+            </property>
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+           <widget class="QDoubleSpinBox" name="rollPSpinBox">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>20</y>
+              <width>62</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="decimals">
+             <number>4</number>
+            </property>
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+           <widget class="QLabel" name="rollInValueLabel">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>160</y>
+              <width>81</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>0.00</string>
             </property>
            </widget>
           </widget>
