@@ -41,7 +41,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="mainTab">
        <attribute name="title">
@@ -189,7 +189,7 @@
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>550</y>
+              <y>610</y>
               <width>71</width>
               <height>31</height>
              </rect>
@@ -202,7 +202,7 @@
             <property name="geometry">
              <rect>
               <x>70</x>
-              <y>550</y>
+              <y>610</y>
               <width>91</width>
               <height>31</height>
              </rect>
@@ -609,22 +609,6 @@
              <string>AutoPitch</string>
             </property>
            </widget>
-           <widget class="QLCDNumber" name="lcdNumber">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="geometry">
-             <rect>
-              <x>150</x>
-              <y>460</y>
-              <width>64</width>
-              <height>23</height>
-             </rect>
-            </property>
-            <property name="smallDecimalPoint">
-             <bool>false</bool>
-            </property>
-           </widget>
            <widget class="QRadioButton" name="radioPCA3">
             <property name="enabled">
              <bool>true</bool>
@@ -645,6 +629,32 @@
             </property>
             <property name="autoExclusive">
              <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="sensitivityLabel">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>540</y>
+              <width>81</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Sensitivity</string>
+            </property>
+           </widget>
+           <widget class="QProgressBar" name="sensitivityPB">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>540</y>
+              <width>118</width>
+              <height>23</height>
+             </rect>
+            </property>
+            <property name="value">
+             <number>100</number>
             </property>
            </widget>
           </widget>
@@ -2398,7 +2408,7 @@ font-size: 12px;
          <rect>
           <x>710</x>
           <y>180</y>
-          <width>361</width>
+          <width>371</width>
           <height>291</height>
          </rect>
         </property>

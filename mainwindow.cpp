@@ -409,12 +409,9 @@ void MainWindow::readAndSendJoySensors()
     float tz = (ABS(thrust[3]) < eps) ? 0 : thrust[3];
     float dist = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 
-    if (dist > 1) {
-        x /= dist;
-        y /= dist;
-    }
-
-    float _sensitivity = _control_sensitivities[_control_sensitivity_level];
+    x *= 2.83;
+    y *= 2.83;
+    float _sensitivity = _control_sensitivity;
 
     const float start_val = 0.2f;
     const float zero_val = 0.05f;
@@ -530,22 +527,16 @@ void MainWindow::joyManipulatorButtonHandle()
             _isAutoYaw = !_isAutoYaw;
         }
     }
-    if (_joy->atBtn(3)) {
-        if (_joy->btnStateChanged(3)) {
-            _control_sensitivity_level = 0;
-            _ui->lcdNumber->display("0");
+    if (_joy->atBtn(12)) {
+        if (_joy->btnStateChanged(12)) {
+            _control_sensitivity = MAX(_control_sensitivity - 0.1f, 0.1);
+            updateSensitivity();
         }
     }
-    if (_joy->atBtn(5)) {
-        if (_joy->btnStateChanged(5)) {
-            _control_sensitivity_level = 1;
-            _ui->lcdNumber->display("1");
-        }
-    }
-    if (_joy->atBtn(6)) {
-        if (_joy->btnStateChanged(6)) {
-            _control_sensitivity_level = 2;
-            _ui->lcdNumber->display("2");
+    if (_joy->atBtn(11)) {
+        if (_joy->btnStateChanged(11)) {
+            _control_sensitivity = MIN(_control_sensitivity + 0.1f, 1);
+            updateSensitivity();
         }
     }
     _communicator->SetManipulatorState(
@@ -554,6 +545,11 @@ void MainWindow::joyManipulatorButtonHandle()
         _curManipulator._m1,
         _curManipulator._m2
     );
+}
+
+void MainWindow::updateSensitivity()
+{
+    _ui->sensitivityPB->setValue(int(_control_sensitivity*10)*10);
 }
 
 void MainWindow::onLeak(int send, int receive)
