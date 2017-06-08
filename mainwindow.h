@@ -34,6 +34,12 @@ enum msg_color_t {
     CL_YELLOW
 };
 
+enum auto_mode_state_t {
+    AM_ON,
+    AM_USED,
+    AM_OFF
+};
+
 class BaseTool;
 
 class MainWindow : public QMainWindow
@@ -164,6 +170,7 @@ private:
     void setCurrentTool();
     void setMotorsPos();
     void updateSensitivity();
+    void setAutoModeStates(QLabel *am_label, auto_mode_state_t state, QString currentVal);
     Ui::MainWindow *_ui;
     RoboCamera *_mainCamera;
     RoboCamera *_extraCamera;

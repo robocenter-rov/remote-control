@@ -392,6 +392,19 @@ void MainWindow::updateCalibratedSensorData(SimpleCommunicator_t::CalibratedSens
     _ui->zAccCalibratedValue_Label->setText(std::to_string(calibratedSensorData.Az).c_str());
 }
 
+void MainWindow::setAutoModeStates(QLabel *am_label, auto_mode_state_t state, QString currentVal)
+{
+    QString color_style[3] = {"color: rgb(170, 170, 0);", "color: rgb(0, 170, 0);", "color: rgb(170, 0, 0);"};
+
+    QString style = QString("QLabel#") + am_label->objectName() +
+            QString("{") +
+            QString(color_style[state]) +
+            QString("font-size: 14px; }");
+    am_label->setText(currentVal);
+    am_label->setStyleSheet(style);
+    qDebug() << style;
+}
+
 #define ABS(x) ((x < 0) ? (-x) : (x))
 
 void MainWindow::readAndSendJoySensors()
@@ -404,7 +417,7 @@ void MainWindow::readAndSendJoySensors()
     float eps = 0.03;
     float y = (ABS(thrust[1]) < eps) ? 0 : thrust[1];
     float x = (ABS(thrust[0]) < eps) ? 0 : thrust[0];
-    float z = (ABS(thrust[4]) < 0.15) ? 0 : thrust[4];
+    float z = (ABS(thrust[4]) < 0.3) ? 0 : thrust[4];
     float ty = 0;
     float tz = (ABS(thrust[3]) < eps) ? 0 : thrust[3];
     float dist = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
@@ -415,28 +428,32 @@ void MainWindow::readAndSendJoySensors()
 
     const float start_val = 0.2f;
     const float zero_val = 0.05f;
-
-    if (z == 0 && _isAutoDepth) {
-        if (!_communicator->IsAutoDepthEnabled()) {
-            _communicator->SetDepth(_currentDepth);
-            _ui->autoDepthMainInfoCB->setChecked(true);
-            _ui->autoDepthMainInfoCB->setText(QString("AutoDepth: ") + std::to_string(_currentDepth).c_str());
+    qDebug() << "isAutoDepth: " << _isAutoDepth;
+    if (_isAutoDepth) {
+        if (z == 0) {
+            if (!_communicator->IsAutoDepthEnabled()) {
+                _communicator->SetDepth(_currentDepth);
+            }
+            setAutoModeStates(_ui->autoDepthStateLabel, AM_USED, std::to_string(_currentDepth).c_str());
+        } else {
+            setAutoModeStates(_ui->autoDepthStateLabel, AM_ON, "ON");
         }
     } else {
-        _ui->autoDepthMainInfoCB->setChecked(false);
-        _ui->autoDepthMainInfoCB->setText(QString("AutoDepth"));
+        setAutoModeStates(_ui->autoDepthStateLabel, AM_OFF, "OFF");
         _communicator->SetLocalZForce(z * 4);
     }
-    if (tz == 0 && _isAutoYaw) {
-        if (!_communicator->IsAutoYawEnabled()) {
-            _communicator->SetYaw(_currentYaw);
-            _ui->autoYawMainInfoCB->setChecked(true);
-            _ui->autoYawMainInfoCB->setText(QString("AutoYaw: ") + std::to_string(_currentYaw).c_str());
+    qDebug() << "isAutoYaw: " << _isAutoYaw;
+    if (_isAutoYaw) {
+        if (tz == 0) {
+            if (!_communicator->IsAutoYawEnabled()) {
+                _communicator->SetYaw(_currentYaw);
+            }
+            setAutoModeStates(_ui->autoYawStateLabel, AM_USED, std::to_string(_currentYaw).c_str());
+        } else {
+            setAutoModeStates(_ui->autoYawStateLabel, AM_ON, "ON");
         }
     } else {
-        _ui->autoYawMainInfoCB->setChecked(false);
-        _ui->autoYawMainInfoCB->setText(QString("AutoYaw"));
-
+        setAutoModeStates(_ui->autoYawStateLabel, AM_OFF, "OFF");
         if (abs(tz) < zero_val) {
             _z_rotate_force = 0;
         } else {
@@ -507,24 +524,37 @@ void MainWindow::joyManipulatorButtonHandle()
         if (_joy->btnStateChanged(13)) {
             _communicator->SetFlashlightState(_flashLightState = !_flashLightState);
         }
-    }if (_joy->atBtn(7)) {/*
+    }
+    if (_joy->atBtn(5)) {
+        if (_joy->btnStateChanged(5)) {
+            _isAutoDepth = !_isAutoDepth;
+        }
+    }
+    if (_joy->atBtn(6)) {
         if (_joy->btnStateChanged(6)) {
-            _isAutoPitch = !_isAutoPitch;
-            if (_isAutoPitch) {
-                _communicator->SetPitch(0);
-            } else {
-                _communicator->SetPitchForce(0);
-            }
-        }*/
+            _isAutoYaw = !_isAutoYaw;
+        }
     }
     if (_joy->atBtn(7)) {
         if (_joy->btnStateChanged(7)) {
-            _isAutoDepth = !_isAutoDepth;
+            _isAutoPitch = !_isAutoPitch;
+            setAutoModeStates(_ui->autoPitchStateLabel, _isAutoPitch ? AM_USED : AM_OFF, _isAutoPitch ? "ON" : "OFF");
+            if (_isAutoPitch) {
+                _communicator->SetPitch(0);
+            } else {
+                _communicator->SetPitchForce(_currentPitch);
+            }
         }
     }
     if (_joy->atBtn(8)) {
         if (_joy->btnStateChanged(8)) {
-            _isAutoYaw = !_isAutoYaw;
+            _isAutoRoll = !_isAutoRoll;
+            setAutoModeStates(_ui->autoRollStateLabel, _isAutoRoll ? AM_USED : AM_OFF, _isAutoRoll ? "ON" : "OFF");
+            if (_isAutoPitch) {
+                _communicator->SetRoll(0);
+            } else {
+                _communicator->SetRollForce(_currentRoll);
+            }
         }
     }
     if (_joy->atBtn(12)) {
