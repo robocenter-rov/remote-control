@@ -520,7 +520,16 @@ void MainWindow::joyManipulatorButtonHandle()
         _communicator->SetCamera1LocalPos(cameraPos1);
         qDebug() << cameraPos1;
     }
-
+    if (_joy->atHat(SDL_HAT_UP)) {
+        cameraPos2 = MIN(3.14f/2.0, cameraPos2 + 0.05);
+        _communicator->SetCamera2LocalPos(cameraPos2);
+        qDebug() << cameraPos2;
+    }
+    if (_joy->atHat(SDL_HAT_DOWN)) {
+        cameraPos2 = MAX(-3.14f/2.0, cameraPos2 - 0.05);
+        _communicator->SetCamera2LocalPos(cameraPos2);
+        qDebug() << cameraPos2;
+    }
     if (_joy->atBtn(13)) {
         if (_joy->btnStateChanged(13)) {
             _communicator->SetFlashlightState(_flashLightState = !_flashLightState);

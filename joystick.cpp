@@ -34,6 +34,7 @@ void Joystick::joyInit()
         qDebug() << "Number of Axes: " << SDL_JoystickNumAxes(_joy);
         qDebug() << "Number of Buttons: " << SDL_JoystickNumButtons(_joy);
         qDebug() << "Number of Balls: " << SDL_JoystickNumBalls(_joy);
+        qDebug() << "Number of Hat: " << SDL_JoystickNumHats(_joy);
     } else {
         qDebug() << "Couldn't open Joystick 0\n";
     }
@@ -57,6 +58,7 @@ float Joystick::axesAt(int idx)
 void Joystick::handleEvent()
 {
     SDL_JoystickUpdate();
+    _hatState = SDL_JoystickGetHat(_joy, 0);
     for (int i = 0; i < BUTTON_COUNT; i++) {
         bool prevState = btnState[i];
         btnState[i] = SDL_JoystickGetButton(_joy, i);
@@ -73,4 +75,9 @@ bool Joystick::atBtn(int idx)
 bool Joystick::btnStateChanged(int idx)
 {
     return _btnStateChanged[idx];
+}
+
+bool Joystick::atHat(int idx)
+{
+    return _hatState == idx;
 }
