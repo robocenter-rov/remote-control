@@ -41,7 +41,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="mainTab">
        <attribute name="title">
@@ -3050,7 +3050,7 @@ font-size: 12px;
         <property name="geometry">
          <rect>
           <x>710</x>
-          <y>490</y>
+          <y>480</y>
           <width>441</width>
           <height>131</height>
          </rect>
