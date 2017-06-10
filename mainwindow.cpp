@@ -1256,6 +1256,7 @@ void MainWindow::onAutoRollEdit(QString value)
 
 void MainWindow::onAutoCurrentDepthClicked(bool value)
 {
+    _isAutoDepth = value;
     if (value) {
         _ui->autoDepthCB->setChecked(false);
         _ui->stabDepthValue->setText(std::to_string(_currentDepth).c_str());
@@ -1267,6 +1268,7 @@ void MainWindow::onAutoCurrentDepthClicked(bool value)
 
 void MainWindow::onAutoCurrentPitchClicked(bool value)
 {
+    _isAutoPitch = value;
     if (value) {
         _ui->autoPitchCB->setChecked(false);
         _ui->stabPitchValue->setText(std::to_string(_currentPitch).c_str());
