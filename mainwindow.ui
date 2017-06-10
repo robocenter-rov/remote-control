@@ -188,8 +188,8 @@
            <widget class="QPushButton" name="connectButton">
             <property name="geometry">
              <rect>
-              <x>20</x>
-              <y>580</y>
+              <x>10</x>
+              <y>600</y>
               <width>71</width>
               <height>31</height>
              </rect>
@@ -201,8 +201,8 @@
            <widget class="QPushButton" name="disconnectButton">
             <property name="geometry">
              <rect>
-              <x>90</x>
-              <y>580</y>
+              <x>80</x>
+              <y>600</y>
               <width>91</width>
               <height>31</height>
              </rect>
@@ -782,6 +782,19 @@ QLabel#autoRollStateLabel{
             </property>
             <property name="text">
              <string>AutoRoll</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="invertControl">
+            <property name="geometry">
+             <rect>
+              <x>180</x>
+              <y>600</y>
+              <width>111</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Invert</string>
             </property>
            </widget>
           </widget>
@@ -3297,6 +3310,57 @@ font-size: 12px;
           </property>
          </widget>
         </widget>
+       </widget>
+       <widget class="QLabel" name="servo2Label">
+        <property name="geometry">
+         <rect>
+          <x>630</x>
+          <y>10</y>
+          <width>51</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Servo 2</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QSlider" name="servo2Slider">
+        <property name="geometry">
+         <rect>
+          <x>640</x>
+          <y>40</y>
+          <width>21</width>
+          <height>131</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <number>-90</number>
+        </property>
+        <property name="maximum">
+         <number>90</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="servo2ValueLabel">
+        <property name="geometry">
+         <rect>
+          <x>630</x>
+          <y>180</y>
+          <width>51</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0%</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="pidTab">

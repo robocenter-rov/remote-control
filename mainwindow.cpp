@@ -479,7 +479,7 @@ void MainWindow::readAndSendJoySensors()
         _y_move_force += ((y * _sensitivity) - _y_move_force) * 0.3f;
     }
 
-    _communicator->SetMovementForce(_x_move_force, _y_move_force);
+    _communicator->SetMovementForce(_signDirection*_x_move_force, _signDirection*_y_move_force);
 }
 
 void MainWindow::joyButtonHandle()
@@ -910,6 +910,22 @@ void MainWindow::onServo1SliderChanged(int value)
     }
 }
 
+void MainWindow::on_servo2Slider_valueChanged(int value)
+{
+    try { /* DO: check values */
+        _curManipulator._m2 = value*3.1415/180.0+3.1415;
+        _communicator->SetManipulatorState(
+            _curManipulator._armPos,
+            _curManipulator._handPos,
+            _curManipulator._m1,
+            _curManipulator._m2
+        );
+        _ui->servo2ValueLabel->setText(QString(std::to_string(value/9*10).c_str()) + "%");
+    } catch (ControllerException_t &e) {
+        qDebug() << e.error_message.c_str();
+    }
+}
+
 void MainWindow::onUseJoyCheckButtonClicked(bool value)
 {
     if (value) {
@@ -1256,6 +1272,7 @@ void MainWindow::onAutoRollEdit(QString value)
 
 void MainWindow::onAutoCurrentDepthClicked(bool value)
 {
+    _isAutoDepth = value;
     if (value) {
         _ui->autoDepthCB->setChecked(false);
         _ui->stabDepthValue->setText(std::to_string(_currentDepth).c_str());
@@ -1267,6 +1284,7 @@ void MainWindow::onAutoCurrentDepthClicked(bool value)
 
 void MainWindow::onAutoCurrentPitchClicked(bool value)
 {
+    _isAutoPitch = value;
     if (value) {
         _ui->autoPitchCB->setChecked(false);
         _ui->stabPitchValue->setText(std::to_string(_currentPitch).c_str());
@@ -1618,4 +1636,9 @@ void MainWindow::on_CalibrateGyro_PushButton_toggled(bool checked)
         _calibrateIteration = 0;
         _ui->ReceiveRawIMUValues_CheckBox->setChecked(true);
     }
+}
+
+void MainWindow::on_invertControl_clicked()
+{
+    _signDirection = (_signDirection == 1) ? -1 : 1;
 }
