@@ -402,7 +402,6 @@ void MainWindow::setAutoModeStates(QLabel *am_label, auto_mode_state_t state, QS
             QString("font-size: 14px; }");
     am_label->setText(currentVal);
     am_label->setStyleSheet(style);
-    qDebug() << style;
 }
 
 #define ABS(x) ((x < 0) ? (-x) : (x))
@@ -428,7 +427,6 @@ void MainWindow::readAndSendJoySensors()
 
     const float start_val = 0.2f;
     const float zero_val = 0.05f;
-    qDebug() << "isAutoDepth: " << _isAutoDepth;
     if (_isAutoDepth) {
         if (z == 0) {
             if (!_communicator->IsAutoDepthEnabled()) {
@@ -442,7 +440,6 @@ void MainWindow::readAndSendJoySensors()
         setAutoModeStates(_ui->autoDepthStateLabel, AM_OFF, "OFF");
         _communicator->SetLocalZForce(z * 4);
     }
-    qDebug() << "isAutoYaw: " << _isAutoYaw;
     if (_isAutoYaw) {
         if (tz == 0) {
             if (!_communicator->IsAutoYawEnabled()) {
