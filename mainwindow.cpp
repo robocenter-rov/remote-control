@@ -510,26 +510,26 @@ void MainWindow::joyManipulatorButtonHandle()
     if (_joy->atBtn(4)) {
         _curManipulator._armPos = -0.4f;
     }
-    if (_joy->atBtn(11)) {
-        if (_joy->btnStateChanged(11)) {
-            cameraPos1 = MIN(3.14f/2.0, cameraPos1 + 0.05);
-            _communicator->SetCamera1LocalPos(cameraPos1);
-            qDebug() << cameraPos1;
-        }
-    }
     if (_joy->atBtn(12)) {
         if (_joy->btnStateChanged(12)) {
-            cameraPos1 = MAX(-3.14f/2.0, cameraPos1 - 0.05);
+            cameraPos1 = MIN(3.14f/2.0, cameraPos1 + 0.5);
             _communicator->SetCamera1LocalPos(cameraPos1);
             qDebug() << cameraPos1;
         }
     }
-    if (_joy->atHat(SDL_HAT_UP)) {
+    if (_joy->atBtn(11)) {
+        if (_joy->btnStateChanged(11)) {
+            cameraPos1 = MAX(-3.14f/2.0, cameraPos1 - 0.5);
+            _communicator->SetCamera1LocalPos(cameraPos1);
+            qDebug() << cameraPos1;
+        }
+    }
+    if (_joy->atHat(SDL_HAT_DOWN)) {
         cameraPos2 = MIN(3.14f/2.0, cameraPos2 + 0.05);
         _communicator->SetCamera2LocalPos(cameraPos2);
         qDebug() << cameraPos2;
     }
-    if (_joy->atHat(SDL_HAT_DOWN)) {
+    if (_joy->atHat(SDL_HAT_UP)) {
         cameraPos2 = MAX(-3.14f/2.0, cameraPos2 - 0.05);
         _communicator->SetCamera2LocalPos(cameraPos2);
         qDebug() << cameraPos2;
