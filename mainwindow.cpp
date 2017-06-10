@@ -504,22 +504,23 @@ void MainWindow::joyManipulatorButtonHandle()
     if (_joy->atBtn(1)) {
         _curManipulator._handPos = 0.15f;
     }
-    if (_joy->atBtn(9)) {
+    if (_joy->atBtn(3)) {
          _curManipulator._armPos = 0.15f;
     }
-    if (_joy->atBtn(10)) {
+    if (_joy->atBtn(4)) {
         _curManipulator._armPos = -0.15f;
     }
-    if (_joy->atBtn(2)) {
+    if (_joy->atBtn(11)) {
         cameraPos1 = MIN(3.14f/2.0, cameraPos1 + 0.05);
         _communicator->SetCamera1LocalPos(cameraPos1);
         qDebug() << cameraPos1;
     }
-    if (_joy->atBtn(4)) {
+    if (_joy->atBtn(12)) {
         cameraPos1 = MAX(-3.14f/2.0, cameraPos1 - 0.05);
         _communicator->SetCamera1LocalPos(cameraPos1);
         qDebug() << cameraPos1;
     }
+
     if (_joy->atBtn(13)) {
         if (_joy->btnStateChanged(13)) {
             _communicator->SetFlashlightState(_flashLightState = !_flashLightState);
@@ -557,15 +558,9 @@ void MainWindow::joyManipulatorButtonHandle()
             }
         }
     }
-    if (_joy->atBtn(12)) {
-        if (_joy->btnStateChanged(12)) {
-            _control_sensitivity = MAX(_control_sensitivity - 0.1f, 0.1);
-            updateSensitivity();
-        }
-    }
-    if (_joy->atBtn(11)) {
-        if (_joy->btnStateChanged(11)) {
-            _control_sensitivity = MIN(_control_sensitivity + 0.1f, 1);
+    if (_joy->atBtn(2)) {
+        if (_joy->btnStateChanged(2)) {
+            _control_sensitivity = (_control_sensitivity = 1) ? 0.1f : (_control_sensitivity + 0.3f);
             updateSensitivity();
         }
     }
