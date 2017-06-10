@@ -787,8 +787,8 @@ QLabel#autoRollStateLabel{
            <widget class="QRadioButton" name="invertButton">
             <property name="geometry">
              <rect>
-              <x>10</x>
-              <y>570</y>
+              <x>140</x>
+              <y>480</y>
               <width>121</width>
               <height>17</height>
              </rect>
