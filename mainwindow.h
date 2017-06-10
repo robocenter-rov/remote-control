@@ -67,7 +67,7 @@ private slots:
     void updateOrient(float q1, float q2, float q3, float q4);
     void updateHeading(int value);
     void updateI2CDevicesState(bool PCA1, bool PCA2, bool PCA3, bool ADXL345, bool HMC58X3, bool ITG3200, bool BMP085, bool MS5803);
-    void onBluetoothMsgRecieve(std::string msg);
+    void onBluetoothMsgRecieve(QString msg);
     void onBluetoothButtonClick(bool);
     void onMotor1SliderChanged(int);
     void onMotor2SliderChanged(int);
@@ -137,7 +137,7 @@ signals:
     void leakEvent(int send, int receive);
     void orientationReceivedEvent(float q1, float q2, float q3, float q4);
     void I2CDevicesRecieveEvent(bool PCA1, bool PCA2, bool PCA3, bool ADXL345, bool HMC58X3, bool ITG3200, bool BMP085, bool MS5803);
-    void bluetoothMsgRecieveEvent(std::string msg);
+    void bluetoothMsgRecieveEvent(QString msg);
     void depthRecieveEvent(float depth);
     void motorStateReceiveEvent(float m1, float m2, float m3, float m4, float m5, float m6, float m7, float m8);
     void pidStateReceiveEvent(SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t);

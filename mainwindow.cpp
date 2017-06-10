@@ -95,7 +95,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(leakEvent(int, int)), this, SLOT(onLeak(int, int)));
     connect(this, SIGNAL(orientationReceivedEvent(float,float,float,float)), this, SLOT(updateOrient(float,float,float,float)));
     connect(this, SIGNAL(I2CDevicesRecieveEvent(bool,bool,bool,bool,bool,bool,bool,bool)), this, SLOT(updateI2CDevicesState(bool,bool,bool,bool,bool,bool,bool,bool)));
-    connect(this, SIGNAL(bluetoothMsgRecieveEvent(std::string)), this, SLOT(onBluetoothMsgRecieve(std::string)));
+    connect(this, SIGNAL(bluetoothMsgRecieveEvent(QString)), this, SLOT(onBluetoothMsgRecieve(QString)));
     connect(this, SIGNAL(depthRecieveEvent(float)), this, SLOT(updateDepth(float)));
     connect(this, SIGNAL(motorStateReceiveEvent(float,float,float,float,float,float,float,float)), this, SLOT(onMotorStateRecieved(float,float,float,float,float,float,float,float)));
     connect(this, SIGNAL(pidStateReceiveEvent(SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t)), this, SLOT(onPidStateReceived(SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t,SimpleCommunicator_t::PidState_t, SimpleCommunicator_t::PidState_t)));
@@ -269,7 +269,7 @@ void MainWindow::connectionProviderInit()
         });
 
         _communicator->OnBluetoothMsgReceive([&](std::string msg){
-            emit bluetoothMsgRecieveEvent(msg);
+            emit bluetoothMsgRecieveEvent(msg.c_str());
         });
 
         _communicator->OnDepthReceive([&](float depth){
@@ -644,9 +644,9 @@ void MainWindow::onScaneI2CdevicesButtonClick(bool)
     _communicator->SetRescanI2CDevices();
 }
 
-void MainWindow::onBluetoothMsgRecieve(std::string msg)
+void MainWindow::onBluetoothMsgRecieve(QString msg)
 {
-    _ui->bluetoothLabel->setText(msg.c_str());
+    _ui->bluetoothLabel->setText(msg);
 }
 
 void MainWindow::onBluetoothButtonClick(bool value)
