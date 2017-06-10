@@ -1638,7 +1638,7 @@ void MainWindow::on_CalibrateGyro_PushButton_toggled(bool checked)
     }
 }
 
-void MainWindow::on_invertControl_clicked()
+void MainWindow::on_invertButton_clicked(bool checked)
 {
     _signDirection = (_signDirection == 1) ? -1 : 1;
 }

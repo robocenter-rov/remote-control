@@ -41,7 +41,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="mainTab">
        <attribute name="title">
@@ -784,13 +784,13 @@ QLabel#autoRollStateLabel{
              <string>AutoRoll</string>
             </property>
            </widget>
-           <widget class="QPushButton" name="invertControl">
+           <widget class="QRadioButton" name="invertButton">
             <property name="geometry">
              <rect>
-              <x>180</x>
-              <y>600</y>
-              <width>111</width>
-              <height>31</height>
+              <x>10</x>
+              <y>570</y>
+              <width>121</width>
+              <height>17</height>
              </rect>
             </property>
             <property name="text">
