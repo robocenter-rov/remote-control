@@ -126,9 +126,8 @@ private slots:
     void on_CalibrateGyro_PushButton_released();
     void on_setCalibrationValues_clicked();
     void on_setCalibrationValues_PushButton_clicked();
-
     void on_CalibrateGyro_PushButton_toggled(bool checked);
-
+    void on_invertControl_clicked();
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
@@ -222,6 +221,8 @@ private:
     bool _isAutoYaw = false;
     bool _isAutoPitch = false;
     bool _isAutoRoll = false;
+
+    int _signDirection = 1;
 #define DEPTH_DATA_SIZE 200
 #define PITCH_DATA_SIZE 200
 #define YAW_DATA_SIZE 200

@@ -479,7 +479,7 @@ void MainWindow::readAndSendJoySensors()
         _y_move_force += ((y * _sensitivity) - _y_move_force) * 0.3f;
     }
 
-    _communicator->SetMovementForce(_x_move_force, _y_move_force);
+    _communicator->SetMovementForce(_signDirection*_x_move_force, _signDirection*_y_move_force);
 }
 
 void MainWindow::joyButtonHandle()
@@ -1618,4 +1618,9 @@ void MainWindow::on_CalibrateGyro_PushButton_toggled(bool checked)
         _calibrateIteration = 0;
         _ui->ReceiveRawIMUValues_CheckBox->setChecked(true);
     }
+}
+
+void MainWindow::on_invertControl_clicked()
+{
+    _signDirection = (_signDirection == 1) ? -1 : 1;
 }
