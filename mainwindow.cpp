@@ -910,6 +910,22 @@ void MainWindow::onServo1SliderChanged(int value)
     }
 }
 
+void MainWindow::on_servo2Slider_valueChanged(int value)
+{
+    try { /* DO: check values */
+        _curManipulator._m2 = value*3.1415/180.0+3.1415;
+        _communicator->SetManipulatorState(
+            _curManipulator._armPos,
+            _curManipulator._handPos,
+            _curManipulator._m1,
+            _curManipulator._m2
+        );
+        _ui->servo2ValueLabel->setText(QString(std::to_string(value/9*10).c_str()) + "%");
+    } catch (ControllerException_t &e) {
+        qDebug() << e.error_message.c_str();
+    }
+}
+
 void MainWindow::onUseJoyCheckButtonClicked(bool value)
 {
     if (value) {
