@@ -106,7 +106,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>COM4</string>
     </property>
     <property name="maxLength">
      <number>5</number>
