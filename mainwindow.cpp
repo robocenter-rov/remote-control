@@ -456,7 +456,7 @@ void MainWindow::readAndSendJoySensors()
         } else {
             _z_rotate_force += (tz*0.4 * _sensitivity - _z_rotate_force) * 0.5f;
         }
-        _communicator->SetYawForce(tz*0.4 * _sensitivity);
+        _communicator->SetYawForce(_signDirection*tz*0.4 * _sensitivity);
     }
 
 
