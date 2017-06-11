@@ -61,9 +61,10 @@ void Joystick::handleEvent()
     _hatState = SDL_JoystickGetHat(_joy, 0);
     for (int i = 0; i < BUTTON_COUNT; i++) {
         bool prevState = btnState[i];
+        _btnStateCountTrue += prevState;
         btnState[i] = SDL_JoystickGetButton(_joy, i);
         _btnStateChanged[i] = !(prevState == btnState[i]);
-        _btnDoubleState[i] = prevState && btnState[i];
+        _btnDoubleState[i] = (!(_btnStateCountTrue % 5)) && btnState[i];
     }
     emit joyButtonEvent();
 }
