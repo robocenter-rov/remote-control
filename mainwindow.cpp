@@ -144,7 +144,6 @@ void MainWindow::cameraInit()
     _ui->mapView->show();
 
     _videoScene->addMapScene(_mapScene);
-
 }
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)
@@ -271,7 +270,7 @@ void MainWindow::connectionProviderInit()
         });
 
         _communicator->OnDepthReceive([&](float depth){
-            emit depthRecieveEvent(depth);
+            emit depthRecieveEvent(depth - 1000);
         });
 
         _communicator->OnMotorsStateReceive([&](SimpleCommunicator_t::MotorsState_t motorState){
@@ -285,6 +284,8 @@ void MainWindow::connectionProviderInit()
                                          SimpleCommunicator_t::PidState_t yaw,
                                          SimpleCommunicator_t::PidState_t pitch,
                                          SimpleCommunicator_t::PidState_t roll){
+            depth.In -= 1000;
+            depth.Target -= 1000;
             emit pidStateReceiveEvent(depth, yaw, pitch, roll);
         });
         _communicator->Begin();
@@ -1100,8 +1101,8 @@ void MainWindow::replotDataDepth()
         minY = MIN(minY, MIN(y1[i], MIN(y2[i], y3[i])));
         minY = MAX(maxY, MAX(y1[i], MAX(y2[i], y3[i])));
     }
-    minY = 900;
-    maxY = 1200;
+    minY = -50;
+    maxY = 500;
     _ui->autoDepthGraph->xAxis->setRange(x[0], x[0] + DEPTH_DATA_SIZE);
     _ui->autoDepthGraph->yAxis->setRange(minY, maxY);
     _ui->autoDepthGraph->replot();
