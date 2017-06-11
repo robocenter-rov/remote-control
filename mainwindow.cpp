@@ -438,7 +438,7 @@ void MainWindow::readAndSendJoySensors()
     if (_isAutoDepth) {
         if (z == 0) {
             if (!_communicator->IsAutoDepthEnabled()) {
-                _communicator->SetDepth(_currentDepth);
+                _communicator->SetDepth(_communicator->GetAutoDepthValue());
             }
             setAutoModeStates(_ui->autoDepthStateLabel, AM_USED, std::to_string(_currentDepth).c_str());
         } else {
@@ -451,7 +451,7 @@ void MainWindow::readAndSendJoySensors()
     if (_isAutoYaw) {
         if (tz == 0) {
             if (!_communicator->IsAutoYawEnabled()) {
-                _communicator->SetYaw(_currentYaw);
+                _communicator->SetYaw(_communicator->GetAutoYawValue());
             }
             setAutoModeStates(_ui->autoYawStateLabel, AM_USED, std::to_string(_currentYaw).c_str());
         } else {
