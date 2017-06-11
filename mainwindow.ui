@@ -606,7 +606,7 @@
              </rect>
             </property>
             <property name="value">
-             <number>100</number>
+             <number>25</number>
             </property>
            </widget>
            <widget class="QLabel" name="autoDepthLabel">
@@ -2996,43 +2996,6 @@ font-size: 12px;
           <string>Set Calibration Values</string>
          </property>
         </widget>
-        <zorder>label_13</zorder>
-        <zorder>label_14</zorder>
-        <zorder>label_15</zorder>
-        <zorder>xGyroRawValue_Label</zorder>
-        <zorder>yGyroRawValue_Label</zorder>
-        <zorder>zGyroRawValue_Label</zorder>
-        <zorder>ReceiveRawIMUValues_CheckBox</zorder>
-        <zorder>CalibrateGyro_PushButton</zorder>
-        <zorder>yAccRawValue_Label</zorder>
-        <zorder>zAccRawValue_Label</zorder>
-        <zorder>xAccRawValue_Label</zorder>
-        <zorder>xGyroOffset_LineEdit</zorder>
-        <zorder>yGyroOffset_LineEdit</zorder>
-        <zorder>zGyroOffset_LineEdit</zorder>
-        <zorder>yAccelOffset_LineEdit</zorder>
-        <zorder>xAccelOffset_LineEdit</zorder>
-        <zorder>zAccelOffset_LineEdit</zorder>
-        <zorder>ReceiveCalibratedIMUValues_CheckBox</zorder>
-        <zorder>zAccCalibratedValue_Label</zorder>
-        <zorder>yGyroCalibratedValue_Label</zorder>
-        <zorder>yAccCalibratedValue_Label</zorder>
-        <zorder>zGyroCalibratedValue_Label</zorder>
-        <zorder>xAccCalibratedValue_Label</zorder>
-        <zorder>xGyroCalibratedValue_Label</zorder>
-        <zorder>label_16</zorder>
-        <zorder>label_17</zorder>
-        <zorder>label_18</zorder>
-        <zorder>label_19</zorder>
-        <zorder>label_20</zorder>
-        <zorder>label_21</zorder>
-        <zorder>zAccelScale_LineEdit</zorder>
-        <zorder>yAccelScale_LineEdit</zorder>
-        <zorder>xAccelScale_LineEdit</zorder>
-        <zorder>GyroScale_LineEdit</zorder>
-        <zorder>label_22</zorder>
-        <zorder>setCalibrationValues_PushButton</zorder>
-        <zorder>camerasScrollArea</zorder>
        </widget>
        <widget class="QLineEdit" name="rollEdit">
         <property name="geometry">
