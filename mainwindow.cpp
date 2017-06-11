@@ -208,6 +208,16 @@ void MainWindow::onTaskTimeout()
         _taskTimer->stop();
     }
 
+    if (min > 10) {
+        _ui->minutesLCDNumber->setStyleSheet("QLCDNumber#minutesLCDNumber{color:green;}");
+        _ui->secondsLCDNumber->setStyleSheet("QLCDNumber#secondsLCDNumber{color:green;}");
+    } else if (min > 5) {
+        _ui->minutesLCDNumber->setStyleSheet("QLCDNumber#minutesLCDNumber{color:orange;}");
+        _ui->secondsLCDNumber->setStyleSheet("QLCDNumber#secondsLCDNumber{color:green;}");
+    } else if (min > 0) {
+        _ui->secondsLCDNumber->setStyleSheet("QLCDNumber#minutesLCDNumber{color:red;}");
+        _ui->secondsLCDNumber->setStyleSheet("QLCDNumber#secondsLCDNumber{color:green;}");
+    }
     _ui->minutesLCDNumber->display(min);
     _ui->secondsLCDNumber->display(sec);
 }

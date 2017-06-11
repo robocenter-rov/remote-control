@@ -127,15 +127,23 @@
              <rect>
               <x>140</x>
               <y>320</y>
-              <width>64</width>
+              <width>71</width>
               <height>31</height>
              </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLCDNumber#minutesLCDNumber{
+	color: green;
+}</string>
+            </property>
+            <property name="mode">
+             <enum>QLCDNumber::Dec</enum>
             </property>
             <property name="segmentStyle">
              <enum>QLCDNumber::Flat</enum>
             </property>
             <property name="value" stdset="0">
-             <double>0.000000000000000</double>
+             <double>15.000000000000000</double>
             </property>
            </widget>
            <widget class="QLCDNumber" name="secondsLCDNumber">
@@ -146,6 +154,11 @@
               <width>64</width>
               <height>31</height>
              </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLCDNumber#secondsLCDNumber{
+	color: green;
+}</string>
             </property>
             <property name="segmentStyle">
              <enum>QLCDNumber::Flat</enum>
