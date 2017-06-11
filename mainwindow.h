@@ -128,7 +128,7 @@ private slots:
     void on_setCalibrationValues_PushButton_clicked();
     void on_CalibrateGyro_PushButton_toggled(bool checked);
     void on_servo2Slider_valueChanged(int value);
-    void on_invertButton_clicked(bool checked);
+    void on_invertCB_clicked(bool checked);
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);

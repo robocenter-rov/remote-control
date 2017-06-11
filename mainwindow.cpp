@@ -535,7 +535,7 @@ void MainWindow::joyManipulatorButtonHandle()
         }
     }
     if (_joy->btnDoubleClicked(13)) {
-        _signDirection = (_signDirection == 1) ? -1 : 1;
+        _ui->invertCB->setChecked(_signDirection == 1);
     }
     if (_joy->atBtn(5)) {
         if (_joy->btnStateChanged(5)) {
@@ -1655,7 +1655,8 @@ void MainWindow::on_CalibrateGyro_PushButton_toggled(bool checked)
     }
 }
 
-void MainWindow::on_invertButton_clicked(bool checked)
+void MainWindow::on_invertCB_clicked(bool checked)
 {
-    _signDirection = (_signDirection == 1) ? -1 : 1;
+    qDebug() << checked;
+    _signDirection = (checked) ? -1 : 1;
 }

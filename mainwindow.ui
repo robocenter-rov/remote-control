@@ -784,12 +784,12 @@ QLabel#autoRollStateLabel{
              <string>AutoRoll</string>
             </property>
            </widget>
-           <widget class="QRadioButton" name="invertButton">
+           <widget class="QCheckBox" name="invertCB">
             <property name="geometry">
              <rect>
               <x>140</x>
               <y>480</y>
-              <width>121</width>
+              <width>111</width>
               <height>17</height>
              </rect>
             </property>
