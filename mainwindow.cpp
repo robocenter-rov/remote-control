@@ -289,7 +289,6 @@ void MainWindow::connectionProviderInit()
                                          SimpleCommunicator_t::PidState_t roll){
             emit pidStateReceiveEvent(depth, yaw, pitch, roll);
         });
-
         _communicator->Begin();
     } catch (CantOpenPortException_t &e) {
         qDebug() << e.error_message.c_str() << "Port name: " << e.port_name.c_str();
@@ -438,8 +437,8 @@ void MainWindow::readAndSendJoySensors()
         }
     } else {
         setAutoModeStates(_ui->autoDepthStateLabel, AM_OFF, "OFF");
-        _communicator->SetLocalZForce(z * 4);
     }
+    _communicator->SetLocalZForce(z * 4);
     if (_isAutoYaw) {
         if (tz == 0) {
             if (!_communicator->IsAutoYawEnabled()) {
@@ -456,9 +455,8 @@ void MainWindow::readAndSendJoySensors()
         } else {
             _z_rotate_force += (tz*0.4 * _sensitivity - _z_rotate_force) * 0.5f;
         }
-        _communicator->SetYawForce(_signDirection*tz*0.4 * _sensitivity);
     }
-
+    _communicator->SetYawForce(_signDirection*tz*0.4 * _sensitivity);
 
     if (abs(-x) < zero_val) {
         _x_move_force = 0;
