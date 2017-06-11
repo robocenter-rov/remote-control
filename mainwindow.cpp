@@ -280,7 +280,7 @@ void MainWindow::connectionProviderInit()
         });
 
         _communicator->OnDepthReceive([&](float depth){
-            emit depthRecieveEvent(depth - 1000);
+            emit depthRecieveEvent(depth);
         });
 
         _communicator->OnMotorsStateReceive([&](SimpleCommunicator_t::MotorsState_t motorState){
@@ -294,8 +294,6 @@ void MainWindow::connectionProviderInit()
                                          SimpleCommunicator_t::PidState_t yaw,
                                          SimpleCommunicator_t::PidState_t pitch,
                                          SimpleCommunicator_t::PidState_t roll){
-            depth.In -= 1000;
-            depth.Target -= 1000;
             emit pidStateReceiveEvent(depth, yaw, pitch, roll);
         });
         _communicator->Begin();
@@ -432,22 +430,25 @@ void MainWindow::readAndSendJoySensors()
     x *= 2.83;
     y *= 2.83;
     float _sensitivity = _control_sensitivity;
-
+\
     const float start_val = 0.2f;
     const float zero_val = 0.05f;
-    if (_isAutoDepth) {
-        if (z == 0) {
+    if (z == 0) {
+        if (_isAutoDepth) {
             if (!_communicator->IsAutoDepthEnabled()) {
-                _communicator->SetDepth(_communicator->GetAutoDepthValue());
+                _communicator->SetDepth(_currentDepth);
             }
-            setAutoModeStates(_ui->autoDepthStateLabel, AM_USED, std::to_string(_currentDepth).c_str());
+            setAutoModeStates(_ui->autoDepthStateLabel, AM_USED, std::to_string(_communicator->GetAutoDepthValue()).c_str());
         } else {
-            setAutoModeStates(_ui->autoDepthStateLabel, AM_ON, "ON");
+            setAutoModeStates(_ui->autoDepthStateLabel, AM_OFF, "OFF");
+            _communicator->DisableAutoDepth();
         }
     } else {
         setAutoModeStates(_ui->autoDepthStateLabel, AM_OFF, "OFF");
+        _communicator->DisableAutoDepth();
     }
     _communicator->SetLocalZForce(_signDirection * z *_control_sensitivity * 4);
+
     if (_isAutoYaw) {
         if (tz == 0) {
             if (!_communicator->IsAutoYawEnabled()) {
@@ -465,7 +466,7 @@ void MainWindow::readAndSendJoySensors()
             _z_rotate_force += (tz*0.4 * _sensitivity - _z_rotate_force) * 0.5f;
         }
     }
-    _communicator->SetYawForce(tz*0.4 * _sensitivity);
+    _communicator->SetYawForce(tz * _sensitivity);
 
     if (abs(-x) < zero_val) {
         _x_move_force = 0;
