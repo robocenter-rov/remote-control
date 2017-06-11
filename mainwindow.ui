@@ -41,7 +41,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="mainTab">
        <attribute name="title">
@@ -2996,6 +2996,43 @@ font-size: 12px;
           <string>Set Calibration Values</string>
          </property>
         </widget>
+        <zorder>label_13</zorder>
+        <zorder>label_14</zorder>
+        <zorder>label_15</zorder>
+        <zorder>xGyroRawValue_Label</zorder>
+        <zorder>yGyroRawValue_Label</zorder>
+        <zorder>zGyroRawValue_Label</zorder>
+        <zorder>ReceiveRawIMUValues_CheckBox</zorder>
+        <zorder>CalibrateGyro_PushButton</zorder>
+        <zorder>yAccRawValue_Label</zorder>
+        <zorder>zAccRawValue_Label</zorder>
+        <zorder>xAccRawValue_Label</zorder>
+        <zorder>xGyroOffset_LineEdit</zorder>
+        <zorder>yGyroOffset_LineEdit</zorder>
+        <zorder>zGyroOffset_LineEdit</zorder>
+        <zorder>yAccelOffset_LineEdit</zorder>
+        <zorder>xAccelOffset_LineEdit</zorder>
+        <zorder>zAccelOffset_LineEdit</zorder>
+        <zorder>ReceiveCalibratedIMUValues_CheckBox</zorder>
+        <zorder>zAccCalibratedValue_Label</zorder>
+        <zorder>yGyroCalibratedValue_Label</zorder>
+        <zorder>yAccCalibratedValue_Label</zorder>
+        <zorder>zGyroCalibratedValue_Label</zorder>
+        <zorder>xAccCalibratedValue_Label</zorder>
+        <zorder>xGyroCalibratedValue_Label</zorder>
+        <zorder>label_16</zorder>
+        <zorder>label_17</zorder>
+        <zorder>label_18</zorder>
+        <zorder>label_19</zorder>
+        <zorder>label_20</zorder>
+        <zorder>label_21</zorder>
+        <zorder>zAccelScale_LineEdit</zorder>
+        <zorder>yAccelScale_LineEdit</zorder>
+        <zorder>xAccelScale_LineEdit</zorder>
+        <zorder>GyroScale_LineEdit</zorder>
+        <zorder>label_22</zorder>
+        <zorder>setCalibrationValues_PushButton</zorder>
+        <zorder>camerasScrollArea</zorder>
        </widget>
        <widget class="QLineEdit" name="rollEdit">
         <property name="geometry">
@@ -3051,8 +3088,8 @@ font-size: 12px;
          <rect>
           <x>710</x>
           <y>480</y>
-          <width>441</width>
-          <height>131</height>
+          <width>401</width>
+          <height>111</height>
          </rect>
         </property>
         <property name="widgetResizable">
@@ -3063,8 +3100,8 @@ font-size: 12px;
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>439</width>
-           <height>129</height>
+           <width>399</width>
+           <height>109</height>
           </rect>
          </property>
          <widget class="QDoubleSpinBox" name="cam1MinValSpinBox">
@@ -3103,7 +3140,7 @@ font-size: 12px;
           <property name="geometry">
            <rect>
             <x>70</x>
-            <y>40</y>
+            <y>30</y>
             <width>81</width>
             <height>22</height>
            </rect>
@@ -3122,7 +3159,7 @@ font-size: 12px;
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>40</y>
+            <y>30</y>
             <width>61</width>
             <height>16</height>
            </rect>
@@ -3135,7 +3172,7 @@ font-size: 12px;
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>70</y>
+            <y>60</y>
             <width>61</width>
             <height>16</height>
            </rect>
@@ -3148,7 +3185,7 @@ font-size: 12px;
           <property name="geometry">
            <rect>
             <x>70</x>
-            <y>70</y>
+            <y>60</y>
             <width>81</width>
             <height>22</height>
            </rect>
@@ -3167,7 +3204,7 @@ font-size: 12px;
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>100</y>
+            <y>80</y>
             <width>61</width>
             <height>16</height>
            </rect>
@@ -3180,7 +3217,7 @@ font-size: 12px;
           <property name="geometry">
            <rect>
             <x>70</x>
-            <y>100</y>
+            <y>80</y>
             <width>81</width>
             <height>22</height>
            </rect>
@@ -3198,8 +3235,8 @@ font-size: 12px;
          <widget class="QSlider" name="camera2Slider">
           <property name="geometry">
            <rect>
-            <x>240</x>
-            <y>80</y>
+            <x>230</x>
+            <y>70</y>
             <width>121</width>
             <height>20</height>
            </rect>
@@ -3223,8 +3260,8 @@ font-size: 12px;
          <widget class="QLabel" name="camera2Label">
           <property name="geometry">
            <rect>
-            <x>170</x>
-            <y>80</y>
+            <x>160</x>
+            <y>70</y>
             <width>61</width>
             <height>21</height>
            </rect>
@@ -3239,8 +3276,8 @@ font-size: 12px;
          <widget class="QSlider" name="camera1Slider">
           <property name="geometry">
            <rect>
-            <x>240</x>
-            <y>30</y>
+            <x>230</x>
+            <y>20</y>
             <width>121</width>
             <height>20</height>
            </rect>
@@ -3264,8 +3301,8 @@ font-size: 12px;
          <widget class="QLabel" name="camera1Label">
           <property name="geometry">
            <rect>
-            <x>170</x>
-            <y>30</y>
+            <x>160</x>
+            <y>20</y>
             <width>61</width>
             <height>21</height>
            </rect>
@@ -3280,8 +3317,8 @@ font-size: 12px;
          <widget class="QLabel" name="camera2valueLabel">
           <property name="geometry">
            <rect>
-            <x>370</x>
-            <y>80</y>
+            <x>360</x>
+            <y>70</y>
             <width>41</width>
             <height>21</height>
            </rect>
@@ -3296,8 +3333,8 @@ font-size: 12px;
          <widget class="QLabel" name="camera1valueLabel">
           <property name="geometry">
            <rect>
-            <x>370</x>
-            <y>30</y>
+            <x>360</x>
+            <y>20</y>
             <width>41</width>
             <height>21</height>
            </rect>
