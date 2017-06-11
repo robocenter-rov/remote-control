@@ -1101,8 +1101,8 @@ void MainWindow::replotDataDepth()
         minY = MIN(minY, MIN(y1[i], MIN(y2[i], y3[i])));
         minY = MAX(maxY, MAX(y1[i], MAX(y2[i], y3[i])));
     }
-    if (minY > 0) minY = 25;
-    if (maxY < 50) maxY = 35;
+    minY = 900;
+    maxY = 1200;
     _ui->autoDepthGraph->xAxis->setRange(x[0], x[0] + DEPTH_DATA_SIZE);
     _ui->autoDepthGraph->yAxis->setRange(minY, maxY);
     _ui->autoDepthGraph->replot();
