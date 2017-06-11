@@ -41,6 +41,7 @@ private:
     bool _btnStateChanged[BUTTON_COUNT];
     int _btnStateCountTrue;
     SDL_Joystick *_joy;
+    int _btnStateCountFalse[BUTTON_COUNT];
 };
 
 #endif // JOYSTICK_H
