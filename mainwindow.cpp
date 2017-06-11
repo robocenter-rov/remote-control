@@ -536,6 +536,9 @@ void MainWindow::joyManipulatorButtonHandle()
             _communicator->SetFlashlightState(_flashLightState = !_flashLightState);
         }
     }
+    if (_joy->btnDoubleClicked(13)) {
+        _signDirection = (_signDirection == 1) ? -1 : 1;
+    }
     if (_joy->atBtn(5)) {
         if (_joy->btnStateChanged(5)) {
             _isAutoDepth = !_isAutoDepth;

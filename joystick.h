@@ -30,11 +30,13 @@ public:
     bool atBtn(int idx);
     bool atHat(int idx);
     bool btnStateChanged(int idx);
+    bool btnDoubleClicked(int idx);
 signals:
     void joyButtonEvent();
 private:
     void joyInit();
     int _hatState;
+    bool _btnDoubleState[BUTTON_COUNT];
     bool btnState[BUTTON_COUNT];
     bool _btnStateChanged[BUTTON_COUNT];
     SDL_Joystick *_joy;
