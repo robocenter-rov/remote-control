@@ -145,7 +145,6 @@ void MainWindow::cameraInit()
 
     _videoScene->addMapScene(_mapScene);
 
-    _extraCamera = new RoboCamera(1, _ui->extraView, this);
 }
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)
@@ -153,7 +152,6 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
     _joy->handleEvent();
     if (event->type() == QEvent::Resize) {
         _ui->mainView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::IgnoreAspectRatio);
-        _ui->extraView->fitInView(_extraCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
         _ui->screensView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
         _ui->mapView->fitInView(_mainCamera->getScene()->sceneRect(), Qt::KeepAspectRatio);
         return true;
