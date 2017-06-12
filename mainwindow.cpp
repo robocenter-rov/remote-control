@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include "calc-tools/basetool.h"
+#include "remote-control-library/UDPConnectionProvider.h"
 
 QString COMportName;
 
@@ -32,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     qRegisterMetaType<SimpleCommunicator_t::State_t>("SimpleCommunicator_t::State_t");
     qRegisterMetaType<SimpleCommunicator_t::CalibratedSensorData_t>("SimpleCommunicator_t::CalibratedSensorData_t");
     qRegisterMetaType<SimpleCommunicator_t::CalibratedSensorData_t>("SimpleCommunicator_t::RawSensorData_t");
-    _connectionProvider = new UARTConnectionProvider_t(COMportName.toStdString().c_str(), 19200, 1 << 20, 1 << 20);
+    _connectionProvider = new UDPConnectionProvider_t(QHostAddress("192.168.0.50"), 3000, 1 << 20, 1 << 20);
     _communicator = new SimpleCommunicator_t(_connectionProvider);
     _ui->setupUi(this);
 
@@ -297,8 +298,8 @@ void MainWindow::connectionProviderInit()
             emit pidStateReceiveEvent(depth, yaw, pitch, roll);
         });
         _communicator->Begin();
-    } catch (CantOpenPortException_t &e) {
-        qDebug() << e.error_message.c_str() << "Port name: " << e.port_name.c_str();
+    } catch (ConnectionProviderException_t &e) {
+        qDebug() << e.error_message.c_str();
     }
 }
 

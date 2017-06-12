@@ -11,7 +11,6 @@
 #include "robocamera.h"
 #include "joystick.h"
 #include "remote-control-library/ConnectionProvider.h"
-#include "remote-control-library/UARTConnectionProviderWindows.h"
 #include "remote-control-library/SimpleCommunicator.h"
 #include <iostream>
 #include "remote-control-library/Utils.h"

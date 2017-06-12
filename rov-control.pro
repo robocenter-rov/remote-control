@@ -34,7 +34,7 @@ SOURCES += main.cpp\
     remote-control-library/DataReader.cpp \
     remote-control-library/RingBuffer.cpp \
     remote-control-library/SimpleCommunicator.cpp \
-    remote-control-library/UARTConnectionProviderWindows.cpp \
+    remote-control-library/UDPConnectionProvider.cpp \
     qcustomplot.cpp \
 
 HEADERS  += mainwindow.h \
@@ -50,7 +50,7 @@ HEADERS  += mainwindow.h \
     remote-control-library/Exception.h \
     remote-control-library/RingBuffer.h \
     remote-control-library/SimpleCommunicator.h \
-    remote-control-library/UARTConnectionProviderWindows.h \
+    remote-control-library/UDPConnectionProvider.h \
     remote-control-library/Utils.h \
     qcustomplot.h \
 
