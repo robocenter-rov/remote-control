@@ -622,12 +622,23 @@ void MainWindow::onLeak(int send, int receive)
     showMessageByTimer(s.c_str(), CL_RED);
 }
 
-void MainWindow::updateOrient(float q1, float q2, float q3, float q4)
+void MainWindow::updateOrient(float q0, float q1, float q2, float q3)
 {
-    float angles[3];
+    float angles[3];/*
     angles[0] = atan2(2 * q2 * q3 - 2 * q1 * q4, 2 * q1 * q1 + 2 * q2 * q2 - 1); // psi
     angles[1] = -asin(2 * q2 * q4 + 2 * q1 * q3); // theta
-    angles[2] = atan2(2 * q3 * q4 - 2 * q1 * q2, 2 * q1 * q1 + 2 * q4 * q4 - 1); // phi
+    angles[2] = atan2(2 * q3 * q4 - 2 * q1 * q2, 2 * q1 * q1 + 2 * q4 * q4 - 1); // phi*/
+
+    float gx, gy, gz; // estimated gravity direction
+
+    gx = 2 * (q1*q3 - q0*q2);
+    gy = 2 * (q0*q1 + q2*q3);
+    gz = q0*q0 - q1*q1 - q2*q2 + q3*q3;
+
+    angles[0] = atan2(2 * q1 * q2 - 2 * q0 * q3, 2 * q0*q0 + 2 * q1 * q1 - 1);
+    angles[1] = atan(gx / sqrt(gy*gy + gz*gz));
+    angles[2] = atan(gy / sqrt(gx*gx + gz*gz));
+
     _ui->psiLabel->setText(std::to_string(angles[0]).c_str());
     _ui->thetaLabel->setText(std::to_string(angles[1]).c_str());
     _ui->phiLabel->setText(std::to_string(angles[2]).c_str());
