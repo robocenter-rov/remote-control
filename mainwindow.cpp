@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     qRegisterMetaType<SimpleCommunicator_t::State_t>("SimpleCommunicator_t::State_t");
     qRegisterMetaType<SimpleCommunicator_t::CalibratedSensorData_t>("SimpleCommunicator_t::CalibratedSensorData_t");
     qRegisterMetaType<SimpleCommunicator_t::CalibratedSensorData_t>("SimpleCommunicator_t::RawSensorData_t");
-    _connectionProvider = new UDPConnectionProvider_t(QHostAddress("192.168.1.50"), 3000, 1 << 20, 1 << 20);
+    _connectionProvider = new UDPConnectionProvider_t(QHostAddress("192.168.0.50"), 3000, 1 << 20, 1 << 20);
     _communicator = new SimpleCommunicator_t(_connectionProvider);
     _ui->setupUi(this);
 
