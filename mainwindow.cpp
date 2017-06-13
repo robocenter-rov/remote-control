@@ -829,7 +829,7 @@ void MainWindow::onPitchPIDSpinBoxChanged(bool value)
     double p = _ui->pitchPSpinBox->value();
     double i = _ui->pitchISpinBox->value();
     double d = _ui->pitchDSpinBox->value();
-    _communicator->SetPitcPid(p, i, d);
+    _communicator->SetPitchPid(p, i, d);
     std::ofstream fout;
     fout.open("pitch.txt");
     if (fout.is_open()) {
@@ -1453,7 +1453,7 @@ void MainWindow::setPitchPID(double p, double i, double d)
     _ui->pitchPSpinBox->setValue(p);
     _ui->pitchISpinBox->setValue(i);
     _ui->pitchDSpinBox->setValue(d);
-    _communicator->SetPitcPid(p, i, d);
+    _communicator->SetPitchPid(p, i, d);
 }
 
 void MainWindow::setYawPID(double p, double i, double d)
