@@ -110,6 +110,7 @@ MainWindow::MainWindow(QWidget *parent)
     initMotorsMultipliers();
     initCameraMinMax();
     initIMUCalibration();
+    initStabilizationUpdateFrequency();
     setMotorsPos();
 }
 
@@ -1589,6 +1590,19 @@ void MainWindow::saveIMUCalibration()
     }
 }
 
+void MainWindow::initStabilizationUpdateFrequency()
+{
+    std::ifstream fin("StabilizationUpdateFrequency.txt");
+    int stabilization_update_frequency = 100;
+    if (fin.is_open()) {
+        fin >> stabilization_update_frequency;
+    } else {
+        qDebug() << "Can't open file: StabilizationUpdateFrequency.txt";
+    }
+    _communicator->SetStabilizationUpdateFrequency(stabilization_update_frequency);
+    _ui->UpdateFrequencyEdit->setText(QString(std::to_string(stabilization_update_frequency).c_str()));
+}
+
 void MainWindow::on_nextStepButton_clicked(bool checked)
 {
     if (!_ui->previousStepButton->isEnabled()) {
@@ -1674,4 +1688,12 @@ void MainWindow::on_invertCB_clicked(bool checked)
 {
     qDebug() << checked;
     _signDirection = (checked) ? -1 : 1;
+}
+
+void MainWindow::on_SetUpdateFrequencyButton_clicked()
+{
+    int stabilization_update_frequency = _ui->UpdateFrequencyEdit->text().toInt();
+    ofstream fout("StabilizationUpdateFrequency.txt");
+    fout << stabilization_update_frequency;
+    _communicator->SetStabilizationUpdateFrequency(stabilization_update_frequency);
 }

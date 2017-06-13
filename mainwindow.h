@@ -128,6 +128,7 @@ private slots:
     void on_CalibrateGyro_PushButton_toggled(bool checked);
     void on_servo2Slider_valueChanged(int value);
     void on_invertCB_clicked(bool checked);
+    void on_SetUpdateFrequencyButton_clicked();
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
@@ -161,6 +162,7 @@ private:
     void initCameraMinMax();
     void initIMUCalibration();
     void saveIMUCalibration();
+    void initStabilizationUpdateFrequency();
     void saveCamMinMax();
     void setDepthPID(double p, double i, double d);
     void setPitchPID(double p, double i, double d);
