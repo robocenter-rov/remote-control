@@ -298,6 +298,10 @@ void MainWindow::connectionProviderInit()
                                          SimpleCommunicator_t::PidState_t roll){
             emit pidStateReceiveEvent(depth, yaw, pitch, roll);
         });
+
+        _communicator->OnRemoteProcessorLoad([&](unsigned long freq) {
+            _ui->LoopFrequencyLabel->setText(std::to_string(freq).c_str());
+        });
         _communicator->Begin();
     } catch (ConnectionProviderException_t &e) {
         qDebug() << e.error_message.c_str();
