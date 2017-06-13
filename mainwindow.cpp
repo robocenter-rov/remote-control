@@ -469,21 +469,25 @@ void MainWindow::readAndSendJoySensors()
     }
     _communicator->SetYawForce(tz * _sensitivity);
 
+    _x_move_force = -x;
+/*
     if (abs(-x) < zero_val) {
         _x_move_force = 0;
     } else if (abs(-x) < start_val) {
         _x_move_force = start_val * ((-x) < 0 ? -1 : 1);
     } else {
         _x_move_force += ((-x * _sensitivity) - _x_move_force) * 0.3f;
-    }
-
+    }*/
+/*
     if (abs(y) < zero_val) {
         _y_move_force = 0;
     } else if (abs(y) < start_val) {
         _y_move_force = start_val * (y < 0 ? -1 : 1);
     } else {
         _y_move_force += ((y * _sensitivity) - _y_move_force) * 0.3f;
-    }
+    }*/
+
+    _y_move_force = y;
 
     _communicator->SetMovementForce(_signDirection*_x_move_force, _signDirection*_y_move_force);
 }
