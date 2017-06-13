@@ -228,7 +228,7 @@ void MainWindow::onTaskTimeout()
 void MainWindow::connectionProviderInit()
 {
     try {
-        _communicator->SetSendMessageFrequency(70);
+        _communicator->SetSendMessageFrequency(100);
         _communicator->SetRemoteSendMessageFrequency(100);
 
         _connectionProvider->Begin();
