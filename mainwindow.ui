@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1257</width>
-    <height>648</height>
+    <height>693</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -3210,10 +3210,10 @@ font-size: 12px;
            </rect>
           </property>
           <property name="minimum">
-           <number>-90</number>
+           <number>-180</number>
           </property>
           <property name="maximum">
-           <number>90</number>
+           <number>180</number>
           </property>
           <property name="pageStep">
            <number>1</number>
@@ -3251,10 +3251,10 @@ font-size: 12px;
            </rect>
           </property>
           <property name="minimum">
-           <number>-90</number>
+           <number>-180</number>
           </property>
           <property name="maximum">
-           <number>90</number>
+           <number>180</number>
           </property>
           <property name="pageStep">
            <number>1</number>
@@ -3400,7 +3400,7 @@ font-size: 12px;
          </rect>
         </property>
         <property name="text">
-         <string>PushButton</string>
+         <string>Set Update Freq</string>
         </property>
        </widget>
       </widget>

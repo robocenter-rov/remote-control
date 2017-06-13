@@ -163,8 +163,8 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 void MainWindow::updateDepth(float depth)
 {
     _currentDepth = depth;
-    _ui->depthValueLabel->setText(std::to_string(depth).c_str());
-    _mainCamera->getVideoWidget()->setCurrentDepth(depth);
+    _ui->depthValueLabel->setText(std::to_string(int(depth - 1000)).c_str());
+    _mainCamera->getVideoWidget()->setCurrentDepth(int(depth - 1000));
 }
 
 void MainWindow::showMessage(QString msg, msg_color_t color)
@@ -639,14 +639,14 @@ void MainWindow::updateOrient(float q0, float q1, float q2, float q3)
     gy = 2 * (q0*q1 + q2*q3);
     gz = q0*q0 - q1*q1 - q2*q2 + q3*q3;
 
-    angles[0] = atan2(2 * q1 * q2 - 2 * q0 * q3, 2 * q0*q0 + 2 * q1 * q1 - 1);
-    angles[1] = atan(gx / sqrt(gy*gy + gz*gz));
-    angles[2] = atan(gy / sqrt(gx*gx + gz*gz));
+    angles[0] = atan2(2 * q1 * q2 - 2 * q0 * q3, 2 * q0*q0 + 2 * q1 * q1 - 1) / 3.14159 * 180;
+    angles[1] = atan(gx / sqrt(gy*gy + gz*gz)) / 3.14159 * 180;
+    angles[2] = atan(gy / sqrt(gx*gx + gz*gz)) / 3.14159 * 180;
 
-    _ui->psiLabel->setText(std::to_string(angles[0]).c_str());
-    _ui->thetaLabel->setText(std::to_string(angles[1]).c_str());
-    _ui->phiLabel->setText(std::to_string(angles[2]).c_str());
-    updateHeading(angles[0]*180/3.1416);
+    _ui->psiLabel->setText(std::to_string(int(angles[0])).c_str());
+    _ui->thetaLabel->setText(std::to_string(int(angles[1])).c_str());
+    _ui->phiLabel->setText(std::to_string(int(angles[2])).c_str());
+    updateHeading(angles[0]);
     _currentYaw = angles[0];
     _currentPitch = angles[2];
 }
@@ -945,7 +945,7 @@ void MainWindow::onAutoYawClicked(bool value)
 void MainWindow::onServo1SliderChanged(int value)
 {
     try { /* DO: check values */
-        _curManipulator._m1 = value*3.1415/180.0+3.1415;
+        _curManipulator._m1 = value*3.1415/180.0;
         _communicator->SetManipulatorState(
             _curManipulator._armPos,
             _curManipulator._handPos,
