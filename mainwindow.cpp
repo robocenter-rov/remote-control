@@ -470,7 +470,7 @@ void MainWindow::readAndSendJoySensors()
     }
     _communicator->SetYawForce(tz * _sensitivity);
 
-    _x_move_force = -x;
+    _x_move_force = -x * _sensitivity;
 /*
     if (abs(-x) < zero_val) {
         _x_move_force = 0;
@@ -488,7 +488,7 @@ void MainWindow::readAndSendJoySensors()
         _y_move_force += ((y * _sensitivity) - _y_move_force) * 0.3f;
     }*/
 
-    _y_move_force = y;
+    _y_move_force = y * _sensitivity;
 
     _communicator->SetMovementForce(_signDirection*_x_move_force, _signDirection*_y_move_force);
 }
