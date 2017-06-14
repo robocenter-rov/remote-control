@@ -639,14 +639,14 @@ void MainWindow::updateOrient(float q0, float q1, float q2, float q3)
     gy = 2 * (q0*q1 + q2*q3);
     gz = q0*q0 - q1*q1 - q2*q2 + q3*q3;
 
-    angles[0] = atan2(2 * q1 * q2 - 2 * q0 * q3, 2 * q0*q0 + 2 * q1 * q1 - 1) / 3.14159 * 180;
-    angles[1] = atan(gx / sqrt(gy*gy + gz*gz)) / 3.14159 * 180;
-    angles[2] = atan(gy / sqrt(gx*gx + gz*gz)) / 3.14159 * 180;
+    angles[0] = atan2(2 * q1 * q2 - 2 * q0 * q3, 2 * q0*q0 + 2 * q1 * q1 - 1);
+    angles[1] = atan(gx / sqrt(gy*gy + gz*gz));
+    angles[2] = atan(gy / sqrt(gx*gx + gz*gz));
 
-    _ui->psiLabel->setText(std::to_string(int(angles[0])).c_str());
-    _ui->thetaLabel->setText(std::to_string(int(angles[1])).c_str());
-    _ui->phiLabel->setText(std::to_string(int(angles[2])).c_str());
-    updateHeading(angles[0]);
+    _ui->psiLabel->setText(std::to_string(int(angles[0] / 3.14159 * 180)).c_str());
+    _ui->thetaLabel->setText(std::to_string(int(angles[1] / 3.14159 * 180)).c_str());
+    _ui->phiLabel->setText(std::to_string(int(angles[2] / 3.14159 * 180)).c_str());
+    updateHeading(angles[0] / 3.14159 * 180);
     _currentYaw = angles[0];
     _currentPitch = angles[2];
 }
