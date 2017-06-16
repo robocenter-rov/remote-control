@@ -556,6 +556,7 @@ void MainWindow::joyManipulatorButtonHandle()
     }
     if (_joy->btnDoubleClicked(13)) {
         _ui->invertCB->setChecked(_signDirection == 1);
+        _signDirection = (_signDirection == 1) ? -1 : 1;
     }
     if (_joy->atBtn(5)) {
         if (_joy->btnStateChanged(5)) {
