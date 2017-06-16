@@ -453,7 +453,7 @@ void MainWindow::readAndSendJoySensors()
         setAutoModeStates(_ui->autoDepthStateLabel, AM_OFF, "OFF");
         _communicator->DisableAutoDepth();
     }
-    _communicator->SetLocalZForce(_signDirection * z *_control_sensitivity * 4);
+    _communicator->SetLocalZForce(z *_control_sensitivity * 4);
 
     if (_isAutoYaw) {
         if (tz == 0) {
