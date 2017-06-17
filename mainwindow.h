@@ -31,7 +31,8 @@ namespace Ui {
 enum msg_color_t {
     CL_GREEN,
     CL_RED,
-    CL_YELLOW
+    CL_YELLOW,
+    CL_BLUE
 };
 
 enum auto_mode_state_t {

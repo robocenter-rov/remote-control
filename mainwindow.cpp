@@ -9,6 +9,7 @@ static QColor msgColor[3] = {
     QColor(0, 204, 102),
     QColor(255, 102, 102),
     QColor(255, 204, 102),
+    QColor(0, 102, 204)
 };
 
 void MainWindow::loadQSS()
@@ -434,6 +435,7 @@ void MainWindow::readAndSendJoySensors()
     const float start_val = 0.2f;
     const float zero_val = 0.05f;
     if (z == 0) {
+        showMessage("Z dead zone", CL_BLUE);
         if (_isAutoDepth) {
             if (!_communicator->IsAutoDepthEnabled()) {
                 _communicator->SetDepth(_currentDepth);
