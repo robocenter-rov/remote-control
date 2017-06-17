@@ -611,6 +611,7 @@ void MainWindow::updateSensitivity()
 
 void MainWindow::onLeak(int send, int receive)
 {
+    return;
     std::string s = "ATTENTION: Leak: send ";
     s += std::to_string(send); s += ", recieved "; s += std::to_string(receive);
     showMessageByTimer(s.c_str(), CL_RED);
