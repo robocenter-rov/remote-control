@@ -597,7 +597,7 @@ void MainWindow::joyManipulatorButtonHandle()
         _curManipulator._m1 = MAX(-3.14f/2.0f, _curManipulator._m1 - 0.45f);
     }
     if (_joy->atBtn(10)) {
-        _curManipulator._m1 = MIN(3.14f/2.0f, _curManipulator._m1 + 0.45f)
+        _curManipulator._m1 = MIN(3.14f/2.0f, _curManipulator._m1 + 0.45f);
     }
     _communicator->SetManipulatorState(
         _curManipulator._armPos,
