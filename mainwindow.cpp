@@ -570,13 +570,7 @@ void MainWindow::joyManipulatorButtonHandle()
     }
     if (_joy->atBtn(8)) {
         if (_joy->btnStateChanged(8)) {
-            _isAutoRoll = !_isAutoRoll;
-            setAutoModeStates(_ui->autoRollStateLabel, _isAutoRoll ? AM_USED : AM_OFF, _isAutoRoll ? "ON" : "OFF");
-            if (_isAutoPitch) {
-                _communicator->SetRoll(0);
-            } else {
-                _communicator->SetRollForce(_currentRoll);
-            }
+            _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
         }
     }
     if (_joy->atBtn(2)) {
