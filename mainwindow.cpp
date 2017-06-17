@@ -440,7 +440,9 @@ void MainWindow::readAndSendJoySensors()
 \
     const float start_val = 0.2f;
     const float zero_val = 0.05f;
+    _turbo_control = true;
     if (z == 0) {
+        _turbo_control = false;
         showMessage("Z dead zone", CL_BLUE);
         if (_isAutoDepth) {
             if (!_communicator->IsAutoDepthEnabled()) {
@@ -459,6 +461,7 @@ void MainWindow::readAndSendJoySensors()
 
     if (_isAutoYaw) {
         if (tz == 0) {
+            _turbo_control = _turbo_control || false;
             if (!_communicator->IsAutoYawEnabled()) {
                 _communicator->SetYaw(_communicator->GetAutoYawValue());
             }
@@ -476,6 +479,7 @@ void MainWindow::readAndSendJoySensors()
     }
     _communicator->SetYawForce(tz * _sensitivity);
 
+    _turbo_control = (x && y) ? (_turbo_control || false): false;
     _x_move_force = -x * _sensitivity;
 /*
     if (abs(-x) < zero_val) {
@@ -495,7 +499,7 @@ void MainWindow::readAndSendJoySensors()
     }*/
 
     _y_move_force = y * _sensitivity;
-
+    if (!_turbo_control) _control_sensitivity = _last_control_sensitivity;
     _communicator->SetMovementForce(_signDirection*_x_move_force, _signDirection*_y_move_force);
 }
 
@@ -563,23 +567,20 @@ void MainWindow::joyManipulatorButtonHandle()
     }
     if (_joy->atBtn(5)) {
         if (_joy->btnStateChanged(5)) {
-            _isAutoDepth = !_isAutoDepth;
+            _control_sensitivity = 0.25f;
+            updateSensitivity();
         }
     }
     if (_joy->atBtn(6)) {
         if (_joy->btnStateChanged(6)) {
-            _isAutoYaw = !_isAutoYaw;
+            _control_sensitivity = 0.5f;
+            updateSensitivity();
         }
     }
     if (_joy->atBtn(7)) {
         if (_joy->btnStateChanged(7)) {
-            _isAutoPitch = !_isAutoPitch;
-            setAutoModeStates(_ui->autoPitchStateLabel, _isAutoPitch ? AM_USED : AM_OFF, _isAutoPitch ? "ON" : "OFF");
-            if (_isAutoPitch) {
-                _communicator->SetPitch(0);
-            } else {
-                _communicator->SetPitchForce(_currentPitch);
-            }
+            _control_sensitivity = 0.75f;
+            updateSensitivity();
         }
     }
     if (_joy->atBtn(8)) {
@@ -588,8 +589,9 @@ void MainWindow::joyManipulatorButtonHandle()
         }
     }
     if (_joy->atBtn(2)) {
-        if (_joy->btnStateChanged(2)) {
-            _control_sensitivity = ((_control_sensitivity + 0.25f) > 1) ? 0.25f : (_control_sensitivity + 0.25f);
+        if (_turbo_control) {
+            _last_control_sensitivity = _control_sensitivity;
+            _control_sensitivity = 1;
             updateSensitivity();
         }
     }
