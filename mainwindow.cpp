@@ -6,7 +6,7 @@
 
 QString COMportName;
 
-static QColor msgColor[3] = {
+static QColor msgColor[4] = {
     QColor(0, 204, 102),
     QColor(255, 102, 102),
     QColor(255, 204, 102),
