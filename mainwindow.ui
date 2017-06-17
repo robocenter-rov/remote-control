@@ -768,7 +768,7 @@ QLabel#autoRollStateLabel{
              <rect>
               <x>150</x>
               <y>230</y>
-              <width>111</width>
+              <width>71</width>
               <height>17</height>
              </rect>
             </property>
