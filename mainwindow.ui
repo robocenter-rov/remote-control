@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1257</width>
-    <height>648</height>
+    <height>693</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -774,6 +774,32 @@ QLabel#autoRollStateLabel{
             </property>
             <property name="text">
              <string>Invert</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_23">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>445</y>
+              <width>121</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Loop frequency:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="LoopFrequencyLabel">
+            <property name="geometry">
+             <rect>
+              <x>140</x>
+              <y>449</y>
+              <width>91</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
             </property>
            </widget>
           </widget>
@@ -3184,10 +3210,10 @@ font-size: 12px;
            </rect>
           </property>
           <property name="minimum">
-           <number>-90</number>
+           <number>-180</number>
           </property>
           <property name="maximum">
-           <number>90</number>
+           <number>180</number>
           </property>
           <property name="pageStep">
            <number>1</number>
@@ -3225,10 +3251,10 @@ font-size: 12px;
            </rect>
           </property>
           <property name="minimum">
-           <number>-90</number>
+           <number>-180</number>
           </property>
           <property name="maximum">
-           <number>90</number>
+           <number>180</number>
           </property>
           <property name="pageStep">
            <number>1</number>
@@ -3339,6 +3365,42 @@ font-size: 12px;
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="UpdateFrequencyLabel">
+        <property name="geometry">
+         <rect>
+          <x>950</x>
+          <y>40</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>UpdateFrequency</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="UpdateFrequencyEdit">
+        <property name="geometry">
+         <rect>
+          <x>1060</x>
+          <y>40</y>
+          <width>71</width>
+          <height>21</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SetUpdateFrequencyButton">
+        <property name="geometry">
+         <rect>
+          <x>980</x>
+          <y>70</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Set Update Freq</string>
         </property>
        </widget>
       </widget>

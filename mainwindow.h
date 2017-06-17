@@ -11,7 +11,6 @@
 #include "robocamera.h"
 #include "joystick.h"
 #include "remote-control-library/ConnectionProvider.h"
-#include "remote-control-library/UARTConnectionProviderWindows.h"
 #include "remote-control-library/SimpleCommunicator.h"
 #include <iostream>
 #include "remote-control-library/Utils.h"
@@ -65,7 +64,7 @@ private slots:
     void readAndSendJoySensors();
     void joyButtonHandle();
     void onLeak(int send, int receive);
-    void updateOrient(float q1, float q2, float q3, float q4);
+    void updateOrient(float q0, float q1, float q2, float q3);
     void updateHeading(int value);
     void updateI2CDevicesState(bool PCA1, bool PCA2, bool PCA3, bool ADXL345, bool HMC58X3, bool ITG3200, bool BMP085, bool MS5803);
     void onBluetoothMsgRecieve(QString msg);
@@ -130,6 +129,7 @@ private slots:
     void on_CalibrateGyro_PushButton_toggled(bool checked);
     void on_servo2Slider_valueChanged(int value);
     void on_invertCB_clicked(bool checked);
+    void on_SetUpdateFrequencyButton_clicked();
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
@@ -163,6 +163,7 @@ private:
     void initCameraMinMax();
     void initIMUCalibration();
     void saveIMUCalibration();
+    void initStabilizationUpdateFrequency();
     void saveCamMinMax();
     void setDepthPID(double p, double i, double d);
     void setPitchPID(double p, double i, double d);

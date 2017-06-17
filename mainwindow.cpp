@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include "calc-tools/basetool.h"
+#include "remote-control-library/UDPConnectionProvider.h"
 
 QString COMportName;
 
@@ -33,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     qRegisterMetaType<SimpleCommunicator_t::State_t>("SimpleCommunicator_t::State_t");
     qRegisterMetaType<SimpleCommunicator_t::CalibratedSensorData_t>("SimpleCommunicator_t::CalibratedSensorData_t");
     qRegisterMetaType<SimpleCommunicator_t::CalibratedSensorData_t>("SimpleCommunicator_t::RawSensorData_t");
-    _connectionProvider = new UARTConnectionProvider_t(COMportName.toStdString().c_str(), 19200, 1 << 20, 1 << 20);
+    _connectionProvider = new UDPConnectionProvider_t(QHostAddress("192.168.0.50"), 3000, 1 << 20, 1 << 20);
     _communicator = new SimpleCommunicator_t(_connectionProvider);
     _ui->setupUi(this);
 
@@ -110,6 +111,7 @@ MainWindow::MainWindow(QWidget *parent)
     initMotorsMultipliers();
     initCameraMinMax();
     initIMUCalibration();
+    initStabilizationUpdateFrequency();
     setMotorsPos();
 }
 
@@ -162,8 +164,8 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 void MainWindow::updateDepth(float depth)
 {
     _currentDepth = depth;
-    _ui->depthValueLabel->setText(std::to_string(depth).c_str());
-    _mainCamera->getVideoWidget()->setCurrentDepth(depth);
+    _ui->depthValueLabel->setText(std::to_string(int(depth - 1000)).c_str());
+    _mainCamera->getVideoWidget()->setCurrentDepth(int(depth - 1000));
 }
 
 void MainWindow::showMessage(QString msg, msg_color_t color)
@@ -228,7 +230,7 @@ void MainWindow::onTaskTimeout()
 void MainWindow::connectionProviderInit()
 {
     try {
-        _communicator->SetSendMessageFrequency(70);
+        _communicator->SetSendMessageFrequency(100);
         _communicator->SetRemoteSendMessageFrequency(100);
 
         _connectionProvider->Begin();
@@ -297,9 +299,13 @@ void MainWindow::connectionProviderInit()
                                          SimpleCommunicator_t::PidState_t roll){
             emit pidStateReceiveEvent(depth, yaw, pitch, roll);
         });
+
+        _communicator->OnRemoteProcessorLoad([&](unsigned long freq) {
+            _ui->LoopFrequencyLabel->setText(std::to_string(freq).c_str());
+        });
         _communicator->Begin();
-    } catch (CantOpenPortException_t &e) {
-        qDebug() << e.error_message.c_str() << "Port name: " << e.port_name.c_str();
+    } catch (ConnectionProviderException_t &e) {
+        qDebug() << e.error_message.c_str();
     }
 }
 
@@ -449,7 +455,7 @@ void MainWindow::readAndSendJoySensors()
         setAutoModeStates(_ui->autoDepthStateLabel, AM_OFF, "OFF");
         _communicator->DisableAutoDepth();
     }
-    _communicator->SetLocalZForce(_signDirection * z *_control_sensitivity * 4);
+    _communicator->SetLocalZForce(z *_control_sensitivity * 4);
 
     if (_isAutoYaw) {
         if (tz == 0) {
@@ -470,21 +476,25 @@ void MainWindow::readAndSendJoySensors()
     }
     _communicator->SetYawForce(tz * _sensitivity);
 
+    _x_move_force = -x * _sensitivity;
+/*
     if (abs(-x) < zero_val) {
         _x_move_force = 0;
     } else if (abs(-x) < start_val) {
         _x_move_force = start_val * ((-x) < 0 ? -1 : 1);
     } else {
         _x_move_force += ((-x * _sensitivity) - _x_move_force) * 0.3f;
-    }
-
+    }*/
+/*
     if (abs(y) < zero_val) {
         _y_move_force = 0;
     } else if (abs(y) < start_val) {
         _y_move_force = start_val * (y < 0 ? -1 : 1);
     } else {
         _y_move_force += ((y * _sensitivity) - _y_move_force) * 0.3f;
-    }
+    }*/
+
+    _y_move_force = y * _sensitivity;
 
     _communicator->SetMovementForce(_signDirection*_x_move_force, _signDirection*_y_move_force);
 }
@@ -505,17 +515,17 @@ void MainWindow::joyManipulatorButtonHandle()
 {
     _curManipulator._handPos = 0;
     _curManipulator._armPos = 0;
-    if (_joy->atBtn(0)){
-        _curManipulator._handPos = -0.3f;
-    }
-    if (_joy->atBtn(1)) {
-        _curManipulator._handPos = 0.3f;
-    }
-    if (_joy->atBtn(3)) {
-         _curManipulator._armPos = 0.3f;
+    if (_joy->atBtn(3)){
+        _curManipulator._handPos = -0.45f;
     }
     if (_joy->atBtn(4)) {
-        _curManipulator._armPos = -0.3f;
+        _curManipulator._handPos = 0.45f;
+    }
+    if (_joy->atBtn(1)) {
+         _curManipulator._armPos = 0.45f;
+    }
+    if (_joy->atBtn(0)) {
+        _curManipulator._armPos = -0.45f;
     }
     if (_joy->atBtn(12)) {
         if (_joy->btnStateChanged(12)) {
@@ -548,6 +558,8 @@ void MainWindow::joyManipulatorButtonHandle()
     }
     if (_joy->btnDoubleClicked(13)) {
         _ui->invertCB->setChecked(_signDirection == 1);
+        _signDirection = (_signDirection == 1) ? -1 : 1;
+
     }
     if (_joy->atBtn(5)) {
         if (_joy->btnStateChanged(5)) {
@@ -582,15 +594,10 @@ void MainWindow::joyManipulatorButtonHandle()
         }
     }
     if (_joy->atBtn(9)) {
-        if (_joy->btnStateChanged(9)) {
-            _curManipulator._m1 = MAX(-3.14f/2.0, _curManipulator._m1 - 0.05);
-
-        }
+        _curManipulator._m1 = MAX(-3.14f/2.0f, _curManipulator._m1 - 0.45f);
     }
     if (_joy->atBtn(10)) {
-        if (_joy->btnStateChanged(10)) {
-            _curManipulator._m1 = MIN(3.14f/2.0, _curManipulator._m1 + 0.05);
-        }
+        _curManipulator._m1 = MIN(3.14f/2.0f, _curManipulator._m1 + 0.45f)
     }
     _communicator->SetManipulatorState(
         _curManipulator._armPos,
@@ -613,16 +620,27 @@ void MainWindow::onLeak(int send, int receive)
     showMessageByTimer(s.c_str(), CL_RED);
 }
 
-void MainWindow::updateOrient(float q1, float q2, float q3, float q4)
+void MainWindow::updateOrient(float q0, float q1, float q2, float q3)
 {
-    float angles[3];
+    float angles[3];/*
     angles[0] = atan2(2 * q2 * q3 - 2 * q1 * q4, 2 * q1 * q1 + 2 * q2 * q2 - 1); // psi
     angles[1] = -asin(2 * q2 * q4 + 2 * q1 * q3); // theta
-    angles[2] = atan2(2 * q3 * q4 - 2 * q1 * q2, 2 * q1 * q1 + 2 * q4 * q4 - 1); // phi
-    _ui->psiLabel->setText(std::to_string(angles[0]).c_str());
-    _ui->thetaLabel->setText(std::to_string(angles[1]).c_str());
-    _ui->phiLabel->setText(std::to_string(angles[2]).c_str());
-    updateHeading(angles[0]*180/3.1416);
+    angles[2] = atan2(2 * q3 * q4 - 2 * q1 * q2, 2 * q1 * q1 + 2 * q4 * q4 - 1); // phi*/
+
+    float gx, gy, gz; // estimated gravity direction
+
+    gx = 2 * (q1*q3 - q0*q2);
+    gy = 2 * (q0*q1 + q2*q3);
+    gz = q0*q0 - q1*q1 - q2*q2 + q3*q3;
+
+    angles[0] = atan2(2 * q1 * q2 - 2 * q0 * q3, 2 * q0*q0 + 2 * q1 * q1 - 1);
+    angles[1] = atan(gx / sqrt(gy*gy + gz*gz));
+    angles[2] = atan(gy / sqrt(gx*gx + gz*gz));
+
+    _ui->psiLabel->setText(std::to_string(int(angles[0] / 3.14159 * 180)).c_str());
+    _ui->thetaLabel->setText(std::to_string(int(angles[1] / 3.14159 * 180)).c_str());
+    _ui->phiLabel->setText(std::to_string(int(angles[2] / 3.14159 * 180)).c_str());
+    updateHeading(angles[0] / 3.14159 * 180);
     _currentYaw = angles[0];
     _currentPitch = angles[2];
 }
@@ -809,7 +827,7 @@ void MainWindow::onPitchPIDSpinBoxChanged(bool value)
     double p = _ui->pitchPSpinBox->value();
     double i = _ui->pitchISpinBox->value();
     double d = _ui->pitchDSpinBox->value();
-    _communicator->SetPitcPid(p, i, d);
+    _communicator->SetPitchPid(p, i, d);
     std::ofstream fout;
     fout.open("pitch.txt");
     if (fout.is_open()) {
@@ -921,7 +939,7 @@ void MainWindow::onAutoYawClicked(bool value)
 void MainWindow::onServo1SliderChanged(int value)
 {
     try { /* DO: check values */
-        _curManipulator._m1 = value*3.1415/180.0+3.1415;
+        _curManipulator._m1 = value*3.1415/180.0;
         _communicator->SetManipulatorState(
             _curManipulator._armPos,
             _curManipulator._handPos,
@@ -1433,7 +1451,7 @@ void MainWindow::setPitchPID(double p, double i, double d)
     _ui->pitchPSpinBox->setValue(p);
     _ui->pitchISpinBox->setValue(i);
     _ui->pitchDSpinBox->setValue(d);
-    _communicator->SetPitcPid(p, i, d);
+    _communicator->SetPitchPid(p, i, d);
 }
 
 void MainWindow::setYawPID(double p, double i, double d)
@@ -1581,6 +1599,19 @@ void MainWindow::saveIMUCalibration()
     }
 }
 
+void MainWindow::initStabilizationUpdateFrequency()
+{
+    std::ifstream fin("StabilizationUpdateFrequency.txt");
+    int stabilization_update_frequency = 100;
+    if (fin.is_open()) {
+        fin >> stabilization_update_frequency;
+    } else {
+        qDebug() << "Can't open file: StabilizationUpdateFrequency.txt";
+    }
+    _communicator->SetStabilizationUpdateFrequency(stabilization_update_frequency);
+    _ui->UpdateFrequencyEdit->setText(QString(std::to_string(stabilization_update_frequency).c_str()));
+}
+
 void MainWindow::on_nextStepButton_clicked(bool checked)
 {
     if (!_ui->previousStepButton->isEnabled()) {
@@ -1666,4 +1697,12 @@ void MainWindow::on_invertCB_clicked(bool checked)
 {
     qDebug() << checked;
     _signDirection = (checked) ? -1 : 1;
+}
+
+void MainWindow::on_SetUpdateFrequencyButton_clicked()
+{
+    int stabilization_update_frequency = _ui->UpdateFrequencyEdit->text().toInt();
+    ofstream fout("StabilizationUpdateFrequency.txt");
+    fout << stabilization_update_frequency;
+    _communicator->SetStabilizationUpdateFrequency(stabilization_update_frequency);
 }
