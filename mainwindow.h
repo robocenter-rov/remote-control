@@ -215,7 +215,8 @@ private:
 
     int _count_of_recieved_pid = 0;
 
-    float _control_sensitivity = 0.25f;
+    bool _turbo = false;
+    float _last_control_sensitivity = 0.3f;
     float _control_sensitivity = 0.3f;
     float _x_move_force = 0;
     float _y_move_force = 0;
