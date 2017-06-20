@@ -563,28 +563,28 @@ void MainWindow::joyManipulatorButtonHandle()
     }
     if (_joy->atBtn(5)) {
         if (_joy->btnStateChanged(5)) {
-            _isAutoDepth = !_isAutoDepth;
+            _last_control_sensitivity = _control_sensitivity;
+            _control_sensitivity = 0.3f;
+            updateSensitivity();
         }
     }
     if (_joy->atBtn(6)) {
         if (_joy->btnStateChanged(6)) {
-            _isAutoYaw = !_isAutoYaw;
+            _control_sensitivity = 0.5f;
+            updateSensitivity();
         }
     }
     if (_joy->atBtn(7)) {
         if (_joy->btnStateChanged(7)) {
-            _isAutoPitch = !_isAutoPitch;
-            setAutoModeStates(_ui->autoPitchStateLabel, _isAutoPitch ? AM_USED : AM_OFF, _isAutoPitch ? "ON" : "OFF");
-            if (_isAutoPitch) {
-                _communicator->SetPitch(0);
-            } else {
-                _communicator->SetPitchForce(_currentPitch);
-            }
+            _control_sensitivity = 0.75f;
+            updateSensitivity();
         }
     }
     if (_joy->atBtn(8)) {
         if (_joy->btnStateChanged(8)) {
-            _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
+            _last_control_sensitivity = _control_sensitivity;
+            _control_sensitivity = 0;
+            updateSensitivity();
         }
     }
     if (_joy->atBtn(2)) {
