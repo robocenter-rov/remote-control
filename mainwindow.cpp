@@ -597,12 +597,6 @@ void MainWindow::joyManipulatorButtonHandle()
         _control_sensitivity = MAX(0.3f, _control_sensitivity - 0.3f);
         updateSensitivity();
     }
-    if (_joy->atBtn(9)) {
-        _curManipulator._m1 = MAX(-3.14f/2.0f, _curManipulator._m1 - 0.45f);
-    }
-    if (_joy->atBtn(10)) {
-        _curManipulator._m1 = MIN(3.14f/2.0f, _curManipulator._m1 + 0.45f)
-    }
     _communicator->SetManipulatorState(
         _curManipulator._armPos,
         _curManipulator._handPos,
