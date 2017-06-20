@@ -216,6 +216,7 @@ private:
     int _count_of_recieved_pid = 0;
 
     float _control_sensitivity = 0.25f;
+    float _control_sensitivity = 0.3f;
     float _x_move_force = 0;
     float _y_move_force = 0;
     float _z_rotate_force = 0;

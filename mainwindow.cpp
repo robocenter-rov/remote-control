@@ -589,9 +589,13 @@ void MainWindow::joyManipulatorButtonHandle()
     }
     if (_joy->atBtn(2)) {
         if (_joy->btnStateChanged(2)) {
-            _control_sensitivity = ((_control_sensitivity + 0.25f) > 1) ? 0.25f : (_control_sensitivity + 0.25f);
+            _control_sensitivity = MIN(1, _control_sensitivity + 0.3f);
             updateSensitivity();
         }
+    }
+    if (_joy->btnReleased(2)) {
+        _control_sensitivity = MAX(0.3f, _control_sensitivity - 0.3f);
+        updateSensitivity();
     }
     if (_joy->atBtn(9)) {
         _curManipulator._m1 = MAX(-3.14f/2.0f, _curManipulator._m1 - 0.45f);
