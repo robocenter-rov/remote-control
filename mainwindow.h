@@ -130,6 +130,7 @@ private slots:
     void on_servo2Slider_valueChanged(int value);
     void on_invertCB_clicked(bool checked);
     void on_SetUpdateFrequencyButton_clicked();
+    void hideBTInfor();
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
@@ -177,7 +178,7 @@ private:
     RoboCamera *_mainCamera;
     RoboCamera *_extraCamera;
     QTimer *_taskTimer;
-
+    QTimer *_bluetoothTimer;
     ConnectionProvider_t *_connectionProvider;
     SimpleCommunicator_t *_communicator;
 

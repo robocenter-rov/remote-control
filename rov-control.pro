@@ -16,7 +16,7 @@ RC_ICONS = robocenter.ico
 TARGET = rov-control
 TEMPLATE = app
 INCLUDEPATH = $$PWD/SDL-1.2.15/include/
-LIBS += -L$$PWD/SDL-1.2.15/lib/x86 -lSDL
+LIBS += -L$$PWD/SDL-1.2.15/lib/x64 -lSDL
 unix {
     LIBS += -lSDL2
 }
@@ -36,6 +36,7 @@ SOURCES += main.cpp\
     remote-control-library/SimpleCommunicator.cpp \
     remote-control-library/UDPConnectionProvider.cpp \
     qcustomplot.cpp \
+    remote-control-library/UDPConnectionProvider.cpp
 
 HEADERS  += mainwindow.h \
     startwindow.h \
@@ -53,6 +54,7 @@ HEADERS  += mainwindow.h \
     remote-control-library/UDPConnectionProvider.h \
     remote-control-library/Utils.h \
     qcustomplot.h \
+    remote-control-library/UDPConnectionProvider.h
 
 FORMS    += mainwindow.ui \
     startwindow.ui \

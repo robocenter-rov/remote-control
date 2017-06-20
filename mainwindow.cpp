@@ -28,7 +28,8 @@ MainWindow::MainWindow(QWidget *parent)
       _taskTimer(new QTimer(this)),
       _messageTimer(new QTimer(this)),
       _joyTimer(new QTimer(this)),
-      _joy(new Joystick())
+      _joy(new Joystick()),
+      _bluetoothTimer(new QTimer())
 {
     qRegisterMetaType<SimpleCommunicator_t::PidState_t>("SimpleCommunicator_t::PidState_t");
     qRegisterMetaType<SimpleCommunicator_t::State_t>("SimpleCommunicator_t::State_t");
@@ -88,6 +89,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_joyTimer, SIGNAL(timeout()), this, SLOT(readAndSendJoySensors()));
     _joyTimer->setInterval(100);
 
+    connect(_bluetoothTimer, SIGNAL(timeout()), this, SLOT(hideBTInfo()));
+    _bluetoothTimer->setInterval(2000);
     connect(_joy, SIGNAL(joyButtonEvent()), this, SLOT(joyButtonHandle()));
     connect(this, SIGNAL(connectionChangedEvent(bool)), this, SLOT(updateConnectionStatus(bool)));
     connect(this, SIGNAL(stateChangedEvent(SimpleCommunicator_t::State_t)), this, SLOT(updateStatus(SimpleCommunicator_t::State_t)));
@@ -130,7 +133,7 @@ void MainWindow::cameraInit()
 {
     _videoScene = new VideoGraphicsScene();
     _videoScene->addScreen(&_screen);
-    _mainCamera = new RoboCamera(0, _ui->mainView, this, _videoScene, true);
+    _mainCamera = new RoboCamera(1, _ui->mainView, this, _videoScene, true);
     _videoScene->setCamera(_mainCamera);
 
     _screenScene = new GraphicsScene();
@@ -675,6 +678,15 @@ void MainWindow::onScaneI2CdevicesButtonClick(bool)
 void MainWindow::onBluetoothMsgRecieve(QString msg)
 {
     _ui->bluetoothLabel->setText(msg);
+    if (_bluetoothTimer != nullptr)
+        _bluetoothTimer->start();
+}
+
+void MainWindow::hideBTInfo() {
+    if (_bluetoothTimer->isActive()) {
+        _bluetoothTimer->stop();
+    }
+    _ui->bluetoothLabel->setTest("");
 }
 
 void MainWindow::onBluetoothButtonClick(bool value)
