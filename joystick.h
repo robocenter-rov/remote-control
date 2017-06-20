@@ -31,6 +31,7 @@ public:
     bool atHat(int idx);
     bool btnStateChanged(int idx);
     bool btnDoubleClicked(int idx);
+    bool btnReleased(int idx);
 signals:
     void joyButtonEvent();
 private:

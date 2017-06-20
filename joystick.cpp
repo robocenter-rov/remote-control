@@ -92,3 +92,8 @@ bool Joystick::btnDoubleClicked(int idx)
 {
     return _btnDoubleState[idx];
 }
+
+bool Joystick::btnReleased(int idx)
+{
+    return _btnStateChanged[idx] && (!btnState[idx]);
+}
