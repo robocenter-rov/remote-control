@@ -130,7 +130,7 @@ private slots:
     void on_servo2Slider_valueChanged(int value);
     void on_invertCB_clicked(bool checked);
     void on_SetUpdateFrequencyButton_clicked();
-    void hideBTInfor();
+    void hideBTInfo();
 signals:
     void connectionChangedEvent(bool connectedStatus);
     void stateChangedEvent(SimpleCommunicator_t::State_t state);
@@ -219,6 +219,7 @@ private:
     float _control_sensitivity = 0.25f;
     float _last_control_sensitivity = 0.f;
     bool _turbo_control = false;
+
     float _x_move_force = 0;
     float _y_move_force = 0;
     float _z_rotate_force = 0;

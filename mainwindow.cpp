@@ -522,10 +522,10 @@ void MainWindow::joyManipulatorButtonHandle()
 {
     _curManipulator._handPos = 0;
     _curManipulator._armPos = 0;
-    if (_joy->atBtn(3)){
+    if (_joy->atBtn(9)){
         _curManipulator._handPos = -0.45f;
     }
-    if (_joy->atBtn(4)) {
+    if (_joy->atBtn(10)) {
         _curManipulator._handPos = 0.45f;
     }
     if (_joy->atBtn(1)) {
@@ -570,7 +570,8 @@ void MainWindow::joyManipulatorButtonHandle()
     }
     if (_joy->atBtn(5)) {
         if (_joy->btnStateChanged(5)) {
-            _control_sensitivity = 0.25f;
+            _last_control_sensitivity = _control_sensitivity;
+            _control_sensitivity = 0.3f;
             updateSensitivity();
         }
     }
@@ -588,22 +589,27 @@ void MainWindow::joyManipulatorButtonHandle()
     }
     if (_joy->atBtn(8)) {
         if (_joy->btnStateChanged(8)) {
-            _communicator->SetMotorsState(0, 0, 0, 0, 0, 0, 0, 0);
-        }
-    }
-    if (_joy->atBtn(2)) {
-        if (_turbo_control) {
             _last_control_sensitivity = _control_sensitivity;
-            _control_sensitivity = 1;
+            _control_sensitivity = 0;
             updateSensitivity();
         }
     }
-    if (_joy->atBtn(9)) {
-        _curManipulator._m1 = MAX(-3.14f/2.0f, _curManipulator._m1 - 0.45f);
+    if (_joy->btnReleased(8)) {
+        _control_sensitivity = _last_control_sensitivity;
+        updateSensitivity();
     }
+
     if (_joy->atBtn(10)) {
-        _curManipulator._m1 = MIN(3.14f/2.0f, _curManipulator._m1 + 0.45f);
+        if (_joy->btnStateChanged(2)) {
+            _control_sensitivity = MIN(1, _control_sensitivity + 0.3f);
+            updateSensitivity();
+        }
     }
+    if (_joy->btnReleased(2)) {
+        _control_sensitivity = MAX(0.3f, _control_sensitivity - 0.3f);
+        updateSensitivity();
+    }
+
     _communicator->SetManipulatorState(
         _curManipulator._armPos,
         _curManipulator._handPos,
@@ -686,7 +692,7 @@ void MainWindow::hideBTInfo() {
     if (_bluetoothTimer->isActive()) {
         _bluetoothTimer->stop();
     }
-    _ui->bluetoothLabel->setTest("");
+    _ui->bluetoothLabel->setText("");
 }
 
 void MainWindow::onBluetoothButtonClick(bool value)
